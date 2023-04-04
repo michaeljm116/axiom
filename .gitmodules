@@ -4,3 +4,24 @@
 [submodule "lib/glm"]
 	path = lib/glm
 	url = https://github.com/g-truc/glm.git
+[submodule "lib/googletest"]
+	path = lib/googletest
+	url = https://github.com/google/googletest.git
+[submodule "lib/glfw"]
+	path = lib/glfw
+	url = https://github.com/glfw/glfw.git
+[submodule "lib/stb"]
+	path = lib/stb
+	url = https://github.com/nothings/stb.git
+[submodule "lib/optick"]
+	path = lib/optick
+	url = https://github.com/bombomby/optick.git
+[submodule "lib/etc2comp"]
+	path = lib/etc2comp
+	url = https://github.com/google/etc2comp.git
+[submodule "lib/taskflow"]
+	path = lib/taskflow
+	url = https://github.com/taskflow/taskflow.git
+[submodule "lib/vulkan-headers"]
+	path = lib/vulkan-headers
+	url = https://github.com/KhronosGroup/Vulkan-Headers.git
