@@ -1,8 +1,10 @@
 
 #include <iostream>
+#include "glm/glm.hpp"
 
 int main(){
-	std::cout << "Hello, World!" << std::endl;
+	glm::vec3 lalala(0, 1, 2);
+	std::cout << "Hello, World!" << lalala.x << std::endl;
 	return 0;
 }
 
