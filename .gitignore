@@ -33,3 +33,5 @@
 
 #Build folder
 build/
+.vscode/
+checks.json
