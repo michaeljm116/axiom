@@ -1,5 +1,6 @@
 #include <iostream>
 #include <flecs.h>
+#include <flecs/addons/flecs_cpp.h>
 #include <glm/glm.hpp>
 #include "helpers.h"
 #include "sys-movement.h"
@@ -23,29 +24,21 @@ int main(){
 	std::cout << "Entity name: " << me.name() << std::endl;
 	flecs::entity me2 = world.lookup("Mike");
 	std::cout << "Looked up: " << me2.name() << std::endl;
-	
 
+	//Add the velocity Component
+	me.add<Velocity>();
+	//woah it adds a component if its not already added!
+	me.set<Position>({10,20}).set<Velocity>({1,2});
 
-	glm::vec3 lalala(0, 1, 2);
-	std::cout << "Hello, World!" << lalala.x  << lalala.z << std::endl;
+	//Get a component
+	auto* pos = me.get<Position>();
+
+	//Remove a component
+	me.remove<Position>();
 	
-	flecs::world ecs;
-	ecs.system<Position, const Velocity>().each([](Position& p, const Velocity& v){
-		p.x += v.x;
-		p.y += v.y;
-	});
-	
-	auto e = ecs.entity().set(([](Position& p, Velocity& v){
-		p = {10, 20};
-		v = {1, 2};
-	}));
-	int i = 0;
-	while (ecs.progress()){
-		++i;
-		std::cout << "\nPosition X:" << e.get<Position>()->x << " Y: " << e.get<Position>()->y;
-		if (i > 1000)
-			break;
-	}
+	//i haven't comprehended what this does yet but...
+	auto pos_e = world.id<Position>();
+	//std::cout << "Name: " << pos_e.name() << std::endl;
 
 	return 0;
 }
