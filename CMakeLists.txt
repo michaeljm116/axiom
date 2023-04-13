@@ -21,6 +21,7 @@ add_subdirectory(lib/vulkan-headers EXCLUDE_FROM_ALL)
 # Include the submodules' header files
 include_directories(lib/glm)
 include_directories(lib/stb)
+include_directories(include)
 
 # Add source files
 file(GLOB SOURCES src/*.cpp)
