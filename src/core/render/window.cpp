@@ -1,5 +1,6 @@
 #include "core/render/window.h"
 #include "core/util/log.h"
+
 namespace axiom {
 
 Window::~Window() {
@@ -12,10 +13,16 @@ void Window::Init() {
   width_ = 1280;
   maximized_ = false;
 
-  glfwInit();
+  if(!glfwInit()){
+    axiom::LogError("FAILED TO INITIALIZE GLFW");
+    exit(EXIT_FAILURE);
+  }
+
   //glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
   glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
+  glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+  glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
   primary_ = glfwGetPrimaryMonitor();
   mode_ = glfwGetVideoMode(primary_);
@@ -25,7 +32,11 @@ void Window::Init() {
   glfwWindowHint(GLFW_REFRESH_RATE, mode_->refreshRate);
 
   window_ = glfwCreateWindow(width_, height_, "Axiom Engine", nullptr, nullptr);
-
+  if(!window_){
+    axiom::LogError("Failed to Create Window");
+    glfwTerminate();
+    exit(EXIT_FAILURE);
+  }
   glfwSetErrorCallback([](int error, const char* description){
     axiom::LogError(description);
   });
@@ -33,6 +44,15 @@ void Window::Init() {
     if(key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
         glfwSetWindowShouldClose(window, GLFW_TRUE);
   });
+
+  glfwMakeContextCurrent(window_);
+  //gladLoadGL(glfwGetProcAddress);
+  
+  if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
+      axiom::LogError("Failed to initialize GLAD");
+      exit(EXIT_FAILURE);
+  }
+  glfwSwapInterval(1);
 }
 
 void Window::Update() {
