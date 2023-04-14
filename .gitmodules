@@ -25,3 +25,6 @@
 [submodule "lib/vulkan-headers"]
 	path = lib/vulkan-headers
 	url = https://github.com/KhronosGroup/Vulkan-Headers.git
+[submodule "lib/imgui"]
+	path = lib/imgui
+	url = https://github.com/ocornut/imgui.git

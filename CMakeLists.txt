@@ -21,20 +21,26 @@ add_subdirectory(lib/googletest EXCLUDE_FROM_ALL)
 add_subdirectory(lib/vulkan-headers EXCLUDE_FROM_ALL)
 
 # Include the submodules' header files
-include_directories(include)
+include_directories(
+    include
+    include/core/render
+)
 include_directories(
     lib/glm 
     lib/glfw/include
     lib/stb
+    lib/imgui
 )
 
 
 # Add source files and header files
-file(GLOB SOURCES src/*.cpp src/core/render/*.cpp)
+file(GLOB SOURCES src/*.cpp src/core/render/*.cpp src/core/render/*.c)
 file(GLOB HEADERS 
     include/*.h 
     include/core/render/*.h
     include/core/util/*.h
+    include/core/render/glad/*.h
+    include/core/render/KHR/*h
 )
 
 # Create the library
