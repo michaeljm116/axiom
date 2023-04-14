@@ -4,6 +4,8 @@
 #include <glm/glm.hpp>
 #include "helpers.h"
 #include "sys-movement.h"
+#include "core/render/window.h"
+#include "core/util/log.h"
 
 int main(){
 
@@ -11,6 +13,8 @@ int main(){
 	// does queries and runs systems
 	// might be good to make it global if possible
 	flecs::world world;
+
+	axiom::SWindow().Init();
 
 	// Entities are entities, they each have a unique id
 	// 64 bits, 4billy allowed. can check if alive o nah
@@ -35,10 +39,21 @@ int main(){
 
 	//Remove a component
 	me.remove<Position>();
+
+	axiom::LogInfo("This is a loggyyyyyyyyy");
 	
 	//i haven't comprehended what this does yet but...
-	auto pos_e = world.id<Position>();
+	//flecs::entity pos_e = world.id<Position>();	
 	//std::cout << "Name: " << pos_e.name() << std::endl;
+
+
+	//tbh still not sure what a component on this is liek what does this do?
+	//const EcsComponent *c = me.get<flecs::Component>();
+	//std::cout << "Component size: " << c->size << std::endl;
+
+	while(!glfwWindowShouldClose(axiom::SWindow().GetWindow())){
+		glfwPollEvents();
+	}
 
 	return 0;
 }
