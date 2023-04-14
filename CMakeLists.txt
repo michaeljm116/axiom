@@ -34,7 +34,11 @@ include_directories(
 
 
 # Add source files and header files
-file(GLOB SOURCES src/*.cpp src/core/render/*.cpp src/core/render/*.c)
+file(GLOB SOURCES 
+    src/*.cpp 
+    src/core/render/*.cpp 
+    src/core/render/*.c
+)
 file(GLOB HEADERS 
     include/*.h 
     include/core/render/*.h

@@ -18,7 +18,7 @@ class Window {
   void Maximize();
   void Resize();
 
-  [[nodiscard]] GLFWwindow*  GetWindow() const { return window_; }
+  [[nodiscard]] GLFWwindow*  GetGLFWwindow() const { return window_; }
   [[nodiscard]] GLFWmonitor* GetMonitor() const { return primary_; }
   [[nodiscard]] int          GetWidth() const { return width_; }
   [[nodiscard]] int          GetHeight() const { return height_; }
@@ -41,6 +41,10 @@ class Window {
 // Add this function to provide a shorthand for calling the singleton
 inline Window& SWindow() {
   return Window::GetInstance();
+}
+
+inline GLFWwindow* GetWindow(){
+  return Window::GetInstance().GetGLFWwindow();
 }
 
 }  // namespace axiom
