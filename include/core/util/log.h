@@ -49,7 +49,7 @@ public:
 
     void ErrorCheck(bool condition, const std::string& msg) {
     if (condition) {
-        Log(Level::ERROR, "Failed When: " + msg);
+        Log(Level::ERROR, "Failed When " + msg);
     } else {
         Log(Level::INFO, msg);
     }
