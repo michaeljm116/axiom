@@ -8,6 +8,8 @@
 #include <string>
 #include <map>
 #include <algorithm>
+#include <glm/glm.hpp>
+#include "core/util/log.h"
 
 
 // Include other headers that are commonly used throughout your project
