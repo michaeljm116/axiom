@@ -48,7 +48,7 @@ public:
     }
 
     void ErrorCheck(bool condition, const std::string& msg) {
-    if (condition) {
+    if (!condition) {
         Log(Level::ERROR, "Failed When " + msg);
     } else {
         Log(Level::INFO, msg);
@@ -57,7 +57,7 @@ public:
 
 
 private:
-    Logger(const std::string& log_filename = "log.txt") : log_file_(log_filename, std::ios::app) {
+    Logger(const std::string& log_filename = "logs.txt") : log_file_(log_filename, std::ios::app) {
         if (!log_file_.is_open()) {
             std::cerr << "Failed to open log file: " << log_filename << std::endl;
         }

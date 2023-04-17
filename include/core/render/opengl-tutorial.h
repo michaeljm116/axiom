@@ -14,6 +14,7 @@ public:
     void Render();
     void Update();
     void ScreenShot();
+    void LoadTexture();
 
 private:
     GLFWwindow* window_;
@@ -36,8 +37,9 @@ private:
 
     struct TextureTutorial{
         int w, h, comp;
-        
-    };
+        GLuint texture;
+        uint8_t* img;
+    }tut;
 };
 
 } // namespace axiom
