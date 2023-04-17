@@ -13,6 +13,7 @@ public:
     void Init();
     void Render();
     void Update();
+    void ScreenShot();
 
 private:
     GLFWwindow* window_;
@@ -32,6 +33,11 @@ private:
     }per_frame_data;
     const GLsizeiptr k_buffer_size = sizeof(PerFrameData);
     GLuint per_frame_data_buf;
+
+    struct TextureTutorial{
+        int w, h, comp;
+        
+    };
 };
 
 } // namespace axiom

@@ -4,6 +4,12 @@
 #include <glm/glm.hpp>
 #include <glm/gtx/transform.hpp>
 #include <glm/gtx/rotate_vector.hpp>
+
+#define STB_IMAGE_IMPLEMENTATION
+#include <stb_image.h>
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+#include <stb_image_write.h>
+
 namespace axiom {
 
 OpenGLTutorial::OpenGLTutorial(GLFWwindow* window) : window_(window) {}
@@ -147,6 +153,17 @@ void OpenGLTutorial::Update(){
 	glNamedBufferSubData(per_frame_data_buf, 0, k_buffer_size, &per_frame_data);
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	glDrawArrays(GL_TRIANGLES, 0, 36);
+}
+
+void OpenGLTutorial::ScreenShot(){
+	int w, h;
+	glfwGetFramebufferSize(window_, &w, &h);
+	uint8_t* ptr = (uint8_t*)malloc(w * h * 4);
+	glReadPixels(0, 0, w, h, GL_RGBA, GL_UNSIGNED_BYTE, ptr);
+	auto t = axiom::Timer();
+	auto f = "c:\\" + t.current_time() + "screenshot.png";
+	stbi_write_png(f.c_str(), w, h, 4, ptr, 0);
+	free(ptr);
 }
 
 } // namespace axiom

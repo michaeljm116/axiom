@@ -34,13 +34,12 @@ void Window::Init() {
   window_ = glfwCreateWindow(width_, height_, "Axiom Engine", nullptr, nullptr);
   if(!window_){
     axiom::LogError("Failed to Create Window");
-    glfwTerminate();
-    exit(EXIT_FAILURE);
   }
   glfwSetErrorCallback([](int error, const char* description){
     axiom::LogError(description);
   });
   glfwSetKeyCallback(window_, [](GLFWwindow* window, int key, int scancode, int action, int mods){
+    SWindow().SetKey(key);
     if(key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
         glfwSetWindowShouldClose(window, GLFW_TRUE);
   });
@@ -50,7 +49,6 @@ void Window::Init() {
   
   if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
       axiom::LogError("Failed to initialize GLAD");
-      exit(EXIT_FAILURE);
   }
   glfwSwapInterval(1);
 }
