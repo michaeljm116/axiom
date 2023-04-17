@@ -17,6 +17,8 @@ int main(){
 	openglTutorial.Init();
 	while(!glfwWindowShouldClose(axiom::GetWindow())){
 		openglTutorial.Render();
+		if(axiom::SWindow().GetKey() == GLFW_KEY_P)
+			openglTutorial.ScreenShot();
 		glfwPollEvents();
 	}
 

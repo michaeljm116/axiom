@@ -1,0 +1,18 @@
+What do you want?
+* Better Scene/Graph Management
+* Better ECS
+* Better BVH
+* Better Multithreading
+* I wanna know how to graphix
+* shadows
+* Better Game Scene Systeming
+* Better Logging
+* Better CMAKING/Build systeming
+* Better SYS/CMP management
+* Create a visual structure from the beginning
+* Better Game/Frame Systeming
+* Better UI/layering
+* Better Organization
+
+
+* Learning Path:
