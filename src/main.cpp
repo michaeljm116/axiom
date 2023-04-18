@@ -7,20 +7,36 @@
 #include "core/render/window.h"
 #include "core/util/log.h"
 #include "opengl-tutorial.h"
+#include <optick.h>
+
 
 void FlecsTutorial();
 
 int main(){
 
+	OPTICK_THREAD("MainThread");
+	OPTICK_START_CAPTURE();
+
+	OPTICK_PUSH("Pass1");
+	std::this_thread::sleep_for(
+	std::chrono::milliseconds(2));
+
 	axiom::SWindow().Init();
 	axiom::OpenGLTutorial openglTutorial(axiom::GetWindow());
 	openglTutorial.Init();
+
+	OPTICK_POP();
 	while(!glfwWindowShouldClose(axiom::GetWindow())){
+		OPTICK_PUSH("Render Thread");
 		openglTutorial.Render();
 		if(axiom::SWindow().GetKey() == GLFW_KEY_P)
 			openglTutorial.ScreenShot();
 		glfwPollEvents();
+		OPTICK_POP();
 	}
+
+	OPTICK_STOP_CAPTURE();
+	OPTICK_SAVE_CAPTURE("profiler_dump");
 
 	return 0;
 	

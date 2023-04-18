@@ -24,107 +24,6 @@ void OpenGLTutorial::Init() {
 	glCreateVertexArrays(1, &vao_);
 	glBindVertexArray(vao_);
 
-	//make a smol tri shader
-	static const char* shaderCodeVertex = R"(
-		#version 460 core
-		layout(std140, binding = 0) uniform PerFrameData{
-			uniform mat4 mvp;
-			uniform int is_wireframe;
-		};
-		layout (location=0) out vec3 color;
-
-		const vec3 pos[8] = vec3[8](
-			vec3(-1.0,-1.0, 1.0), vec3( 1.0,-1.0, 1.0),
-			vec3(1.0, 1.0, 1.0), vec3(-1.0, 1.0, 1.0),
-			vec3(-1.0,-1.0,-1.0), vec3(1.0,-1.0,-1.0),
-			vec3( 1.0, 1.0,-1.0), vec3(-1.0, 1.0,-1.0)
-		);
-
-		const vec3 col[8] = vec3[8](
-			vec3(1.0, 0.0, 0.0), vec3(0.0, 1.0, 0.0),
-			vec3(0.0, 0.0, 1.0), vec3(1.0, 1.0, 0.0),
-			vec3(1.0, 1.0, 0.0), vec3(0.0, 0.0, 1.0),
-			vec3(0.0, 1.0, 0.0), vec3(1.0, 0.0, 0.0)
-		);
-
-		const int indices[36] = int[36](
-			 0, 1, 2, 2, 3, 0,
-			 1, 5, 6, 6, 2, 1,
-			 7, 6, 5, 5, 4, 7,
-			 4, 0, 3, 3, 7, 4,
-			 4, 5, 1, 1, 0, 4,
-			 3, 2, 6, 6, 7, 3
-		);
-
-
-		void main(){
-			int idx = indices[gl_VertexID];
-			gl_Position = mvp * vec4(pos[idx], 1.0);
-			color = is_wireframe > 0 ? vec3(0.0) : col[idx];
-		};
-
-	)";
-
-	static const char* shaderCodeFragment = R"(
-		#version 460 core
-		layout (location=0) in vec3 color;
-		layout (location=0) out vec4 out_FragColor;
-		void main()
-		{
-			out_FragColor = vec4(color, 1.0);
-		};
-	)";
-
-	static const char* sdr_code_vert_textured = R"(
-		#version 460 core
-		layout(std140, binding = 0) uniform PerFrameData{
-			uniform mat4 mvp;
-			uniform int is_wireframe;
-		};
-		layout (location=0) out vec2 uv;
-
-		const vec3 pos[8] = vec3[8](
-			vec3(-1.0,-1.0, 1.0), vec3( 1.0,-1.0, 1.0),
-			vec3(1.0, 1.0, 1.0), vec3(-1.0, 1.0, 1.0),
-			vec3(-1.0,-1.0,-1.0), vec3(1.0,-1.0,-1.0),
-			vec3( 1.0, 1.0,-1.0), vec3(-1.0, 1.0,-1.0)
-		);
-
-		const vec2 tc[4] = vec2[4](
-			vec2( 0.0, 0.0 ),
-			vec2( 0.0, 1.0 ),
-			vec2( 1.0, 0.0 ),
-			vec2( 1.0, 1.0 )
-		);
-
-		const int indices[36] = int[36](
-			 0, 1, 2, 2, 3, 0,
-			 1, 5, 6, 6, 2, 1,
-			 7, 6, 5, 5, 4, 7,
-			 4, 0, 3, 3, 7, 4,
-			 4, 5, 1, 1, 0, 4,
-			 3, 2, 6, 6, 7, 3
-		);
-
-
-		void main(){
-			int idx = indices[gl_VertexID];
-			gl_Position = mvp * vec4(pos[idx], 1.0);
-			uv = tc[idx];
-		};
-	)";
-
-	static const char* sdr_code_frag_textured = R"(
-			#version 460 core
-			layout (location=0) in vec2 uv;
-			layout (location=0) out vec4 out_FragColor;
-			uniform sampler2D texture0;
-			
-			void main(){
-				out_FragColor = texture(texture0, uv);
-			}
-	)";
-
     //Link the shader ngayon
 	const GLuint vrt_sdr = glCreateShader(GL_VERTEX_SHADER);
 	const GLuint frg_sdr = glCreateShader(GL_FRAGMENT_SHADER);
@@ -231,6 +130,65 @@ void OpenGLTutorial::LoadTexture()
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 	glTextureSubImage2D(tut.texture, 0, 0, 0, tut.w, tut.h, GL_RGB, GL_UNSIGNED_BYTE, tut.img);
 	glBindTextures(0,1,&tut.texture);
+}
+
+void OpenGLTutorial::InitImGUI()
+{
+	/*
+	// Create Buffers
+	glCreateVertexArrays(1, &vao_);
+	glCreateBuffers(1, &handle_vbo);
+	glNamedBufferStorage(handle_vbo, 256 * 1024, nullptr, GL_DYNAMIC_STORAGE_BIT);
+	glCreateBuffers(1, &handle_elements);
+	glNamedBufferStorage(handle_elements, 256 * 1024, nullptr, GL_DYNAMIC_STORAGE_BIT);
+
+	// Set up the vertex array attributes
+	glVertexArrayElementBuffer(vao_, handle_elements);
+	glVertexArrayVertexBuffer(vao_, 0, handle_vbo, 0, sizeof(ImDrawVert));
+	glEnableVertexArrayAttrib(vao_, 0);
+	glEnableVertexArrayAttrib(vao_, 1);
+	glEnableVertexArrayAttrib(vao_, 2);
+
+	glVertexArrayAttribFormat(vao_, 0, 2, GL_FLOAT, GL_FALSE, 		 IM_OFFSETOF(ImDrawVert, pos));
+	glVertexArrayAttribFormat(vao_, 1, 2, GL_FLOAT, GL_FALSE, 		 IM_OFFSETOF(ImDrawVert, uv));
+	glVertexArrayAttribFormat(vao_, 2, 4, GL_UNSIGNED_BYTE, GL_TRUE, IM_OFFSETOF(ImDrawVert, col));
+
+	glVertexArrayAttribBinding(vao_, 0, 0);
+	glVertexArrayAttribBinding(vao_, 1, 0);
+	glVertexArrayAttribBinding(vao_, 2, 0);
+	glBindVertexArray(vao_);
+
+	// bind the shaders
+	const GLuint vrt_sdr = glCreateShader(GL_VERTEX_SHADER);
+	const GLuint frg_sdr = glCreateShader(GL_FRAGMENT_SHADER);
+	glShaderSource(vrt_sdr, 1, &imgui_sdr_vert, nullptr);
+	glCompileShader(vrt_sdr);
+	glShaderSource(frg_sdr, 1, &imgui_sdr_frag, nullptr);
+	glCompileShader(frg_sdr);
+
+    //Start the program
+	program_ = glCreateProgram();
+	glAttachShader(program_, vrt_sdr);
+	glAttachShader(program_, frg_sdr);
+	glLinkProgram(program_);
+	glUseProgram(program_);
+
+
+	//Begin the IMGUI Stuff now
+	ImGui::CreateContext();
+	auto& io = ImGui::GetIO();
+	io.BackendFlags |= ImGuiBackendFlags_RendererHasVtxOffset;
+	ImFontConfig cfg = ImFontConfig();
+	cfg.FontDataOwnedByAtlas = false;
+	cfg.RasterizerMultiply = 1.5f;
+	cfg.SizePixels = 768.f/32.f;
+	cfg.PixelSnapH = true;
+	cfg.OversampleH = 4;
+	cfg.OversampleV = 4;
+	ImFont* font = io.Fonts->AddFontFromFileTTF("data/OpenSans-Light.ttf", cfg.SizePixels, &cfg);
+	*/
+
+
 }
 
 } // namespace axiom
