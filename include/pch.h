@@ -8,6 +8,7 @@
 #include <string>
 #include <map>
 #include <algorithm>
+#include <flecs.h>
 #include <glm/glm.hpp>
 #include "core/util/log.h"
 #include "core/util/timer.h"

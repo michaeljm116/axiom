@@ -49,7 +49,6 @@ void FlecsTutorial(){
 	// might be good to make it global if possible
 	flecs::world world;
 
-
 	// Entities are entities, they each have a unique id
 	// 64 bits, 4billy allowed. can check if alive o nah
 	flecs::entity e = world.entity();
@@ -74,7 +73,20 @@ void FlecsTutorial(){
 	//Remove a component
 	me.remove<Position>();
 
-	
+	world.set_threads(4);
+	auto sss = world.system<Position, const Velocity>();
+	auto tick_source = world.timer().interval(1.0);
+	sss.tick_source(tick_source);
+	tick_source.stop();
+	tick_source.start();
+
+	auto body = world.entity("Body");
+	auto legs = world.entity("Legs");
+	legs.child_of(body);
+	auto person = world.prefab("Person");
+
+	body.is_a(person);
+
 	//i haven't comprehended what this does yet but...
 	//flecs::entity pos_e = world.id<Position>();	
 	//std::cout << "Name: " << pos_e.name() << std::endl;
