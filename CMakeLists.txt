@@ -19,6 +19,10 @@ add_subdirectory(lib/optick EXCLUDE_FROM_ALL)
 add_subdirectory(lib/taskflow EXCLUDE_FROM_ALL)
 add_subdirectory(lib/googletest EXCLUDE_FROM_ALL)
 add_subdirectory(lib/vulkan-headers EXCLUDE_FROM_ALL)
+if (WIN32)
+   set(VOLK_STATIC_DEFINES VK_USE_PLATFORM_WIN32_KHR)
+endif()
+add_subdirectory(lib/volk EXCLUDE_FROM_ALL) 
 
 # Include the submodules' header files
 include_directories(
@@ -61,6 +65,7 @@ target_link_libraries(AxiomEngineLib ${OPENGL_LIBRARIES})
 
 # link the include libs
 target_include_directories(AxiomEngineLib PRIVATE lib/taskflow)
+target_include_directories(AxiomEngineLib PRIVATE lib/volk)
 
 # Create the executable
 add_executable(AxiomEngine src/main.cpp)
