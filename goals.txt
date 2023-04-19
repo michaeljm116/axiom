@@ -13,6 +13,27 @@ What do you want?
 * Better Game/Frame Systeming
 * Better UI/layering
 * Better Organization
+* Better Rendering system
+* Serialization
+* Prefabs
 
+What are some From-The-Ground-Up archetectural changes?
+* CMAKE - beginning
+* SYS/CMP - beginning 
+* Visual Structure - yeah we need dis
+* Flecs fixes
+* INPUT something that scales for anything (game and engine) easily
+* LIBS so you can make tools easier
+* * if lib then how do?
+* * also it could help with like other ish
+* Rendering - you kinda already have something tho?
+
+
+What can flecs replace?
+*Scene
+*Serizliation
+*node
+*Frame
+*prefab?
 
 * Learning Path:

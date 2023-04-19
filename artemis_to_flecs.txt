@@ -1,0 +1,98 @@
+artemis::World world
+flecs::world world;
+
+
+artemis::SystemManager* sm = world.getSystemManager();
+flecs: None? a system is an entity that you can add to the world so i guess the world is the sys SystemManager
+
+
+artemis::TagManager* tm = world.getTagManager();
+flecs: same as above
+
+
+artemis::EntityManager* em = world.getEntityManager();
+flecs: same, its basically world
+
+---------------- COMPONENTS ----------------
+struct TransformComponent : public artemis::Component();
+artemis::EntityManager* em = world.getEntityManager();
+artemis::Entity* e = em->create();
+e->addComponent(new TransformComponent());
+auto tc* = (TransformComponent*)e.getCompoent<TransformComponent>();
+
+
+struct CMP_Transform ()
+flecs::entity e = world.entity();
+e.add<CMP_Transform>();
+auto* tc = e.get<CMP_Transform>();
+
+
+----------------- SYSTEMS -----------------
+class SyS_Transform : public artemis::EntityProcessingSystem();
+artemis::SystemManager* sm = world.getSystemManager();
+SyS_Transform* sys_transform = sm->setSystem(new Sys_Transform);
+sys_transform->Initialize();
+
+ 
+ flecs::system sys_trans = world.system<Transform>("Transform")
+    .each([](Transform& t)){
+        t.dostuff
+    });
+sys_trans.run();
+
+
+----------------- NODES -----------------
+
+auto Body = world.entity();
+auto Arm = world.entity();
+Arm.child_of(Body);
+
+----------------- GAME LOOP -----------------
+auto sss = world.system<Position, const Velocity>();
+	auto tick_source = world.timer().interval(1.0);
+	sss.tick_source(tick_source);
+	tick_source.stop();
+	tick_source.start();
+
+----------------- PREFAB -----------------
+
+
+What do you want?
+* Better Scene/Graph Management
+* Better ECS
+* Better BVH
+* Better Multithreading
+* I wanna know how to graphix
+* shadows
+* Better Game Scene Systeming
+* Better Logging
+* Better CMAKING/Build systeming
+* Better SYS/CMP management
+* Create a visual structure from the beginning
+* Better Game/Frame Systeming
+* Better UI/layering
+* Better Organization
+* Better Rendering system
+* Serialization
+* Prefabs
+
+What are some From-The-Ground-Up archetectural changes?
+* CMAKE - beginning
+* SYS/CMP - beginning 
+* Visual Structure - yeah we need dis
+* Flecs fixes
+* INPUT something that scales for anything (game and engine) easily
+* LIBS so you can make tools easier
+* * if lib then how do?
+* * also it could help with like other ish
+* Rendering - you kinda already have something tho?
+
+
+What can flecs replace?
+*Scene
+*Serizliation
+*node
+*Frame
+*prefab?
+
+* Learning Path:
