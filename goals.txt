@@ -37,3 +37,13 @@ What can flecs replace?
 *prefab?
 
 * Learning Path:
+
+
+Goals for libs:
+Renderer.Lib
+Scene.Lib
+ ^^ super useful 
+ ^^ for like level generators for example
+Core.lib
+ ^^ to handle the dependencies
+ 
