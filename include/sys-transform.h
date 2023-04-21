@@ -10,6 +10,7 @@ class Sys_StaticTransformSystem{
         void initialize();
     private:
         void update(Cmp_Transform& t);
+        void update2(flecs::entity e, const Cmp_Transform* t);
 };
 
 
