@@ -40,6 +40,7 @@ sys_transform->Initialize();
     });
 sys_trans.run();
 
+make sure to pass a world when yoj make a class
 
 ----------------- NODES -----------------
 
@@ -55,6 +56,7 @@ auto sss = world.system<Position, const Velocity>();
 	tick_source.start();
 
 ----------------- PREFAB -----------------
+
 
 
 What do you want?

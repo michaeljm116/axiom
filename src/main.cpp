@@ -1,6 +1,5 @@
 #include "pch.h"
 #include <flecs.h>
-#include <flecs/addons/flecs_cpp.h>
 #include <glm/glm.hpp>
 #include "helpers.h"
 #include "sys-movement.h"
@@ -9,10 +8,30 @@
 #include "opengl-tutorial.h"
 #include <optick.h>
 
+#include "cmp-transform.h"
+#include "sys-transform.h"
 
 void FlecsTutorial();
+void randoish();
 
 int main(){
+
+	flecs::world world;
+	axiom::Sys_StaticTransformSystem sys_static_transform(world);
+	auto e = world.entity();
+	e.add<axiom::Cmp_Transform>();
+
+
+	for(int i = 0; i < 1000; ++i){
+		world.progress();
+	}
+	std::cout << "Hello";
+	system("Pause");
+	return 0;
+	
+};
+
+void randoish(){
 
 	OPTICK_THREAD("MainThread");
 	OPTICK_START_CAPTURE();
@@ -37,11 +56,7 @@ int main(){
 
 	OPTICK_STOP_CAPTURE();
 	OPTICK_SAVE_CAPTURE("profiler_dump");
-
-	return 0;
-	
-}
-
+};
 
 void FlecsTutorial(){
 	// Worlds do everything like store entities and their components
@@ -84,8 +99,9 @@ void FlecsTutorial(){
 	auto legs = world.entity("Legs");
 	legs.child_of(body);
 	auto person = world.prefab("Person");
-
 	body.is_a(person);
+
+	
 
 	//i haven't comprehended what this does yet but...
 	//flecs::entity pos_e = world.id<Position>();	
