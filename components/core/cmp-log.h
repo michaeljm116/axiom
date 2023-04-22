@@ -1,5 +1,5 @@
 #pragma once
-#include "timer.h"
+#include "cmp-timer.h"
 #include <iostream>
 #include <fstream>
 #include <string>

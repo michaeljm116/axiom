@@ -1,6 +1,6 @@
 #include "pch.h"
-#include "core/render/window.h"
-#include "core/util/log.h"
+#include "sys-window.h"
+#include "sys-log.h"
 
 namespace axiom {
 
