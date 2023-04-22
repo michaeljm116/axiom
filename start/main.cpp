@@ -11,27 +11,69 @@
 #include "cmp-transform.h"
 #include "sys-transform.h"
 
+/* Set platform defines at build time for volk to pick up. */
+#if defined(_WIN32)
+#   define VK_USE_PLATFORM_WIN32_KHR
+#elif defined(__linux__) || defined(__unix__)
+#   define VK_USE_PLATFORM_XLIB_KHR
+#elif defined(__APPLE__)
+#   define VK_USE_PLATFORM_MACOS_MVK
+#else
+#   error "Platform not supported by this example."
+#endif
+
+#define VOLK_IMPLEMENTATION
+#include <volk.h>
+#include <sstream>
+
 void FlecsTutorial();
 void randoish();
 
 int main(){
+	VkResult r;
+	uint32_t version;
+	void* ptr;
+	
+	ptr = 
+#if defined(_WIN32)
+    &vkCreateWin32SurfaceKHR;
+#elif defined(__linux__) || defined(__unix__)
+    &vkCreateXlibSurfaceKHR;
+#elif defined(__APPLE__)
+    &vkCreateMacOSSurfaceMVK;
+#else
+    /* Platform not recogized for testing. */
+    NULL;
+#endif
+	r = volkInitialize();
+	axiom::Check(r == VK_SUCCESS, "Initializing Volk");
+	version = volkGetInstanceVersion();
+	std::stringstream ss;
+	ss << "Vulkan Version: " << VK_VERSION_MAJOR(version) << "."
+		<< VK_VERSION_MINOR(version) << "." << VK_VERSION_PATCH(version);
+	std::string info = ss.str();
+	axiom::LogInfo(info);
 
-	flecs::world world;
-	axiom::Sys_StaticTransformSystem sys_static_transform(world);
-	auto e = world.entity();
-	e.add<axiom::Cmp_Transform>();
-
-
-	for(int i = 0; i < 1000; ++i){
-		world.progress();
-	}
-	std::cout << "Hello";
-	system("Pause");
 	return 0;
 	
 };
 
 void randoish(){
+	flecs::world world;
+	axiom::Sys_StaticTransformSystem sys_static_transform(world);
+	auto e = world.entity("asdf");
+	e.set<axiom::Cmp_Transform>(axiom::Cmp_Transform());
+
+
+	for(int i = 0; i < 1000; ++i){
+		world.progress();
+		auto* t = e.get_mut<axiom::Cmp_Transform>();
+		t->local.pos.x += 1;
+		e.modified<axiom::Cmp_Transform>();
+	}
+	std::cout << "Hello";
+	system("Pause");
+
 
 	OPTICK_THREAD("MainThread");
 	OPTICK_START_CAPTURE();

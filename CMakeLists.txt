@@ -35,25 +35,31 @@ include_directories(
     lib/glfw/include
     lib/stb
     lib/imgui
+    lib/volk
 )
 
 
 # Add source files and header files
-file(GLOB SOURCES 
-    src/*.cpp 
-    src/core/render/*.cpp 
-    src/core/render/*.c
+file(GLOB SYSTEMS_SOURCE
+    systems/*.cpp 
+    systems/core/render/*.cpp 
+    systems/core/render/*.c
 )
-file(GLOB HEADERS 
-    include/*.h 
-    include/core/render/*.h
-    include/core/util/*.h
-    include/core/render/glad/*.h
-    include/core/render/KHR/*h
+file(GLOB SYSTEMS_HEADERS
+    systems/*.h 
+    systems/core/render/*.h 
+    systems/core/render/*.h
+)
+file(GLOB COMPONENTS 
+    components/*.h 
+    components/core/render/*.h
+    components/core/util/*.h
+    components/core/render/glad/*.h
+    components/core/render/KHR/*h
 )
 
 # Create the library
-add_library(AxiomEngineLib STATIC ${HEADERS} ${SOURCES})
+add_library(AxiomEngineLib STATIC ${COMPONENTS} ${SYSTEMS_SOURCE} ${SYSTEMS_HEADERS})
 
 # Link the submodules' libraries to the library
 target_link_libraries(AxiomEngineLib glfw ${GLFW_LIBRARIES})
@@ -69,8 +75,8 @@ target_include_directories(AxiomEngineLib PRIVATE lib/taskflow)
 target_include_directories(AxiomEngineLib PRIVATE lib/volk)
 
 # Create the executable
-add_executable(AxiomEngine src/main.cpp)
-target_precompile_headers(AxiomEngine PRIVATE include/pch.h)
+add_executable(AxiomEngine start/main.cpp)
+target_precompile_headers(AxiomEngine PRIVATE start/pch.h)
 target_link_libraries(AxiomEngine AxiomEngineLib)
 
 # Google Test integration
