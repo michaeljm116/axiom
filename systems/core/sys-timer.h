@@ -1,5 +1,5 @@
 #pragma once
-#include "cmp-timer.h"
+#include "../components/core/cmp-timer.h"
 #include <flecs.h>
 #include <string>
 #include <sstream>
@@ -13,15 +13,17 @@ namespace axiom{
     class Sys_Timer {
     public:
         Sys_Timer(flecs::world& world) {
-            world.system<Cmp_Timer>("TimerOnAddSystem")
-                .kind(flecs::OnAdd)
-                .each(&Sys_Timer::on_timer_add);
+            world.observer<Cmp_Timer>("TimerOnAddSystem")
+                .event(flecs::OnAdd)
+                .each([this](flecs::entity e, Cmp_Timer& f){
+                    this->on_timer_add(e,f);
+            });
 
-            world.system<Cmp_Timer>("TimerOnRemoveSystem")
-                .kind(flecs::OnRemove)
-                .each(&Sys_Timer::on_timer_remove);
-
-            world.singleton<Cmp_CurrentTime>();
+            world.observer<Cmp_Timer>("TimerOnRemoveSystem")
+                .event(flecs::OnRemove)
+                .each([this](flecs::entity e, Cmp_Timer& f){
+                    this->on_timer_remove(e,f);
+            });
         }
 
         void on_timer_add(flecs::entity e, Cmp_Timer& t) {
@@ -32,35 +34,23 @@ namespace axiom{
             auto now = std::chrono::steady_clock::now();
             auto duration = std::chrono::duration_cast<std::chrono::duration<double>>(now - t.start_time);
             t.elapsed_seconds = duration.count();
-
-            // Do something with the elapsed_seconds
-            // For example, print it to the console
             std::cout << "Elapsed seconds: " << t.elapsed_seconds << std::endl;
-        }
-
-        std::string get_current_time(flecs::world& world) {
-            auto e = world.singleton<axiom::Cmp_CurrentTime>();
-            auto* currentTimeComponent = e.get_mut<Cmp_CurrentTime>();
-            currentTimeComponent->time_str = current_time();
-            return currentTimeComponent->time_str;
-        }
-
-    private:
-        std::string current_time() const {
-            auto now = std::chrono::system_clock::now();
-            auto now_time_t = std::chrono::system_clock::to_time_t(now);
-            auto now_tm = std::localtime(&now_time_t);
-
-            std::stringstream ss;
-            ss << std::put_time(now_tm, "%Y-%m-%d %H:%M:%S");
-            return ss.str();
-            
         }
     };
 
-    inline std::string get_current_time(flecs::world& world){
-        Sys_Timer timer(world);
-        std::string currentTime = timer.get_current_time(world);
-        return currentTime;
+    inline std::string current_time() {
+        auto now = std::chrono::system_clock::now();
+        auto now_time_t = std::chrono::system_clock::to_time_t(now);
+        std::tm now_tm;
+
+    #if defined(_WIN32) || defined(_WIN64)
+        localtime_s(&now_tm, &now_time_t);
+    #else
+        localtime_r(&now_time_t, &now_tm);
+    #endif
+
+        std::stringstream ss;
+        ss << std::put_time(&now_tm, "%Y-%m-%d %H:%M:%S");
+        return ss.str();
     }
 }

@@ -1,4 +1,4 @@
-#include "cmp-transform.h"
+#include "../components/scene/cmp-transform.h"
 #include <flecs.h>
 
 namespace axiom
