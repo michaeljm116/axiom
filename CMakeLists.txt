@@ -27,8 +27,15 @@ add_subdirectory(lib/volk EXCLUDE_FROM_ALL)
 
 # Include the submodules' header files
 include_directories(
-    include
-    include/core/render
+    start
+    systems
+    components
+    systems/render
+    systems/core
+    systems/scene
+    components/render
+    components/core
+    components/scene
 )
 include_directories(
     lib/glm 
@@ -41,21 +48,22 @@ include_directories(
 
 # Add source files and header files
 file(GLOB SYSTEMS_SOURCE
-    systems/*.cpp 
-    systems/core/render/*.cpp 
-    systems/core/render/*.c
+    systems/*.cpp
+    systems/core/*.cpp
+    systems/render/*.cpp
+    systems/scene/*.cpp
 )
 file(GLOB SYSTEMS_HEADERS
     systems/*.h 
-    systems/core/render/*.h 
-    systems/core/render/*.h
+    systems/core/*.h 
+    systems/render/*.h
+    systems/scene/*.h
 )
 file(GLOB COMPONENTS 
     components/*.h 
-    components/core/render/*.h
-    components/core/util/*.h
-    components/core/render/glad/*.h
-    components/core/render/KHR/*h
+    components/render/*.h
+    components/core/*.h
+    components/scene/*.h
 )
 
 # Create the library
@@ -78,8 +86,3 @@ target_include_directories(AxiomEngineLib PRIVATE lib/volk)
 add_executable(AxiomEngine start/main.cpp)
 target_precompile_headers(AxiomEngine PRIVATE start/pch.h)
 target_link_libraries(AxiomEngine AxiomEngineLib)
-
-# Google Test integration
-file(GLOB TEST_SOURCES "tests/*.cpp")
-add_executable(tests ${TEST_SOURCES})
-target_link_libraries(tests gtest gtest_main AxiomEngineLib)

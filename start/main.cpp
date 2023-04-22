@@ -1,15 +1,10 @@
 #include "pch.h"
 #include <flecs.h>
-#include <glm/glm.hpp>
-#include "helpers.h"
-#include "sys-movement.h"
-#include "core/render/window.h"
-#include "core/util/log.h"
-#include "opengl-tutorial.h"
 #include <optick.h>
 
-#include "cmp-transform.h"
 #include "sys-transform.h"
+#include "sys-log.h"
+#include "sys-timer.h"
 
 /* Set platform defines at build time for volk to pick up. */
 #if defined(_WIN32)
