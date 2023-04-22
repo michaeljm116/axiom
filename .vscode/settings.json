@@ -124,4 +124,9 @@
 
     // Enable parameter hints
     "editor.parameterHints.enabled": true,
+
+    "editor.hover.enabled": true,
+    "editor.autoClosingBrackets": false,
+    "editor.autoIndent": true
+
 }

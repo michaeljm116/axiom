@@ -1,6 +1,13 @@
 #pragma once
 #include "cmp-timer.h"
 #include <flecs.h>
+#include <string>
+#include <sstream>
+#include <ctime>
+#include <chrono>
+#include <iomanip>
+#include <iostream>
+
 
 namespace axiom{
     class Sys_Timer {
@@ -47,6 +54,7 @@ namespace axiom{
             std::stringstream ss;
             ss << std::put_time(now_tm, "%Y-%m-%d %H:%M:%S");
             return ss.str();
+            
         }
     };
 

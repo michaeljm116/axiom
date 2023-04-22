@@ -5,10 +5,10 @@ namespace axiom{
         GLFWwindow* window;
         GLFWmonitor* monitor;
         const GLFWvidmode* mode;
-        
+
         int width = 0;
         int height = 0;
         bool maximized = false;
         int key_pressed = 0;
-    }
+    };
 }

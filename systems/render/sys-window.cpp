@@ -15,7 +15,7 @@ void Window::Init() {
   maximized_ = false;
 
   if(!glfwInit()){
-    axiom::LogError("FAILED TO INITIALIZE GLFW");
+    //axiom::LogError("FAILED TO INITIALIZE GLFW");
     exit(EXIT_FAILURE);
   }
 
@@ -34,10 +34,10 @@ void Window::Init() {
 
   window_ = glfwCreateWindow(width_, height_, "Axiom Engine", nullptr, nullptr);
   if(!window_){
-    axiom::LogError("Failed to Create Window");
+    //axiom::LogError("Failed to Create Window");
   }
   glfwSetErrorCallback([](int error, const char* description){
-    axiom::LogError(description);
+    //axiom::LogError(description);
   });
   glfwSetKeyCallback(window_, [](GLFWwindow* window, int key, int scancode, int action, int mods){
     SWindow().SetKey(key);
@@ -48,9 +48,7 @@ void Window::Init() {
   glfwMakeContextCurrent(window_);
   //gladLoadGL(glfwGetProcAddress);
   
-  if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
-      axiom::LogError("Failed to initialize GLAD");
-  }
+  
   glfwSwapInterval(1);
 }
 
