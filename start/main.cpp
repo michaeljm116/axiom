@@ -50,16 +50,25 @@ int main(){
 
 
 	flecs::world world;
-	world.set<axiom::Cmp_LogFile>(axiom::Cmp_LogFile("log.txt"));
+	axiom::Sys_Logger logger(world);
+	axiom::Sys_Timer timer(world);
+	world.add<axiom::Cmp_CurrentTime>();
+	world.add<axiom::Cmp_LogFile>();
 
+	world.set<axiom::Cmp_CurrentTime>({});
 
 	for(int i = 0; i < 1000; ++i){
 		if(i == 10){
-			world.set<axiom::Cmp_Log>({axiom::LogLevel::INFO, false, "Hello world i = 10"});
+			axiom::Log(world, axiom::LogLevel::INFO, "hello world");
+		}if(i == 10){
+			axiom::Check(world, true, "Hello world i = 10");
 		}
+
 		world.progress();
 	}
-	world.remove<axiom::Cmp_LogFile>();
+	world.remove_all<axiom::Cmp_LogFile>();
+	world.progress();
+	world.progress();
 	return 0;
 	
 };

@@ -126,7 +126,7 @@
     "editor.parameterHints.enabled": true,
 
     "editor.hover.enabled": true,
-    "editor.autoClosingBrackets": false,
-    "editor.autoIndent": true
+    "editor.autoClosingBrackets": "beforeWhitespace",
+    "editor.autoIndent": "brackets"
 
 }
