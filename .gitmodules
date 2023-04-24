@@ -34,3 +34,9 @@
 [submodule "lib/easy_profiler"]
 	path = lib/easy_profiler
 	url = https://github.com/yse/easy_profiler.git
+[submodule "lib/tinyxml2"]
+	path = lib/tinyxml2
+	url = https://github.com/leethomason/tinyxml2.git
+[submodule "lib/xxHash"]
+	path = lib/xxHash
+	url = https://github.com/Cyan4973/xxHash.git

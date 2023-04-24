@@ -15,14 +15,15 @@
 #include <glm/simd/common.h>
 #include <vector>
 #include <queue>
+#include "cmp-resource.h"
 
 namespace axiom{
+
     struct sqt{
         glm::quat rot = glm::quat();
         glm::vec4 pos = glm::vec4(0);
         glm::vec4 sca = glm::vec4(1);
     }; //48 bytes
-
     inline bool operator==(const sqt& a, const sqt& b) {
 		uint_fast8_t p = (a.pos == b.pos);
 		uint_fast8_t r = (a.rot == b.rot) << 1;

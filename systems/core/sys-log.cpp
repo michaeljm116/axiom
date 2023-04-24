@@ -86,7 +86,7 @@ namespace axiom{
     }
     
     void Sys_Logger::CheckMessage(bool b, std::string message){
-        if(b) LogMessage(LogLevel::ERROR ,"Failed When " + message);
+        if(!b) LogMessage(LogLevel::ERROR ,"Failed When " + message);
         else LogMessage(LogLevel::INFO , message + " was a success!");
     }
 }

@@ -98,3 +98,25 @@ What can flecs replace?
 *prefab?
 
 * Learning Path:
+
+
+Axiom Engine
+
+Scene	
+	• Prefab
+	• Serialize
+	• RecourseManager
+	• Transform
+	• Scene
+	
+Core	
+	• Input
+	• Key
+	• Mouse
+	• Script
+	• timer
+	• xxhash
+Render	
+	• BVH
+	• Selectalbe-gui
+	• window

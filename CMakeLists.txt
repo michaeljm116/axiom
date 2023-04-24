@@ -24,6 +24,12 @@ if (WIN32)
    set(VOLK_STATIC_DEFINES VK_USE_PLATFORM_WIN32_KHR)
 endif()
 add_subdirectory(lib/volk EXCLUDE_FROM_ALL) 
+add_subdirectory(lib/tinyxml2 EXCLUDE_FROM_ALL)
+
+
+set(XXHASH_BUILD_ENABLE_INLINE_API OFF) #optional
+set(XXHASH_BUILD_XXHSUM OFF) #optional
+add_subdirectory(lib/xxHash/cmake_unofficial EXCLUDE_FROM_ALL)
 
 # Include the submodules' header files
 include_directories(
@@ -43,6 +49,9 @@ include_directories(
     lib/stb
     lib/imgui
     lib/volk
+    lib/taskflow
+    lib/tinyxml2
+    lib/xxHash
 )
 
 
