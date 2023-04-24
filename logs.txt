@@ -1,0 +1,10 @@
+2023-04-22 19:09:17 - [INFO] Log File Opened
+2023-04-22 19:09:17 - [INFO] hello world
+2023-04-22 19:09:17 - [ERROR] Failed When Hello world i = 10
+2023-04-22 19:09:17 - [INFO] File Closed
+2023-04-22 19:10:24 - [INFO] Log File Opened
+2023-04-22 19:10:24 - [INFO] hello world
+2023-04-22 19:10:24 - [ERROR] Failed When Hello world i = 10
+2023-04-22 19:11:59 - [INFO] Log File Opened
+2023-04-22 19:11:59 - [INFO] hello world
+2023-04-22 19:11:59 - [ERROR] Failed When Hello world i = 10

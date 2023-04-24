@@ -1,10 +1,12 @@
 #include "pch.h"
 #include <flecs.h>
 #include <optick.h>
+#include <taskflow/taskflow.hpp>
 
 #include "sys-transform.h"
 #include "sys-log.h"
 #include "sys-timer.h"
+#include "sys-resource.h"
 
 /* Set platform defines at build time for volk to pick up. */
 #if defined(_WIN32)
@@ -48,27 +50,24 @@ int main(){
 
 #pragma endregion Initializing volk
 
+	tf::Executor executor;
+	tf::Taskflow taskflow;
 
 	flecs::world world;
 	axiom::Sys_Logger logger(world);
 	axiom::Sys_Timer timer(world);
+	axiom::Sys_Resource resource(world);
+
 	world.add<axiom::Cmp_CurrentTime>();
 	world.add<axiom::Cmp_LogFile>();
+	world.add<axiom::Cmp_Timer>();
+	
+	resource.LoadDirectory("../../assets/Models");
 
-	world.set<axiom::Cmp_CurrentTime>({});
-
-	for(int i = 0; i < 1000; ++i){
-		if(i == 10){
-			axiom::Log(world, axiom::LogLevel::INFO, "hello world");
-		}if(i == 10){
-			axiom::Check(world, true, "Hello world i = 10");
-		}
-
-		world.progress();
-	}
-	world.remove_all<axiom::Cmp_LogFile>();
-	world.progress();
-	world.progress();
+	auto e = world.lookup("A_Primitive_Helix_01.pm");
+	auto m = e.get<axiom::Cmp_Res_Model>();
+	auto f = e.get<axiom::Cmp_Resource>();
+	
 	return 0;
 	
 };
