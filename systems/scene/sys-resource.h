@@ -24,6 +24,7 @@ namespace axiom{
             bool LoadPose(flecs::entity e, Cmp_Resource& res, Cmp_Res_Animations& cmp_anim);
             bool LoadDirectory(std::string directory);
             bool LoadDirectoryMulti(std::string directory);
+            bool LoadMaterials(std::string file);
 
         private:
             flecs::world* world;
