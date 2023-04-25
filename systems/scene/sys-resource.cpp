@@ -296,5 +296,52 @@ namespace axiom{
 		return true;
 	}
 
+    bool Sys_Resource::LoadMaterials(std::string file)
+    {		
+		//materialsFileName = file;
+		tinyxml2::XMLDocument doc;
+		tinyxml2::XMLError eResult = doc.LoadFile(file.c_str());
 
+		tinyxml2::XMLNode* pNode = doc.FirstChild();
+		tinyxml2::XMLElement* pRoot = doc.FirstChildElement("Root");
+		tinyxml2::XMLElement* first = pRoot->FirstChildElement("Material");
+		tinyxml2::XMLElement* last = pRoot->LastChildElement("Material");
+
+		bool lastOne = false;
+		while (!lastOne) {
+			const char* name;
+			glm::vec3 diff;
+			float rough;
+			float ref;
+			float trans;
+			float ri;
+			int ti;
+
+			first->QueryStringAttribute("Name", &name);
+			first->QueryFloatAttribute("DiffuseR", &diff.r);
+			first->QueryFloatAttribute("DiffuseG", &diff.g);
+			first->QueryFloatAttribute("DiffuseB", &diff.b);
+
+			first->QueryFloatAttribute("Reflective", &ref);
+			first->QueryFloatAttribute("Roughness", &rough);
+			first->QueryFloatAttribute("Transparency", &trans);
+			first->QueryFloatAttribute("Refractive", &ri);
+			first->QueryIntAttribute("TextureID", &ti);
+
+			R_Material mat = R_Material(name, diff, ref, rough, trans, ri, ti);
+
+
+			auto e = world->entity(name);
+			e.set<Cmp_Resource>({file, name});
+			e.set<Cmp_Res_Material>({mat});
+
+
+			if (first != last)
+				first = first->NextSiblingElement("Material");
+			else
+				lastOne = true;
+		}
+		//XMLCheckResult(eResult);
+		return eResult;
+    }
 }

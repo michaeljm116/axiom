@@ -105,7 +105,7 @@ Axiom Engine
 Scene	
 	• Prefab
 	• Serialize
-	• RecourseManager
+x	• RecourseManager
 	• Transform
 	• Scene
 	
@@ -114,8 +114,8 @@ Core
 	• Key
 	• Mouse
 	• Script
-	• timer
-	• xxhash
+x	• timer
+x	• xxhash
 Render	
 	• BVH
 	• Selectalbe-gui

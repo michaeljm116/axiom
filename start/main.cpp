@@ -18,7 +18,6 @@
 #else
 #   error "Platform not supported by this example."
 #endif
-
 #define VOLK_IMPLEMENTATION
 #include <volk.h>
 #include <sstream>
@@ -63,15 +62,24 @@ int main(){
 	world.add<axiom::Cmp_Timer>();
 	
 	std::string assets_folder = "../../assets/";
-
 	auto t = world.entity("Models Timer");
+	auto at = world.entity("Animations TImer");
+
+
+	//Load Models
 	t.add<axiom::Cmp_Timer>();
 	resource.LoadDirectory(assets_folder + "Models");
 	t.remove<axiom::Cmp_Timer>();
-	auto at = world.entity("Animations TImer");
+
+	//Load Animations
 	at.add<axiom::Cmp_Timer>();
 	resource.LoadDirectory(assets_folder + "Animations");
 	at.remove<axiom::Cmp_Timer>();
+
+	//Load Materials
+	resource.LoadMaterials(assets_folder + "Materials.xml");
+
+
 	auto e = world.lookup("A_Primitive_Helix_01.pm");
 	auto m = e.get<axiom::Cmp_Res_Model>();
 	auto f = e.get<axiom::Cmp_Resource>();
@@ -79,6 +87,30 @@ int main(){
 	auto bird = world.lookup("Bird.anim");
 	auto b = bird.get<axiom::Cmp_Res_Animations>();
 	auto bb = bird.get<axiom::Cmp_Resource>();
-	return 0;
+
+	auto gold = world.lookup("Gold");
+	auto g = gold.get<axiom::Cmp_Res_Material>();
+	auto gg = gold.get<axiom::Cmp_Resource>();
+
+
+	auto e_froku = world.entity("Froku");
+	auto r_froku = world.lookup("froku2.pm");
+	auto d_froku = r_froku.get<axiom::Cmp_Res_Model>()->data;
+
+	std::vector<flecs::entity> body_parts;
+	for(auto d : d_froku.meshes){
+		auto bp = world.entity(d.name.c_str());
+		bp.child_of(e_froku);
+		body_parts.push_back(bp);
+	}
+
+	for(auto bp : body_parts){
+		std::cout << bp.name() << std::endl;
+	}
+
+	auto head = world.lookup("head");
+	auto afro = world.lookup("afro");
+	//afro.child_of(head);
+
 	
 };
