@@ -34,7 +34,7 @@ namespace axiom{
             auto now = std::chrono::steady_clock::now();
             auto duration = std::chrono::duration_cast<std::chrono::duration<double>>(now - t.start_time);
             t.elapsed_seconds = duration.count();
-            std::cout << "Elapsed seconds: " << t.elapsed_seconds << std::endl;
+            std::cout << "Elapsed seconds: " << t.elapsed_seconds << " for: " << e.name() << "\n";
         }
     };
 

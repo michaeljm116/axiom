@@ -1,0 +1,15 @@
+<Root>
+    <Node Name="Hole" hasChildren="false" eFlags="98311" gFlags="0" Dynamic="true">
+        <Transform>
+            <Position x="8" y="-12" z="8"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="10" y="1" z="10"/>
+        </Transform>
+        <Material ID="564706208"/>
+        <Object ID="-2"/>
+        <Collider Type="1">
+            <Local x="0" y="0" z="0"/>
+            <Extents x="10" y="1" z="10"/>
+        </Collider>
+    </Node>
+</Root>

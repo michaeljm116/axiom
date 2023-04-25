@@ -1,0 +1,59 @@
+<Root>
+    <Scene Num="1"/>
+    <Node Name="Camera" hasChildren="false" eFlags="131091" gFlags="0" Dynamic="true">
+        <Transform>
+            <Position x="6.6008377" y="30.030376" z="-19.679337"/>
+            <Rotation x="-30" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </Transform>
+        <AspectRatio ratio="1.7777778"/>
+        <FOV fov="104"/>
+    </Node>
+    <Node Name="Light" hasChildren="false" eFlags="131083" gFlags="0" Dynamic="true">
+        <Transform>
+            <Position x="12.359241" y="4.089468" z="10.592378"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </Transform>
+        <Color r="255" g="255" b="255"/>
+        <Intensity i="755.72498"/>
+        <ID id="59"/>
+    </Node>
+    <Node Name="Floor" hasChildren="false" eFlags="237575" gFlags="0" Dynamic="false">
+        <Transform>
+            <Position x="8" y="-6" z="8"/>
+            <Rotation x="0" y="9.9999997e-05" z="0"/>
+            <Scale x="24" y="1" z="24"/>
+        </Transform>
+        <Material ID="-874053208"/>
+        <Object ID="-2"/>
+        <Rigid Rigid="true"/>
+        <Collider Type="1">
+            <Local x="0" y="0" z="0"/>
+            <Extents x="11" y="1" z="10"/>
+        </Collider>
+    </Node>
+    <Node Name="LevelTrigger" hasChildren="false" eFlags="196611" gFlags="1" Dynamic="true">
+        <Transform>
+            <Position x="19" y="-4.25" z="8"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="0" y="0" z="0"/>
+        </Transform>
+        <Collider Type="4">
+            <Local x="0" y="0" z="0"/>
+            <Extents x="1" y="1" z="1"/>
+        </Collider>
+        <SceneTrigger d="-356174479" s="429550616" a="0">
+            <Pos x="1" y="-4.25" z="8"/>
+        </SceneTrigger>
+    </Node>
+    <Node Name="New Box!" hasChildren="false" eFlags="163847" gFlags="0" Dynamic="true">
+        <Transform>
+            <Position x="6.2002563" y="-3.7399292" z="8.0096436"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </Transform>
+        <Material ID="-842150451"/>
+        <Object ID="-2"/>
+    </Node>
+</Root>

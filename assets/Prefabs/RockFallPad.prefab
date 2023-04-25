@@ -1,0 +1,15 @@
+<Root>
+    <Node Name="RockFallPad" hasChildren="false" eFlags="98311" gFlags="0" Dynamic="true">
+        <Transform>
+            <Position x="8" y="-5" z="12"/>
+            <Rotation x="0" y="9.9999997e-05" z="0"/>
+            <Scale x="2.5" y="0.1" z="1"/>
+        </Transform>
+        <Material ID="-842150451"/>
+        <Object ID="-2"/>
+        <Collider Type="1">
+            <Local x="0" y="0" z="0"/>
+            <Extents x="2.5" y="0.1" z="1"/>
+        </Collider>
+    </Node>
+</Root>

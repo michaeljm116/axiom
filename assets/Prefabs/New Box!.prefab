@@ -1,0 +1,20 @@
+<Root>
+    <Node Name="New Box!" hasChildren="true" eFlags="32775" gFlags="0" Dynamic="true">
+        <Transform>
+            <Position x="6.3600922" y="-0.030288696" z="5.8000946"/>
+            <Rotation x="0" y="103" z="54"/>
+            <Scale x="1" y="1" z="1"/>
+        </Transform>
+        <Material ID="-842150451"/>
+        <Object ID="-2"/>
+        <Node Name="New Sphere!" hasChildren="false" eFlags="32775" gFlags="0" Dynamic="true">
+            <Transform>
+                <Position x="-0.40000916" y="-0.36979675" z="0.99998474"/>
+                <Rotation x="0" y="0" z="0"/>
+                <Scale x="1" y="1" z="1"/>
+            </Transform>
+            <Material ID="-842150451"/>
+            <Object ID="-1"/>
+        </Node>
+    </Node>
+</Root>

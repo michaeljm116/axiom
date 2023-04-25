@@ -1,0 +1,36 @@
+<Root>
+    <Node Name="Sword" hasChildren="true" eFlags="1059" gFlags="0" Dynamic="true">
+        <Transform>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="90"/>
+            <Scale x="1" y="1" z="1"/>
+        </Transform>
+        <Node Name="blade" hasChildren="false" eFlags="33863" gFlags="0" Dynamic="false">
+            <Transform>
+                <Position x="0" y="0" z="1.2272575"/>
+                <Rotation x="0" y="0" z="0"/>
+                <Scale x="0.025079835" y="0.086534888" z="0.70938116"/>
+            </Transform>
+            <Material ID="150738392"/>
+            <Object ID="1816698128"/>
+        </Node>
+        <Node Name="hilt" hasChildren="false" eFlags="33863" gFlags="0" Dynamic="false">
+            <Transform>
+                <Position x="0" y="0" z="0.22725752"/>
+                <Rotation x="0" y="0" z="0"/>
+                <Scale x="0.063361242" y="0.33296865" z="0.29061878"/>
+            </Transform>
+            <Material ID="-842150451"/>
+            <Object ID="1816698129"/>
+        </Node>
+        <Node Name="nc_handle" hasChildren="false" eFlags="33863" gFlags="0" Dynamic="false">
+            <Transform>
+                <Position x="0" y="0" z="0.25413522"/>
+                <Rotation x="0" y="0" z="0"/>
+                <Scale x="0.034061309" y="0.034061309" z="0.12859467"/>
+            </Transform>
+            <Material ID="-842150451"/>
+            <Object ID="1816698130"/>
+        </Node>
+    </Node>
+</Root>

@@ -1,0 +1,22 @@
+<Root>
+    <Node Name="UltraSwagStinct" hasChildren="true" eFlags="66595" gFlags="0" Dynamic="true">
+        <Transform>
+            <Position x="8.6500072" y="-0.18000603" z="7.3900127"/>
+            <Rotation x="0" y="9.9999997e-05" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </Transform>
+        <Collider Type="0">
+            <Local x="0" y="0" z="0"/>
+            <Extents x="1" y="1" z="1"/>
+        </Collider>
+        <Node Name="" hasChildren="false" eFlags="33863" gFlags="0" Dynamic="false">
+            <Transform>
+                <Position x="-2.5376212e-07" y="0" z="7.9300664e-09"/>
+                <Rotation x="0" y="0" z="0"/>
+                <Scale x="0.6624468" y="1" z="0.16072075"/>
+            </Transform>
+            <Material ID="-842150451"/>
+            <Object ID="1222111133"/>
+        </Node>
+    </Node>
+</Root>

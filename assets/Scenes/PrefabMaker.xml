@@ -1,0 +1,135 @@
+<Root>
+    <Scene Num="1"/>
+    <Node Name="Camera" hasChildren="false" eFlags="131091" gFlags="0" Dynamic="true">
+        <Transform>
+            <Position x="2.3406982" y="21.059998" z="-2.6123047"/>
+            <Rotation x="-30" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </Transform>
+        <AspectRatio ratio="1.7777778"/>
+        <FOV fov="104"/>
+    </Node>
+    <Node Name="Light" hasChildren="false" eFlags="131083" gFlags="0" Dynamic="true">
+        <Transform>
+            <Position x="9.3789711" y="3.5493069" z="11.7229"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </Transform>
+        <Color r="255" g="255" b="255"/>
+        <Intensity i="57.251999"/>
+        <ID id="402"/>
+    </Node>
+    <Node Name="Floor" hasChildren="false" eFlags="237575" gFlags="0" Dynamic="false">
+        <Transform>
+            <Position x="6.5400009" y="-6" z="9.0099792"/>
+            <Rotation x="0" y="9.9999997e-05" z="0"/>
+            <Scale x="11" y="1" z="10"/>
+        </Transform>
+        <Material ID="2054138304"/>
+        <Object ID="-2"/>
+        <Rigid Rigid="true"/>
+        <Collider Type="1">
+            <Local x="0" y="0" z="0"/>
+            <Extents x="11" y="1" z="10"/>
+        </Collider>
+    </Node>
+    <Node Name="Wall" hasChildren="true" eFlags="229383" gFlags="0" Dynamic="true">
+        <Transform>
+            <Position x="7.6100044" y="0" z="6"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="2" z="2"/>
+        </Transform>
+        <Material ID="-842150451"/>
+        <Object ID="-2"/>
+        <Collider Type="1">
+            <Local x="0" y="0" z="0"/>
+            <Extents x="1" y="2" z="10"/>
+        </Collider>
+        <Node Name="New Box!" hasChildren="false" eFlags="32775" gFlags="0" Dynamic="true">
+            <Transform>
+                <Position x="0" y="0" z="2"/>
+                <Rotation x="0" y="0" z="0"/>
+                <Scale x="1" y="1" z="1"/>
+            </Transform>
+            <Material ID="-842150451"/>
+            <Object ID="-2"/>
+        </Node>
+        <Node Name="New Box!" hasChildren="false" eFlags="32775" gFlags="0" Dynamic="true">
+            <Transform>
+                <Position x="0" y="0" z="4"/>
+                <Rotation x="0" y="0" z="0"/>
+                <Scale x="1" y="1" z="1"/>
+            </Transform>
+            <Material ID="-842150451"/>
+            <Object ID="-2"/>
+        </Node>
+        <Node Name="New Box!" hasChildren="false" eFlags="32775" gFlags="0" Dynamic="true">
+            <Transform>
+                <Position x="0" y="0" z="6"/>
+                <Rotation x="0" y="0" z="0"/>
+                <Scale x="1" y="1" z="1"/>
+            </Transform>
+            <Material ID="-842150451"/>
+            <Object ID="-2"/>
+        </Node>
+        <Node Name="New Box!" hasChildren="false" eFlags="32775" gFlags="0" Dynamic="true">
+            <Transform>
+                <Position x="0" y="0" z="8"/>
+                <Rotation x="0" y="0" z="0"/>
+                <Scale x="1" y="1" z="1"/>
+            </Transform>
+            <Material ID="-842150451"/>
+            <Object ID="-2"/>
+        </Node>
+    </Node>
+    <Node Name="CandyCorn" hasChildren="true" eFlags="132131" gFlags="0" Dynamic="true">
+        <Transform>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </Transform>
+        <Node Name="middle" hasChildren="false" eFlags="33863" gFlags="0" Dynamic="false">
+            <Transform>
+                <Position x="0" y="0" z="0.011851527"/>
+                <Rotation x="0" y="0" z="0"/>
+                <Scale x="1" y="1" z="0.40386721"/>
+            </Transform>
+            <Material ID="-842150451"/>
+            <Object ID="63067209"/>
+        </Node>
+        <Node Name="bottom" hasChildren="false" eFlags="33863" gFlags="0" Dynamic="false">
+            <Transform>
+                <Position x="0" y="0" z="-0.52485359"/>
+                <Rotation x="0" y="0" z="0"/>
+                <Scale x="1" y="1" z="0.13283785"/>
+            </Transform>
+            <Material ID="-842150451"/>
+            <Object ID="63067210"/>
+        </Node>
+        <Node Name="top" hasChildren="false" eFlags="33863" gFlags="0" Dynamic="false">
+            <Transform>
+                <Position x="0" y="0" z="0.52348024"/>
+                <Rotation x="0" y="0" z="0"/>
+                <Scale x="0.60575461" y="0.60575461" z="0.10776143"/>
+            </Transform>
+            <Material ID="-842150451"/>
+            <Object ID="63067211"/>
+        </Node>
+    </Node>
+    <Node Name="Pumpkin" hasChildren="true" eFlags="132131" gFlags="0" Dynamic="true">
+        <Transform>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </Transform>
+        <Node Name="" hasChildren="false" eFlags="33863" gFlags="0" Dynamic="false">
+            <Transform>
+                <Position x="0" y="0" z="1.0184091"/>
+                <Rotation x="0" y="0" z="0"/>
+                <Scale x="1.0549927" y="1.0506914" z="0.99999994"/>
+            </Transform>
+            <Material ID="-842150451"/>
+            <Object ID="14385546"/>
+        </Node>
+    </Node>
+</Root>

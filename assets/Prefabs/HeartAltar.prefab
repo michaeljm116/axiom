@@ -1,0 +1,40 @@
+<Root>
+    <Node Name="HeartAltar" hasChildren="true" eFlags="66595" gFlags="0" Dynamic="true">
+        <Transform>
+            <Position x="8" y="0" z="8"/>
+            <Rotation x="-90" y="9.9999997e-05" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </Transform>
+        <Collider Type="1">
+            <Local x="0" y="-0.75" z="0"/>
+            <Extents x="1" y="1.25" z="1"/>
+        </Collider>
+        <Node Name="Heart" hasChildren="false" eFlags="33863" gFlags="0" Dynamic="false">
+            <Transform>
+                <Position x="0" y="0" z="0.95615447"/>
+                <Rotation x="0" y="0" z="0"/>
+                <Scale x="1.1565616" y="0.53424245" z="1"/>
+            </Transform>
+            <Material ID="1009744896"/>
+            <Object ID="951740133"/>
+        </Node>
+        <Node Name="Stand" hasChildren="false" eFlags="32775" gFlags="0" Dynamic="true">
+            <Transform>
+                <Position x="0" y="0" z="-1"/>
+                <Rotation x="90" y="0" z="0"/>
+                <Scale x="0.2" y="1" z="0.2"/>
+            </Transform>
+            <Material ID="-842150451"/>
+            <Object ID="-2"/>
+        </Node>
+        <Node Name="Base" hasChildren="false" eFlags="32775" gFlags="0" Dynamic="true">
+            <Transform>
+                <Position x="0" y="0" z="-2.2"/>
+                <Rotation x="90" y="0" z="0"/>
+                <Scale x="1" y="0.2" z="1"/>
+            </Transform>
+            <Material ID="-842150451"/>
+            <Object ID="-2"/>
+        </Node>
+    </Node>
+</Root>

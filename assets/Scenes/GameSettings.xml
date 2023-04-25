@@ -1,0 +1,17 @@
+<Root>
+    <GameSettings>
+        <Setting name="Speed">
+            <Parameter name="Player" type="float" value="200"/>
+            <Parameter name="Enemy" type="float" value="38.73"/>
+        </Setting>
+        <Setting name="Distance">
+            <Parameter name="Light" type="float" value="1"/>
+            <Parameter name="Camera" type="float" value="12.61"/>
+        </Setting>
+        <Setting name="Timer">
+            <Parameter name="Pill" type="float" value="-49.799999"/>
+            <Parameter name="Fruit" type="float" value="-49.799999"/>
+            <Parameter name="Respawn" type="float" value="-49.799999"/>
+        </Setting>
+    </GameSettings>
+</Root>

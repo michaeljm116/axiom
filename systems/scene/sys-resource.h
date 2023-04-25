@@ -20,8 +20,10 @@ namespace axiom{
             Sys_Resource(flecs::world& world_);
             ~Sys_Resource();
 
-            bool LoadPModel(flecs::entity e, Cmp_Resource& res);
+            bool LoadPModel(flecs::entity e, Cmp_Resource& res, Cmp_Res_Model& cmp_mod);
+            bool LoadPose(flecs::entity e, Cmp_Resource& res, Cmp_Res_Animations& cmp_anim);
             bool LoadDirectory(std::string directory);
+            bool LoadDirectoryMulti(std::string directory);
 
         private:
             flecs::world* world;

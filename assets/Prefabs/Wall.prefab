@@ -1,0 +1,51 @@
+<Root>
+    <Node Name="Wall" hasChildren="true" eFlags="229383" gFlags="0" Dynamic="true">
+        <Transform>
+            <Position x="7.6100044" y="0" z="6"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="2" z="2"/>
+        </Transform>
+        <Material ID="-842150451"/>
+        <Object ID="-2"/>
+        <Collider Type="1">
+            <Local x="0" y="0" z="0"/>
+            <Extents x="1" y="2" z="10"/>
+        </Collider>
+        <Node Name="New Box!" hasChildren="false" eFlags="32775" gFlags="0" Dynamic="true">
+            <Transform>
+                <Position x="0" y="0" z="2"/>
+                <Rotation x="0" y="0" z="0"/>
+                <Scale x="1" y="1" z="1"/>
+            </Transform>
+            <Material ID="-842150451"/>
+            <Object ID="-2"/>
+        </Node>
+        <Node Name="New Box!" hasChildren="false" eFlags="32775" gFlags="0" Dynamic="true">
+            <Transform>
+                <Position x="0" y="0" z="4"/>
+                <Rotation x="0" y="0" z="0"/>
+                <Scale x="1" y="1" z="1"/>
+            </Transform>
+            <Material ID="-842150451"/>
+            <Object ID="-2"/>
+        </Node>
+        <Node Name="New Box!" hasChildren="false" eFlags="32775" gFlags="0" Dynamic="true">
+            <Transform>
+                <Position x="0" y="0" z="6"/>
+                <Rotation x="0" y="0" z="0"/>
+                <Scale x="1" y="1" z="1"/>
+            </Transform>
+            <Material ID="-842150451"/>
+            <Object ID="-2"/>
+        </Node>
+        <Node Name="New Box!" hasChildren="false" eFlags="32775" gFlags="0" Dynamic="true">
+            <Transform>
+                <Position x="0" y="0" z="8"/>
+                <Rotation x="0" y="0" z="0"/>
+                <Scale x="1" y="1" z="1"/>
+            </Transform>
+            <Material ID="-842150451"/>
+            <Object ID="-2"/>
+        </Node>
+    </Node>
+</Root>

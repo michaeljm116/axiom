@@ -1,0 +1,18 @@
+<Root>
+    <Node Name="Arrow" hasChildren="true" eFlags="132131" gFlags="0" Dynamic="true">
+        <Transform>
+            <Position x="8" y="1" z="10.64856"/>
+            <Rotation x="90" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </Transform>
+        <Node Name="" hasChildren="false" eFlags="33863" gFlags="0" Dynamic="false">
+            <Transform>
+                <Position x="0" y="4.6066585e-08" z="-5.7583232e-09"/>
+                <Rotation x="0" y="0" z="0"/>
+                <Scale x="0.85218209" y="1" z="0.14500628"/>
+            </Transform>
+            <Material ID="-1391188592"/>
+            <Object ID="85143267"/>
+        </Node>
+    </Node>
+</Root>

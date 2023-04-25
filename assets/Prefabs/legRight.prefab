@@ -1,0 +1,20 @@
+<Root>
+    <Node Name="legRight" hasChildren="true" eFlags="33863" gFlags="0" Dynamic="false">
+        <Transform>
+            <Position x="-0.10527901" y="0.0039239195" z="-0.43637425"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="0.082881145" y="0.10883746" z="0.18238215"/>
+        </Transform>
+        <Material ID="563290200"/>
+        <Object ID="1655267479"/>
+        <Node Name="footRight" hasChildren="false" eFlags="33863" gFlags="0" Dynamic="false">
+            <Transform>
+                <Position x="-0.13822174" y="-0.39891052" z="-1.1140461"/>
+                <Rotation x="0" y="0" z="0"/>
+                <Scale x="0.6297133" y="0.87425739" z="0.11629217"/>
+            </Transform>
+            <Material ID="564706208"/>
+            <Object ID="1655267481"/>
+        </Node>
+    </Node>
+</Root>

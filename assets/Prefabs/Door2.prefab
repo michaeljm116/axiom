@@ -1,0 +1,22 @@
+<Root>
+    <Node Name="Door2" hasChildren="true" eFlags="66595" gFlags="0" Dynamic="true">
+        <Transform>
+            <Position x="8" y="-3" z="14.05"/>
+            <Rotation x="0" y="180" z="0"/>
+            <Scale x="3" y="1.5" z="0.1"/>
+        </Transform>
+        <Collider Type="1">
+            <Local x="0" y="0" z="0"/>
+            <Extents x="3" y="1.5" z="1"/>
+        </Collider>
+        <Node Name="ActualDoor" hasChildren="false" eFlags="33863" gFlags="0" Dynamic="false">
+            <Transform>
+                <Position x="0" y="0" z="0"/>
+                <Rotation x="0" y="0" z="0"/>
+                <Scale x="0.61637461" y="1" z="0.24853633"/>
+            </Transform>
+            <Material ID="2054138304"/>
+            <Object ID="901195516"/>
+        </Node>
+    </Node>
+</Root>

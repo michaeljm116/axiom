@@ -1,0 +1,31 @@
+<Root>
+    <Node Name="Button" hasChildren="true" eFlags="66595" gFlags="0" Dynamic="true">
+        <Transform>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="-90" y="0.001" z="0"/>
+            <Scale x="0.5" y="0.5" z="0.5"/>
+        </Transform>
+        <Collider Type="1">
+            <Local x="0" y="0" z="0"/>
+            <Extents x="0.5" y="0.5" z="0.1"/>
+        </Collider>
+        <Node Name="Box" hasChildren="false" eFlags="33863" gFlags="0" Dynamic="false">
+            <Transform>
+                <Position x="0" y="0.11575939" z="0"/>
+                <Rotation x="0" y="0" z="0"/>
+                <Scale x="0.99999982" y="0.11575939" z="1"/>
+            </Transform>
+            <Material ID="2054138304"/>
+            <Object ID="756836063"/>
+        </Node>
+        <Node Name="Switch" hasChildren="false" eFlags="33863" gFlags="0" Dynamic="false">
+            <Transform>
+                <Position x="0" y="0.35752496" z="-2.7028645e-06"/>
+                <Rotation x="0" y="0" z="0"/>
+                <Scale x="0.6717602" y="0.35752496" z="0.67175895"/>
+            </Transform>
+            <Material ID="150738392"/>
+            <Object ID="756836064"/>
+        </Node>
+    </Node>
+</Root>
