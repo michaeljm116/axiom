@@ -1,0 +1,15 @@
+<Root>
+    <Node Name="ActualDoor" hasChildren="false" eFlags="99399" gFlags="0" Dynamic="false">
+        <Transform>
+            <Position x="8" y="-3.5" z="14.05"/>
+            <Rotation x="0" y="180" z="0"/>
+            <Scale x="2" y="1.5" z="0.050000001"/>
+        </Transform>
+        <Material ID="2054138304"/>
+        <Object ID="901195516"/>
+        <Collider Type="1">
+            <Local x="0" y="0" z="0"/>
+            <Extents x="2" y="1.5" z="0.050000001"/>
+        </Collider>
+    </Node>
+</Root>

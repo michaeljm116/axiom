@@ -1,0 +1,288 @@
+<Root>
+    <Scene Num="5"/>
+    <Node Name="Camera" hasChildren="false" eFlags="131091" gFlags="0" Dynamic="true">
+        <Transform>
+            <Position x="8" y="7.25" z="-0.44999999"/>
+            <Rotation x="-30" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </Transform>
+        <AspectRatio ratio="1.7777778"/>
+        <FOV fov="104"/>
+    </Node>
+    <Node Name="Light" hasChildren="false" eFlags="131083" gFlags="0" Dynamic="true">
+        <Transform>
+            <Position x="6.068882" y="-0.28064919" z="9.3831186"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </Transform>
+        <Color r="255" g="255" b="255"/>
+        <Intensity i="100"/>
+        <ID id="0"/>
+    </Node>
+    <Node Name="Floor" hasChildren="false" eFlags="237575" gFlags="0" Dynamic="false">
+        <Transform>
+            <Position x="3" y="-6" z="6"/>
+            <Rotation x="0" y="9.9999997e-05" z="0"/>
+            <Scale x="10" y="1" z="8"/>
+        </Transform>
+        <Material ID="-2012443680"/>
+        <Object ID="-2"/>
+        <Rigid Rigid="true"/>
+        <Collider Type="1">
+            <Local x="0" y="0" z="0"/>
+            <Extents x="10" y="1" z="8"/>
+        </Collider>
+    </Node>
+    <Node Name="FrontWall" hasChildren="false" eFlags="237575" gFlags="0" Dynamic="false">
+        <Transform>
+            <Position x="2" y="-10" z="15"/>
+            <Rotation x="0" y="9.9999997e-05" z="0"/>
+            <Scale x="4" y="10" z="1"/>
+        </Transform>
+        <Material ID="-382174016"/>
+        <Object ID="-2"/>
+        <Rigid Rigid="true"/>
+        <Collider Type="1">
+            <Local x="0" y="0" z="0"/>
+            <Extents x="4" y="10" z="1"/>
+        </Collider>
+    </Node>
+    <Node Name="FrontWall" hasChildren="false" eFlags="237575" gFlags="0" Dynamic="false">
+        <Transform>
+            <Position x="14" y="-10" z="15"/>
+            <Rotation x="0" y="9.9999997e-05" z="0"/>
+            <Scale x="4" y="10" z="1"/>
+        </Transform>
+        <Material ID="-382174016"/>
+        <Object ID="-2"/>
+        <Rigid Rigid="true"/>
+        <Collider Type="1">
+            <Local x="0" y="0" z="0"/>
+            <Extents x="4" y="10" z="1"/>
+        </Collider>
+    </Node>
+    <Node Name="rightWall" hasChildren="false" eFlags="229383" gFlags="0" Dynamic="false">
+        <Transform>
+            <Position x="17" y="-10" z="13"/>
+            <Rotation x="0" y="0" z="9.9999997e-05"/>
+            <Scale x="1" y="10" z="3"/>
+        </Transform>
+        <Material ID="-382174016"/>
+        <Object ID="-2"/>
+        <Collider Type="1">
+            <Local x="0" y="0" z="0"/>
+            <Extents x="1" y="10" z="3"/>
+        </Collider>
+    </Node>
+    <Node Name="rightWall" hasChildren="false" eFlags="229383" gFlags="0" Dynamic="false">
+        <Transform>
+            <Position x="17" y="-10" z="3"/>
+            <Rotation x="0" y="0" z="9.9999997e-05"/>
+            <Scale x="1" y="10" z="3"/>
+        </Transform>
+        <Material ID="-382174016"/>
+        <Object ID="-2"/>
+        <Collider Type="1">
+            <Local x="0" y="0" z="0"/>
+            <Extents x="1" y="10" z="3"/>
+        </Collider>
+    </Node>
+    <Node Name="AwningTop" hasChildren="false" eFlags="163847" gFlags="0" Dynamic="false">
+        <Transform>
+            <Position x="8" y="-1" z="15"/>
+            <Rotation x="0" y="9.9999997e-05" z="0"/>
+            <Scale x="2" y="1" z="1"/>
+        </Transform>
+        <Material ID="-382174016"/>
+        <Object ID="-2"/>
+    </Node>
+    <Node Name="Ceiling" hasChildren="false" eFlags="172039" gFlags="0" Dynamic="false">
+        <Transform>
+            <Position x="8" y="7.8606567" z="8"/>
+            <Rotation x="0" y="9.9999997e-05" z="0"/>
+            <Scale x="10" y="5" z="10"/>
+        </Transform>
+        <Material ID="-348345232"/>
+        <Object ID="-2"/>
+        <Rigid Rigid="true"/>
+    </Node>
+    <Node Name="BottomWall1" hasChildren="false" eFlags="237575" gFlags="0" Dynamic="false">
+        <Transform>
+            <Position x="2" y="-10" z="1"/>
+            <Rotation x="0" y="9.9999997e-05" z="0"/>
+            <Scale x="4" y="10" z="1"/>
+        </Transform>
+        <Material ID="-382174016"/>
+        <Object ID="-2"/>
+        <Rigid Rigid="true"/>
+        <Collider Type="1">
+            <Local x="0" y="0" z="0"/>
+            <Extents x="4" y="10" z="1"/>
+        </Collider>
+    </Node>
+    <Node Name="BottomWall2" hasChildren="false" eFlags="237575" gFlags="0" Dynamic="false">
+        <Transform>
+            <Position x="14" y="-10" z="1"/>
+            <Rotation x="0" y="9.9999997e-05" z="0"/>
+            <Scale x="4" y="10" z="1"/>
+        </Transform>
+        <Material ID="-382174016"/>
+        <Object ID="-2"/>
+        <Rigid Rigid="true"/>
+        <Collider Type="1">
+            <Local x="0" y="0" z="0"/>
+            <Extents x="4" y="10" z="1"/>
+        </Collider>
+    </Node>
+    <Node Name="AwningBottom" hasChildren="false" eFlags="163847" gFlags="0" Dynamic="false">
+        <Transform>
+            <Position x="8" y="-1" z="1"/>
+            <Rotation x="0" y="9.9999997e-05" z="0"/>
+            <Scale x="2" y="1" z="1"/>
+        </Transform>
+        <Material ID="-382174016"/>
+        <Object ID="-2"/>
+    </Node>
+    <Node Name="leftWall" hasChildren="false" eFlags="229383" gFlags="0" Dynamic="false">
+        <Transform>
+            <Position x="-1" y="-10" z="13"/>
+            <Rotation x="0" y="0" z="9.9999997e-05"/>
+            <Scale x="1" y="10" z="3"/>
+        </Transform>
+        <Material ID="-382174016"/>
+        <Object ID="-2"/>
+        <Collider Type="1">
+            <Local x="0" y="0" z="0"/>
+            <Extents x="1" y="10" z="3"/>
+        </Collider>
+    </Node>
+    <Node Name="leftWall2" hasChildren="false" eFlags="229383" gFlags="0" Dynamic="false">
+        <Transform>
+            <Position x="-1" y="-10" z="3"/>
+            <Rotation x="0" y="0" z="9.9999997e-05"/>
+            <Scale x="1" y="10" z="3"/>
+        </Transform>
+        <Material ID="-382174016"/>
+        <Object ID="-2"/>
+        <Collider Type="1">
+            <Local x="0" y="0" z="0"/>
+            <Extents x="1" y="10" z="3"/>
+        </Collider>
+    </Node>
+    <Node Name="AwningLeft" hasChildren="false" eFlags="163847" gFlags="0" Dynamic="false">
+        <Transform>
+            <Position x="-1" y="-1" z="8"/>
+            <Rotation x="0" y="9.9999997e-05" z="0"/>
+            <Scale x="1" y="1" z="2"/>
+        </Transform>
+        <Material ID="-382174016"/>
+        <Object ID="-2"/>
+    </Node>
+    <Node Name="LeftLevelTrigger" hasChildren="false" eFlags="196611" gFlags="1" Dynamic="false">
+        <Transform>
+            <Position x="-2" y="-4.25" z="8"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="0" y="0" z="0"/>
+        </Transform>
+        <Collider Type="0">
+            <Local x="0" y="0" z="0"/>
+            <Extents x="1" y="1" z="1"/>
+        </Collider>
+        <SceneTrigger d="-356174479" s="1764870548" a="0">
+            <Pos x="16" y="-4.25" z="8"/>
+        </SceneTrigger>
+    </Node>
+    <Node Name="RightLevelTrigger" hasChildren="false" eFlags="196611" gFlags="1" Dynamic="false">
+        <Transform>
+            <Position x="18" y="-4.25" z="8"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="0" y="0" z="0"/>
+        </Transform>
+        <Collider Type="0">
+            <Local x="0" y="0" z="0"/>
+            <Extents x="1" y="1" z="1"/>
+        </Collider>
+        <SceneTrigger d="-356174479" s="-1177236325" a="0">
+            <Pos x="0" y="-4.25" z="8"/>
+        </SceneTrigger>
+    </Node>
+    <Node Name="TopLevelTrigger" hasChildren="false" eFlags="196611" gFlags="1" Dynamic="false">
+        <Transform>
+            <Position x="8" y="-4.25" z="18"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="0" y="0" z="0"/>
+        </Transform>
+        <Collider Type="0">
+            <Local x="0" y="0" z="0"/>
+            <Extents x="1" y="1" z="1"/>
+        </Collider>
+        <SceneTrigger d="-356174479" s="333840424" a="2">
+            <Pos x="8" y="-4.25" z="2"/>
+        </SceneTrigger>
+    </Node>
+    <Node Name="BottomLevelTrigger" hasChildren="false" eFlags="196611" gFlags="1" Dynamic="false">
+        <Transform>
+            <Position x="8" y="-4.25" z="-2"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="0" y="0" z="0"/>
+        </Transform>
+        <Collider Type="0">
+            <Local x="0" y="0" z="0"/>
+            <Extents x="1" y="1" z="1"/>
+        </Collider>
+        <SceneTrigger d="-356174479" s="1698141553" a="2">
+            <Pos x="8" y="-4.25" z="16"/>
+        </SceneTrigger>
+    </Node>
+    <Node Name="TopFloor" hasChildren="false" eFlags="229383" gFlags="0" Dynamic="true">
+        <Transform>
+            <Position x="8" y="-8" z="18.01"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="4" y="2" z="4"/>
+        </Transform>
+        <Material ID="-2012443680"/>
+        <Object ID="-2"/>
+        <Collider Type="1">
+            <Local x="0" y="0" z="0"/>
+            <Extents x="4" y="2" z="4"/>
+        </Collider>
+    </Node>
+    <Node Name="RightFloor" hasChildren="false" eFlags="229383" gFlags="0" Dynamic="false">
+        <Transform>
+            <Position x="20.030001" y="-8" z="8"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="4" y="2" z="4"/>
+        </Transform>
+        <Material ID="-2012443680"/>
+        <Object ID="-2"/>
+        <Collider Type="1">
+            <Local x="0" y="0" z="0"/>
+            <Extents x="4" y="2" z="4"/>
+        </Collider>
+    </Node>
+    <Node Name="New Box!" hasChildren="false" eFlags="163847" gFlags="0" Dynamic="true">
+        <Transform>
+            <Position x="8" y="-3.6200333" z="15"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="2" y="1.67" z="1"/>
+        </Transform>
+        <Material ID="326660224"/>
+        <Object ID="-2"/>
+    </Node>
+    <Node Name="Arrow" hasChildren="true" eFlags="132131" gFlags="0" Dynamic="true">
+        <Transform>
+            <Position x="8" y="0" z="12"/>
+            <Rotation x="90" y="9.9999997e-05" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </Transform>
+        <Node Name="" hasChildren="false" eFlags="33863" gFlags="0" Dynamic="false">
+            <Transform>
+                <Position x="0" y="4.6066585e-08" z="-5.7583232e-09"/>
+                <Rotation x="0" y="0" z="0"/>
+                <Scale x="0.85218209" y="1" z="0.14500628"/>
+            </Transform>
+            <Material ID="-1391188592"/>
+            <Object ID="85143267"/>
+        </Node>
+    </Node>
+</Root>

@@ -1,0 +1,22 @@
+<Root>
+    <Node Name="Heart" hasChildren="true" eFlags="66595" gFlags="0" Dynamic="true">
+        <Transform>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="0.5" y="0.5" z="0.5"/>
+        </Transform>
+        <Collider Type="0">
+            <Local x="0" y="0" z="0"/>
+            <Extents x="0.5" y="0.5" z="0.5"/>
+        </Collider>
+        <Node Name="Vert" hasChildren="false" eFlags="33863" gFlags="0" Dynamic="false">
+            <Transform>
+                <Position x="0" y="0" z="0.95615447"/>
+                <Rotation x="-90" y="9.9999997e-05" z="0"/>
+                <Scale x="1.1565616" y="0.53424245" z="1"/>
+            </Transform>
+            <Material ID="150738392"/>
+            <Object ID="951740133"/>
+        </Node>
+    </Node>
+</Root>

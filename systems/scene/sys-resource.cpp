@@ -2,30 +2,46 @@
 #include "sys-resource.h"
 #include <fstream>
 #include "sys-log.h"
+#include "sys-timer.h"
 #include <filesystem>
+#include <tinyxml2.h>
+#include <xxhash.h>
+
+#include <taskflow/taskflow.hpp>
+
 namespace axiom{
     Sys_Resource::Sys_Resource(flecs::world &world_)
     {
         world = &world_;
 
-        world->observer<Cmp_Resource>()
+        world->observer<Cmp_Resource, Cmp_Res_Model>()
         .event(flecs::OnSet)
-        .each([this](flecs::entity e, Cmp_Resource& res){
-            this->LoadPModel(e, res);
+        .each([this](flecs::entity e, Cmp_Resource& res, Cmp_Res_Model& d){
+            this->LoadPModel(e, res, d);
         });
+
+		world->observer<Cmp_Resource, Cmp_Res_Animations>()
+        .event(flecs::OnSet)
+        .each([this](flecs::entity e, Cmp_Resource& res, Cmp_Res_Animations& d){
+            this->LoadPose(e, res, d);
+        });
+
+		
     }
     Sys_Resource::~Sys_Resource()
     {
     }
-    bool Sys_Resource::LoadPModel(flecs::entity e, Cmp_Resource& res)
+    bool Sys_Resource::LoadPModel(flecs::entity e, Cmp_Resource& res, Cmp_Res_Model& cmp_mod)
     {
         R_Model mod;
         auto fileName = res.file_path + "/" + res.file_name;
 		std::fstream binaryio;
 
 		binaryio.open(fileName.c_str(), std::ios::in | std::ios::binary);
-		Check(*world, binaryio.is_open(), "Opening File: " + res.file_name);
-		if(!binaryio.is_open()) return false;
+		if(!binaryio.is_open()){ 
+			Log(*world, LogLevel::ERROR, "Looking for Model file:" + res.file_name);
+			return false;
+		}
 
 		int introLength = 0;
 		int nameLength = 0;
@@ -151,25 +167,134 @@ namespace axiom{
 		if (triCheck == "_t") mod.triangular = true;
 
         //model.data = mod;
-        e.set<Cmp_Res_Model>({mod});
-        //e.get_mut<Cmp_Res_Model>()->data = mod;
+        //e.set<Cmp_Res_Model>({mod});
+        e.get_mut<Cmp_Res_Model>()->data = mod;
         //e.modified<Cmp_Res_Model>();
 		//auto res_cmp = e.get<Cmp_Resource>();
-        Check(*world, true, "Loading Model: " + res.file_name);
 		return true; 
     }
+    bool Sys_Resource::LoadPose(flecs::entity e, Cmp_Resource &res, Cmp_Res_Animations& cmp_anim)
+    {
+        auto fileName = res.file_path + "/" + res.file_name;
+		assert(res.file_name.size() > 5);
+		auto prefabName = res.file_name.substr(0, res.file_name.length() - 5);
+		// Initialize variables
+		tinyxml2::XMLDocument doc;
+		tinyxml2::XMLElement* pRoot;
+		tinyxml2::XMLNode* pNode;
+		tinyxml2::XMLError eResult = doc.LoadFile(fileName.c_str());
+
+		// Confirm if the thing exist
+		if (eResult == tinyxml2::XML_ERROR_FILE_NOT_FOUND){ 
+			Log(*world, LogLevel::ERROR, "Looking for Animation file:" + res.file_name);
+			return eResult;
+		}
+
+		// Do the things
+		pNode = doc.FirstChild();
+		pRoot = doc.FirstChildElement("Root");
+
+		//Iterate through the poses
+		R_PoseList pl; 
+		pl.name = prefabName; 
+		pl.hashVal = XXH32(prefabName.c_str(), sizeof(char) * prefabName.size(), 0);
+		tinyxml2::XMLElement* poseElement = pRoot->FirstChildElement("Pose");
+
+		while (poseElement != nullptr) {
+			//Get the name
+			R_Pose pose;
+			const char* name;
+			poseElement->QueryStringAttribute("Name", &name);
+			pose.name = name;
+			pose.hashVal = XXH32(name, sizeof(char) * pose.name.size(), 0);
+			//Iterate through the transforms
+			tinyxml2::XMLElement* transElement = poseElement->FirstChildElement("Tran");
+
+			while (transElement != nullptr) {
+				int i;
+				R_Sqt t;
+				transElement->QueryIntAttribute("CN", &i);
+
+				tinyxml2::XMLElement* pos = transElement->FirstChildElement("Pos");
+				tinyxml2::XMLElement* rot = transElement->FirstChildElement("Rot");
+				tinyxml2::XMLElement* sca = transElement->FirstChildElement("Sca");
+
+				pos->QueryFloatAttribute("x", &t.pos.x);
+				pos->QueryFloatAttribute("y", &t.pos.y);
+				pos->QueryFloatAttribute("z", &t.pos.z);
+
+				rot->QueryFloatAttribute("x", &t.rot.x);
+				rot->QueryFloatAttribute("y", &t.rot.y);
+				rot->QueryFloatAttribute("z", &t.rot.z);
+				rot->QueryFloatAttribute("w", &t.rot.w);
+
+				sca->QueryFloatAttribute("x", &t.sca.x);
+				sca->QueryFloatAttribute("y", &t.sca.y);
+				sca->QueryFloatAttribute("z", &t.sca.z);
+
+				pose.pose.push_back(std::make_pair(i, t));
+				transElement = transElement->NextSiblingElement("Tran");
+			}	
+
+			pl.poses.push_back(pose);
+			poseElement = poseElement->NextSiblingElement("Pose");
+		}
+		
+		e.get_mut<Cmp_Res_Animations>()->data = pl;
+		return eResult == tinyxml2::XML_SUCCESS;
+    }
+
     bool Sys_Resource::LoadDirectory(std::string directory)
     {
         for(const auto & p : std::filesystem::directory_iterator(directory)){
 			auto extension = p.path().extension();
+			const auto name = p.path().stem().string() + p.path().extension().string();
+			auto e = world->entity(name.c_str());
+			e.set<Cmp_Resource>({directory, name});
+
 			if(extension == ".pm"){
+				e.set<Cmp_Res_Model>({});
+			}
+			else if(extension == ".anim"){
+				e.set<Cmp_Res_Animations>({});
+			}
+        }
+        return true;
+    }
+
+	bool Sys_Resource::LoadDirectoryMulti(std::string directory)
+	{
+		tf::Taskflow taskflow;
+		tf::Executor executor;
+
+		std::vector<tf::Task> tasks;
+
+		for (const auto &p : std::filesystem::directory_iterator(directory))
+		{
+			tasks.push_back(taskflow.emplace([&, p]()
+			{
+				auto extension = p.path().extension();
 				const auto name = p.path().stem().string() + p.path().extension().string();
 				auto e = world->entity(name.c_str());
 				e.set<Cmp_Resource>({directory, name});
-				e.modified<Cmp_Resource>();
-			}
-        }
-        world->progress();
-        return true;
-    }
+
+				if (extension == ".pm")
+				{
+					e.set<Cmp_Res_Model>({});
+				}
+				else if (extension == ".anim")
+				{
+					e.set<Cmp_Res_Animations>({});
+				}
+			}));
+		}
+
+		// Execute the taskflow graph
+		executor.run(taskflow).wait();
+
+		world->progress();
+		return true;
+	}
+
+
 }

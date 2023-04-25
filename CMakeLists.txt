@@ -27,7 +27,7 @@ add_subdirectory(lib/volk EXCLUDE_FROM_ALL)
 add_subdirectory(lib/tinyxml2 EXCLUDE_FROM_ALL)
 
 
-set(XXHASH_BUILD_ENABLE_INLINE_API OFF) #optional
+set(XXHASH_BUILD_ENABLE_INLINE_API ON) #optional
 set(XXHASH_BUILD_XXHSUM OFF) #optional
 add_subdirectory(lib/xxHash/cmake_unofficial EXCLUDE_FROM_ALL)
 
@@ -85,6 +85,8 @@ target_link_libraries(AxiomEngineLib OptickCore)
 target_link_libraries(AxiomEngineLib Vulkan::Headers)
 target_link_libraries(AxiomEngineLib ${OPENGL_LIBRARIES})
 #target_link_libraries(AxiomEngineLib etc2comp)
+target_link_libraries(AxiomEngineLib tinyxml2)
+target_link_libraries(AxiomEngineLib xxhash)
 
 
 # link the include libs

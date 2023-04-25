@@ -1,0 +1,63 @@
+<Root>
+    <Node Name="BatteryTab" hasChildren="true" eFlags="66595" gFlags="0" Dynamic="true">
+        <Transform>
+            <Position x="14.540737" y="-4.7490001" z="11.751202"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="0.5" y="0.5" z="0.5"/>
+        </Transform>
+        <Collider Type="1">
+            <Local x="0" y="0" z="0"/>
+            <Extents x="1" y="0.5" z="0.5"/>
+        </Collider>
+        <Node Name="Tab1" hasChildren="true" eFlags="1059" gFlags="0" Dynamic="true">
+            <Transform>
+                <Position x="-1.25" y="0" z="0"/>
+                <Rotation x="-90" y="0" z="90"/>
+                <Scale x="1" y="1" z="1"/>
+            </Transform>
+            <Node Name="TabBottom" hasChildren="false" eFlags="33863" gFlags="0" Dynamic="false">
+                <Transform>
+                    <Position x="0" y="0" z="0.57112575"/>
+                    <Rotation x="0" y="0" z="0"/>
+                    <Scale x="0.42887422" y="0.42887422" z="1"/>
+                </Transform>
+                <Material ID="588622944"/>
+                <Object ID="230853389"/>
+            </Node>
+            <Node Name="TabTop" hasChildren="false" eFlags="33863" gFlags="0" Dynamic="false">
+                <Transform>
+                    <Position x="-0.024594063" y="0.02209975" z="1.031208"/>
+                    <Rotation x="0" y="0" z="0"/>
+                    <Scale x="0.45346829" y="0.3756834" z="0.53991771"/>
+                </Transform>
+                <Material ID="588622944"/>
+                <Object ID="230853390"/>
+            </Node>
+        </Node>
+        <Node Name="Tab2" hasChildren="true" eFlags="1059" gFlags="0" Dynamic="true">
+            <Transform>
+                <Position x="1.25" y="0" z="0"/>
+                <Rotation x="-90" y="0" z="-90"/>
+                <Scale x="1" y="1" z="1"/>
+            </Transform>
+            <Node Name="TabBottom" hasChildren="false" eFlags="33863" gFlags="0" Dynamic="false">
+                <Transform>
+                    <Position x="0" y="0" z="0.57112575"/>
+                    <Rotation x="0" y="0" z="0"/>
+                    <Scale x="0.42887422" y="0.42887422" z="1"/>
+                </Transform>
+                <Material ID="-842150451"/>
+                <Object ID="230853389"/>
+            </Node>
+            <Node Name="TabTop" hasChildren="false" eFlags="33863" gFlags="0" Dynamic="false">
+                <Transform>
+                    <Position x="-0.024594063" y="0.02209975" z="1.031208"/>
+                    <Rotation x="0" y="0" z="0"/>
+                    <Scale x="0.45346829" y="0.3756834" z="0.53991771"/>
+                </Transform>
+                <Material ID="-842150451"/>
+                <Object ID="230853390"/>
+            </Node>
+        </Node>
+    </Node>
+</Root>

@@ -1,0 +1,18 @@
+<Root>
+    <Node Name="Helmet" hasChildren="true" eFlags="1059" gFlags="0" Dynamic="true">
+        <Transform>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="0.65" y="0.65" z="0.65"/>
+        </Transform>
+        <Node Name="Mesh" hasChildren="false" eFlags="33863" gFlags="0" Dynamic="false">
+            <Transform>
+                <Position x="0" y="2.1904981" z="-0.020300366"/>
+                <Rotation x="0" y="9.9999997e-05" z="0"/>
+                <Scale x="1.6737857" y="1" z="1.8599532"/>
+            </Transform>
+            <Material ID="-348345232"/>
+            <Object ID="2091499169"/>
+        </Node>
+    </Node>
+</Root>

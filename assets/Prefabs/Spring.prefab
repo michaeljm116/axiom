@@ -1,0 +1,24 @@
+<Root>
+    <Node Name="Spring" hasChildren="true" eFlags="98311" gFlags="0" Dynamic="true">
+        <Transform>
+            <Position x="8" y="-4" z="8"/>
+            <Rotation x="0" y="9.9999997e-05" z="0"/>
+            <Scale x=".5" y=".5" z=".5"/>
+        </Transform>
+        <Material ID="-842150451"/>
+        <Object ID="-2"/>
+        <Collider Type="1">
+            <Local x="0" y="0" z="0"/>
+            <Extents x=".5" y=".5" z=".5"/>
+        </Collider>
+        <Node Name="Springy" hasChildren="false" eFlags="33863" gFlags="0" Dynamic="false">
+            <Transform>
+                <Position x="0.0001783371" y="1.52" z="4.4822693e-05"/>
+                <Rotation x="0" y="9.9999997e-05" z="0"/>
+                <Scale x="0.91600001" y="0.91000003" z="0.90600002"/>
+            </Transform>
+            <Material ID="1957785856"/>
+            <Object ID="555580704"/>
+        </Node>
+    </Node>
+</Root>

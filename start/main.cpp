@@ -62,12 +62,23 @@ int main(){
 	world.add<axiom::Cmp_LogFile>();
 	world.add<axiom::Cmp_Timer>();
 	
-	resource.LoadDirectory("../../assets/Models");
+	std::string assets_folder = "../../assets/";
 
+	auto t = world.entity("Models Timer");
+	t.add<axiom::Cmp_Timer>();
+	resource.LoadDirectory(assets_folder + "Models");
+	t.remove<axiom::Cmp_Timer>();
+	auto at = world.entity("Animations TImer");
+	at.add<axiom::Cmp_Timer>();
+	resource.LoadDirectory(assets_folder + "Animations");
+	at.remove<axiom::Cmp_Timer>();
 	auto e = world.lookup("A_Primitive_Helix_01.pm");
 	auto m = e.get<axiom::Cmp_Res_Model>();
 	auto f = e.get<axiom::Cmp_Resource>();
-	
+
+	auto bird = world.lookup("Bird.anim");
+	auto b = bird.get<axiom::Cmp_Res_Animations>();
+	auto bb = bird.get<axiom::Cmp_Resource>();
 	return 0;
 	
 };

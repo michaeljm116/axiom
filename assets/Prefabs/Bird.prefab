@@ -1,0 +1,86 @@
+<Root>
+    <Node Name="Bird" hasChildren="true" eFlags="163847" gFlags="16" Dynamic="true">
+        <Movement w="0.0099999998" r="20" j="29.4">
+            <AnimTimes it="0.0105" wt="0.25" rt="0.40000001" jt="0.25"/>
+        </Movement>
+        <Transform>
+            <Position x="-3" y="2" z="10"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="0.5" y="0.5" z="0.5"/>
+        </Transform>
+        <Material ID="-842150451"/>
+        <Object ID="-1"/>
+        <Node Name="Eye" hasChildren="true" eFlags="32775" gFlags="0" Dynamic="true">
+            <Transform>
+                <Position x="0.50099999" y="0.25" z="-0.49900001"/>
+                <Rotation x="0" y="0" z="0"/>
+                <Scale x="0.5" y="0.5" z="0.5"/>
+            </Transform>
+            <Material ID="-951317523"/>
+            <Object ID="-1"/>
+            <Node Name="EyeBlack" hasChildren="false" eFlags="32775" gFlags="0" Dynamic="false">
+                <Transform>
+                    <Position x="0.31099999" y="0" z="-0.039999999"/>
+                    <Rotation x="0" y="0" z="0"/>
+                    <Scale x="0.79999995" y="1" z="1"/>
+                </Transform>
+                <Material ID="564706208"/>
+                <Object ID="-1"/>
+            </Node>
+        </Node>
+        <Node Name="Eye" hasChildren="true" eFlags="32775" gFlags="0" Dynamic="false">
+            <Transform>
+                <Position x="0.5" y="0.25" z="0.5"/>
+                <Rotation x="0" y="0" z="0"/>
+                <Scale x="0.5" y="0.5" z="0.5"/>
+            </Transform>
+            <Material ID="-951317523"/>
+            <Object ID="-1"/>
+            <Node Name="EyeBlack" hasChildren="false" eFlags="32775" gFlags="0" Dynamic="false">
+                <Transform>
+                    <Position x="0.31099999" y="0" z="-0.039999999"/>
+                    <Rotation x="0" y="0" z="0"/>
+                    <Scale x="0.79999995" y="1" z="1"/>
+                </Transform>
+                <Material ID="564706208"/>
+                <Object ID="-1"/>
+            </Node>
+        </Node>
+        <Node Name="Wing" hasChildren="false" eFlags="32775" gFlags="0" Dynamic="true">
+            <Transform>
+                <Position x="-0.74900001" y="-0.079000004" z="-0.55000001"/>
+                <Rotation x="0" y="0" z="0"/>
+                <Scale x="1.5" y="0.87" z="0.60000002"/>
+            </Transform>
+            <Material ID="-951317523"/>
+            <Object ID="-2"/>
+        </Node>
+        <Node Name="Mouf" hasChildren="false" eFlags="32775" gFlags="0" Dynamic="true">
+            <Transform>
+                <Position x="0.71234238" y="-0.25" z="0"/>
+                <Rotation x="0" y="9.9999997e-05" z="0"/>
+                <Scale x="1" y="0.25" z="1.5"/>
+            </Transform>
+            <Material ID="-312065152"/>
+            <Object ID="-2"/>
+        </Node>
+        <Node Name="Mouf" hasChildren="false" eFlags="32775" gFlags="0" Dynamic="false">
+            <Transform>
+                <Position x="0.66100001" y="-0.51999998" z="0"/>
+                <Rotation x="0" y="9.9999997e-05" z="0"/>
+                <Scale x="1" y="0.25" z="1.5"/>
+            </Transform>
+            <Material ID="-312065152"/>
+            <Object ID="-2"/>
+        </Node>
+        <Node Name="Wing" hasChildren="false" eFlags="32775" gFlags="0" Dynamic="false">
+            <Transform>
+                <Position x="-0.74900001" y="-0.079000004" z="0.55000001"/>
+                <Rotation x="0" y="0" z="0"/>
+                <Scale x="1.5" y="0.87" z="0.60000002"/>
+            </Transform>
+            <Material ID="-951317523"/>
+            <Object ID="-2"/>
+        </Node>
+    </Node>
+</Root>

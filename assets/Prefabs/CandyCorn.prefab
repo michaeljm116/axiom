@@ -1,0 +1,36 @@
+<Root>
+    <Node Name="CandyCorn" hasChildren="true" eFlags="132131" gFlags="0" Dynamic="true">
+        <Transform>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </Transform>
+        <Node Name="middle" hasChildren="false" eFlags="33863" gFlags="0" Dynamic="false">
+            <Transform>
+                <Position x="0" y="0" z="0.011851527"/>
+                <Rotation x="0" y="0" z="0"/>
+                <Scale x="1" y="1" z="0.40386721"/>
+            </Transform>
+            <Material ID="-842150451"/>
+            <Object ID="63067209"/>
+        </Node>
+        <Node Name="bottom" hasChildren="false" eFlags="33863" gFlags="0" Dynamic="false">
+            <Transform>
+                <Position x="0" y="0" z="-0.52485359"/>
+                <Rotation x="0" y="0" z="0"/>
+                <Scale x="1" y="1" z="0.13283785"/>
+            </Transform>
+            <Material ID="-842150451"/>
+            <Object ID="63067210"/>
+        </Node>
+        <Node Name="top" hasChildren="false" eFlags="33863" gFlags="0" Dynamic="false">
+            <Transform>
+                <Position x="0" y="0" z="0.52348024"/>
+                <Rotation x="0" y="0" z="0"/>
+                <Scale x="0.60575461" y="0.60575461" z="0.10776143"/>
+            </Transform>
+            <Material ID="-842150451"/>
+            <Object ID="63067211"/>
+        </Node>
+    </Node>
+</Root>

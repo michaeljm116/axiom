@@ -1,0 +1,33 @@
+<Root>
+    <Node Name="pillar" hasChildren="true" eFlags="98311" gFlags="0" Dynamic="false">
+        <Transform>
+            <Position x="0" y="-1.42" z="14"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="10" z="1"/>
+        </Transform>
+        <Material ID="-951317523"/>
+        <Object ID="-3"/>
+        <Collider Type="1">
+            <Local x="0" y="0" z="0"/>
+            <Extents x="1" y="10" z="1"/>
+        </Collider>
+        <Node Name="New Cylinder!" hasChildren="false" eFlags="32775" gFlags="0" Dynamic="false">
+            <Transform>
+                <Position x="0" y="0" z="0"/>
+                <Rotation x="0" y="0" z="0"/>
+                <Scale x="1.5" y="0.1" z="1.5"/>
+            </Transform>
+            <Material ID="588622944"/>
+            <Object ID="-3"/>
+        </Node>
+        <Node Name="New Cylinder!" hasChildren="false" eFlags="32775" gFlags="0" Dynamic="false">
+            <Transform>
+                <Position x="0" y="0" z="0"/>
+                <Rotation x="0" y="0" z="0"/>
+                <Scale x="2" y="0.094999999" z="2"/>
+            </Transform>
+            <Material ID="588622944"/>
+            <Object ID="-3"/>
+        </Node>
+    </Node>
+</Root>

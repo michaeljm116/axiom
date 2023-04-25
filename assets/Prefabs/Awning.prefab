@@ -1,0 +1,11 @@
+<Root>
+    <Node Name="Awning" hasChildren="false" eFlags="32775" gFlags="0" Dynamic="false">
+        <Transform>
+            <Position x="17" y="-1" z="8"/>
+            <Rotation x="0" y="9.9999997e-05" z="0"/>
+            <Scale x="1" y="1" z="2"/>
+        </Transform>
+        <Material ID="588622944"/>
+        <Object ID="-2"/>
+    </Node>
+</Root>

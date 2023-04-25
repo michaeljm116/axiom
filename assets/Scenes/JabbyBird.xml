@@ -1,0 +1,258 @@
+<Root>
+    <Scene Num="1"/>
+    <Node Name="Camera" hasChildren="false" eFlags="131091" gFlags="0" Dynamic="true">
+        <Transform>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="-100" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </Transform>
+        <AspectRatio ratio="1.7777778"/>
+        <FOV fov="104"/>
+    </Node>
+    <Node Name="Light" hasChildren="false" eFlags="131083" gFlags="0" Dynamic="true">
+        <Transform>
+            <Position x="-3" y="10" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </Transform>
+        <Color r="255" g="255" b="255"/>
+        <Intensity i="1000"/>
+        <ID id="2"/>
+    </Node>
+    <Node Name="Floor" hasChildren="false" eFlags="237575" gFlags="0" Dynamic="true">
+        <Transform>
+            <Position x="0" y="-2" z="50"/>
+            <Rotation x="0" y="9.9999997e-05" z="0"/>
+            <Scale x="50" y="1" z="50"/>
+        </Transform>
+        <Material ID="476364240"/>
+        <Object ID="-2"/>
+        <Rigid Rigid="true"/>
+        <Collider Type="1">
+            <Local x="0" y="0" z="0"/>
+            <Extents x="50" y="1" z="50"/>
+        </Collider>
+    </Node>
+    <Node Name="Bird" hasChildren="true" eFlags="163847" gFlags="16" Dynamic="true">
+        <Movement w="0.052999999" r="20" j="69.599998">
+            <AnimTimes it="0.0105" wt="0.25" rt="0.40000001" jt="0.25"/>
+        </Movement>
+        <Transform>
+            <Position x="-3" y="2" z="10"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="0.5" y="0.5" z="0.5"/>
+        </Transform>
+        <Material ID="-842150451"/>
+        <Object ID="-1"/>
+        <Node Name="Eye" hasChildren="true" eFlags="32775" gFlags="0" Dynamic="true">
+            <Transform>
+                <Position x="0.50099999" y="0.25" z="-0.49900001"/>
+                <Rotation x="0" y="0" z="0"/>
+                <Scale x="0.5" y="0.5" z="0.5"/>
+            </Transform>
+            <Material ID="-951317523"/>
+            <Object ID="-1"/>
+            <Node Name="EyeBlack" hasChildren="false" eFlags="32775" gFlags="0" Dynamic="false">
+                <Transform>
+                    <Position x="0.31099999" y="0" z="-0.039999999"/>
+                    <Rotation x="0" y="0" z="0"/>
+                    <Scale x="0.79999995" y="1" z="1"/>
+                </Transform>
+                <Material ID="564706208"/>
+                <Object ID="-1"/>
+            </Node>
+        </Node>
+        <Node Name="Eye" hasChildren="true" eFlags="32775" gFlags="0" Dynamic="false">
+            <Transform>
+                <Position x="0.5" y="0.25" z="0.5"/>
+                <Rotation x="0" y="0" z="0"/>
+                <Scale x="0.5" y="0.5" z="0.5"/>
+            </Transform>
+            <Material ID="-951317523"/>
+            <Object ID="-1"/>
+            <Node Name="EyeBlack" hasChildren="false" eFlags="32775" gFlags="0" Dynamic="false">
+                <Transform>
+                    <Position x="0.31099999" y="0" z="-0.039999999"/>
+                    <Rotation x="0" y="0" z="0"/>
+                    <Scale x="0.79999995" y="1" z="1"/>
+                </Transform>
+                <Material ID="564706208"/>
+                <Object ID="-1"/>
+            </Node>
+        </Node>
+        <Node Name="Wing" hasChildren="false" eFlags="32775" gFlags="0" Dynamic="true">
+            <Transform>
+                <Position x="-0.74900001" y="0.60000002" z="-0.55000001"/>
+                <Rotation x="0" y="0" z="0"/>
+                <Scale x="1.5" y="0.87" z="0.60000002"/>
+            </Transform>
+            <Material ID="-951317523"/>
+            <Object ID="-2"/>
+        </Node>
+        <Node Name="Mouf" hasChildren="false" eFlags="32775" gFlags="0" Dynamic="true">
+            <Transform>
+                <Position x="0.71234238" y="-0.25" z="0"/>
+                <Rotation x="0" y="9.9999997e-05" z="0"/>
+                <Scale x="1" y="0.25" z="1.5"/>
+            </Transform>
+            <Material ID="-312065152"/>
+            <Object ID="-2"/>
+        </Node>
+        <Node Name="Mouf" hasChildren="false" eFlags="32775" gFlags="0" Dynamic="false">
+            <Transform>
+                <Position x="0.66100001" y="-0.51999998" z="0"/>
+                <Rotation x="0" y="9.9999997e-05" z="0"/>
+                <Scale x="1" y="0.25" z="1.5"/>
+            </Transform>
+            <Material ID="-312065152"/>
+            <Object ID="-2"/>
+        </Node>
+        <Node Name="Wing" hasChildren="false" eFlags="32775" gFlags="0" Dynamic="false">
+            <Transform>
+                <Position x="-0.74900001" y="0.60000002" z="0.55000001"/>
+                <Rotation x="0" y="0" z="0"/>
+                <Scale x="1.5" y="0.87" z="0.60000002"/>
+            </Transform>
+            <Material ID="-951317523"/>
+            <Object ID="-2"/>
+        </Node>
+    </Node>
+    <Node Name="Pipes" hasChildren="false" eFlags="131073" gFlags="0" Dynamic="false"/>
+    <Node Name="Pipes" hasChildren="false" eFlags="131073" gFlags="0" Dynamic="false"/>
+    <Node Name="Pipes" hasChildren="false" eFlags="131073" gFlags="0" Dynamic="false"/>
+    <Node Name="Pipe_Up" hasChildren="false" eFlags="163847" gFlags="0" Dynamic="true">
+        <Transform>
+            <Position x="8" y="7.2515688" z="10"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="3" z="1"/>
+        </Transform>
+        <Material ID="-842150451"/>
+        <Object ID="-3"/>
+    </Node>
+    <Node Name="Pipe_Up_Top" hasChildren="false" eFlags="163847" gFlags="0" Dynamic="true">
+        <Transform>
+            <Position x="8" y="4.2515688" z="10"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1.1" y="0.30000001" z="1"/>
+        </Transform>
+        <Material ID="-842150451"/>
+        <Object ID="-3"/>
+    </Node>
+    <Node Name="Pipe_Up_Black" hasChildren="false" eFlags="163847" gFlags="0" Dynamic="true">
+        <Transform>
+            <Position x="8" y="6.8915687" z="10"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="0.89999998" y="3" z="1"/>
+        </Transform>
+        <Material ID="-842150451"/>
+        <Object ID="-3"/>
+    </Node>
+    <Node Name="Pipe_Down" hasChildren="false" eFlags="163847" gFlags="0" Dynamic="true">
+        <Transform>
+            <Position x="8" y="-1.7484312" z="10"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="3" z="1"/>
+        </Transform>
+        <Material ID="-842150451"/>
+        <Object ID="-3"/>
+    </Node>
+    <Node Name="Pipe_Down_Top" hasChildren="false" eFlags="163847" gFlags="0" Dynamic="true">
+        <Transform>
+            <Position x="8" y="1.5015688" z="10"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1.1" y="0.30000001" z="1"/>
+        </Transform>
+        <Material ID="-842150451"/>
+        <Object ID="-3"/>
+    </Node>
+    <Node Name="Pipe_Up" hasChildren="false" eFlags="163847" gFlags="0" Dynamic="true">
+        <Transform>
+            <Position x="16" y="6.1939235" z="10"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="3" z="1"/>
+        </Transform>
+        <Material ID="-842150451"/>
+        <Object ID="-3"/>
+    </Node>
+    <Node Name="Pipe_Up_Top" hasChildren="false" eFlags="163847" gFlags="0" Dynamic="true">
+        <Transform>
+            <Position x="16" y="3.1939235" z="10"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1.1" y="0.30000001" z="1"/>
+        </Transform>
+        <Material ID="-842150451"/>
+        <Object ID="-3"/>
+    </Node>
+    <Node Name="Pipe_Up_Black" hasChildren="false" eFlags="163847" gFlags="0" Dynamic="true">
+        <Transform>
+            <Position x="16" y="5.8339233" z="10"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="0.89999998" y="3" z="1"/>
+        </Transform>
+        <Material ID="-842150451"/>
+        <Object ID="-3"/>
+    </Node>
+    <Node Name="Pipe_Down" hasChildren="false" eFlags="163847" gFlags="0" Dynamic="true">
+        <Transform>
+            <Position x="16" y="-2.8060765" z="10"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="3" z="1"/>
+        </Transform>
+        <Material ID="-842150451"/>
+        <Object ID="-3"/>
+    </Node>
+    <Node Name="Pipe_Down_Top" hasChildren="false" eFlags="163847" gFlags="0" Dynamic="true">
+        <Transform>
+            <Position x="16" y="0.44392347" z="10"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1.1" y="0.30000001" z="1"/>
+        </Transform>
+        <Material ID="-842150451"/>
+        <Object ID="-3"/>
+    </Node>
+    <Node Name="Pipe_Up" hasChildren="false" eFlags="163847" gFlags="0" Dynamic="true">
+        <Transform>
+            <Position x="24" y="7.1189198" z="10"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="3" z="1"/>
+        </Transform>
+        <Material ID="-842150451"/>
+        <Object ID="-3"/>
+    </Node>
+    <Node Name="Pipe_Up_Top" hasChildren="false" eFlags="163847" gFlags="0" Dynamic="true">
+        <Transform>
+            <Position x="24" y="4.1189198" z="10"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1.1" y="0.30000001" z="1"/>
+        </Transform>
+        <Material ID="-842150451"/>
+        <Object ID="-3"/>
+    </Node>
+    <Node Name="Pipe_Up_Black" hasChildren="false" eFlags="163847" gFlags="0" Dynamic="true">
+        <Transform>
+            <Position x="24" y="6.7589197" z="10"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="0.89999998" y="3" z="1"/>
+        </Transform>
+        <Material ID="-842150451"/>
+        <Object ID="-3"/>
+    </Node>
+    <Node Name="Pipe_Down" hasChildren="false" eFlags="163847" gFlags="0" Dynamic="true">
+        <Transform>
+            <Position x="24" y="-1.8810802" z="10"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="3" z="1"/>
+        </Transform>
+        <Material ID="-842150451"/>
+        <Object ID="-3"/>
+    </Node>
+    <Node Name="Pipe_Down_Top" hasChildren="false" eFlags="163847" gFlags="0" Dynamic="true">
+        <Transform>
+            <Position x="24" y="1.3689198" z="10"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1.1" y="0.30000001" z="1"/>
+        </Transform>
+        <Material ID="-842150451"/>
+        <Object ID="-3"/>
+    </Node>
+</Root>

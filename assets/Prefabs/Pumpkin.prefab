@@ -1,0 +1,18 @@
+<Root>
+    <Node Name="Pumpkin" hasChildren="true" eFlags="132131" gFlags="0" Dynamic="true">
+        <Transform>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </Transform>
+        <Node Name="" hasChildren="false" eFlags="33863" gFlags="0" Dynamic="false">
+            <Transform>
+                <Position x="0" y="0" z="1.0184091"/>
+                <Rotation x="0" y="0" z="0"/>
+                <Scale x="1.0549927" y="1.0506914" z="0.99999994"/>
+            </Transform>
+            <Material ID="-842150451"/>
+            <Object ID="14385546"/>
+        </Node>
+    </Node>
+</Root>

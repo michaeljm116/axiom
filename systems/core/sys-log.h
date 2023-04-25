@@ -25,7 +25,6 @@ namespace axiom {
         void LogMessage(axiom::LogLevel level, std::string message);
         void CheckMessage(bool b, std::string message);
         
-
     private:
         flecs::world* world;
     };
@@ -38,36 +37,3 @@ namespace axiom {
     }
     
 }
-
-/*
-Okay so have a log file system
-on start it opens the file
-on destruction it closes the file
-
-Then have a log system
-for
- - regular logs
- - a check system
- So like for getglfwwiondow() it'd be
- axiom::Log(Logger::Check, getglfwwindow(), "Opening GLFW WINdow") or something similar
-
-/*
-inline void LogDebug(const std::string& message) {
-  Logger::GetInstance().Log(Logger::Level::DEBUG, message);
-}
-
-inline void LogInfo(const std::string& message) {
-  Logger::GetInstance().Log(Logger::Level::INFO, message);
-}
-
-inline void LogWarning(const std::string& message) {
-  Logger::GetInstance().Log(Logger::Level::WARNING, message);
-}
-
-inline void LogError(const std::string& message) {
-  Logger::GetInstance().Log(Logger::Level::ERROR, message);
-}
-
-inline void Check(int condition, const std::string& message){
-  Logger::GetInstance().ErrorCheck(condition, message);
-}*/

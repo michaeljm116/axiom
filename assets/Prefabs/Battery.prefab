@@ -1,0 +1,36 @@
+<Root>
+    <Node Name="Battery" hasChildren="true" eFlags="1059" gFlags="0" Dynamic="true">
+        <Transform>
+            <Position x="8" y="-4.4710002" z="8"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="0.85000002" y="0.80000001" z="0.5"/>
+        </Transform>
+        <Node Name="Lightning" hasChildren="false" eFlags="33863" gFlags="0" Dynamic="false">
+            <Transform>
+                <Position x="1.580476" y="0.23" z="7.9300664e-09"/>
+                <Rotation x="270" y="180" z="-90"/>
+                <Scale x="0.352" y="0.44999999" z="0.18099999"/>
+            </Transform>
+            <Material ID="-842150451"/>
+            <Object ID="1222111133"/>
+        </Node>
+        <Node Name="BatteryTop" hasChildren="false" eFlags="32775" gFlags="0" Dynamic="true">
+            <Transform>
+                <Position x="0.27000001" y="0" z="0"/>
+                <Rotation x="0" y="9.9999997e-05" z="0"/>
+                <Scale x="0.60000002" y="0.5" z="1"/>
+            </Transform>
+            <Material ID="-289020352"/>
+            <Object ID="-2"/>
+        </Node>
+        <Node Name="BatteryBottom" hasChildren="false" eFlags="32775" gFlags="0" Dynamic="true">
+            <Transform>
+                <Position x="1.8" y="0" z="0"/>
+                <Rotation x="0" y="9.9999997e-05" z="0"/>
+                <Scale x="1.2" y="0.5" z="1"/>
+            </Transform>
+            <Material ID="66273280"/>
+            <Object ID="-2"/>
+        </Node>
+    </Node>
+</Root>

@@ -1,0 +1,15 @@
+<Root>
+    <Node Name="ShinyBlock" hasChildren="false" eFlags="98311" gFlags="0" Dynamic="true">
+        <Transform>
+            <Position x="7.0401001" y="-2.6607704" z="7.7489376"/>
+            <Rotation x="0" y=".0001" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </Transform>
+        <Material ID="530245920"/>
+        <Object ID="-2"/>
+        <Collider Type="1">
+            <Local x="0" y="0" z="0"/>
+            <Extents x="1" y="1" z="1"/>
+        </Collider>
+    </Node>
+</Root>

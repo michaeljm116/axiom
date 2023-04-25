@@ -1,0 +1,15 @@
+<Root>
+    <Node Name="Door" hasChildren="false" eFlags="98311" gFlags="0" Dynamic="true">
+        <Transform>
+            <Position x="8" y="-3.5" z="15.05"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="2" y="1.5" z=".95"/>
+        </Transform>
+        <Material ID="2054138304"/>
+        <Object ID="-2"/>
+        <Collider Type="1">
+            <Local x="0" y="0" z="0"/>
+            <Extents x="1" y="1" z="1.1"/>
+        </Collider>
+    </Node>
+</Root>
