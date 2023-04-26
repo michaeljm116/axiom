@@ -2,6 +2,7 @@
 #include <fstream>
 #include <string>
 #include <mutex>
+#include <memory>
 
 namespace axiom
 {
