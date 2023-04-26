@@ -2,14 +2,39 @@
 #include "sys-window.h"
 #include "sys-log.h"
 
+
 namespace axiom {
 
-Window::~Window() {
+Sys_Window::~Sys_Window() {
   glfwDestroyWindow(window_);
   glfwTerminate();
 }
 
-void Window::Init() {
+Sys_Window::Sys_Window(flecs::world &world_, std::string title, int w, int h)
+{
+  world = &world_;
+  GLFWwindow* window;
+  GLFWmonitor* primary;
+  const GLFWvidmode* mode;
+
+  glfwInit();
+  glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
+
+  primary = glfwGetPrimaryMonitor();
+
+
+  mode = glfwGetVideoMode(primary);
+  glfwWindowHint(GLFW_RED_BITS, mode->redBits);
+  glfwWindowHint(GLFW_GREEN_BITS, mode->greenBits);
+  glfwWindowHint(GLFW_BLUE_BITS, mode->blueBits);
+  glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
+  window = glfwCreateWindow(w,h,title.c_str(), nullptr, nullptr);
+
+  world->set<Cmp_Window>({w,h,window, primary, mode});
+}
+
+void Sys_Window::Init()
+{
   height_ = 720;
   width_ = 1280;
   maximized_ = false;
@@ -39,11 +64,13 @@ void Window::Init() {
   glfwSetErrorCallback([](int error, const char* description){
     //axiom::LogError(description);
   });
+
+  /*
   glfwSetKeyCallback(window_, [](GLFWwindow* window, int key, int scancode, int action, int mods){
     SWindow().SetKey(key);
     if(key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
         glfwSetWindowShouldClose(window, GLFW_TRUE);
-  });
+  });*/
 
   glfwMakeContextCurrent(window_);
   //gladLoadGL(glfwGetProcAddress);
@@ -52,13 +79,13 @@ void Window::Init() {
   glfwSwapInterval(1);
 }
 
-void Window::Update() {
+void Sys_Window::Update() {
   while (!glfwWindowShouldClose(window_)) {
     glfwPollEvents();
   }
 }
 
-void Window::Maximize() {
+void Sys_Window::Maximize() {
   if (maximized_) {
     maximized_ = false;
     glfwSetWindowMonitor(window_, primary_, 0, 0, mode_->width, mode_->height, mode_->refreshRate);
@@ -69,7 +96,7 @@ void Window::Maximize() {
   Resize();
 }
 
-void Window::Resize() {
+void Sys_Window::Resize() {
   glfwGetWindowSize(window_, &width_, &height_);
 }
 
