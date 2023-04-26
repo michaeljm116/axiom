@@ -97,19 +97,27 @@ int main(){
 	auto r_froku = world.lookup("froku2.pm");
 	auto d_froku = r_froku.get<axiom::Cmp_Res_Model>()->data;
 
-	std::vector<flecs::entity> body_parts;
-	for(auto d : d_froku.meshes){
-		auto bp = world.entity(d.name.c_str());
-		bp.child_of(e_froku);
-		body_parts.push_back(bp);
-	}
+std::vector<flecs::entity> body_parts;
+for(auto d : d_froku.meshes){
+    std::string name = d.name;
+    auto bp = world.entity(name.c_str());
+    bp.set<axiom::R_Mesh>({d});
+    bp.child_of(e_froku);
+    body_parts.push_back(bp);
+}
 
-	for(auto bp : body_parts){
-		std::cout << bp.name() << std::endl;
-	}
+for(auto bp : body_parts){
+    std::cout << bp.name() << std::endl;
+}
+auto head = world.lookup("Froku::head");
+auto h_cmp = head.get<axiom::R_Mesh>();
+auto afro = e_froku.lookup("afro");
+afro.child_of(head);
+auto a_cmp = afro.get<axiom::R_Mesh>();
 
-	auto head = world.lookup("head");
-	auto afro = world.lookup("afro");
+auto prnt = afro.parent();
+auto prnt_cmp = prnt.get<axiom::Cmp_Res_Model>();
+
 	//afro.child_of(head);
 
 	
