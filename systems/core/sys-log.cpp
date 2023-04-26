@@ -2,21 +2,20 @@
 #include "sys-log.h"
 #include "sys-timer.h"
 namespace axiom{
-    Sys_Logger::Sys_Logger(flecs::world& world_) {
-        world = &world_;
-        world->observer<Cmp_LogFile>("StartLogFileSystem")
+    Sys_Logger::Sys_Logger() {
+        g_world.observer<Cmp_LogFile>("StartLogFileSystem")
             .event(flecs::OnAdd)
             .each([this](flecs::entity e, Cmp_LogFile& f){
                 this->OpenLogFile(e,f);
         });
 
-        world->observer<Cmp_LogFile>("ShutdownLogFileSystem")
+        g_world.observer<Cmp_LogFile>("ShutdownLogFileSystem")
             .event(flecs::OnRemove)
             .each([this](flecs::entity e, Cmp_LogFile& f){
                 this->CloseLogFile(e,f);
         });
 
-        world->observer<Cmp_Log>("OnSetLog")
+        g_world.observer<Cmp_Log>("OnSetLog")
             .event(flecs::OnSet)
             .each([this](flecs::entity e, Cmp_Log& f){
                 this->OnLog(e,f);
@@ -44,7 +43,7 @@ namespace axiom{
     }
 
     void Sys_Logger::SaveLog(std::string message) {
-        auto* file = world->get_mut<Cmp_LogFile>();
+        auto* file = g_world.get_mut<Cmp_LogFile>();
         std::unique_lock<std::mutex> lock(file->log_data->log_mutex);
         if (file->log_data->log_file.is_open()) {
             file->log_data->log_file << message;

@@ -9,9 +9,6 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Winvalid-pch")
 
-# Find OpenGL package
-find_package(OpenGL REQUIRED)
-
 # Add the submodules' directories
 add_subdirectory(lib/glfw EXCLUDE_FROM_ALL)
 #add_subdirectory(lib/etc2comp EXCLUDE_FROM_ALL)
@@ -57,12 +54,14 @@ include_directories(
 
 # Add source files and header files
 file(GLOB SYSTEMS_SOURCE
+    start/flecs-world.cpp
     systems/*.cpp
     systems/core/*.cpp
     systems/render/*.cpp
     systems/scene/*.cpp
 )
 file(GLOB SYSTEMS_HEADERS
+    start/flecs-world.h
     systems/*.h 
     systems/core/*.h 
     systems/render/*.h

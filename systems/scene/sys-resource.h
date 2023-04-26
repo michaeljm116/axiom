@@ -17,7 +17,7 @@ The api flow is as follows:
 namespace axiom{
     class Sys_Resource{
         public:
-            Sys_Resource(flecs::world& world_);
+            Sys_Resource();
             ~Sys_Resource();
 
             bool LoadPModel(flecs::entity e, Cmp_Resource& res, Cmp_Res_Model& cmp_mod);
@@ -25,8 +25,5 @@ namespace axiom{
             bool LoadDirectory(std::string directory);
             bool LoadDirectoryMulti(std::string directory);
             bool LoadMaterials(std::string file);
-
-        private:
-            flecs::world* world;
     };
 }
