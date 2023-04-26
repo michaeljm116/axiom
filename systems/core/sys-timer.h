@@ -1,6 +1,6 @@
 #pragma once
 #include "../components/core/cmp-timer.h"
-#include <flecs.h>
+#include <flecs-world.h>
 #include <string>
 #include <sstream>
 #include <ctime>
@@ -12,14 +12,14 @@
 namespace axiom{
     class Sys_Timer {
     public:
-        Sys_Timer(flecs::world& world) {
-            world.observer<Cmp_Timer>("TimerOnAddSystem")
+        Sys_Timer() {
+            g_world.observer<Cmp_Timer>("TimerOnAddSystem")
                 .event(flecs::OnAdd)
                 .each([this](flecs::entity e, Cmp_Timer& f){
                     this->on_timer_add(e,f);
             });
 
-            world.observer<Cmp_Timer>("TimerOnRemoveSystem")
+            g_world.observer<Cmp_Timer>("TimerOnRemoveSystem")
                 .event(flecs::OnRemove)
                 .each([this](flecs::entity e, Cmp_Timer& f){
                     this->on_timer_remove(e,f);

@@ -10,17 +10,15 @@
 #include <taskflow/taskflow.hpp>
 
 namespace axiom{
-    Sys_Resource::Sys_Resource(flecs::world &world_)
+    Sys_Resource::Sys_Resource()
     {
-        world = &world_;
-
-        world->observer<Cmp_Resource, Cmp_Res_Model>()
+        g_world.observer<Cmp_Resource, Cmp_Res_Model>()
         .event(flecs::OnSet)
         .each([this](flecs::entity e, Cmp_Resource& res, Cmp_Res_Model& d){
             this->LoadPModel(e, res, d);
         });
 
-		world->observer<Cmp_Resource, Cmp_Res_Animations>()
+		g_world.observer<Cmp_Resource, Cmp_Res_Animations>()
         .event(flecs::OnSet)
         .each([this](flecs::entity e, Cmp_Resource& res, Cmp_Res_Animations& d){
             this->LoadPose(e, res, d);
@@ -39,7 +37,7 @@ namespace axiom{
 
 		binaryio.open(fileName.c_str(), std::ios::in | std::ios::binary);
 		if(!binaryio.is_open()){ 
-			Log(*world, LogLevel::ERROR, "Looking for Model file:" + res.file_name);
+			Log(LogLevel::ERROR, "Looking for Model file:" + res.file_name);
 			return false;
 		}
 
@@ -186,7 +184,7 @@ namespace axiom{
 
 		// Confirm if the thing exist
 		if (eResult == tinyxml2::XML_ERROR_FILE_NOT_FOUND){ 
-			Log(*world, LogLevel::ERROR, "Looking for Animation file:" + res.file_name);
+			Log(LogLevel::ERROR, "Looking for Animation file:" + res.file_name);
 			return eResult;
 		}
 
@@ -249,7 +247,7 @@ namespace axiom{
         for(const auto & p : std::filesystem::directory_iterator(directory)){
 			auto extension = p.path().extension();
 			const auto name = p.path().stem().string() + p.path().extension().string();
-			auto e = world->entity(name.c_str());
+			auto e = g_world.entity(name.c_str());
 			e.set<Cmp_Resource>({directory, name});
 
 			if(extension == ".pm"){
@@ -275,7 +273,7 @@ namespace axiom{
 			{
 				auto extension = p.path().extension();
 				const auto name = p.path().stem().string() + p.path().extension().string();
-				auto e = world->entity(name.c_str());
+				auto e = g_world.entity(name.c_str());
 				e.set<Cmp_Resource>({directory, name});
 
 				if (extension == ".pm")
@@ -292,7 +290,7 @@ namespace axiom{
 		// Execute the taskflow graph
 		executor.run(taskflow).wait();
 
-		world->progress();
+		g_world.progress();
 		return true;
 	}
 
@@ -331,7 +329,7 @@ namespace axiom{
 			R_Material mat = R_Material(name, diff, ref, rough, trans, ri, ti);
 
 
-			auto e = world->entity(name);
+			auto e = g_world.entity(name);
 			e.set<Cmp_Resource>({file, name});
 			e.set<Cmp_Res_Material>({mat});
 

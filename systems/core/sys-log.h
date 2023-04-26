@@ -5,7 +5,7 @@
 #include <string>
 #include <sstream>
 #include <mutex>
-#include <flecs.h>
+#include <flecs-world.h>
 
 #include "../components/core/cmp-timer.h"
 #include "../components/core/cmp-log.h"
@@ -14,7 +14,7 @@ namespace axiom {
 
     class Sys_Logger {
     public:
-        Sys_Logger(flecs::world& world_);
+        Sys_Logger();
         ~Sys_Logger();
 
         //This Creates/Opens the logfile
@@ -24,16 +24,15 @@ namespace axiom {
         void OnLog(flecs::entity e, Cmp_Log& l);
         void LogMessage(axiom::LogLevel level, std::string message);
         void CheckMessage(bool b, std::string message);
-        
-    private:
-        flecs::world* world;
+
     };
 
-    inline void Check(flecs::world& w, bool b, std::string msg){
-        w.set<axiom::Cmp_Log>({axiom::LogLevel::CHECK, b, msg});
+    inline void Check( bool b, std::string msg){
+        g_world.set<axiom::Cmp_Log>({axiom::LogLevel::CHECK, b, msg});
     }
-    inline void Log(flecs::world& w, axiom::LogLevel lvl, std::string msg){
-        w.set<axiom::Cmp_Log>({lvl, true, msg});
+    inline void Log(axiom::LogLevel lvl, std::string msg){
+        g_world.set<axiom::Cmp_Log>({lvl, true, msg});
+        
     }
     
 }

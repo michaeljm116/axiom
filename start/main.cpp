@@ -1,5 +1,5 @@
 #include "pch.h"
-#include <flecs.h>
+#include <flecs-world.h>
 #include <optick.h>
 #include <taskflow/taskflow.hpp>
 
@@ -7,6 +7,7 @@
 #include "sys-log.h"
 #include "sys-timer.h"
 #include "sys-resource.h"
+#include "sys-window.h"
 
 /* Set platform defines at build time for volk to pick up. */
 #if defined(_WIN32)
@@ -22,6 +23,7 @@
 #include <volk.h>
 #include <sstream>
 
+using namespace axiom;
 
 int main(){
 	#pragma region Volk Init
@@ -52,18 +54,18 @@ int main(){
 	tf::Executor executor;
 	tf::Taskflow taskflow;
 
-	flecs::world world;
-	axiom::Sys_Logger logger(world);
-	axiom::Sys_Timer timer(world);
-	axiom::Sys_Resource resource(world);
+	axiom::Sys_Logger logger;
+	axiom::Sys_Timer timer;
+	axiom::Sys_Resource resource;
+	axiom::Sys_Window window("Axiom Engine", 1280, 720);
 
-	world.add<axiom::Cmp_CurrentTime>();
-	world.add<axiom::Cmp_LogFile>();
-	world.add<axiom::Cmp_Timer>();
+	g_world.add<axiom::Cmp_CurrentTime>();
+	g_world.add<axiom::Cmp_LogFile>();
+	g_world.add<axiom::Cmp_Timer>();
 	
 	std::string assets_folder = "../../assets/";
-	auto t = world.entity("Models Timer");
-	auto at = world.entity("Animations TImer");
+	auto t = g_world.entity("Models Timer");
+	auto at = g_world.entity("Animations TImer");
 
 
 	//Load Models
@@ -80,27 +82,27 @@ int main(){
 	resource.LoadMaterials(assets_folder + "Materials.xml");
 
 
-	auto e = world.lookup("A_Primitive_Helix_01.pm");
+	auto e = g_world.lookup("A_Primitive_Helix_01.pm");
 	auto m = e.get<axiom::Cmp_Res_Model>();
 	auto f = e.get<axiom::Cmp_Resource>();
 
-	auto bird = world.lookup("Bird.anim");
+	auto bird = g_world.lookup("Bird.anim");
 	auto b = bird.get<axiom::Cmp_Res_Animations>();
 	auto bb = bird.get<axiom::Cmp_Resource>();
 
-	auto gold = world.lookup("Gold");
+	auto gold = g_world.lookup("Gold");
 	auto g = gold.get<axiom::Cmp_Res_Material>();
 	auto gg = gold.get<axiom::Cmp_Resource>();
 
 
-	auto e_froku = world.entity("Froku");
-	auto r_froku = world.lookup("froku2.pm");
+	auto e_froku = g_world.entity("Froku");
+	auto r_froku = g_world.lookup("froku2.pm");
 	auto d_froku = r_froku.get<axiom::Cmp_Res_Model>()->data;
 
 std::vector<flecs::entity> body_parts;
 for(auto d : d_froku.meshes){
     std::string name = d.name;
-    auto bp = world.entity(name.c_str());
+    auto bp = g_world.entity(name.c_str());
     bp.set<axiom::R_Mesh>({d});
     bp.child_of(e_froku);
     body_parts.push_back(bp);
@@ -109,7 +111,7 @@ for(auto d : d_froku.meshes){
 for(auto bp : body_parts){
     std::cout << bp.name() << std::endl;
 }
-auto head = world.lookup("Froku::head");
+auto head = g_world.lookup("Froku::head");
 auto h_cmp = head.get<axiom::R_Mesh>();
 auto afro = e_froku.lookup("afro");
 afro.child_of(head);
@@ -118,7 +120,10 @@ auto a_cmp = afro.get<axiom::R_Mesh>();
 auto prnt = afro.parent();
 auto prnt_cmp = prnt.get<axiom::Cmp_Res_Model>();
 
-	//afro.child_of(head);
+auto* twindow = g_world.get<Cmp_Window>()->window;
 
+while(!glfwWindowShouldClose(twindow)){
+	g_world.progress();
+}
 	
 };
