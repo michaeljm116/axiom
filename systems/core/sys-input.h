@@ -8,8 +8,6 @@ namespace axiom
     {
         Sys_Input();
         ~Sys_Input();
-
-        
     }
 }
 

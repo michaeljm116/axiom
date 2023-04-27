@@ -1,14 +1,30 @@
 #pragma once
-
+#include <array>
 #define MOUSE_BUTTON_DOWN 2
 #define MOUSE_BUTTON_CHANGED 1
 
 namespace axiom {
-    struct Cmp_Mouse{};
-    struct Cmp_Keyboard{};
+    struct Cmp_Mouse{
+		int x;
+		int y;
+		double scroll;
+		bool active;
+		std::array<Button,12> buttons;
+	};
+    struct Cmp_Keyboard{
+		std::array<Key,348> keys;
+	};
     struct Cmp_Controller{};
 
+	struct  Key{
+		int action = 0;
+		int cycles = 0; //cycle = cycle * action + action; fma(cycle,action,action)
+	};
 
+	struct Button{
+		int action = 0;
+		int cycles = 0;
+	};
 	//Bit 1 = the change bit
 	//bit 2 = the mouse button state
 	enum MouseStates {
