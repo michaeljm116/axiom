@@ -1,102 +1,53 @@
 #include "pch.h"
 #include "sys-input.h"
-
+#include "cmp-window.h"
 namespace axiom
 {
 
-}
+	Sys_Input::Sys_Input(){
+		Init();
+		g_world.system<Cmp_Mouse>("MouseSystem")
+		.kind(flecs::OnUpdate)
+		.each([this](flecs::entity e, Cmp_Mouse& m){
+			this->Update(e, m);
+		});
 
-namespace principia{
-    	Input::~Input()
-	{
 	}
+    Sys_Input::~Sys_Input()
+    {
+    }
 
-	void Input::init() {
+	void Init()
+	{
+		//set up kb & mouse
+		g_world.set<Cmp_Keyboard>({});
+		g_world.set<Cmp_Mouse>({});
+		auto* mouse = g_world.get_mut<Cmp_Mouse>();
+		auto* window = g_world.get<Cmp_Window>()->window;
+		glfwGetCursorPos(window, &mouse->x, &mouse->y);
 
 		//set up callbacks
-		window = Window::get().getWindow();
-		glfwSetKeyCallback(window, Input::key_callback);
-		glfwSetCharCallback(window, Input::char_callback);
-		glfwSetCursorPosCallback(window, Input::cursor_position_callback);
-		//glfwSetMouseButtonCallback(window, Input::mouse_button_callback);
+		glfwSetKeyCallback(window, Sys_Input::key_callback);
+		glfwSetCharCallback(window, Sys_Input::char_callback);
+		glfwSetCursorPosCallback(window, Sys_Input::cursor_position_callback);
 		glfwSetInputMode(window, GLFW_STICKY_KEYS, true);
-		glfwSetScrollCallback(window, Input::scroll_callback);
-		glfwSetJoystickCallback(Input::joystick_callback);
-		
-		for (int i = 0; i < 16; ++i) {
-			if (glfwJoystickPresent(i)) {
-				int axesCount;
-				const float* axes = glfwGetJoystickAxes(i, &axesCount);
+		glfwSetScrollCallback(window, Sys_Input::scroll_callback);
+		glfwSetJoystickCallback(Sys_Input::joystick_callback);
 
-				int buttonCount;
-				const unsigned char* buttons = glfwGetJoystickButtons(i, &buttonCount);
-
-				const char* name = glfwGetJoystickName(i);
-				const char* game_pad_name = "NOT a Gamepad";
-				bool is_game_pad = false;
-				GLFWgamepadstate state;
-				if (glfwJoystickIsGamepad(i)) {
-					is_game_pad = true;
-					hasGamepad = true;
-					game_pad_name = glfwGetGamepadName(i);
-					glfwGetGamepadState(i, &state);
-				}
-				//printf("%s: \t Axes:%f \t buttons:%c", name, axes, buttons);
-				printf("\n%u is a %s aka %s it has %u Axes and %u buttons\n", i, name, game_pad_name, axesCount, buttonCount);
-			}
-		}
-
-
-
-
-		/*
-		Q, E, R, F, V
-		space, tab, shift
-		1, 2, 3, 4, 5
-
-		awdsdqdeqdewfvafadfvaddawda
-
-		*/
-
-		//set up mouse
-
-		double x, y;
-		glfwGetCursorPos(window, &x, &y);
-		mouse.x = x;
-		mouse.prevX = x;
-		mouse.y = y;
-		mouse.prevY = y;
-
-		//set up timer
-		static auto startTime = std::chrono::high_resolution_clock::now();
-		auto currentTime = std::chrono::high_resolution_clock::now();
-		time = std::chrono::duration_cast<std::chrono::milliseconds>(currentTime - startTime).count() / 1000.0f;
-		deltaTime = time;
-		showFPS = true;
 	}
 
-	void Input::KeyDirection(int key, bool pressed) {
-
-		//for (int i = 0; i < 6; ++i) {
-		//	if (key == Keys[i].key) { 
-		//		Keys[i].update(pressed);
-		//		return;
-		//	}
-		//}
-	}
-
-	void Input::update()
+	void Sys_Input::Update(flecs::entity e, Cmp_Mouse& mouse)
 	{
-		static auto startTime = std::chrono::high_resolution_clock::now();
-		auto currentTime = std::chrono::high_resolution_clock::now();
-		float newTime = std::chrono::duration_cast<std::chrono::milliseconds>(currentTime - startTime).count() / 1000.0f;
-		deltaTime = abs(time - newTime);
-		time = newTime;
-
+		auto* window = g_world.get<Cmp_Window>()->window;
 		int left_mb = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT);
 		int right_mb = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT);
-		mouse.updateButton(GLFW_MOUSE_BUTTON_LEFT, left_mb);
-		mouse.updateButton(GLFW_MOUSE_BUTTON_RIGHT, right_mb);
-		
+		UpdateButton(mouse,GLFW_MOUSE_BUTTON_LEFT, left_mb);
+		UpdateButton(mouse,GLFW_MOUSE_BUTTON_RIGHT, right_mb);
 	}
+    void Sys_Input::UpdateButton(Cmp_Mouse &mouse, int btn, bool pressed)
+    {
+		bool prev_action = mouse.buttons[btn] & prev_action_bit;
+		int change = prev_action != pressed;
+		mouse.buttons[btn] = change + (pressed << 1);
+    }
 }
