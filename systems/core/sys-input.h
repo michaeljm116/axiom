@@ -1,55 +1,31 @@
 #pragma once
 #include "cmp-input.h"
 #include <flecs-world.h>
+#include <glfw/glfw3.h>
+#include <cmath>
 
 namespace axiom
 {
     class Sys_Input
     {
+		public:
         Sys_Input();
         ~Sys_Input();
-    }
-}
 
-
-namespace Principia {
-
-#define pINPUT Input::get()
-
-	class Input
-	{
-	public:
-
-		static Input& get() {
-			static Input instance;
-			return instance;
-		}
-	private:
-		Input() {};
-		~Input();
-
-		GLFWwindow* window;
-
-		void KeyDirection(int key, bool pressed);
+		void Init();
+		void Update(flecs::entity e, Cmp_Mouse& mouse);
+		inline void UpdateButton(Cmp_Mouse& mouse, int btn, bool pressed);
 
 		static void key_callback(GLFWwindow * window, int key, int scancode, int action, int mods)
 		{
-			pINPUT.keys[key] = action;
-			switch (action)
-			{
-			case GLFW_PRESS:
-				pINPUT.pressed = true;
-				break;
-			case GLFW_REPEAT:
-				pINPUT.pressed = true;
-				break;
-			case GLFW_RELEASE:
-				pINPUT.pressed = false;
-				break;
-			default:
-				break;
-			}
+			//Get Keyboard
+			auto* keyboard = g_world.get_mut<Cmp_Keyboard>();
 
+			//Handle the changes
+			bool prev_action = keyboard->keys[key] & prev_action_bit;
+			bool pressed = action;
+			int change = prev_action != pressed;
+			keyboard->keys[key] = change + (pressed << 1);	
 #ifdef UIIZON
 			ImGuiIO& io = ImGui::GetIO();
 			if (action == GLFW_PRESS || action == GLFW_REPEAT) {
@@ -59,8 +35,6 @@ namespace Principia {
 				io.KeysDown[key] = false;
 			}
 #endif // 
-
-
 		}
 
 		static void char_callback(GLFWwindow*, unsigned int c)
@@ -76,23 +50,15 @@ namespace Principia {
 		}
 
 		static void cursor_position_callback(GLFWwindow* window, double xpos, double ypos) {
-			pINPUT.mouse.updatePosition((int)xpos, (int)ypos);
+			auto* mouse = g_world.get_mut<Cmp_Mouse>();
+			mouse->x = xpos;
+			mouse->y = ypos;
 		}
-
-
-		//static void mouse_button_callback(GLFWwindow* window, int button, int action, int mods) {
-		//	/*if (action == GLFW_PRESS || action == GLFW_REPEAT)
-		//		INPUT.mouse.updateButton(button, true);
-		//	else
-		//		INPUT.mouse.updateButton(button, false);*/
-		//	INPUT.mouse.buttons[button] = action;
-		//	//INPUT.mouse.updateButton(button, (bool)action);
-		//}
-
+		
 		static void scroll_callback(GLFWwindow* window, double xoffset, double yoffset) {
-			pINPUT.mouse.updateScroll(yoffset);
+			auto* mouse = g_world.get_mut<Cmp_Mouse>();
+			mouse->scroll += yoffset;
 		}
-
 		static void joystick_callback(int jid, int event) {
 			if (event == GLFW_CONNECTED)
 			{
@@ -103,32 +69,5 @@ namespace Principia {
 				// The joystick was disconnected
 			}
 		}
-
-
-	public:
-		void init();
-		void update();
-		void updateAxis(int key, bool pressed);
-
-		//bool up, down, left, right;
-		//bool pressed, held, released;
-		Mouse mouse;
-		int keys[348];
-		int pad[8][14];
-
-		float deltaTime;
-		float time;
-		float renderTime;
-		bool pressed;
-		bool hold;
-		bool showFPS;
-		bool maximized = false;
-		bool displayUI = false;
-		bool playToggled = false;
-		bool playMode = false;
-
-		bool hasGamepad = false;
-	};
-
-#endif // !INPUT_H
+    };
 }
