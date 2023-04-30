@@ -15,15 +15,12 @@ The api flow is as follows:
 */
 
 namespace axiom{
-    class Sys_Resource{
-        public:
-            Sys_Resource();
-            ~Sys_Resource();
-
-            bool LoadPModel(flecs::entity e, Cmp_Resource& res, Cmp_Res_Model& cmp_mod);
-            bool LoadPose(flecs::entity e, Cmp_Resource& res, Cmp_Res_Animations& cmp_anim);
-            bool LoadDirectory(std::string directory);
-            bool LoadDirectoryMulti(std::string directory);
-            bool LoadMaterials(std::string file);
+    namespace resource{
+        void Init();
+        bool LoadPModel(flecs::entity e, Cmp_Resource& res, Cmp_Res_Model& cmp_mod);
+        bool LoadPose(flecs::entity e, Cmp_Resource& res, Cmp_Res_Animations& cmp_anim);
+        bool LoadDirectory(std::string directory);
+        bool LoadDirectoryMulti(std::string directory);
+        bool LoadMaterials(std::string file);
     };
 }

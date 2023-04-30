@@ -1,51 +1,108 @@
 #include "pch.h"
 #include "sys-transform.h"
 
-axiom::Sys_StaticTransformSystem::Sys_StaticTransformSystem(flecs::world &world)
+namespace axiom
 {
-    world.system<const Cmp_Transform*>("StaticTransformSystem")
-        .kind(flecs::OnUpdate)
-        .each([this](flecs::entity e, const Cmp_Transform* t) {
-            this->update2(e, t);
-        });
-    
-    
-    /*world.system<Cmp_Transform>("StaticTransformSystem")
-        .kind(flecs::OnUpdate)
-        .each([this](Cmp_Transform& t){
-            update(t);
-        });*/
-}
+    namespace transform
+    {
+        void Init()
+        {
+            /*
+            world.observer<Cmp_Transform*, Cmp_Static>("StaticTransformSystem")
+            .event(flecs::OnSet)
+            .each([this](flecs::entity e, Cmp_Transform& t, Cmp_Static& s) {
+                this->Static_Transform(e,t,s);
+            });
 
-axiom::Sys_StaticTransformSystem::~Sys_StaticTransformSystem()
-{
-}
+            world.system<Cmp_Transform*, Cmp_Dynamic>("DynamicTransformSystem")
+            .kind(flecs::OnUpdate)
+            .term_at(2).parent().cascade()
+            .each([this](flecs::entity e, Cmp_Transform& t, Cmp_Dynamic& d){
+                this->Dynamic_Transform(e,t,d);
+            });*/                
+        }
+        
 
-void axiom::Sys_StaticTransformSystem::initialize()
-{
-}
+        void Static_Transform(flecs::entity e, Cmp_Transform &t, Cmp_Static &s)
+        {
+            auto q = g_world.query_builder<Cmp_Transform, Cmp_Transform>().term_at(2).parent().cascade()
+            .build();
 
-void axiom::Sys_StaticTransformSystem::update(Cmp_Transform &t)
-{
-    t.local.pos.x += 1;
-    std::cout << "\nPos: " << t.local.pos.x;
-}
+            auto traverse_children = [&](flecs::entity e, const auto& self){
+                Cmp_Transform* tc = e.get_mut<Cmp_Transform>();
+                bool has_parent = e.parent().is_entity();
 
+                //build rotaiton matrix
+                glm::mat4 rot_m = glm::rotate(glm::radians(tc->euler_rot.x), glm::vec3(1.f, 0.f, 0.f));
+                rot_m = glm::rotate(rot_m, glm::radians(tc->euler_rot.y), glm::vec3(0.f, 1.f, 0.f));
+                rot_m = glm::rotate(rot_m, glm::radians(tc->euler_rot.z), glm::vec3(0.f, 0.f, 1.f));
+                tc->local.rot = rot_m;
+                tc->global.rot *= tc->local.rot;
 
-void axiom::Sys_StaticTransformSystem::update2(flecs::entity e, const Cmp_Transform* t)
-{
-    std::cout << e.name();
-    
-}
+                //build position and scale matrix.
+                glm::mat4 pos_m = glm::translate(glm::vec3(tc->local.pos));
+                glm::mat4 sca_m = glm::scale(glm::vec3(tc->local.sca));
+                glm::mat4 local = pos_m * rot_m;
 
-axiom::Sys_Transform::Sys_Transform(flecs::world &world)
-{
-}
+                //combine them into 1 and multiply by parent if u haz parent
+                if(has_parent){
+                    const auto* parent = e.parent().get<Cmp_Transform>();
+                    tc->global.sca = tc->local.sca * parent->global.sca;
+                    tc->trm = parent->world * local;
+                    local *= sca_m;
+                    tc->world = parent->world * local;
+                }
+                else{ //There's no parent 
+                    tc->global.sca = tc->local.sca;
+                    tc->trm = local;
+                    local *= sca_m;
+                    tc->world = local;
+                }
 
-axiom::Sys_Transform::~Sys_Transform()
-{
-}
+                //e.children([&](flecs::entity child){ self(child, self); });
+            };
+            traverse_children(e, traverse_children);
+        }
 
-void axiom::Sys_Transform::initialize()
-{
+        void Dynamic_Transform(flecs::entity e, Cmp_Transform &t, Cmp_Dynamic &d)
+        {
+        }
+
+        void recursive_transform(flecs::entity e)
+        {
+
+        }
+
+        glm::vec3 rotate_aabb(const glm::mat3 &m)
+        {
+            //set up cube
+            glm::vec3 extents = glm::vec3(1);
+            glm::vec3 v[8];
+            v[0] = extents;
+            v[1] = glm::vec3(extents.x, extents.y, -extents.z);
+            v[2] = glm::vec3(extents.x, -extents.y, -extents.z);
+            v[3] = glm::vec3(extents.x, -extents.y, extents.z);
+            v[4] = glm::vec3(-extents);
+            v[5] = glm::vec3(-extents.x, -extents.y, extents.z);
+            v[6] = glm::vec3(-extents.x, extents.y, -extents.z);
+            v[7] = glm::vec3(-extents.x, extents.y, extents.z);
+
+            //transform them
+            //#pragma omp parallel for
+            for (int i = 0; i < 8; ++i) {
+                v[i] = abs(m * v[i]);// glm::vec4(v[i], 1.f));
+
+            }
+
+            //compare them
+            glm::vec3 vmax = glm::vec3(FLT_MIN);
+            for (int i = 0; i < 8; ++i) {
+                vmax.x = std::max(vmax.x, v[i].x);
+                vmax.y = std::max(vmax.y, v[i].y);
+                vmax.z = std::max(vmax.z, v[i].z);
+            }
+
+            return vmax;
+        }
+    }
 }

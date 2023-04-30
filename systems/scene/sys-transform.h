@@ -1,29 +1,17 @@
 #include "../components/scene/cmp-transform.h"
-#include <flecs.h>
+#include <flecs-world.h>
 
 namespace axiom
 {
-class Sys_StaticTransformSystem{
-    public:
-        Sys_StaticTransformSystem(flecs::world& world);
-        ~Sys_StaticTransformSystem();
-        void initialize();
-    private:
-        void update(Cmp_Transform& t);
-        void update2(flecs::entity e, const Cmp_Transform* t);
-};
-
-
 //flecs::system SYS_Trans = flecs::world::system<CMP_Transform>("Transform System");
-class Sys_Transform{
-    public:
-    Sys_Transform(flecs::world& world);
-    ~Sys_Transform();
+    namespace transform
+    {
+        void Init();
+        void Static_Transform(flecs::entity e, Cmp_Transform& t, Cmp_Static& s);
+        void Dynamic_Transform(flecs::entity e, Cmp_Transform& t, Cmp_Dynamic& d);
+        void recursive_transform(flecs::entity e);
+        glm::vec3 rotate_aabb( const glm::mat3& m);     
 
-    void initialize();
-
-    private:
-    //void update(flecs::iter& it, flecs::column<)
-};
+    };
 
 }

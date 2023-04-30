@@ -1,19 +1,14 @@
 #pragma once
 #include "cmp-input.h"
 #include <flecs-world.h>
-#include <glfw/glfw3.h>
+#include <GLFW/glfw3.h>
 #include <cmath>
 
 namespace axiom
 {
-    class Sys_Input
+    namespace input
     {
-		public:
-        Sys_Input();
-        ~Sys_Input();
-
 		void Init();
-		void Update(flecs::entity e, Cmp_Mouse& mouse);
 		inline void UpdateButton(Cmp_Mouse& mouse, int btn, bool pressed);
 
 		static void key_callback(GLFWwindow * window, int key, int scancode, int action, int mods)
@@ -69,5 +64,5 @@ namespace axiom
 				// The joystick was disconnected
 			}
 		}
-    };
+    }
 }
