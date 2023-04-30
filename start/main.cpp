@@ -54,10 +54,10 @@ int main(){
 	tf::Executor executor;
 	tf::Taskflow taskflow;
 
-	axiom::Sys_Logger logger;
-	axiom::Sys_Timer timer;
-	axiom::Sys_Resource resource;
-	axiom::Sys_Window window("Axiom Engine", 1280, 720);
+	axiom::log::Init();
+	axiom::timer::Init();
+	axiom::resource::Init();
+	axiom::window::Init("Axiom Engine", 1280, 720);
 
 	g_world.add<axiom::Cmp_CurrentTime>();
 	g_world.add<axiom::Cmp_LogFile>();
@@ -70,16 +70,16 @@ int main(){
 
 	//Load Models
 	t.add<axiom::Cmp_Timer>();
-	resource.LoadDirectory(assets_folder + "Models");
+	axiom::resource::LoadDirectory(assets_folder + "Models");
 	t.remove<axiom::Cmp_Timer>();
 
 	//Load Animations
 	at.add<axiom::Cmp_Timer>();
-	resource.LoadDirectory(assets_folder + "Animations");
+	axiom::resource::LoadDirectory(assets_folder + "Animations");
 	at.remove<axiom::Cmp_Timer>();
 
 	//Load Materials
-	resource.LoadMaterials(assets_folder + "Materials.xml");
+	axiom::resource::LoadMaterials(assets_folder + "Materials.xml");
 
 
 	auto e = g_world.lookup("A_Primitive_Helix_01.pm");
@@ -99,31 +99,31 @@ int main(){
 	auto r_froku = g_world.lookup("froku2.pm");
 	auto d_froku = r_froku.get<axiom::Cmp_Res_Model>()->data;
 
-std::vector<flecs::entity> body_parts;
-for(auto d : d_froku.meshes){
-    std::string name = d.name;
-    auto bp = g_world.entity(name.c_str());
-    bp.set<axiom::R_Mesh>({d});
-    bp.child_of(e_froku);
-    body_parts.push_back(bp);
-}
+	std::vector<flecs::entity> body_parts;
+	for(auto d : d_froku.meshes){
+		std::string name = d.name;
+		auto bp = g_world.entity(name.c_str());
+		bp.set<axiom::R_Mesh>({d});
+		bp.child_of(e_froku);
+		body_parts.push_back(bp);
+	}
 
-for(auto bp : body_parts){
-    std::cout << bp.name() << std::endl;
-}
-auto head = g_world.lookup("Froku::head");
-auto h_cmp = head.get<axiom::R_Mesh>();
-auto afro = e_froku.lookup("afro");
-afro.child_of(head);
-auto a_cmp = afro.get<axiom::R_Mesh>();
+	for(auto bp : body_parts){
+		std::cout << bp.name() << std::endl;
+	}
+	auto head = g_world.lookup("Froku::head");
+	auto h_cmp = head.get<axiom::R_Mesh>();
+	auto afro = e_froku.lookup("afro");
+	afro.child_of(head);
+	auto a_cmp = afro.get<axiom::R_Mesh>();
 
-auto prnt = afro.parent();
-auto prnt_cmp = prnt.get<axiom::Cmp_Res_Model>();
+	auto prnt = afro.parent();
+	auto prnt_cmp = prnt.get<axiom::Cmp_Res_Model>();
 
-auto* twindow = g_world.get<Cmp_Window>()->window;
+	auto* twindow = g_world.get<Cmp_Window>()->window;
 
-while(!glfwWindowShouldClose(twindow)){
-	g_world.progress();
-}
-	
+	while(!glfwWindowShouldClose(twindow)){
+		g_world.progress();
+	}
+	axiom::window::Destruct();
 };

@@ -57,4 +57,7 @@ namespace axiom{
 
         }
     };
+
+    struct Cmp_Dynamic{};
+    struct Cmp_Static{};
 }
