@@ -33,7 +33,38 @@ namespace axiom
                 .term_at(2).parent().cascade().optional()
                 .build();*/
 
-            static_transform.iter([](flecs::iter& it, const Cmp_Transform *parent, Cmp_Transform* child)
+            g_world.observer<const Cmp_Transform, Cmp_Transform>()
+            .term_at(1).parent()
+            .event(flecs::OnSet)
+            .iter([](flecs::iter& it, const Cmp_Transform * parent, Cmp_Transform* child){
+                                //build rotaiton matrix
+                glm::mat4 rot_m = glm::rotate(glm::radians(child->euler_rot.x), glm::vec3(1.f, 0.f, 0.f));
+                rot_m = glm::rotate(rot_m, glm::radians(child->euler_rot.y), glm::vec3(0.f, 1.f, 0.f));
+                rot_m = glm::rotate(rot_m, glm::radians(child->euler_rot.z), glm::vec3(0.f, 0.f, 1.f));
+                child->local.rot = rot_m;
+                child->global.rot *= child->local.rot;
+
+                //build position and scale matrix.
+                glm::mat4 pos_m = glm::translate(glm::vec3(child->local.pos));
+                glm::mat4 sca_m = glm::scale(glm::vec3(child->local.sca));
+                glm::mat4 local = pos_m * rot_m;
+ 
+                //combine them into 1 and multiply by parent if u haz parent
+                if(parent){
+                    child->global.sca = child->local.sca * parent->global.sca;
+                    child->trm = parent->world * local;
+                    local *= sca_m;
+                    child->world = parent->world * local;
+                }
+                else{ //There's no parent 
+                    child->global.sca = child->local.sca;
+                    child->trm = local;
+                    local *= sca_m;
+                    child->world = local;
+                }
+                            
+            });
+            /*static_transform.iter([](flecs::iter& it, const Cmp_Transform *parent, Cmp_Transform* child)
             {
                 //build rotaiton matrix
                 glm::mat4 rot_m = glm::rotate(glm::radians(child->euler_rot.x), glm::vec3(1.f, 0.f, 0.f));
@@ -60,7 +91,7 @@ namespace axiom
                     local *= sca_m;
                     child->world = local;
                 }
-            });
+            });*/
 
             //g_world.observer<Cmp_Transform, Cmp_Static>();
             
@@ -151,3 +182,4 @@ namespace axiom
         }
     }
 }
+    

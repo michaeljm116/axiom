@@ -127,6 +127,7 @@
 
     "editor.hover.enabled": true,
     "editor.autoClosingBrackets": "beforeWhitespace",
-    "editor.autoIndent": "brackets"
+    "editor.autoIndent": "brackets",
+    "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools"
 
 }

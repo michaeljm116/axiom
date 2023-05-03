@@ -1,3 +1,22 @@
+
+https://github.com/SanderMertens/flecs/tree/master/examples/cpp
+
+TODO:
+* Transform System
+* * For the static transform system, you want it to update only OnSet
+* * For the dynamic transform system, you want it to update always
+* * For both you want to use the Querybuilder and cascade system iter thing but...
+* * * its like... you want both to be built the same so err thang laid out flat in memory but
+* * * its like... you want the algo to happen per event... actually maybe... hmmm
+
+
+
+* Physics System
+* * Perfect place to test the transform system!
+
+
+
+
 What do you want?
 * Better Scene/Graph Management
 * Better ECS
