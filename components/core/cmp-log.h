@@ -13,7 +13,7 @@ namespace axiom
     };
 
     struct Cmp_LogFile {
-        std::string log_filename = "logs.txt";
+        std::string log_filename = "../../logs.txt";
         std::shared_ptr<LogData> log_data = std::make_shared<LogData>();
         Cmp_LogFile(std::string fn) : log_filename(fn){};
         Cmp_LogFile(){};

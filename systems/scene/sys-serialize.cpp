@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "sys-serialize.h"
+#include "flecs-world.h"
 namespace axiom
 {
     namespace serialize
@@ -12,13 +13,14 @@ namespace axiom
             pNode->SetAttribute("Name", parent->name().c_str());
             return nullptr;
         }
-
-        void load_entitiy(tinyxml2::XMLElement *node, flecs::entity *e)
+        void load_entity(tinyxml2::XMLElement *node)
         {
+            flecs::entity e = g_world.entity();
             //Get Name
             const char* name;
             node->QueryStringAttribute("Name", &name);
-            e->set_name(name);
+            std::string unique_name = std::string(name) + "(" + std::to_string(e.id()) + ")";
+            e.set_name(unique_name.c_str());
             
             //Query for children
             bool has_children;
@@ -29,14 +31,14 @@ namespace axiom
             int64_t game_flags;
             node->QueryInt64Attribute("eFlags", &engine_flags);
             node->QueryInt64Attribute("gFlags", &game_flags);
-            auto s = e->get_mut<Cmp_Serialize>();
+            auto s = e.get_mut<Cmp_Serialize>();
             s->engine_flags = engine_flags;
             s->game_flags = game_flags;
 
             // Query for static or dynamic
             bool dynamic;
             node->QueryBoolAttribute("Dynamic", &dynamic);
-    		dynamic ?  e->set<Cmp_Dynamic>({}) : e->set<Cmp_Static>({}); 
+    		dynamic ?  e.add<Cmp_Dynamic>() : e.add<Cmp_Static>(); 
 
             //Find transform component
             glm::vec3 transPos;
@@ -63,7 +65,8 @@ namespace axiom
                 scale->QueryFloatAttribute("z", &sca.z);
 
                 transPos = pos;
-                e->set<Cmp_Transform>({pos, rot, sca});
+                e.add<Cmp_Transform>();
+                e.set<Cmp_Transform>({pos, rot, sca});
             }
         }
     }

@@ -30,11 +30,12 @@ namespace axiom
             COMPONENT_JOINT = 0x100000,
             COMPONENT_HEADNODE = 0x20000
         }; 
-
-        uint64_t To_ComponentFlag(flecs::entity e){
-            int64_t flag;
+/*
+        int64_t To_ComponentFlag(flecs::entity e){
+            int64_t flag = 0;
             if(e.get<Cmp_Transform>() != nullptr) flag |= COMPONENT_TRANSFORM;
-        };
+            return flag;
+        };*/
 
         struct Cmp_Serialize{
             int64_t engine_flags;

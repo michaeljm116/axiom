@@ -8,6 +8,8 @@
 #include "sys-timer.h"
 #include "sys-resource.h"
 #include "sys-window.h"
+#include "sys-serialize.h"
+#include "sys-scene.h"
 
 /* Set platform defines at build time for volk to pick up. */
 #if defined(_WIN32)
@@ -145,6 +147,10 @@ int main(){
 	g_world.each([](flecs::entity e, flecs::pair<Cmp_Transform, Cmp_Static> p){
 				std::cout << e.name() << ": {" << p->local.pos.x << "}\n";
 			});
+
+	scene::init();
+	g_world.set<axiom::Cmp_Scene>({"../../assets/Scenes/", "Scene5.xml", 0});
+
 
 	while(!glfwWindowShouldClose(twindow)){
 		g_world.progress();
