@@ -6,6 +6,6 @@ namespace axiom
     namespace serialize
     {
         tinyxml2::XMLElement* save_node(flecs::entity* parent, tinyxml2::XMLDocument* doc);
-        void load_entity(tinyxml2::XMLElement* start, flecs::entity* e);
+        void load_entity(tinyxml2::XMLElement* start);
     }
 }

@@ -5,6 +5,7 @@ namespace axiom
 {
     namespace scene
     {
-        void init(std::string name);
+        void init();
+        void load(Cmp_Scene& scene_cmp);
     }
 }
