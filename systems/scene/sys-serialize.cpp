@@ -13,9 +13,8 @@ namespace axiom
             pNode->SetAttribute("Name", parent->name().c_str());
             return nullptr;
         }
-        void load_entity(tinyxml2::XMLElement *node)
+        void load_entity(tinyxml2::XMLElement *node, flecs::entity& e)
         {
-            flecs::entity e = g_world.entity();
             //Get Name
             const char* name;
             node->QueryStringAttribute("Name", &name);
@@ -26,7 +25,7 @@ namespace axiom
             bool has_children;
             node->QueryBoolAttribute("hasChildren", &has_children);
 
-            // Query for flags
+            //Query for flags
             int64_t engine_flags;
             int64_t game_flags;
             node->QueryInt64Attribute("eFlags", &engine_flags);
@@ -35,7 +34,7 @@ namespace axiom
             s->engine_flags = engine_flags;
             s->game_flags = game_flags;
 
-            // Query for static or dynamic
+            //Query for static or dynamic
             bool dynamic;
             node->QueryBoolAttribute("Dynamic", &dynamic);
     		dynamic ?  e.add<Cmp_Dynamic>() : e.add<Cmp_Static>(); 
@@ -67,6 +66,16 @@ namespace axiom
                 transPos = pos;
                 e.add<Cmp_Transform>();
                 e.set<Cmp_Transform>({pos, rot, sca});
+            }
+            
+            //Do the same with the children
+            if(has_children){
+                auto* child_element = node->FirstChildElement("Node");
+                while(child_element != nullptr){
+                    flecs::entity child_entity = g_world.entity().child_of(e);
+                    load_entity(child_element, child_entity);
+                    child_element = child_element->NextSiblingElement("Node");
+                }
             }
         }
     }
