@@ -34,7 +34,8 @@ namespace axiom
             // Load all the nodes from the first to the last
             tinyxml2::XMLElement* current_node = p_root->FirstChildElement("Node");
             while(current_node != nullptr){
-                serialize::load_entity(current_node);
+                flecs::entity e = g_world.entity();
+                serialize::load_entity(current_node, e);
                 current_node = current_node->NextSiblingElement();
             }
         }
