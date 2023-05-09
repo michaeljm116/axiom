@@ -8,6 +8,7 @@ namespace axiom
         using namespace tinyxml2;
         tinyxml2::XMLElement *save_node(flecs::entity *parent, tinyxml2::XMLDocument *doc)
         {
+            
             //Save name
             XMLElement* pNode = doc->NewElement("Node");
             pNode->SetAttribute("Name", parent->name().c_str());
@@ -68,6 +69,9 @@ namespace axiom
                 e.add<Cmp_Transform>();
                 e.set<Cmp_Transform>({pos, rot, sca});
             }
+
+            // If you have children. load dem jenkz
+            
         }
     }
 }
