@@ -142,3 +142,10 @@
 2023-05-04 12:35:16 - [INFO] Loading Scene File: ../../assets/Scenes/Scene5.xml | XMLResult:XML_SUCCESS was a success!
 2023-05-04 12:35:16 - [INFO] Finding Root Node for Scene5.xml was a success!
 2023-05-04 12:35:16 - [INFO] Finding Scene Node for Scene5.xml was a success!
+2023-05-09 08:33:37 - [INFO] Log File Opened
+2023-05-09 08:33:37 - [ERROR] Cannot make current with a window that has no OpenGL or OpenGL ES context
+2023-05-09 08:33:37 - [ERROR] Cannot set swap interval without a current OpenGL or OpenGL ES context
+2023-05-09 08:33:37 - [INFO] Loading Scene File: ../../assets/Scenes/Scene5.xml | XMLResult:XML_SUCCESS was a success!
+2023-05-09 08:33:37 - [INFO] Finding Root Node for Scene5.xml was a success!
+2023-05-09 08:33:37 - [INFO] Finding Scene Node for Scene5.xml was a success!
+2023-05-09 08:33:40 - [INFO] File Closed
