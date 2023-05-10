@@ -1,11 +1,12 @@
 #pragma once
 #include <GLM/glm.hpp>
 
-namespace{
+namespace axiom{
+
     struct Cmp_Bvh{
 
-    }
-    	enum class TreeType {
+    };
+	enum class TreeType {
 		Recursive,
 		HLBVH
 	};
@@ -13,6 +14,21 @@ namespace{
 		Middle, SAH, EqualsCounts
 	};
 
+	glm::vec3 maxV(const glm::vec3& a, const glm::vec3& b){
+		glm::vec3 ret;
+		ret.x = std::max(a.x, b.x);
+		ret.y = std::max(a.y, b.y);
+		ret.z = std::max(a.z, b.z);
+		return ret;
+	};
+
+	glm::vec3 minV(const glm::vec3& a, const glm::vec3& b){
+		glm::vec3 ret;
+		ret.x = std::min(a.x, b.x);
+		ret.y = std::min(a.y, b.y);
+		ret.z = std::min(a.z, b.z);
+		return ret;
+	};
 	struct BVHBounds {
 		glm::vec3 center;
 		glm::vec3 extents;
@@ -29,8 +45,8 @@ namespace{
 		BVHBounds combine(BVHBounds b) {
 			if (center.x == NAN) return b;
 			//find the highest and the lowest x and y values
-			glm::vec3 max = tulip::maxV(this->max(), b.max());
-			glm::vec3 min = tulip::minV(this->min(), b.min());
+			glm::vec3 max = maxV(this->max(), b.max());
+			glm::vec3 min = minV(this->min(), b.min());
 
 			//center = halfway between the two, extents = max-center
 			glm::vec3 c = (max + min) * 0.5f;
@@ -40,8 +56,8 @@ namespace{
 		}
 
 		BVHBounds combine(glm::vec3 c, glm::vec3 e) {
-			glm::vec3 max = tulip::maxV(this->max(), (c + e));
-			glm::vec3 min = tulip::minV(this->min(), (c - e));
+			glm::vec3 max = maxV(this->max(), (c + e));
+			glm::vec3 min = minV(this->min(), (c - e));
 			glm::vec3 ce = (max + min) * 0.5f;
 
 			return BVHBounds(ce, max - ce);
@@ -101,11 +117,6 @@ namespace{
 		int numChildren;
 	};
 
-	struct MortonPrimitive {
-		int primitive_index;
-		uint32_t morton_code;
-	};
-
 	struct LBVHTreelet {
 		size_t start_index, n_primitives;
 		BVHNode* build_nodes;
@@ -119,67 +130,4 @@ namespace{
 		glm::vec3 Centroid() const { return bounds.center; }
 	};
 
-	inline uint32_t LeftShift3(uint32_t x) {
-		assert(x <= (1u << 10));
-		if (x == (1 << 10))
-			--x;
-		x = (x | (x << 16)) & 0b00000011000000000000000011111111;
-		// x = ---- --98 ---- ---- ---- ---- 7654 3210
-		x = (x | (x << 8)) & 0b00000011000000001111000000001111;
-		// x = ---- --98 ---- ---- 7654 ---- ---- 3210
-		x = (x | (x << 4)) & 0b00000011000011000011000011000011;
-		// x = ---- --98 ---- 76-- --54 ---- 32-- --10
-		x = (x | (x << 2)) & 0b00001001001001001001001001001001;
-		// x = ---- 9--8 --7- -6-- 5--4 --3- -2-- 1--0
-		return x;
-	}
-
-	inline uint32_t EncodeMorton3(float x, float y, float z) {
-		assert(x >= 0);
-		assert(y >= 0);
-		assert(z >= 0);
-		return (LeftShift3(z) << 2) | (LeftShift3(y) << 1) | LeftShift3(x);
-	}
-
-	static void RadixSort(std::vector<MortonPrimitive>* v) {
-		std::vector<MortonPrimitive> tempVector(v->size());
-		constexpr int bitsPerPass = 6;
-		constexpr int nBits = 30;
-		static_assert((nBits % bitsPerPass) == 0,
-			"Radix sort bitsPerPass must evenly divide nBits");
-		constexpr int nPasses = nBits / bitsPerPass;
-		for (int pass = 0; pass < nPasses; ++pass) {
-			// Perform one pass of radix sort, sorting _bitsPerPass_ bits
-			int lowBit = pass * bitsPerPass;
-			// Set in and out vector references for radix sort pass
-			std::vector<MortonPrimitive>& in = (pass & 1) ? tempVector : *v;
-			std::vector<MortonPrimitive>& out = (pass & 1) ? *v : tempVector;
-
-			// Count number of zero bits in array for current radix sort bit
-			constexpr int nBuckets = 1 << bitsPerPass;
-			int bucketCount[nBuckets] = { 0 };
-			constexpr int bitMask = (1 << bitsPerPass) - 1;
-			for (const MortonPrimitive& mp : in) {
-				int bucket = (mp.morton_code >> lowBit) & bitMask;
-				assert(bucket >= 0);
-				assert(bucket < nBuckets);
-				++bucketCount[bucket];
-			}
-
-			// Compute starting index in output array for each bucket
-			int outIndex[nBuckets];
-			outIndex[0] = 0;
-			for (int i = 1; i < nBuckets; ++i)
-				outIndex[i] = outIndex[i - 1] + bucketCount[i - 1];
-
-			// Store sorted values in output array
-			for (const MortonPrimitive& mp : in) {
-				int bucket = (mp.morton_code >> lowBit) & bitMask;
-				out[outIndex[bucket]++] = mp;
-			}
-		}
-		// Copy final result from _tempVector_, if needed
-		if (nPasses & 1)
-			std::swap(*v, tempVector);
-	}
 }

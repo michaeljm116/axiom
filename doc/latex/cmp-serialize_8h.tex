@@ -1,0 +1,49 @@
+\hypertarget{cmp-serialize_8h}{}\doxysection{C\+:/\+Users/mmurrell/repos/axiom/components/scene/cmp-\/serialize.h File Reference}
+\label{cmp-serialize_8h}\index{C:/Users/mmurrell/repos/axiom/components/scene/cmp-\/serialize.h@{C:/Users/mmurrell/repos/axiom/components/scene/cmp-\/serialize.h}}
+{\ttfamily \#include \char`\"{}cmp-\/transform.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$flecs.\+h$>$}\newline
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structaxiom_1_1serialize_1_1_cmp___serialize}{axiom\+::serialize\+::\+Cmp\+\_\+\+Serialize}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespaceaxiom}{axiom}}
+\item 
+namespace \mbox{\hyperlink{namespaceaxiom_1_1serialize}{axiom\+::serialize}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{namespaceaxiom_1_1serialize_a4e6765fb11cc19e399ac656b817fdf1f}{axiom\+::serialize\+::\+Component\+Flag}} \{ \newline
+\mbox{\hyperlink{namespaceaxiom_1_1serialize_a4e6765fb11cc19e399ac656b817fdf1fa8e48e120cbddbd2ac5a3dbfe57f96694}{axiom\+::serialize\+::\+COMPONENT\+\_\+\+NODE}} = 0x01
+, \mbox{\hyperlink{namespaceaxiom_1_1serialize_a4e6765fb11cc19e399ac656b817fdf1facdc7112be5e4a15b8b95bbee94dc8519}{axiom\+::serialize\+::\+COMPONENT\+\_\+\+TRANSFORM}} = 0x02
+, \mbox{\hyperlink{namespaceaxiom_1_1serialize_a4e6765fb11cc19e399ac656b817fdf1fa6ae02378105f564576002ea60462daa4}{axiom\+::serialize\+::\+COMPONENT\+\_\+\+MATERIAL}} = 0x04
+, \mbox{\hyperlink{namespaceaxiom_1_1serialize_a4e6765fb11cc19e399ac656b817fdf1fa94c77a7f5453a535335535db3e52ef8b}{axiom\+::serialize\+::\+COMPONENT\+\_\+\+LIGHT}} = 0x08
+, \newline
+\mbox{\hyperlink{namespaceaxiom_1_1serialize_a4e6765fb11cc19e399ac656b817fdf1faf05ab52ecd825a2c9a7b222f9d05d491}{axiom\+::serialize\+::\+COMPONENT\+\_\+\+CAMERA}} = 0x10
+, \mbox{\hyperlink{namespaceaxiom_1_1serialize_a4e6765fb11cc19e399ac656b817fdf1fa1360f1067b2e18d1f58537103276ed63}{axiom\+::serialize\+::\+COMPONENT\+\_\+\+MODEL}} = 0x20
+, \mbox{\hyperlink{namespaceaxiom_1_1serialize_a4e6765fb11cc19e399ac656b817fdf1fa1d6d6a2906854be3cb526478fc3565d9}{axiom\+::serialize\+::\+COMPONENT\+\_\+\+MESH}} = 0x40
+, \mbox{\hyperlink{namespaceaxiom_1_1serialize_a4e6765fb11cc19e399ac656b817fdf1faa2b1aa0607117a06aa4c6bee5ef389d3}{axiom\+::serialize\+::\+COMPONENT\+\_\+\+BOX}} = 0x80
+, \newline
+\mbox{\hyperlink{namespaceaxiom_1_1serialize_a4e6765fb11cc19e399ac656b817fdf1fa624d77f13e1991d4b3b85a8eebe65f35}{axiom\+::serialize\+::\+COMPONENT\+\_\+\+SPHERE}} = 0x0100
+, \mbox{\hyperlink{namespaceaxiom_1_1serialize_a4e6765fb11cc19e399ac656b817fdf1fa7cdb9d361a03a9d967edb5b188d3bef5}{axiom\+::serialize\+::\+COMPONENT\+\_\+\+PLANE}} = 0x0200
+, \mbox{\hyperlink{namespaceaxiom_1_1serialize_a4e6765fb11cc19e399ac656b817fdf1fa4513c490840cb935a51624db3ed313e8}{axiom\+::serialize\+::\+COMPONENT\+\_\+\+AABB}} = 0x0400
+, \mbox{\hyperlink{namespaceaxiom_1_1serialize_a4e6765fb11cc19e399ac656b817fdf1fa47db780a1919713d16a24c337860ac33}{axiom\+::serialize\+::\+COMPONENT\+\_\+\+CYLINDER}} = 0x0800
+, \newline
+\mbox{\hyperlink{namespaceaxiom_1_1serialize_a4e6765fb11cc19e399ac656b817fdf1fab02392ddf5ae9c0551196c0dba7e1c2f}{axiom\+::serialize\+::\+COMPONENT\+\_\+\+SKINNED}} = 0x1000
+, \mbox{\hyperlink{namespaceaxiom_1_1serialize_a4e6765fb11cc19e399ac656b817fdf1fab020013efad57ff17a5a811e1eb4ed79}{axiom\+::serialize\+::\+COMPONENT\+\_\+\+RIGIDBODY}} = 0x2000
+, \mbox{\hyperlink{namespaceaxiom_1_1serialize_a4e6765fb11cc19e399ac656b817fdf1fa7d9b08e7d4ceb0a076c9cb72756bfc21}{axiom\+::serialize\+::\+COMPONENT\+\_\+\+CCONTROLLER}} = 0x4000
+, \mbox{\hyperlink{namespaceaxiom_1_1serialize_a4e6765fb11cc19e399ac656b817fdf1fa41f076678e53d5438522badd89bf2699}{axiom\+::serialize\+::\+COMPONENT\+\_\+\+PRIMITIVE}} = 0x8000
+, \newline
+\mbox{\hyperlink{namespaceaxiom_1_1serialize_a4e6765fb11cc19e399ac656b817fdf1fa611cda29c964948bd9c3948efe49b62d}{axiom\+::serialize\+::\+COMPONENT\+\_\+\+COLIDER}} = 0x10000
+, \mbox{\hyperlink{namespaceaxiom_1_1serialize_a4e6765fb11cc19e399ac656b817fdf1faa1dd2cdb36d1b36af1b602e41de00cc0}{axiom\+::serialize\+::\+COMPONENT\+\_\+\+IMPULSE}} = 0X20000
+, \mbox{\hyperlink{namespaceaxiom_1_1serialize_a4e6765fb11cc19e399ac656b817fdf1fa65804f140057f36e21f2575816ce2141}{axiom\+::serialize\+::\+COMPONENT\+\_\+\+GUI}} = 0X40000
+, \mbox{\hyperlink{namespaceaxiom_1_1serialize_a4e6765fb11cc19e399ac656b817fdf1fa6ddb71d0cd5064b811bdb6b7c3401975}{axiom\+::serialize\+::\+COMPONENT\+\_\+\+BUTTON}} = 0x80000
+, \newline
+\mbox{\hyperlink{namespaceaxiom_1_1serialize_a4e6765fb11cc19e399ac656b817fdf1fa9f1fb784d6742ebc1f254f3925d9bc24}{axiom\+::serialize\+::\+COMPONENT\+\_\+\+JOINT}} = 0x100000
+, \mbox{\hyperlink{namespaceaxiom_1_1serialize_a4e6765fb11cc19e399ac656b817fdf1faa57f7b4c1308e65142cbb3c1f988db19}{axiom\+::serialize\+::\+COMPONENT\+\_\+\+HEADNODE}} = 0x20000
+ \}
+\end{DoxyCompactItemize}

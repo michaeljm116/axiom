@@ -1,0 +1,51 @@
+\hypertarget{cmp-serialize_8h_source}{}\doxysection{cmp-\/serialize.h}
+\label{cmp-serialize_8h_source}\index{C:/Users/mmurrell/repos/axiom/components/scene/cmp-\/serialize.h@{C:/Users/mmurrell/repos/axiom/components/scene/cmp-\/serialize.h}}
+\mbox{\hyperlink{cmp-serialize_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{cmp-transform_8h}{cmp-\/transform.h}}"{}}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <flecs.h>}}
+\DoxyCodeLine{00005\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespaceaxiom}{axiom}}}
+\DoxyCodeLine{00006\ \{}
+\DoxyCodeLine{00007\ \ \ \ \ \textcolor{keyword}{namespace\ }serialize}
+\DoxyCodeLine{00008\ \ \ \ \ \{}
+\DoxyCodeLine{00009\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{enum}\ \mbox{\hyperlink{namespaceaxiom_1_1serialize_a4e6765fb11cc19e399ac656b817fdf1f}{ComponentFlag}}\ \{}
+\DoxyCodeLine{00010\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1serialize_a4e6765fb11cc19e399ac656b817fdf1fa8e48e120cbddbd2ac5a3dbfe57f96694}{COMPONENT\_NODE}}\ =\ 0x01,}
+\DoxyCodeLine{00011\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1serialize_a4e6765fb11cc19e399ac656b817fdf1facdc7112be5e4a15b8b95bbee94dc8519}{COMPONENT\_TRANSFORM}}\ =\ 0x02,}
+\DoxyCodeLine{00012\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1serialize_a4e6765fb11cc19e399ac656b817fdf1fa6ae02378105f564576002ea60462daa4}{COMPONENT\_MATERIAL}}\ =\ 0x04,}
+\DoxyCodeLine{00013\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1serialize_a4e6765fb11cc19e399ac656b817fdf1fa94c77a7f5453a535335535db3e52ef8b}{COMPONENT\_LIGHT}}\ =\ 0x08,}
+\DoxyCodeLine{00014\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1serialize_a4e6765fb11cc19e399ac656b817fdf1faf05ab52ecd825a2c9a7b222f9d05d491}{COMPONENT\_CAMERA}}\ =\ 0x10,}
+\DoxyCodeLine{00015\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1serialize_a4e6765fb11cc19e399ac656b817fdf1fa1360f1067b2e18d1f58537103276ed63}{COMPONENT\_MODEL}}\ =\ 0x20,}
+\DoxyCodeLine{00016\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1serialize_a4e6765fb11cc19e399ac656b817fdf1fa1d6d6a2906854be3cb526478fc3565d9}{COMPONENT\_MESH}}\ =\ 0x40,}
+\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1serialize_a4e6765fb11cc19e399ac656b817fdf1faa2b1aa0607117a06aa4c6bee5ef389d3}{COMPONENT\_BOX}}\ =\ 0x80,}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1serialize_a4e6765fb11cc19e399ac656b817fdf1fa624d77f13e1991d4b3b85a8eebe65f35}{COMPONENT\_SPHERE}}\ =\ 0x0100,}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1serialize_a4e6765fb11cc19e399ac656b817fdf1fa7cdb9d361a03a9d967edb5b188d3bef5}{COMPONENT\_PLANE}}\ =\ 0x0200,}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1serialize_a4e6765fb11cc19e399ac656b817fdf1fa4513c490840cb935a51624db3ed313e8}{COMPONENT\_AABB}}\ =\ 0x0400,}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1serialize_a4e6765fb11cc19e399ac656b817fdf1fa47db780a1919713d16a24c337860ac33}{COMPONENT\_CYLINDER}}\ =\ 0x0800,}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1serialize_a4e6765fb11cc19e399ac656b817fdf1fab02392ddf5ae9c0551196c0dba7e1c2f}{COMPONENT\_SKINNED}}\ =\ 0x1000,}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1serialize_a4e6765fb11cc19e399ac656b817fdf1fab020013efad57ff17a5a811e1eb4ed79}{COMPONENT\_RIGIDBODY}}\ =\ 0x2000,}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1serialize_a4e6765fb11cc19e399ac656b817fdf1fa7d9b08e7d4ceb0a076c9cb72756bfc21}{COMPONENT\_CCONTROLLER}}\ =\ 0x4000,}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1serialize_a4e6765fb11cc19e399ac656b817fdf1fa41f076678e53d5438522badd89bf2699}{COMPONENT\_PRIMITIVE}}\ =\ 0x8000,}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1serialize_a4e6765fb11cc19e399ac656b817fdf1fa611cda29c964948bd9c3948efe49b62d}{COMPONENT\_COLIDER}}\ =\ 0x10000,}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1serialize_a4e6765fb11cc19e399ac656b817fdf1faa1dd2cdb36d1b36af1b602e41de00cc0}{COMPONENT\_IMPULSE}}\ =\ 0X20000,}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1serialize_a4e6765fb11cc19e399ac656b817fdf1fa65804f140057f36e21f2575816ce2141}{COMPONENT\_GUI}}\ =\ 0X40000,}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1serialize_a4e6765fb11cc19e399ac656b817fdf1fa6ddb71d0cd5064b811bdb6b7c3401975}{COMPONENT\_BUTTON}}\ =\ 0x80000,}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1serialize_a4e6765fb11cc19e399ac656b817fdf1fa9f1fb784d6742ebc1f254f3925d9bc24}{COMPONENT\_JOINT}}\ =\ 0x100000,}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1serialize_a4e6765fb11cc19e399ac656b817fdf1faa57f7b4c1308e65142cbb3c1f988db19}{COMPONENT\_HEADNODE}}\ =\ 0x20000}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \};\ }
+\DoxyCodeLine{00033\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00034\ \textcolor{comment}{\ \ \ \ \ \ \ \ int64\_t\ To\_ComponentFlag(flecs::entity\ e)\{}}
+\DoxyCodeLine{00035\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ int64\_t\ flag\ =\ 0;}}
+\DoxyCodeLine{00036\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ if(e.get<Cmp\_Transform>()\ !=\ nullptr)\ flag\ |=\ COMPONENT\_TRANSFORM;}}
+\DoxyCodeLine{00037\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ return\ flag;}}
+\DoxyCodeLine{00038\ \textcolor{comment}{\ \ \ \ \ \ \ \ \};*/}}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structaxiom_1_1serialize_1_1_cmp___serialize}{Cmp\_Serialize}}\{}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \ \ \ \ int64\_t\ \mbox{\hyperlink{structaxiom_1_1serialize_1_1_cmp___serialize_ada8747865a1871af7a4d588b3a1c1b56}{engine\_flags}};}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \ \ \ \ int64\_t\ \mbox{\hyperlink{structaxiom_1_1serialize_1_1_cmp___serialize_ad2a6afaed69bfc749ab1139c241ac43b}{game\_flags}};}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00044\ \ \ \ \ \}}
+\DoxyCodeLine{00045\ \}}
+
+\end{DoxyCode}
