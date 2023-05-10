@@ -1,0 +1,586 @@
+\hypertarget{vulkan-initializers_8hpp_source}{}\doxysection{vulkan-\/initializers.hpp}
+\label{vulkan-initializers_8hpp_source}\index{C:/Users/mmurrell/repos/axiom/components/render/vulkan/vulkan-\/initializers.hpp@{C:/Users/mmurrell/repos/axiom/components/render/vulkan/vulkan-\/initializers.hpp}}
+\mbox{\hyperlink{vulkan-initializers_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{*\ Initializers\ for\ Vulkan\ structures\ and\ objects\ used\ by\ the\ examples}}
+\DoxyCodeLine{00003\ \textcolor{comment}{*\ Saves\ lot\ of\ VK\_STRUCTURE\_TYPE\ assignments}}
+\DoxyCodeLine{00004\ \textcolor{comment}{*\ Some\ initializers\ are\ parameterized\ for\ convenience}}
+\DoxyCodeLine{00005\ \textcolor{comment}{*}}
+\DoxyCodeLine{00006\ \textcolor{comment}{*\ Copyright\ (C)\ 2016\ by\ Sascha\ Willems\ -\/\ www.saschawillems.de}}
+\DoxyCodeLine{00007\ \textcolor{comment}{*}}
+\DoxyCodeLine{00008\ \textcolor{comment}{*\ This\ code\ is\ licensed\ under\ the\ MIT\ license\ (MIT)\ (http://opensource.org/licenses/MIT)}}
+\DoxyCodeLine{00009\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{comment}{//\#include\ "{}../pch.h"{}}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ <volk.h>}}
+\DoxyCodeLine{00016\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespaceaxiom}{axiom}}\ \{}
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keyword}{namespace\ }vks}
+\DoxyCodeLine{00018\ \ \ \ \ \{}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ \textcolor{keyword}{namespace\ }initializers}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ VkMemoryAllocateInfo\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_ab96a4194e45367bc0c93c20f8910743a}{memoryAllocateInfo}}()}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkMemoryAllocateInfo\ memAllocInfo\{\};}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ memAllocInfo.sType\ =\ VK\_STRUCTURE\_TYPE\_MEMORY\_ALLOCATE\_INFO;}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ memAllocInfo;}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ VkMappedMemoryRange\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_ae5fcf266be7b47794c0745885020cd25}{mappedMemoryRange}}()}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkMappedMemoryRange\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_ae5fcf266be7b47794c0745885020cd25}{mappedMemoryRange}}\{\};}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_ae5fcf266be7b47794c0745885020cd25}{mappedMemoryRange}}.sType\ =\ VK\_STRUCTURE\_TYPE\_MAPPED\_MEMORY\_RANGE;}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_ae5fcf266be7b47794c0745885020cd25}{mappedMemoryRange}};}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ VkCommandBufferAllocateInfo\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_ae96b6f17d7bb0a341d0883b59b120ba9}{commandBufferAllocateInfo}}(}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkCommandPool\ commandPool,}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkCommandBufferLevel\ level,}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ uint32\_t\ bufferCount)}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkCommandBufferAllocateInfo\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_ae96b6f17d7bb0a341d0883b59b120ba9}{commandBufferAllocateInfo}}\{\};}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_ae96b6f17d7bb0a341d0883b59b120ba9}{commandBufferAllocateInfo}}.sType\ =\ VK\_STRUCTURE\_TYPE\_COMMAND\_BUFFER\_ALLOCATE\_INFO;}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_ae96b6f17d7bb0a341d0883b59b120ba9}{commandBufferAllocateInfo}}.commandPool\ =\ commandPool;}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_ae96b6f17d7bb0a341d0883b59b120ba9}{commandBufferAllocateInfo}}.level\ =\ level;}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_ae96b6f17d7bb0a341d0883b59b120ba9}{commandBufferAllocateInfo}}.commandBufferCount\ =\ bufferCount;}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_ae96b6f17d7bb0a341d0883b59b120ba9}{commandBufferAllocateInfo}};}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ VkCommandPoolCreateInfo\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a8b9b3fc6439a94b8263169d2943d3697}{commandPoolCreateInfo}}()}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkCommandPoolCreateInfo\ cmdPoolCreateInfo\{\};}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cmdPoolCreateInfo.sType\ =\ VK\_STRUCTURE\_TYPE\_COMMAND\_POOL\_CREATE\_INFO;}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ cmdPoolCreateInfo;}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ VkCommandBufferBeginInfo\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_aba882df5134f8e7537e3156424f44585}{commandBufferBeginInfo}}()}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkCommandBufferBeginInfo\ cmdBufferBeginInfo\{\};}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cmdBufferBeginInfo.sType\ =\ VK\_STRUCTURE\_TYPE\_COMMAND\_BUFFER\_BEGIN\_INFO;}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ cmdBufferBeginInfo;}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ VkCommandBufferInheritanceInfo\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a6d90a7500def2d209152c329816d8003}{commandBufferInheritanceInfo}}()}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkCommandBufferInheritanceInfo\ cmdBufferInheritanceInfo\{\};}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cmdBufferInheritanceInfo.sType\ =\ VK\_STRUCTURE\_TYPE\_COMMAND\_BUFFER\_INHERITANCE\_INFO;}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ cmdBufferInheritanceInfo;}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00069\ }
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ VkRenderPassBeginInfo\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_ae8facabe29dca474969e379d235b29e0}{renderPassBeginInfo}}()}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkRenderPassBeginInfo\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_ae8facabe29dca474969e379d235b29e0}{renderPassBeginInfo}}\{\};}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_ae8facabe29dca474969e379d235b29e0}{renderPassBeginInfo}}.sType\ =\ VK\_STRUCTURE\_TYPE\_RENDER\_PASS\_BEGIN\_INFO;}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_ae8facabe29dca474969e379d235b29e0}{renderPassBeginInfo}};}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ VkRenderPassCreateInfo\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a040eff04b744ce25f7500eb56485237b}{renderPassCreateInfo}}()}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkRenderPassCreateInfo\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a040eff04b744ce25f7500eb56485237b}{renderPassCreateInfo}}\{\};}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a040eff04b744ce25f7500eb56485237b}{renderPassCreateInfo}}.sType\ =\ VK\_STRUCTURE\_TYPE\_RENDER\_PASS\_CREATE\_INFO;}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a040eff04b744ce25f7500eb56485237b}{renderPassCreateInfo}};}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00083\ }
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ VkImageMemoryBarrier\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a6a0e9322fa21b5dc08789ff8986fbdab}{imageMemoryBarrier}}()}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkImageMemoryBarrier\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a6a0e9322fa21b5dc08789ff8986fbdab}{imageMemoryBarrier}}\{\};}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a6a0e9322fa21b5dc08789ff8986fbdab}{imageMemoryBarrier}}.sType\ =\ VK\_STRUCTURE\_TYPE\_IMAGE\_MEMORY\_BARRIER;}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a6a0e9322fa21b5dc08789ff8986fbdab}{imageMemoryBarrier}}.srcQueueFamilyIndex\ =\ VK\_QUEUE\_FAMILY\_IGNORED;}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a6a0e9322fa21b5dc08789ff8986fbdab}{imageMemoryBarrier}}.dstQueueFamilyIndex\ =\ VK\_QUEUE\_FAMILY\_IGNORED;}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a6a0e9322fa21b5dc08789ff8986fbdab}{imageMemoryBarrier}};}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00093\ }
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ VkBufferMemoryBarrier\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a1bd3a0c555b651c068ac5d80dabc7d58}{bufferMemoryBarrier}}()}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkBufferMemoryBarrier\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a1bd3a0c555b651c068ac5d80dabc7d58}{bufferMemoryBarrier}}\{\};}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a1bd3a0c555b651c068ac5d80dabc7d58}{bufferMemoryBarrier}}.sType\ =\ VK\_STRUCTURE\_TYPE\_BUFFER\_MEMORY\_BARRIER;}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a1bd3a0c555b651c068ac5d80dabc7d58}{bufferMemoryBarrier}}.srcQueueFamilyIndex\ =\ VK\_QUEUE\_FAMILY\_IGNORED;}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a1bd3a0c555b651c068ac5d80dabc7d58}{bufferMemoryBarrier}}.dstQueueFamilyIndex\ =\ VK\_QUEUE\_FAMILY\_IGNORED;}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a1bd3a0c555b651c068ac5d80dabc7d58}{bufferMemoryBarrier}};}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00103\ }
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ VkMemoryBarrier\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a7c9151f1a7e21925db37c78c42b31a51}{memoryBarrier}}()}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkMemoryBarrier\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a7c9151f1a7e21925db37c78c42b31a51}{memoryBarrier}}\{\};}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a7c9151f1a7e21925db37c78c42b31a51}{memoryBarrier}}.sType\ =\ VK\_STRUCTURE\_TYPE\_MEMORY\_BARRIER;}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a7c9151f1a7e21925db37c78c42b31a51}{memoryBarrier}};}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00110\ }
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ VkImageCreateInfo\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_ab02912b21ce086a50ba593c22630e351}{imageCreateInfo}}()}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkImageCreateInfo\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_ab02912b21ce086a50ba593c22630e351}{imageCreateInfo}}\{\};}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_ab02912b21ce086a50ba593c22630e351}{imageCreateInfo}}.sType\ =\ VK\_STRUCTURE\_TYPE\_IMAGE\_CREATE\_INFO;}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_ab02912b21ce086a50ba593c22630e351}{imageCreateInfo}};}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00117\ }
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ VkSamplerCreateInfo\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_aaaa882c90b2eea96f26586a76cf775a5}{samplerCreateInfo}}()}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkSamplerCreateInfo\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_aaaa882c90b2eea96f26586a76cf775a5}{samplerCreateInfo}}\{\};}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_aaaa882c90b2eea96f26586a76cf775a5}{samplerCreateInfo}}.sType\ =\ VK\_STRUCTURE\_TYPE\_SAMPLER\_CREATE\_INFO;}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_aaaa882c90b2eea96f26586a76cf775a5}{samplerCreateInfo}}.maxAnisotropy\ =\ 1.0f;}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_aaaa882c90b2eea96f26586a76cf775a5}{samplerCreateInfo}};}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00125\ }
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ VkImageViewCreateInfo\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_aed5a24a9905b0e657b45db347ab74aab}{imageViewCreateInfo}}()}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkImageViewCreateInfo\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_aed5a24a9905b0e657b45db347ab74aab}{imageViewCreateInfo}}\{\};}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_aed5a24a9905b0e657b45db347ab74aab}{imageViewCreateInfo}}.sType\ =\ VK\_STRUCTURE\_TYPE\_IMAGE\_VIEW\_CREATE\_INFO;}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_aed5a24a9905b0e657b45db347ab74aab}{imageViewCreateInfo}};}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00132\ }
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ VkFramebufferCreateInfo\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a17b74211a489dc1b038bf72b8618850a}{framebufferCreateInfo}}()}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkFramebufferCreateInfo\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a17b74211a489dc1b038bf72b8618850a}{framebufferCreateInfo}}\{\};}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a17b74211a489dc1b038bf72b8618850a}{framebufferCreateInfo}}.sType\ =\ VK\_STRUCTURE\_TYPE\_FRAMEBUFFER\_CREATE\_INFO;}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a17b74211a489dc1b038bf72b8618850a}{framebufferCreateInfo}};}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00139\ }
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ VkSemaphoreCreateInfo\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a397d200c1c7977598b17fa689f046936}{semaphoreCreateInfo}}()}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkSemaphoreCreateInfo\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a397d200c1c7977598b17fa689f046936}{semaphoreCreateInfo}}\{\};}
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a397d200c1c7977598b17fa689f046936}{semaphoreCreateInfo}}.sType\ =\ VK\_STRUCTURE\_TYPE\_SEMAPHORE\_CREATE\_INFO;}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a397d200c1c7977598b17fa689f046936}{semaphoreCreateInfo}};}
+\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00146\ }
+\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ VkFenceCreateInfo\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a225ab1b55dce624d636fc1a0965ea8e5}{fenceCreateInfo}}(VkFenceCreateFlags\ flags\ =\ 0)}
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkFenceCreateInfo\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a225ab1b55dce624d636fc1a0965ea8e5}{fenceCreateInfo}}\{\};}
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a225ab1b55dce624d636fc1a0965ea8e5}{fenceCreateInfo}}.sType\ =\ VK\_STRUCTURE\_TYPE\_FENCE\_CREATE\_INFO;}
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a225ab1b55dce624d636fc1a0965ea8e5}{fenceCreateInfo}}.flags\ =\ flags;}
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a225ab1b55dce624d636fc1a0965ea8e5}{fenceCreateInfo}};}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00154\ }
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ VkEventCreateInfo\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a31d9a274cef8b4c6e98e48df49af1c50}{eventCreateInfo}}()}
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkEventCreateInfo\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a31d9a274cef8b4c6e98e48df49af1c50}{eventCreateInfo}}\{\};}
+\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a31d9a274cef8b4c6e98e48df49af1c50}{eventCreateInfo}}.sType\ =\ VK\_STRUCTURE\_TYPE\_EVENT\_CREATE\_INFO;}
+\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a31d9a274cef8b4c6e98e48df49af1c50}{eventCreateInfo}};}
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00161\ }
+\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ VkSubmitInfo\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_af63979b36c7d136dd0eb16d7cf36e82c}{submitInfo}}()}
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkSubmitInfo\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_af63979b36c7d136dd0eb16d7cf36e82c}{submitInfo}}\{\};}
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_af63979b36c7d136dd0eb16d7cf36e82c}{submitInfo}}.sType\ =\ VK\_STRUCTURE\_TYPE\_SUBMIT\_INFO;}
+\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_af63979b36c7d136dd0eb16d7cf36e82c}{submitInfo}};}
+\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00168\ }
+\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ VkViewport\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a175e2970ce79381fea254751d41707e3}{viewport}}(}
+\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ width,}
+\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ height,}
+\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ minDepth,}
+\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ maxDepth)}
+\DoxyCodeLine{00174\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00175\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkViewport\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a175e2970ce79381fea254751d41707e3}{viewport}}\{\};}
+\DoxyCodeLine{00176\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a175e2970ce79381fea254751d41707e3}{viewport}}.width\ =\ width;}
+\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a175e2970ce79381fea254751d41707e3}{viewport}}.height\ =\ height;}
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a175e2970ce79381fea254751d41707e3}{viewport}}.minDepth\ =\ minDepth;}
+\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a175e2970ce79381fea254751d41707e3}{viewport}}.maxDepth\ =\ maxDepth;}
+\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a175e2970ce79381fea254751d41707e3}{viewport}};}
+\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00182\ }
+\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ VkRect2D\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a50b2b6f58050fc50c5a8fe9ed6f407a5}{rect2D}}(}
+\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ int32\_t\ width,}
+\DoxyCodeLine{00185\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ int32\_t\ height,}
+\DoxyCodeLine{00186\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ int32\_t\ offsetX,}
+\DoxyCodeLine{00187\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ int32\_t\ offsetY)}
+\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkRect2D\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a50b2b6f58050fc50c5a8fe9ed6f407a5}{rect2D}}\{\};}
+\DoxyCodeLine{00190\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a50b2b6f58050fc50c5a8fe9ed6f407a5}{rect2D}}.extent.width\ =\ width;}
+\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a50b2b6f58050fc50c5a8fe9ed6f407a5}{rect2D}}.extent.height\ =\ height;}
+\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a50b2b6f58050fc50c5a8fe9ed6f407a5}{rect2D}}.offset.x\ =\ offsetX;}
+\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a50b2b6f58050fc50c5a8fe9ed6f407a5}{rect2D}}.offset.y\ =\ offsetY;}
+\DoxyCodeLine{00194\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a50b2b6f58050fc50c5a8fe9ed6f407a5}{rect2D}};}
+\DoxyCodeLine{00195\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00196\ }
+\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ VkBufferCreateInfo\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a0b379347231604cdd9402e8a2a4a8aaf}{bufferCreateInfo}}()}
+\DoxyCodeLine{00198\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00199\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkBufferCreateInfo\ bufCreateInfo\{\};}
+\DoxyCodeLine{00200\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ bufCreateInfo.sType\ =\ VK\_STRUCTURE\_TYPE\_BUFFER\_CREATE\_INFO;}
+\DoxyCodeLine{00201\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ bufCreateInfo;}
+\DoxyCodeLine{00202\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00203\ }
+\DoxyCodeLine{00204\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ VkBufferCreateInfo\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a0b379347231604cdd9402e8a2a4a8aaf}{bufferCreateInfo}}(}
+\DoxyCodeLine{00205\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkBufferUsageFlags\ usage,}
+\DoxyCodeLine{00206\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkDeviceSize\ size)}
+\DoxyCodeLine{00207\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00208\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkBufferCreateInfo\ bufCreateInfo\{\};}
+\DoxyCodeLine{00209\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ bufCreateInfo.sType\ =\ VK\_STRUCTURE\_TYPE\_BUFFER\_CREATE\_INFO;}
+\DoxyCodeLine{00210\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ bufCreateInfo.usage\ =\ usage;}
+\DoxyCodeLine{00211\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ bufCreateInfo.size\ =\ size;}
+\DoxyCodeLine{00212\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ bufCreateInfo;}
+\DoxyCodeLine{00213\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00214\ }
+\DoxyCodeLine{00215\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ VkDescriptorPoolCreateInfo\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a652e7166aded8e775e525d4059163e71}{descriptorPoolCreateInfo}}(}
+\DoxyCodeLine{00216\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ uint32\_t\ poolSizeCount,}
+\DoxyCodeLine{00217\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkDescriptorPoolSize*\ pPoolSizes,}
+\DoxyCodeLine{00218\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ uint32\_t\ maxSets)}
+\DoxyCodeLine{00219\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00220\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkDescriptorPoolCreateInfo\ descriptorPoolInfo\{\};}
+\DoxyCodeLine{00221\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ descriptorPoolInfo.sType\ =\ VK\_STRUCTURE\_TYPE\_DESCRIPTOR\_POOL\_CREATE\_INFO;}
+\DoxyCodeLine{00222\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ descriptorPoolInfo.poolSizeCount\ =\ poolSizeCount;}
+\DoxyCodeLine{00223\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ descriptorPoolInfo.pPoolSizes\ =\ pPoolSizes;}
+\DoxyCodeLine{00224\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ descriptorPoolInfo.maxSets\ =\ maxSets;}
+\DoxyCodeLine{00225\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ descriptorPoolInfo;}
+\DoxyCodeLine{00226\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00227\ }
+\DoxyCodeLine{00228\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ VkDescriptorPoolCreateInfo\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a652e7166aded8e775e525d4059163e71}{descriptorPoolCreateInfo}}(}
+\DoxyCodeLine{00229\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::vector<VkDescriptorPoolSize>\&\ poolSizes,}
+\DoxyCodeLine{00230\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ uint32\_t\ maxSets)}
+\DoxyCodeLine{00231\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00232\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkDescriptorPoolCreateInfo\ descriptorPoolInfo\{\};}
+\DoxyCodeLine{00233\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ descriptorPoolInfo.sType\ =\ VK\_STRUCTURE\_TYPE\_DESCRIPTOR\_POOL\_CREATE\_INFO;}
+\DoxyCodeLine{00234\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ descriptorPoolInfo.poolSizeCount\ =\ \textcolor{keyword}{static\_cast<}uint32\_t\textcolor{keyword}{>}(poolSizes.size());}
+\DoxyCodeLine{00235\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ descriptorPoolInfo.pPoolSizes\ =\ poolSizes.data();}
+\DoxyCodeLine{00236\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ descriptorPoolInfo.maxSets\ =\ maxSets;}
+\DoxyCodeLine{00237\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ descriptorPoolInfo;}
+\DoxyCodeLine{00238\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00239\ }
+\DoxyCodeLine{00240\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ VkDescriptorPoolSize\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_aa61621009883a946b3e0d4fcb2b542f6}{descriptorPoolSize}}(}
+\DoxyCodeLine{00241\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkDescriptorType\ type,}
+\DoxyCodeLine{00242\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ uint32\_t\ descriptorCount)}
+\DoxyCodeLine{00243\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00244\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkDescriptorPoolSize\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_aa61621009883a946b3e0d4fcb2b542f6}{descriptorPoolSize}}\{\};}
+\DoxyCodeLine{00245\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_aa61621009883a946b3e0d4fcb2b542f6}{descriptorPoolSize}}.type\ =\ type;}
+\DoxyCodeLine{00246\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_aa61621009883a946b3e0d4fcb2b542f6}{descriptorPoolSize}}.descriptorCount\ =\ descriptorCount;}
+\DoxyCodeLine{00247\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_aa61621009883a946b3e0d4fcb2b542f6}{descriptorPoolSize}};}
+\DoxyCodeLine{00248\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00249\ }
+\DoxyCodeLine{00250\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ VkDescriptorSetLayoutBinding\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a61ef9adc12761dfd96265b6c0124e786}{descriptorSetLayoutBinding}}(}
+\DoxyCodeLine{00251\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkDescriptorType\ type,}
+\DoxyCodeLine{00252\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkShaderStageFlags\ stageFlags,}
+\DoxyCodeLine{00253\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ uint32\_t\ binding,}
+\DoxyCodeLine{00254\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ uint32\_t\ descriptorCount\ =\ 1)}
+\DoxyCodeLine{00255\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00256\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkDescriptorSetLayoutBinding\ setLayoutBinding\{\};}
+\DoxyCodeLine{00257\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ setLayoutBinding.descriptorType\ =\ type;}
+\DoxyCodeLine{00258\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ setLayoutBinding.stageFlags\ =\ stageFlags;}
+\DoxyCodeLine{00259\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ setLayoutBinding.binding\ =\ binding;}
+\DoxyCodeLine{00260\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ setLayoutBinding.descriptorCount\ =\ descriptorCount;}
+\DoxyCodeLine{00261\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ setLayoutBinding;}
+\DoxyCodeLine{00262\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00263\ }
+\DoxyCodeLine{00264\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ VkDescriptorSetLayoutCreateInfo\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a12bf832a82b8f7ca6b15cafdeb99d523}{descriptorSetLayoutCreateInfo}}(}
+\DoxyCodeLine{00265\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ VkDescriptorSetLayoutBinding*\ pBindings,}
+\DoxyCodeLine{00266\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ uint32\_t\ bindingCount)}
+\DoxyCodeLine{00267\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00268\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkDescriptorSetLayoutCreateInfo\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a12bf832a82b8f7ca6b15cafdeb99d523}{descriptorSetLayoutCreateInfo}}\{\};}
+\DoxyCodeLine{00269\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a12bf832a82b8f7ca6b15cafdeb99d523}{descriptorSetLayoutCreateInfo}}.sType\ =\ VK\_STRUCTURE\_TYPE\_DESCRIPTOR\_SET\_LAYOUT\_CREATE\_INFO;}
+\DoxyCodeLine{00270\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a12bf832a82b8f7ca6b15cafdeb99d523}{descriptorSetLayoutCreateInfo}}.pBindings\ =\ pBindings;}
+\DoxyCodeLine{00271\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a12bf832a82b8f7ca6b15cafdeb99d523}{descriptorSetLayoutCreateInfo}}.bindingCount\ =\ bindingCount;}
+\DoxyCodeLine{00272\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a12bf832a82b8f7ca6b15cafdeb99d523}{descriptorSetLayoutCreateInfo}};}
+\DoxyCodeLine{00273\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00274\ }
+\DoxyCodeLine{00275\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ VkDescriptorSetLayoutCreateInfo\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a12bf832a82b8f7ca6b15cafdeb99d523}{descriptorSetLayoutCreateInfo}}(}
+\DoxyCodeLine{00276\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::vector<VkDescriptorSetLayoutBinding>\&\ bindings)}
+\DoxyCodeLine{00277\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00278\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkDescriptorSetLayoutCreateInfo\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a12bf832a82b8f7ca6b15cafdeb99d523}{descriptorSetLayoutCreateInfo}}\{\};}
+\DoxyCodeLine{00279\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a12bf832a82b8f7ca6b15cafdeb99d523}{descriptorSetLayoutCreateInfo}}.sType\ =\ VK\_STRUCTURE\_TYPE\_DESCRIPTOR\_SET\_LAYOUT\_CREATE\_INFO;}
+\DoxyCodeLine{00280\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a12bf832a82b8f7ca6b15cafdeb99d523}{descriptorSetLayoutCreateInfo}}.pBindings\ =\ bindings.data();}
+\DoxyCodeLine{00281\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a12bf832a82b8f7ca6b15cafdeb99d523}{descriptorSetLayoutCreateInfo}}.bindingCount\ =\ \textcolor{keyword}{static\_cast<}uint32\_t\textcolor{keyword}{>}(bindings.size());}
+\DoxyCodeLine{00282\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a12bf832a82b8f7ca6b15cafdeb99d523}{descriptorSetLayoutCreateInfo}};}
+\DoxyCodeLine{00283\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00284\ }
+\DoxyCodeLine{00285\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ VkPipelineLayoutCreateInfo\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a53145965f8ca8e3ade1bf13106e2eb15}{pipelineLayoutCreateInfo}}(}
+\DoxyCodeLine{00286\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ VkDescriptorSetLayout*\ pSetLayouts,}
+\DoxyCodeLine{00287\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ uint32\_t\ setLayoutCount\ =\ 1)}
+\DoxyCodeLine{00288\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00289\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkPipelineLayoutCreateInfo\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a53145965f8ca8e3ade1bf13106e2eb15}{pipelineLayoutCreateInfo}}\{\};}
+\DoxyCodeLine{00290\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a53145965f8ca8e3ade1bf13106e2eb15}{pipelineLayoutCreateInfo}}.sType\ =\ VK\_STRUCTURE\_TYPE\_PIPELINE\_LAYOUT\_CREATE\_INFO;}
+\DoxyCodeLine{00291\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a53145965f8ca8e3ade1bf13106e2eb15}{pipelineLayoutCreateInfo}}.setLayoutCount\ =\ setLayoutCount;}
+\DoxyCodeLine{00292\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a53145965f8ca8e3ade1bf13106e2eb15}{pipelineLayoutCreateInfo}}.pSetLayouts\ =\ pSetLayouts;}
+\DoxyCodeLine{00293\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a53145965f8ca8e3ade1bf13106e2eb15}{pipelineLayoutCreateInfo}};}
+\DoxyCodeLine{00294\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00295\ }
+\DoxyCodeLine{00296\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ VkPipelineLayoutCreateInfo\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a53145965f8ca8e3ade1bf13106e2eb15}{pipelineLayoutCreateInfo}}(}
+\DoxyCodeLine{00297\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ uint32\_t\ setLayoutCount\ =\ 1)}
+\DoxyCodeLine{00298\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00299\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkPipelineLayoutCreateInfo\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a53145965f8ca8e3ade1bf13106e2eb15}{pipelineLayoutCreateInfo}}\{\};}
+\DoxyCodeLine{00300\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a53145965f8ca8e3ade1bf13106e2eb15}{pipelineLayoutCreateInfo}}.sType\ =\ VK\_STRUCTURE\_TYPE\_PIPELINE\_LAYOUT\_CREATE\_INFO;}
+\DoxyCodeLine{00301\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a53145965f8ca8e3ade1bf13106e2eb15}{pipelineLayoutCreateInfo}}.setLayoutCount\ =\ setLayoutCount;}
+\DoxyCodeLine{00302\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a53145965f8ca8e3ade1bf13106e2eb15}{pipelineLayoutCreateInfo}};}
+\DoxyCodeLine{00303\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00304\ }
+\DoxyCodeLine{00305\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ VkDescriptorSetAllocateInfo\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a4ffacf014fce8dafbdebf75ecbf66a39}{descriptorSetAllocateInfo}}(}
+\DoxyCodeLine{00306\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkDescriptorPool\ descriptorPool,}
+\DoxyCodeLine{00307\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ VkDescriptorSetLayout*\ pSetLayouts,}
+\DoxyCodeLine{00308\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ uint32\_t\ descriptorSetCount)}
+\DoxyCodeLine{00309\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00310\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkDescriptorSetAllocateInfo\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a4ffacf014fce8dafbdebf75ecbf66a39}{descriptorSetAllocateInfo}}\{\};}
+\DoxyCodeLine{00311\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a4ffacf014fce8dafbdebf75ecbf66a39}{descriptorSetAllocateInfo}}.sType\ =\ VK\_STRUCTURE\_TYPE\_DESCRIPTOR\_SET\_ALLOCATE\_INFO;}
+\DoxyCodeLine{00312\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a4ffacf014fce8dafbdebf75ecbf66a39}{descriptorSetAllocateInfo}}.descriptorPool\ =\ descriptorPool;}
+\DoxyCodeLine{00313\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a4ffacf014fce8dafbdebf75ecbf66a39}{descriptorSetAllocateInfo}}.pSetLayouts\ =\ pSetLayouts;}
+\DoxyCodeLine{00314\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a4ffacf014fce8dafbdebf75ecbf66a39}{descriptorSetAllocateInfo}}.descriptorSetCount\ =\ descriptorSetCount;}
+\DoxyCodeLine{00315\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a4ffacf014fce8dafbdebf75ecbf66a39}{descriptorSetAllocateInfo}};}
+\DoxyCodeLine{00316\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00317\ }
+\DoxyCodeLine{00318\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ VkDescriptorImageInfo\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a261d5b567cf8c8a0f92db616fe7b66c0}{descriptorImageInfo}}(VkSampler\ sampler,\ VkImageView\ imageView,\ VkImageLayout\ imageLayout)}
+\DoxyCodeLine{00319\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00320\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkDescriptorImageInfo\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a261d5b567cf8c8a0f92db616fe7b66c0}{descriptorImageInfo}}\{\};}
+\DoxyCodeLine{00321\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a261d5b567cf8c8a0f92db616fe7b66c0}{descriptorImageInfo}}.sampler\ =\ sampler;}
+\DoxyCodeLine{00322\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a261d5b567cf8c8a0f92db616fe7b66c0}{descriptorImageInfo}}.imageView\ =\ imageView;}
+\DoxyCodeLine{00323\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a261d5b567cf8c8a0f92db616fe7b66c0}{descriptorImageInfo}}.imageLayout\ =\ imageLayout;}
+\DoxyCodeLine{00324\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a261d5b567cf8c8a0f92db616fe7b66c0}{descriptorImageInfo}};}
+\DoxyCodeLine{00325\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00326\ }
+\DoxyCodeLine{00327\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ VkWriteDescriptorSet\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a747276ce6a01218cc95b58e3bed99103}{writeDescriptorSet}}(}
+\DoxyCodeLine{00328\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkDescriptorSet\ dstSet,}
+\DoxyCodeLine{00329\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkDescriptorType\ type,}
+\DoxyCodeLine{00330\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ uint32\_t\ binding,}
+\DoxyCodeLine{00331\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkDescriptorBufferInfo*\ bufferInfo,}
+\DoxyCodeLine{00332\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ uint32\_t\ descriptorCount\ =\ 1)}
+\DoxyCodeLine{00333\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00334\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkWriteDescriptorSet\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a747276ce6a01218cc95b58e3bed99103}{writeDescriptorSet}}\{\};}
+\DoxyCodeLine{00335\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a747276ce6a01218cc95b58e3bed99103}{writeDescriptorSet}}.sType\ =\ VK\_STRUCTURE\_TYPE\_WRITE\_DESCRIPTOR\_SET;}
+\DoxyCodeLine{00336\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a747276ce6a01218cc95b58e3bed99103}{writeDescriptorSet}}.dstSet\ =\ dstSet;}
+\DoxyCodeLine{00337\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a747276ce6a01218cc95b58e3bed99103}{writeDescriptorSet}}.descriptorType\ =\ type;}
+\DoxyCodeLine{00338\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a747276ce6a01218cc95b58e3bed99103}{writeDescriptorSet}}.dstBinding\ =\ binding;}
+\DoxyCodeLine{00339\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a747276ce6a01218cc95b58e3bed99103}{writeDescriptorSet}}.pBufferInfo\ =\ bufferInfo;}
+\DoxyCodeLine{00340\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a747276ce6a01218cc95b58e3bed99103}{writeDescriptorSet}}.descriptorCount\ =\ descriptorCount;}
+\DoxyCodeLine{00341\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a747276ce6a01218cc95b58e3bed99103}{writeDescriptorSet}};}
+\DoxyCodeLine{00342\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00343\ }
+\DoxyCodeLine{00344\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ VkWriteDescriptorSet\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a747276ce6a01218cc95b58e3bed99103}{writeDescriptorSet}}(}
+\DoxyCodeLine{00345\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkDescriptorSet\ dstSet,}
+\DoxyCodeLine{00346\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkDescriptorType\ type,}
+\DoxyCodeLine{00347\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ uint32\_t\ binding,}
+\DoxyCodeLine{00348\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkDescriptorImageInfo\ *imageInfo,}
+\DoxyCodeLine{00349\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ uint32\_t\ descriptorCount\ =\ 1)}
+\DoxyCodeLine{00350\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00351\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkWriteDescriptorSet\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a747276ce6a01218cc95b58e3bed99103}{writeDescriptorSet}}\{\};}
+\DoxyCodeLine{00352\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a747276ce6a01218cc95b58e3bed99103}{writeDescriptorSet}}.sType\ =\ VK\_STRUCTURE\_TYPE\_WRITE\_DESCRIPTOR\_SET;}
+\DoxyCodeLine{00353\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a747276ce6a01218cc95b58e3bed99103}{writeDescriptorSet}}.dstSet\ =\ dstSet;}
+\DoxyCodeLine{00354\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a747276ce6a01218cc95b58e3bed99103}{writeDescriptorSet}}.descriptorType\ =\ type;}
+\DoxyCodeLine{00355\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a747276ce6a01218cc95b58e3bed99103}{writeDescriptorSet}}.dstBinding\ =\ binding;}
+\DoxyCodeLine{00356\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a747276ce6a01218cc95b58e3bed99103}{writeDescriptorSet}}.pImageInfo\ =\ imageInfo;}
+\DoxyCodeLine{00357\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a747276ce6a01218cc95b58e3bed99103}{writeDescriptorSet}}.descriptorCount\ =\ descriptorCount;}
+\DoxyCodeLine{00358\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a747276ce6a01218cc95b58e3bed99103}{writeDescriptorSet}};}
+\DoxyCodeLine{00359\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00360\ }
+\DoxyCodeLine{00361\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ VkVertexInputBindingDescription\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a997e9464a0b78703a576a309acbfb7ed}{vertexInputBindingDescription}}(}
+\DoxyCodeLine{00362\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ uint32\_t\ binding,}
+\DoxyCodeLine{00363\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ uint32\_t\ stride,}
+\DoxyCodeLine{00364\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkVertexInputRate\ inputRate)}
+\DoxyCodeLine{00365\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00366\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkVertexInputBindingDescription\ vInputBindDescription\{\};}
+\DoxyCodeLine{00367\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ vInputBindDescription.binding\ =\ binding;}
+\DoxyCodeLine{00368\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ vInputBindDescription.stride\ =\ stride;}
+\DoxyCodeLine{00369\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ vInputBindDescription.inputRate\ =\ inputRate;}
+\DoxyCodeLine{00370\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ vInputBindDescription;}
+\DoxyCodeLine{00371\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00372\ }
+\DoxyCodeLine{00373\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ VkVertexInputAttributeDescription\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a0d0053def7c6f8a514d3ed9375a17b8b}{vertexInputAttributeDescription}}(}
+\DoxyCodeLine{00374\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ uint32\_t\ binding,}
+\DoxyCodeLine{00375\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ uint32\_t\ location,}
+\DoxyCodeLine{00376\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkFormat\ format,}
+\DoxyCodeLine{00377\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ uint32\_t\ offset)}
+\DoxyCodeLine{00378\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00379\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkVertexInputAttributeDescription\ vInputAttribDescription\{\};}
+\DoxyCodeLine{00380\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ vInputAttribDescription.location\ =\ location;}
+\DoxyCodeLine{00381\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ vInputAttribDescription.binding\ =\ binding;}
+\DoxyCodeLine{00382\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ vInputAttribDescription.format\ =\ format;}
+\DoxyCodeLine{00383\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ vInputAttribDescription.offset\ =\ offset;}
+\DoxyCodeLine{00384\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ vInputAttribDescription;}
+\DoxyCodeLine{00385\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00386\ }
+\DoxyCodeLine{00387\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ VkPipelineVertexInputStateCreateInfo\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a970bb449ad5b344cb5ce9db892d34dcb}{pipelineVertexInputStateCreateInfo}}()}
+\DoxyCodeLine{00388\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00389\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkPipelineVertexInputStateCreateInfo\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a970bb449ad5b344cb5ce9db892d34dcb}{pipelineVertexInputStateCreateInfo}}\{\};}
+\DoxyCodeLine{00390\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a970bb449ad5b344cb5ce9db892d34dcb}{pipelineVertexInputStateCreateInfo}}.sType\ =\ VK\_STRUCTURE\_TYPE\_PIPELINE\_VERTEX\_INPUT\_STATE\_CREATE\_INFO;}
+\DoxyCodeLine{00391\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a970bb449ad5b344cb5ce9db892d34dcb}{pipelineVertexInputStateCreateInfo}};}
+\DoxyCodeLine{00392\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00393\ }
+\DoxyCodeLine{00394\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ VkPipelineInputAssemblyStateCreateInfo\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a5b96f3db306419531d83f39b2519103a}{pipelineInputAssemblyStateCreateInfo}}(}
+\DoxyCodeLine{00395\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkPrimitiveTopology\ topology,}
+\DoxyCodeLine{00396\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkPipelineInputAssemblyStateCreateFlags\ flags,}
+\DoxyCodeLine{00397\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkBool32\ primitiveRestartEnable)}
+\DoxyCodeLine{00398\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00399\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkPipelineInputAssemblyStateCreateInfo\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a5b96f3db306419531d83f39b2519103a}{pipelineInputAssemblyStateCreateInfo}}\{\};}
+\DoxyCodeLine{00400\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a5b96f3db306419531d83f39b2519103a}{pipelineInputAssemblyStateCreateInfo}}.sType\ =\ VK\_STRUCTURE\_TYPE\_PIPELINE\_INPUT\_ASSEMBLY\_STATE\_CREATE\_INFO;}
+\DoxyCodeLine{00401\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a5b96f3db306419531d83f39b2519103a}{pipelineInputAssemblyStateCreateInfo}}.topology\ =\ topology;}
+\DoxyCodeLine{00402\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a5b96f3db306419531d83f39b2519103a}{pipelineInputAssemblyStateCreateInfo}}.flags\ =\ flags;}
+\DoxyCodeLine{00403\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a5b96f3db306419531d83f39b2519103a}{pipelineInputAssemblyStateCreateInfo}}.primitiveRestartEnable\ =\ primitiveRestartEnable;}
+\DoxyCodeLine{00404\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a5b96f3db306419531d83f39b2519103a}{pipelineInputAssemblyStateCreateInfo}};}
+\DoxyCodeLine{00405\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00406\ }
+\DoxyCodeLine{00407\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ VkPipelineRasterizationStateCreateInfo\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a0f18a55d3f6f96f2241a754ea2e3bcd0}{pipelineRasterizationStateCreateInfo}}(}
+\DoxyCodeLine{00408\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkPolygonMode\ polygonMode,}
+\DoxyCodeLine{00409\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkCullModeFlags\ cullMode,}
+\DoxyCodeLine{00410\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkFrontFace\ frontFace,}
+\DoxyCodeLine{00411\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkPipelineRasterizationStateCreateFlags\ flags\ =\ 0)}
+\DoxyCodeLine{00412\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00413\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkPipelineRasterizationStateCreateInfo\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a0f18a55d3f6f96f2241a754ea2e3bcd0}{pipelineRasterizationStateCreateInfo}}\{\};}
+\DoxyCodeLine{00414\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a0f18a55d3f6f96f2241a754ea2e3bcd0}{pipelineRasterizationStateCreateInfo}}.sType\ =\ VK\_STRUCTURE\_TYPE\_PIPELINE\_RASTERIZATION\_STATE\_CREATE\_INFO;}
+\DoxyCodeLine{00415\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a0f18a55d3f6f96f2241a754ea2e3bcd0}{pipelineRasterizationStateCreateInfo}}.polygonMode\ =\ polygonMode;}
+\DoxyCodeLine{00416\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a0f18a55d3f6f96f2241a754ea2e3bcd0}{pipelineRasterizationStateCreateInfo}}.cullMode\ =\ cullMode;}
+\DoxyCodeLine{00417\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a0f18a55d3f6f96f2241a754ea2e3bcd0}{pipelineRasterizationStateCreateInfo}}.frontFace\ =\ frontFace;}
+\DoxyCodeLine{00418\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a0f18a55d3f6f96f2241a754ea2e3bcd0}{pipelineRasterizationStateCreateInfo}}.flags\ =\ flags;}
+\DoxyCodeLine{00419\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a0f18a55d3f6f96f2241a754ea2e3bcd0}{pipelineRasterizationStateCreateInfo}}.depthClampEnable\ =\ VK\_FALSE;}
+\DoxyCodeLine{00420\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a0f18a55d3f6f96f2241a754ea2e3bcd0}{pipelineRasterizationStateCreateInfo}}.lineWidth\ =\ 1.0f;}
+\DoxyCodeLine{00421\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a0f18a55d3f6f96f2241a754ea2e3bcd0}{pipelineRasterizationStateCreateInfo}};}
+\DoxyCodeLine{00422\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00423\ }
+\DoxyCodeLine{00424\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ VkPipelineColorBlendAttachmentState\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a849602f253d2313078cc466480827210}{pipelineColorBlendAttachmentState}}(}
+\DoxyCodeLine{00425\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkColorComponentFlags\ colorWriteMask,}
+\DoxyCodeLine{00426\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkBool32\ blendEnable)}
+\DoxyCodeLine{00427\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00428\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkPipelineColorBlendAttachmentState\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a849602f253d2313078cc466480827210}{pipelineColorBlendAttachmentState}}\{\};}
+\DoxyCodeLine{00429\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a849602f253d2313078cc466480827210}{pipelineColorBlendAttachmentState}}.colorWriteMask\ =\ colorWriteMask;}
+\DoxyCodeLine{00430\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a849602f253d2313078cc466480827210}{pipelineColorBlendAttachmentState}}.blendEnable\ =\ blendEnable;}
+\DoxyCodeLine{00431\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a849602f253d2313078cc466480827210}{pipelineColorBlendAttachmentState}};}
+\DoxyCodeLine{00432\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00433\ }
+\DoxyCodeLine{00434\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ VkPipelineColorBlendStateCreateInfo\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a1d0a250084e354858ae75156e6865f2c}{pipelineColorBlendStateCreateInfo}}(}
+\DoxyCodeLine{00435\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ uint32\_t\ attachmentCount,}
+\DoxyCodeLine{00436\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ VkPipelineColorBlendAttachmentState\ *\ pAttachments)}
+\DoxyCodeLine{00437\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00438\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkPipelineColorBlendStateCreateInfo\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a1d0a250084e354858ae75156e6865f2c}{pipelineColorBlendStateCreateInfo}}\{\};}
+\DoxyCodeLine{00439\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a1d0a250084e354858ae75156e6865f2c}{pipelineColorBlendStateCreateInfo}}.sType\ =\ VK\_STRUCTURE\_TYPE\_PIPELINE\_COLOR\_BLEND\_STATE\_CREATE\_INFO;}
+\DoxyCodeLine{00440\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a1d0a250084e354858ae75156e6865f2c}{pipelineColorBlendStateCreateInfo}}.attachmentCount\ =\ attachmentCount;}
+\DoxyCodeLine{00441\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a1d0a250084e354858ae75156e6865f2c}{pipelineColorBlendStateCreateInfo}}.pAttachments\ =\ pAttachments;}
+\DoxyCodeLine{00442\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a1d0a250084e354858ae75156e6865f2c}{pipelineColorBlendStateCreateInfo}};}
+\DoxyCodeLine{00443\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00444\ }
+\DoxyCodeLine{00445\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ VkPipelineDepthStencilStateCreateInfo\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a7e87a79c3e3136c3091c4670eeda5753}{pipelineDepthStencilStateCreateInfo}}(}
+\DoxyCodeLine{00446\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkBool32\ depthTestEnable,}
+\DoxyCodeLine{00447\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkBool32\ depthWriteEnable,}
+\DoxyCodeLine{00448\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkCompareOp\ depthCompareOp)}
+\DoxyCodeLine{00449\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00450\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkPipelineDepthStencilStateCreateInfo\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a7e87a79c3e3136c3091c4670eeda5753}{pipelineDepthStencilStateCreateInfo}}\{\};}
+\DoxyCodeLine{00451\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a7e87a79c3e3136c3091c4670eeda5753}{pipelineDepthStencilStateCreateInfo}}.sType\ =\ VK\_STRUCTURE\_TYPE\_PIPELINE\_DEPTH\_STENCIL\_STATE\_CREATE\_INFO;}
+\DoxyCodeLine{00452\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a7e87a79c3e3136c3091c4670eeda5753}{pipelineDepthStencilStateCreateInfo}}.depthTestEnable\ =\ depthTestEnable;}
+\DoxyCodeLine{00453\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a7e87a79c3e3136c3091c4670eeda5753}{pipelineDepthStencilStateCreateInfo}}.depthWriteEnable\ =\ depthWriteEnable;}
+\DoxyCodeLine{00454\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a7e87a79c3e3136c3091c4670eeda5753}{pipelineDepthStencilStateCreateInfo}}.depthCompareOp\ =\ depthCompareOp;}
+\DoxyCodeLine{00455\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a7e87a79c3e3136c3091c4670eeda5753}{pipelineDepthStencilStateCreateInfo}}.front\ =\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a7e87a79c3e3136c3091c4670eeda5753}{pipelineDepthStencilStateCreateInfo}}.back;}
+\DoxyCodeLine{00456\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a7e87a79c3e3136c3091c4670eeda5753}{pipelineDepthStencilStateCreateInfo}}.back.compareOp\ =\ VK\_COMPARE\_OP\_ALWAYS;}
+\DoxyCodeLine{00457\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a7e87a79c3e3136c3091c4670eeda5753}{pipelineDepthStencilStateCreateInfo}};}
+\DoxyCodeLine{00458\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00459\ }
+\DoxyCodeLine{00460\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ VkPipelineViewportStateCreateInfo\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a9a1b7b0fdfdf3cdea2a3860731b4cffa}{pipelineViewportStateCreateInfo}}(}
+\DoxyCodeLine{00461\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ uint32\_t\ viewportCount,}
+\DoxyCodeLine{00462\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ uint32\_t\ scissorCount,}
+\DoxyCodeLine{00463\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkPipelineViewportStateCreateFlags\ flags\ =\ 0)}
+\DoxyCodeLine{00464\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00465\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkPipelineViewportStateCreateInfo\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a9a1b7b0fdfdf3cdea2a3860731b4cffa}{pipelineViewportStateCreateInfo}}\{\};}
+\DoxyCodeLine{00466\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a9a1b7b0fdfdf3cdea2a3860731b4cffa}{pipelineViewportStateCreateInfo}}.sType\ =\ VK\_STRUCTURE\_TYPE\_PIPELINE\_VIEWPORT\_STATE\_CREATE\_INFO;}
+\DoxyCodeLine{00467\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a9a1b7b0fdfdf3cdea2a3860731b4cffa}{pipelineViewportStateCreateInfo}}.viewportCount\ =\ viewportCount;}
+\DoxyCodeLine{00468\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a9a1b7b0fdfdf3cdea2a3860731b4cffa}{pipelineViewportStateCreateInfo}}.scissorCount\ =\ scissorCount;}
+\DoxyCodeLine{00469\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a9a1b7b0fdfdf3cdea2a3860731b4cffa}{pipelineViewportStateCreateInfo}}.flags\ =\ flags;}
+\DoxyCodeLine{00470\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a9a1b7b0fdfdf3cdea2a3860731b4cffa}{pipelineViewportStateCreateInfo}};}
+\DoxyCodeLine{00471\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00472\ }
+\DoxyCodeLine{00473\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ VkPipelineMultisampleStateCreateInfo\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a67ec1fb5eff89ce7cebc5cddbf4c38b9}{pipelineMultisampleStateCreateInfo}}(}
+\DoxyCodeLine{00474\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkSampleCountFlagBits\ rasterizationSamples,}
+\DoxyCodeLine{00475\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkPipelineMultisampleStateCreateFlags\ flags\ =\ 0)}
+\DoxyCodeLine{00476\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00477\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkPipelineMultisampleStateCreateInfo\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a67ec1fb5eff89ce7cebc5cddbf4c38b9}{pipelineMultisampleStateCreateInfo}}\{\};}
+\DoxyCodeLine{00478\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a67ec1fb5eff89ce7cebc5cddbf4c38b9}{pipelineMultisampleStateCreateInfo}}.sType\ =\ VK\_STRUCTURE\_TYPE\_PIPELINE\_MULTISAMPLE\_STATE\_CREATE\_INFO;}
+\DoxyCodeLine{00479\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a67ec1fb5eff89ce7cebc5cddbf4c38b9}{pipelineMultisampleStateCreateInfo}}.rasterizationSamples\ =\ rasterizationSamples;}
+\DoxyCodeLine{00480\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a67ec1fb5eff89ce7cebc5cddbf4c38b9}{pipelineMultisampleStateCreateInfo}}.flags\ =\ flags;}
+\DoxyCodeLine{00481\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a67ec1fb5eff89ce7cebc5cddbf4c38b9}{pipelineMultisampleStateCreateInfo}};}
+\DoxyCodeLine{00482\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00483\ }
+\DoxyCodeLine{00484\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ VkPipelineDynamicStateCreateInfo\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a98d043b5a3a6afdba33b707c0f860bf5}{pipelineDynamicStateCreateInfo}}(}
+\DoxyCodeLine{00485\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ VkDynamicState\ *\ pDynamicStates,}
+\DoxyCodeLine{00486\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ uint32\_t\ dynamicStateCount,}
+\DoxyCodeLine{00487\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkPipelineDynamicStateCreateFlags\ flags\ =\ 0)}
+\DoxyCodeLine{00488\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00489\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkPipelineDynamicStateCreateInfo\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a98d043b5a3a6afdba33b707c0f860bf5}{pipelineDynamicStateCreateInfo}}\{\};}
+\DoxyCodeLine{00490\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a98d043b5a3a6afdba33b707c0f860bf5}{pipelineDynamicStateCreateInfo}}.sType\ =\ VK\_STRUCTURE\_TYPE\_PIPELINE\_DYNAMIC\_STATE\_CREATE\_INFO;}
+\DoxyCodeLine{00491\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a98d043b5a3a6afdba33b707c0f860bf5}{pipelineDynamicStateCreateInfo}}.pDynamicStates\ =\ pDynamicStates;}
+\DoxyCodeLine{00492\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a98d043b5a3a6afdba33b707c0f860bf5}{pipelineDynamicStateCreateInfo}}.dynamicStateCount\ =\ dynamicStateCount;}
+\DoxyCodeLine{00493\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a98d043b5a3a6afdba33b707c0f860bf5}{pipelineDynamicStateCreateInfo}}.flags\ =\ flags;}
+\DoxyCodeLine{00494\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a98d043b5a3a6afdba33b707c0f860bf5}{pipelineDynamicStateCreateInfo}};}
+\DoxyCodeLine{00495\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00496\ }
+\DoxyCodeLine{00497\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ VkPipelineDynamicStateCreateInfo\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a98d043b5a3a6afdba33b707c0f860bf5}{pipelineDynamicStateCreateInfo}}(}
+\DoxyCodeLine{00498\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::vector<VkDynamicState>\&\ pDynamicStates,}
+\DoxyCodeLine{00499\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkPipelineDynamicStateCreateFlags\ flags\ =\ 0)}
+\DoxyCodeLine{00500\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00501\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkPipelineDynamicStateCreateInfo\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a98d043b5a3a6afdba33b707c0f860bf5}{pipelineDynamicStateCreateInfo}}\{\};}
+\DoxyCodeLine{00502\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a98d043b5a3a6afdba33b707c0f860bf5}{pipelineDynamicStateCreateInfo}}.sType\ =\ VK\_STRUCTURE\_TYPE\_PIPELINE\_DYNAMIC\_STATE\_CREATE\_INFO;}
+\DoxyCodeLine{00503\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a98d043b5a3a6afdba33b707c0f860bf5}{pipelineDynamicStateCreateInfo}}.pDynamicStates\ =\ pDynamicStates.data();}
+\DoxyCodeLine{00504\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a98d043b5a3a6afdba33b707c0f860bf5}{pipelineDynamicStateCreateInfo}}.dynamicStateCount\ =\ \textcolor{keyword}{static\_cast<}uint32\_t\textcolor{keyword}{>}(pDynamicStates.size());}
+\DoxyCodeLine{00505\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a98d043b5a3a6afdba33b707c0f860bf5}{pipelineDynamicStateCreateInfo}}.flags\ =\ flags;}
+\DoxyCodeLine{00506\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a98d043b5a3a6afdba33b707c0f860bf5}{pipelineDynamicStateCreateInfo}};}
+\DoxyCodeLine{00507\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00508\ }
+\DoxyCodeLine{00509\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ VkPipelineTessellationStateCreateInfo\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_ae3f8d1ecd2b0f3997f8725ed24cde1cc}{pipelineTessellationStateCreateInfo}}(uint32\_t\ patchControlPoints)}
+\DoxyCodeLine{00510\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00511\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkPipelineTessellationStateCreateInfo\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_ae3f8d1ecd2b0f3997f8725ed24cde1cc}{pipelineTessellationStateCreateInfo}}\{\};}
+\DoxyCodeLine{00512\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_ae3f8d1ecd2b0f3997f8725ed24cde1cc}{pipelineTessellationStateCreateInfo}}.sType\ =\ VK\_STRUCTURE\_TYPE\_PIPELINE\_TESSELLATION\_STATE\_CREATE\_INFO;}
+\DoxyCodeLine{00513\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_ae3f8d1ecd2b0f3997f8725ed24cde1cc}{pipelineTessellationStateCreateInfo}}.patchControlPoints\ =\ patchControlPoints;}
+\DoxyCodeLine{00514\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_ae3f8d1ecd2b0f3997f8725ed24cde1cc}{pipelineTessellationStateCreateInfo}};}
+\DoxyCodeLine{00515\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00516\ }
+\DoxyCodeLine{00517\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ VkGraphicsPipelineCreateInfo\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_ab32d6d85c8275e68271fce5c7d136f72}{pipelineCreateInfo}}(}
+\DoxyCodeLine{00518\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkPipelineLayout\ layout,}
+\DoxyCodeLine{00519\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkRenderPass\ renderPass,}
+\DoxyCodeLine{00520\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkPipelineCreateFlags\ flags\ =\ 0)}
+\DoxyCodeLine{00521\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00522\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkGraphicsPipelineCreateInfo\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_ab32d6d85c8275e68271fce5c7d136f72}{pipelineCreateInfo}}\{\};}
+\DoxyCodeLine{00523\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_ab32d6d85c8275e68271fce5c7d136f72}{pipelineCreateInfo}}.sType\ =\ VK\_STRUCTURE\_TYPE\_GRAPHICS\_PIPELINE\_CREATE\_INFO;}
+\DoxyCodeLine{00524\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_ab32d6d85c8275e68271fce5c7d136f72}{pipelineCreateInfo}}.layout\ =\ layout;}
+\DoxyCodeLine{00525\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_ab32d6d85c8275e68271fce5c7d136f72}{pipelineCreateInfo}}.renderPass\ =\ renderPass;}
+\DoxyCodeLine{00526\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_ab32d6d85c8275e68271fce5c7d136f72}{pipelineCreateInfo}}.flags\ =\ flags;}
+\DoxyCodeLine{00527\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_ab32d6d85c8275e68271fce5c7d136f72}{pipelineCreateInfo}}.basePipelineIndex\ =\ -\/1;}
+\DoxyCodeLine{00528\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_ab32d6d85c8275e68271fce5c7d136f72}{pipelineCreateInfo}}.basePipelineHandle\ =\ VK\_NULL\_HANDLE;}
+\DoxyCodeLine{00529\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_ab32d6d85c8275e68271fce5c7d136f72}{pipelineCreateInfo}};}
+\DoxyCodeLine{00530\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00531\ }
+\DoxyCodeLine{00532\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ VkComputePipelineCreateInfo\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a1efdb0804d22e25247d589652de4b42d}{computePipelineCreateInfo}}(}
+\DoxyCodeLine{00533\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkPipelineLayout\ layout,}
+\DoxyCodeLine{00534\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkPipelineCreateFlags\ flags\ =\ 0)}
+\DoxyCodeLine{00535\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00536\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkComputePipelineCreateInfo\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a1efdb0804d22e25247d589652de4b42d}{computePipelineCreateInfo}}\{\};}
+\DoxyCodeLine{00537\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a1efdb0804d22e25247d589652de4b42d}{computePipelineCreateInfo}}.sType\ =\ VK\_STRUCTURE\_TYPE\_COMPUTE\_PIPELINE\_CREATE\_INFO;}
+\DoxyCodeLine{00538\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a1efdb0804d22e25247d589652de4b42d}{computePipelineCreateInfo}}.layout\ =\ layout;}
+\DoxyCodeLine{00539\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a1efdb0804d22e25247d589652de4b42d}{computePipelineCreateInfo}}.flags\ =\ flags;}
+\DoxyCodeLine{00540\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a1efdb0804d22e25247d589652de4b42d}{computePipelineCreateInfo}};}
+\DoxyCodeLine{00541\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00542\ }
+\DoxyCodeLine{00543\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ VkPushConstantRange\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_ad5689cb99a7a7ba0ecefe4934e1a0472}{pushConstantRange}}(}
+\DoxyCodeLine{00544\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkShaderStageFlags\ stageFlags,}
+\DoxyCodeLine{00545\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ uint32\_t\ size,}
+\DoxyCodeLine{00546\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ uint32\_t\ offset)}
+\DoxyCodeLine{00547\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00548\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkPushConstantRange\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_ad5689cb99a7a7ba0ecefe4934e1a0472}{pushConstantRange}}\{\};}
+\DoxyCodeLine{00549\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_ad5689cb99a7a7ba0ecefe4934e1a0472}{pushConstantRange}}.stageFlags\ =\ stageFlags;}
+\DoxyCodeLine{00550\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_ad5689cb99a7a7ba0ecefe4934e1a0472}{pushConstantRange}}.offset\ =\ offset;}
+\DoxyCodeLine{00551\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_ad5689cb99a7a7ba0ecefe4934e1a0472}{pushConstantRange}}.size\ =\ size;}
+\DoxyCodeLine{00552\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_ad5689cb99a7a7ba0ecefe4934e1a0472}{pushConstantRange}};}
+\DoxyCodeLine{00553\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00554\ }
+\DoxyCodeLine{00555\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ VkBindSparseInfo\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_ad8cbf5b522a5b2177591219f092c5bce}{bindSparseInfo}}()}
+\DoxyCodeLine{00556\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00557\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkBindSparseInfo\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_ad8cbf5b522a5b2177591219f092c5bce}{bindSparseInfo}}\{\};}
+\DoxyCodeLine{00558\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_ad8cbf5b522a5b2177591219f092c5bce}{bindSparseInfo}}.sType\ =\ VK\_STRUCTURE\_TYPE\_BIND\_SPARSE\_INFO;}
+\DoxyCodeLine{00559\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_ad8cbf5b522a5b2177591219f092c5bce}{bindSparseInfo}};}
+\DoxyCodeLine{00560\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00561\ }
+\DoxyCodeLine{00563\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ VkSpecializationMapEntry\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_af910cfd8f3d86674c0b1c8333fb750aa}{specializationMapEntry}}(uint32\_t\ constantID,\ uint32\_t\ offset,\ \textcolor{keywordtype}{size\_t}\ size)}
+\DoxyCodeLine{00564\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00565\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkSpecializationMapEntry\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_af910cfd8f3d86674c0b1c8333fb750aa}{specializationMapEntry}}\{\};}
+\DoxyCodeLine{00566\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_af910cfd8f3d86674c0b1c8333fb750aa}{specializationMapEntry}}.constantID\ =\ constantID;}
+\DoxyCodeLine{00567\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_af910cfd8f3d86674c0b1c8333fb750aa}{specializationMapEntry}}.offset\ =\ offset;}
+\DoxyCodeLine{00568\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_af910cfd8f3d86674c0b1c8333fb750aa}{specializationMapEntry}}.size\ =\ size;}
+\DoxyCodeLine{00569\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_af910cfd8f3d86674c0b1c8333fb750aa}{specializationMapEntry}};}
+\DoxyCodeLine{00570\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00571\ }
+\DoxyCodeLine{00573\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ VkSpecializationInfo\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a31fe6e7e266435480572c5c196af604b}{specializationInfo}}(uint32\_t\ mapEntryCount,\ \textcolor{keyword}{const}\ VkSpecializationMapEntry*\ mapEntries,\ \textcolor{keywordtype}{size\_t}\ dataSize,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}*\ data)}
+\DoxyCodeLine{00574\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00575\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VkSpecializationInfo\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a31fe6e7e266435480572c5c196af604b}{specializationInfo}}\{\};}
+\DoxyCodeLine{00576\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a31fe6e7e266435480572c5c196af604b}{specializationInfo}}.mapEntryCount\ =\ mapEntryCount;}
+\DoxyCodeLine{00577\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a31fe6e7e266435480572c5c196af604b}{specializationInfo}}.pMapEntries\ =\ mapEntries;}
+\DoxyCodeLine{00578\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a31fe6e7e266435480572c5c196af604b}{specializationInfo}}.dataSize\ =\ dataSize;}
+\DoxyCodeLine{00579\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a31fe6e7e266435480572c5c196af604b}{specializationInfo}}.pData\ =\ data;}
+\DoxyCodeLine{00580\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespaceaxiom_1_1vks_1_1initializers_a31fe6e7e266435480572c5c196af604b}{specializationInfo}};}
+\DoxyCodeLine{00581\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00582\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00583\ \ \ \ \ \}}
+\DoxyCodeLine{00584\ \}}
+
+\end{DoxyCode}

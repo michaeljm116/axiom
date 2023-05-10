@@ -1,0 +1,69 @@
+\hypertarget{cmp-transform_8h_source}{}\doxysection{cmp-\/transform.h}
+\label{cmp-transform_8h_source}\index{C:/Users/mmurrell/repos/axiom/components/scene/cmp-\/transform.h@{C:/Users/mmurrell/repos/axiom/components/scene/cmp-\/transform.h}}
+\mbox{\hyperlink{cmp-transform_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#ifndef\ GLM\_FORCE\_RADIANS}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#define\ GLM\_FORCE\_RADIANS}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#define\ GLM\_FORCE\_DEPTH\_ZERO\_TO\_ONE}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#ifndef\ GLM\_FORCE\_SSE2\ }}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#define\ GLM\_FORCE\_SSE2\ }}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <flecs.h>}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ <glm/glm.hpp>}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ <glm/gtx/transform.hpp>}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ <glm/gtx/quaternion.hpp>}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ <glm/gtc/matrix\_transform.hpp>}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ <glm/simd/common.h>}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ <queue>}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{cmp-resource_8h}{cmp-\/resource.h}}"{}}}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespaceaxiom}{axiom}}\{}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structaxiom_1_1sqt}{sqt}}\{}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ glm::quat\ \mbox{\hyperlink{structaxiom_1_1sqt_a2a316bba29d9759e48a1836cabb506f3}{rot}}\ =\ glm::quat();}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ glm::vec4\ \mbox{\hyperlink{structaxiom_1_1sqt_aa038869eaa577a26c592a76afd171816}{pos}}\ =\ glm::vec4(0);}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ glm::vec4\ \mbox{\hyperlink{structaxiom_1_1sqt_a2469e4adc533c178b7f9f18f4b9fa01a}{sca}}\ =\ glm::vec4(1);}
+\DoxyCodeLine{00026\ \ \ \ \ \};\ \textcolor{comment}{//48\ bytes}}
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{namespaceaxiom_ad1692425584a988456436bec7121b427}{operator==}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structaxiom_1_1sqt}{sqt}}\&\ a,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{structaxiom_1_1sqt}{sqt}}\&\ b)\ \{}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ uint\_fast8\_t\ p\ =\ (a.\mbox{\hyperlink{structaxiom_1_1sqt_aa038869eaa577a26c592a76afd171816}{pos}}\ ==\ b.\mbox{\hyperlink{structaxiom_1_1sqt_aa038869eaa577a26c592a76afd171816}{pos}});}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ uint\_fast8\_t\ r\ =\ (a.\mbox{\hyperlink{structaxiom_1_1sqt_a2a316bba29d9759e48a1836cabb506f3}{rot}}\ ==\ b.\mbox{\hyperlink{structaxiom_1_1sqt_a2a316bba29d9759e48a1836cabb506f3}{rot}})\ <<\ 1;}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ uint\_fast8\_t\ s\ =\ (a.\mbox{\hyperlink{structaxiom_1_1sqt_a2469e4adc533c178b7f9f18f4b9fa01a}{sca}}\ ==\ b.\mbox{\hyperlink{structaxiom_1_1sqt_a2469e4adc533c178b7f9f18f4b9fa01a}{sca}})\ <<\ 2;}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ uint\_fast8\_t\ ret\ =\ p\ |\ r\ |\ s;}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (ret\ ==\ 7);}
+\DoxyCodeLine{00033\ \ \ \ \ \};}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structaxiom_1_1_cmp___transform}{Cmp\_Transform}}\{}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ glm::mat4\ \mbox{\hyperlink{structaxiom_1_1_cmp___transform_a649506d2fac92e20f9724a62e210251c}{world}};}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ glm::mat4\ \mbox{\hyperlink{structaxiom_1_1_cmp___transform_acc9e7eafd74189622028fdfc12652be6}{trm}};}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structaxiom_1_1sqt}{sqt}}\ \mbox{\hyperlink{structaxiom_1_1_cmp___transform_a150c6574be81abd96547cfd9588c2ed8}{local}};}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structaxiom_1_1sqt}{sqt}}\ \mbox{\hyperlink{structaxiom_1_1_cmp___transform_a797c01425eed3e1b0e9d672bc1477a08}{global}};}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ glm::vec3\ \mbox{\hyperlink{structaxiom_1_1_cmp___transform_a9cf56e6c2312b771539205494c53a65c}{euler\_rot}};}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structaxiom_1_1_cmp___transform_a7186b01078c5d1e6e9930bb152019b8c}{Cmp\_Transform}}()\{\}}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structaxiom_1_1_cmp___transform_a6090b1c18ca1f16896eebec78a7572b6}{Cmp\_Transform}}(glm::vec3\ center,\ glm::vec3\ extents)\{}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structaxiom_1_1_cmp___transform_a8e2b9972ac2a1f0cdbd3834b2c104157}{Cmp\_Transform}}(glm::vec3\ pos,\ glm::vec3\ rot,\ glm::vec3\ sca)\ :\ \mbox{\hyperlink{structaxiom_1_1_cmp___transform_a9cf56e6c2312b771539205494c53a65c}{euler\_rot}}(rot)\{}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \ \ \ \ glm::mat4\ rot\_m;}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \ \ \ \ rot\_m\ =\ glm::rotate(rot\_m,\ glm::radians(rot.x),\ glm::vec3(1.0f,\ 0.f,\ 0.f));}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \ \ \ \ rot\_m\ =\ glm::rotate(rot\_m,\ glm::radians(rot.y),\ glm::vec3(0.0f,\ 1.f,\ 0.f));}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \ \ \ \ rot\_m\ =\ glm::rotate(rot\_m,\ glm::radians(rot.z),\ glm::vec3(0.0f,\ 0.f,\ 1.f));}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structaxiom_1_1_cmp___transform_a150c6574be81abd96547cfd9588c2ed8}{local}}.\mbox{\hyperlink{structaxiom_1_1sqt_a2a316bba29d9759e48a1836cabb506f3}{rot}}\ =\ glm::toQuat(rot\_m);}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structaxiom_1_1_cmp___transform_a150c6574be81abd96547cfd9588c2ed8}{local}}.\mbox{\hyperlink{structaxiom_1_1sqt_aa038869eaa577a26c592a76afd171816}{pos}}\ =\ glm::vec4(pos,\ 0.f);}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structaxiom_1_1_cmp___transform_a150c6574be81abd96547cfd9588c2ed8}{local}}.\mbox{\hyperlink{structaxiom_1_1sqt_a2469e4adc533c178b7f9f18f4b9fa01a}{sca}}\ =\ glm::vec4(sca,\ 0.f);}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structaxiom_1_1_cmp___transform_acc9e7eafd74189622028fdfc12652be6}{trm}}\ =\ rot\_m;}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structaxiom_1_1_cmp___transform_acc9e7eafd74189622028fdfc12652be6}{trm}}[3]\ =\ glm::vec4(pos,\ 1.f);}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structaxiom_1_1_cmp___transform_a649506d2fac92e20f9724a62e210251c}{world}}\ =\ glm::scale(\mbox{\hyperlink{structaxiom_1_1_cmp___transform_acc9e7eafd74189622028fdfc12652be6}{trm}},\ sca);}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00059\ \ \ \ \ \};}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00061\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structaxiom_1_1_cmp___dynamic}{Cmp\_Dynamic}}\{\};}
+\DoxyCodeLine{00062\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structaxiom_1_1_cmp___static}{Cmp\_Static}}\{\};}
+\DoxyCodeLine{00063\ \}}
+
+\end{DoxyCode}

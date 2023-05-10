@@ -2,6 +2,7 @@
 #include <flecs-world.h>
 #include <optick.h>
 #include <taskflow/taskflow.hpp>
+#include <sstream>
 
 #include "sys-transform.h"
 #include "sys-log.h"
@@ -149,8 +150,14 @@ int main(){
 			});
 
 	scene::init();
-	g_world.set<axiom::Cmp_Scene>({"../../assets/Scenes/", "Scene5.xml", 0});
+	g_world.set<axiom::Cmp_Scene>({"../../assets/Scenes/", "TestEntrance.xml", 0});
 
+	
+	g_world.each([](flecs::entity e, Cmp_Transform p){
+				std::stringstream ssl;
+				ssl << e.name() << ": {" << p.local.pos.x << ", " << p.local.pos.y << ", " << p.local.pos.z << "}";
+				axiom::log::Set(axiom::LogLevel::DEBUG, ssl.str());
+			});
 	
 	while(!glfwWindowShouldClose(twindow)){
 		g_world.progress();

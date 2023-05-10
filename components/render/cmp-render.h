@@ -1,3 +1,13 @@
+/**
+ * @file cmp-render.h
+ * @author Mike Murrell (mikestoleyobike@aim.com)
+ * @brief Components for rendering
+ * @version 0.1
+ * @date 2023-05-10
+ * 
+ * @copyright Copyright (c) 2023
+ * 
+ */
 #pragma once
 #include <GLM/glm.hpp>
 #include <vector>

@@ -1,0 +1,54 @@
+\hypertarget{cmp-input_8h}{}\doxysection{C\+:/\+Users/mmurrell/repos/axiom/components/core/cmp-\/input.h File Reference}
+\label{cmp-input_8h}\index{C:/Users/mmurrell/repos/axiom/components/core/cmp-\/input.h@{C:/Users/mmurrell/repos/axiom/components/core/cmp-\/input.h}}
+{\ttfamily \#include $<$array$>$}\newline
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structaxiom_1_1_cmp___mouse}{axiom\+::\+Cmp\+\_\+\+Mouse}}
+\item 
+struct \mbox{\hyperlink{structaxiom_1_1_cmp___keyboard}{axiom\+::\+Cmp\+\_\+\+Keyboard}}
+\item 
+struct \mbox{\hyperlink{structaxiom_1_1_cmp___controller}{axiom\+::\+Cmp\+\_\+\+Controller}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespaceaxiom}{axiom}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{cmp-input_8h_a9e2e1395b99793e738c6580cd90beaa5}{MOUSE\+\_\+\+BUTTON\+\_\+\+DOWN}}~2
+\item 
+\#define \mbox{\hyperlink{cmp-input_8h_a688195e40acbe02a4f9f6e243fce8a65}{MOUSE\+\_\+\+BUTTON\+\_\+\+CHANGED}}~1
+\end{DoxyCompactItemize}
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{namespaceaxiom_a248ccb5232692ec99d694565137dece2}{axiom\+::\+Input\+States}} \{ \mbox{\hyperlink{namespaceaxiom_a248ccb5232692ec99d694565137dece2a698f04e070c58f01a5c9519d32e2f54b}{axiom\+::\+NONE}} = 0x00
+, \mbox{\hyperlink{namespaceaxiom_a248ccb5232692ec99d694565137dece2af54870c667a6d3d4a15cdf1779f2ba45}{axiom\+::\+RELEASED}} = 0b01
+, \mbox{\hyperlink{namespaceaxiom_a248ccb5232692ec99d694565137dece2af0bce986c1ccf5f0e0af2888e4b38b00}{axiom\+::\+HELD}} = 0b10
+, \mbox{\hyperlink{namespaceaxiom_a248ccb5232692ec99d694565137dece2ac6040b13eb88e35a0f3039571df87675}{axiom\+::\+PRESSED}} = 0b11
+ \}
+\item 
+enum class \mbox{\hyperlink{namespaceaxiom_a8981a466c490292c8df620bf62eacf0a}{axiom\+::\+Input\+\_\+\+States}} \{ \mbox{\hyperlink{namespaceaxiom_a8981a466c490292c8df620bf62eacf0aa6adf97f83acf6453d4a6a4b1070f3754}{axiom\+::\+None}} = 0
+, \mbox{\hyperlink{namespaceaxiom_a8981a466c490292c8df620bf62eacf0aaea1e34304a5d8ffa7c9b0ed8ede4ef1a}{axiom\+::\+Released}} = 1
+, \mbox{\hyperlink{namespaceaxiom_a8981a466c490292c8df620bf62eacf0aaeffe06cc3bbfdd18fa0d95a403cd2d3f}{axiom\+::\+Held}} = 2
+, \mbox{\hyperlink{namespaceaxiom_a8981a466c490292c8df620bf62eacf0aad78a68f6a85421ae121c2cb5b73a1040}{axiom\+::\+Pressed}} = 3
+ \}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{cmp-input_8h_a688195e40acbe02a4f9f6e243fce8a65}\label{cmp-input_8h_a688195e40acbe02a4f9f6e243fce8a65}} 
+\index{cmp-\/input.h@{cmp-\/input.h}!MOUSE\_BUTTON\_CHANGED@{MOUSE\_BUTTON\_CHANGED}}
+\index{MOUSE\_BUTTON\_CHANGED@{MOUSE\_BUTTON\_CHANGED}!cmp-\/input.h@{cmp-\/input.h}}
+\doxysubsubsection{\texorpdfstring{MOUSE\_BUTTON\_CHANGED}{MOUSE\_BUTTON\_CHANGED}}
+{\footnotesize\ttfamily \#define MOUSE\+\_\+\+BUTTON\+\_\+\+CHANGED~1}
+
+\mbox{\Hypertarget{cmp-input_8h_a9e2e1395b99793e738c6580cd90beaa5}\label{cmp-input_8h_a9e2e1395b99793e738c6580cd90beaa5}} 
+\index{cmp-\/input.h@{cmp-\/input.h}!MOUSE\_BUTTON\_DOWN@{MOUSE\_BUTTON\_DOWN}}
+\index{MOUSE\_BUTTON\_DOWN@{MOUSE\_BUTTON\_DOWN}!cmp-\/input.h@{cmp-\/input.h}}
+\doxysubsubsection{\texorpdfstring{MOUSE\_BUTTON\_DOWN}{MOUSE\_BUTTON\_DOWN}}
+{\footnotesize\ttfamily \#define MOUSE\+\_\+\+BUTTON\+\_\+\+DOWN~2}
+

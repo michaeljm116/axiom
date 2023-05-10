@@ -104,10 +104,10 @@ Axiom Engine
 
 Scene	
 	• Prefab
-	• Serialize
+x	• Serialize
 x	• RecourseManager
 x	• Transform
-	• Scene
+x	• Scene
 	
 Core	
 x	• Input

@@ -1,0 +1,255 @@
+\hypertarget{structaxiom_1_1vks_1_1_buffer}{}\doxysection{axiom\+::vks\+::Buffer Struct Reference}
+\label{structaxiom_1_1vks_1_1_buffer}\index{axiom::vks::Buffer@{axiom::vks::Buffer}}
+
+
+Encapsulates access to a Vulkan buffer backed up by device memory.  
+
+
+
+
+{\ttfamily \#include $<$vulkan-\/buffer.\+hpp$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+Vk\+Result \mbox{\hyperlink{structaxiom_1_1vks_1_1_buffer_a1e971b28b7b86578539744cfee382a5d}{map}} (Vk\+Device\+Size \mbox{\hyperlink{structaxiom_1_1vks_1_1_buffer_a444c72d8d1d53a0a6aaa4febbfb8037d}{size}}=VK\+\_\+\+WHOLE\+\_\+\+SIZE, Vk\+Device\+Size offset=0)
+\item 
+void \mbox{\hyperlink{structaxiom_1_1vks_1_1_buffer_ace0534704bee0703ae2edae2c498a8f8}{unmap}} ()
+\item 
+Vk\+Result \mbox{\hyperlink{structaxiom_1_1vks_1_1_buffer_a8038697aa11e306d87ed72d2521d0620}{bind}} (Vk\+Device\+Size offset=0)
+\item 
+void \mbox{\hyperlink{structaxiom_1_1vks_1_1_buffer_a9d01347c5dbbb274bb77c1d2837630a4}{setup\+Descriptor}} (Vk\+Device\+Size \mbox{\hyperlink{structaxiom_1_1vks_1_1_buffer_a444c72d8d1d53a0a6aaa4febbfb8037d}{size}}=VK\+\_\+\+WHOLE\+\_\+\+SIZE, Vk\+Device\+Size offset=0)
+\item 
+void \mbox{\hyperlink{structaxiom_1_1vks_1_1_buffer_a1af225ce70b91c5bf51607b918f71136}{copy\+To}} (void $\ast$data, Vk\+Device\+Size \mbox{\hyperlink{structaxiom_1_1vks_1_1_buffer_a444c72d8d1d53a0a6aaa4febbfb8037d}{size}})
+\item 
+Vk\+Result \mbox{\hyperlink{structaxiom_1_1vks_1_1_buffer_a9f8962742039ac6fcfbefc04ede970f0}{flush}} (Vk\+Device\+Size \mbox{\hyperlink{structaxiom_1_1vks_1_1_buffer_a444c72d8d1d53a0a6aaa4febbfb8037d}{size}}=VK\+\_\+\+WHOLE\+\_\+\+SIZE, Vk\+Device\+Size offset=0)
+\item 
+Vk\+Result \mbox{\hyperlink{structaxiom_1_1vks_1_1_buffer_ae904a8a78b148d07cd493f16541332e3}{invalidate}} (Vk\+Device\+Size \mbox{\hyperlink{structaxiom_1_1vks_1_1_buffer_a444c72d8d1d53a0a6aaa4febbfb8037d}{size}}=VK\+\_\+\+WHOLE\+\_\+\+SIZE, Vk\+Device\+Size offset=0)
+\item 
+void \mbox{\hyperlink{structaxiom_1_1vks_1_1_buffer_a6450348cf0701c4a4c15283eac849e60}{destroy}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+Vk\+Device \mbox{\hyperlink{structaxiom_1_1vks_1_1_buffer_a25943541a33d113030ec55a8c386e6fe}{device}}
+\item 
+Vk\+Buffer \mbox{\hyperlink{structaxiom_1_1vks_1_1_buffer_aa4508d403672b524b03a5d32b4c37ecc}{buffer}} = VK\+\_\+\+NULL\+\_\+\+HANDLE
+\item 
+Vk\+Device\+Memory \mbox{\hyperlink{structaxiom_1_1vks_1_1_buffer_a486c473201ec188067c6e50a5f1515c2}{memory}} = VK\+\_\+\+NULL\+\_\+\+HANDLE
+\item 
+Vk\+Descriptor\+Buffer\+Info \mbox{\hyperlink{structaxiom_1_1vks_1_1_buffer_a59b9e9c11cdf76999a42ec82778f3c8a}{descriptor}}
+\item 
+Vk\+Device\+Size \mbox{\hyperlink{structaxiom_1_1vks_1_1_buffer_a444c72d8d1d53a0a6aaa4febbfb8037d}{size}} = 0
+\item 
+Vk\+Device\+Size \mbox{\hyperlink{structaxiom_1_1vks_1_1_buffer_abedc7f8f731f397b68a26c68a580be78}{alignment}} = 0
+\item 
+void $\ast$ \mbox{\hyperlink{structaxiom_1_1vks_1_1_buffer_a6724f562d2c82b9c273d2ee36e7d551e}{mapped}} = nullptr
+\item 
+Vk\+Buffer\+Usage\+Flags \mbox{\hyperlink{structaxiom_1_1vks_1_1_buffer_ad04327cb8d014075f0910aa6b9c4726a}{usage\+Flags}}
+\begin{DoxyCompactList}\small\item\em Usage flags to be filled by external source at buffer creation (to query at some later point) \end{DoxyCompactList}\item 
+Vk\+Memory\+Property\+Flags \mbox{\hyperlink{structaxiom_1_1vks_1_1_buffer_a031f7a0563310073533282f1a89f94de}{memory\+Property\+Flags}}
+\begin{DoxyCompactList}\small\item\em Memory propertys flags to be filled by external source at buffer creation (to query at some later point) \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Encapsulates access to a Vulkan buffer backed up by device memory. 
+
+\begin{DoxyNote}{Note}
+To be filled by an external source like the \mbox{\hyperlink{structaxiom_1_1_vulkan_device}{Vulkan\+Device}} 
+\end{DoxyNote}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{structaxiom_1_1vks_1_1_buffer_a8038697aa11e306d87ed72d2521d0620}\label{structaxiom_1_1vks_1_1_buffer_a8038697aa11e306d87ed72d2521d0620}} 
+\index{axiom::vks::Buffer@{axiom::vks::Buffer}!bind@{bind}}
+\index{bind@{bind}!axiom::vks::Buffer@{axiom::vks::Buffer}}
+\doxysubsubsection{\texorpdfstring{bind()}{bind()}}
+{\footnotesize\ttfamily Vk\+Result axiom\+::vks\+::\+Buffer\+::bind (\begin{DoxyParamCaption}\item[{Vk\+Device\+Size}]{offset = {\ttfamily 0} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Attach the allocated memory block to the buffer
+
+
+\begin{DoxyParams}{Parameters}
+{\em offset} & (Optional) Byte offset (from the beginning) for the memory region to bind\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Vk\+Result of the bind\+Buffer\+Memory call 
+\end{DoxyReturn}
+\mbox{\Hypertarget{structaxiom_1_1vks_1_1_buffer_a1af225ce70b91c5bf51607b918f71136}\label{structaxiom_1_1vks_1_1_buffer_a1af225ce70b91c5bf51607b918f71136}} 
+\index{axiom::vks::Buffer@{axiom::vks::Buffer}!copyTo@{copyTo}}
+\index{copyTo@{copyTo}!axiom::vks::Buffer@{axiom::vks::Buffer}}
+\doxysubsubsection{\texorpdfstring{copyTo()}{copyTo()}}
+{\footnotesize\ttfamily void axiom\+::vks\+::\+Buffer\+::copy\+To (\begin{DoxyParamCaption}\item[{void $\ast$}]{data,  }\item[{Vk\+Device\+Size}]{size }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Copies the specified data to the mapped buffer
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & Pointer to the data to copy \\
+\hline
+{\em size} & Size of the data to copy in machine units \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{structaxiom_1_1vks_1_1_buffer_a6450348cf0701c4a4c15283eac849e60}\label{structaxiom_1_1vks_1_1_buffer_a6450348cf0701c4a4c15283eac849e60}} 
+\index{axiom::vks::Buffer@{axiom::vks::Buffer}!destroy@{destroy}}
+\index{destroy@{destroy}!axiom::vks::Buffer@{axiom::vks::Buffer}}
+\doxysubsubsection{\texorpdfstring{destroy()}{destroy()}}
+{\footnotesize\ttfamily void axiom\+::vks\+::\+Buffer\+::destroy (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Release all Vulkan resources held by this buffer \mbox{\Hypertarget{structaxiom_1_1vks_1_1_buffer_a9f8962742039ac6fcfbefc04ede970f0}\label{structaxiom_1_1vks_1_1_buffer_a9f8962742039ac6fcfbefc04ede970f0}} 
+\index{axiom::vks::Buffer@{axiom::vks::Buffer}!flush@{flush}}
+\index{flush@{flush}!axiom::vks::Buffer@{axiom::vks::Buffer}}
+\doxysubsubsection{\texorpdfstring{flush()}{flush()}}
+{\footnotesize\ttfamily Vk\+Result axiom\+::vks\+::\+Buffer\+::flush (\begin{DoxyParamCaption}\item[{Vk\+Device\+Size}]{size = {\ttfamily VK\+\_\+WHOLE\+\_\+SIZE},  }\item[{Vk\+Device\+Size}]{offset = {\ttfamily 0} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Flush a memory range of the buffer to make it visible to the device
+
+\begin{DoxyNote}{Note}
+Only required for non-\/coherent memory
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em size} & (Optional) Size of the memory range to flush. Pass VK\+\_\+\+WHOLE\+\_\+\+SIZE to flush the complete buffer range. \\
+\hline
+{\em offset} & (Optional) Byte offset from beginning\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Vk\+Result of the flush call 
+\end{DoxyReturn}
+\mbox{\Hypertarget{structaxiom_1_1vks_1_1_buffer_ae904a8a78b148d07cd493f16541332e3}\label{structaxiom_1_1vks_1_1_buffer_ae904a8a78b148d07cd493f16541332e3}} 
+\index{axiom::vks::Buffer@{axiom::vks::Buffer}!invalidate@{invalidate}}
+\index{invalidate@{invalidate}!axiom::vks::Buffer@{axiom::vks::Buffer}}
+\doxysubsubsection{\texorpdfstring{invalidate()}{invalidate()}}
+{\footnotesize\ttfamily Vk\+Result axiom\+::vks\+::\+Buffer\+::invalidate (\begin{DoxyParamCaption}\item[{Vk\+Device\+Size}]{size = {\ttfamily VK\+\_\+WHOLE\+\_\+SIZE},  }\item[{Vk\+Device\+Size}]{offset = {\ttfamily 0} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Invalidate a memory range of the buffer to make it visible to the host
+
+\begin{DoxyNote}{Note}
+Only required for non-\/coherent memory
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em size} & (Optional) Size of the memory range to invalidate. Pass VK\+\_\+\+WHOLE\+\_\+\+SIZE to invalidate the complete buffer range. \\
+\hline
+{\em offset} & (Optional) Byte offset from beginning\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Vk\+Result of the invalidate call 
+\end{DoxyReturn}
+\mbox{\Hypertarget{structaxiom_1_1vks_1_1_buffer_a1e971b28b7b86578539744cfee382a5d}\label{structaxiom_1_1vks_1_1_buffer_a1e971b28b7b86578539744cfee382a5d}} 
+\index{axiom::vks::Buffer@{axiom::vks::Buffer}!map@{map}}
+\index{map@{map}!axiom::vks::Buffer@{axiom::vks::Buffer}}
+\doxysubsubsection{\texorpdfstring{map()}{map()}}
+{\footnotesize\ttfamily Vk\+Result axiom\+::vks\+::\+Buffer\+::map (\begin{DoxyParamCaption}\item[{Vk\+Device\+Size}]{size = {\ttfamily VK\+\_\+WHOLE\+\_\+SIZE},  }\item[{Vk\+Device\+Size}]{offset = {\ttfamily 0} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Map a memory range of this buffer. If successful, mapped points to the specified buffer range.
+
+
+\begin{DoxyParams}{Parameters}
+{\em size} & (Optional) Size of the memory range to map. Pass VK\+\_\+\+WHOLE\+\_\+\+SIZE to map the complete buffer range. \\
+\hline
+{\em offset} & (Optional) Byte offset from beginning\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Vk\+Result of the buffer mapping call 
+\end{DoxyReturn}
+\mbox{\Hypertarget{structaxiom_1_1vks_1_1_buffer_a9d01347c5dbbb274bb77c1d2837630a4}\label{structaxiom_1_1vks_1_1_buffer_a9d01347c5dbbb274bb77c1d2837630a4}} 
+\index{axiom::vks::Buffer@{axiom::vks::Buffer}!setupDescriptor@{setupDescriptor}}
+\index{setupDescriptor@{setupDescriptor}!axiom::vks::Buffer@{axiom::vks::Buffer}}
+\doxysubsubsection{\texorpdfstring{setupDescriptor()}{setupDescriptor()}}
+{\footnotesize\ttfamily void axiom\+::vks\+::\+Buffer\+::setup\+Descriptor (\begin{DoxyParamCaption}\item[{Vk\+Device\+Size}]{size = {\ttfamily VK\+\_\+WHOLE\+\_\+SIZE},  }\item[{Vk\+Device\+Size}]{offset = {\ttfamily 0} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Setup the default descriptor for this buffer
+
+
+\begin{DoxyParams}{Parameters}
+{\em size} & (Optional) Size of the memory range of the descriptor \\
+\hline
+{\em offset} & (Optional) Byte offset from beginning \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{structaxiom_1_1vks_1_1_buffer_ace0534704bee0703ae2edae2c498a8f8}\label{structaxiom_1_1vks_1_1_buffer_ace0534704bee0703ae2edae2c498a8f8}} 
+\index{axiom::vks::Buffer@{axiom::vks::Buffer}!unmap@{unmap}}
+\index{unmap@{unmap}!axiom::vks::Buffer@{axiom::vks::Buffer}}
+\doxysubsubsection{\texorpdfstring{unmap()}{unmap()}}
+{\footnotesize\ttfamily void axiom\+::vks\+::\+Buffer\+::unmap (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Unmap a mapped memory range
+
+\begin{DoxyNote}{Note}
+Does not return a result as vk\+Unmap\+Memory can\textquotesingle{}t fail 
+\end{DoxyNote}
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{structaxiom_1_1vks_1_1_buffer_abedc7f8f731f397b68a26c68a580be78}\label{structaxiom_1_1vks_1_1_buffer_abedc7f8f731f397b68a26c68a580be78}} 
+\index{axiom::vks::Buffer@{axiom::vks::Buffer}!alignment@{alignment}}
+\index{alignment@{alignment}!axiom::vks::Buffer@{axiom::vks::Buffer}}
+\doxysubsubsection{\texorpdfstring{alignment}{alignment}}
+{\footnotesize\ttfamily Vk\+Device\+Size axiom\+::vks\+::\+Buffer\+::alignment = 0}
+
+\mbox{\Hypertarget{structaxiom_1_1vks_1_1_buffer_aa4508d403672b524b03a5d32b4c37ecc}\label{structaxiom_1_1vks_1_1_buffer_aa4508d403672b524b03a5d32b4c37ecc}} 
+\index{axiom::vks::Buffer@{axiom::vks::Buffer}!buffer@{buffer}}
+\index{buffer@{buffer}!axiom::vks::Buffer@{axiom::vks::Buffer}}
+\doxysubsubsection{\texorpdfstring{buffer}{buffer}}
+{\footnotesize\ttfamily Vk\+Buffer axiom\+::vks\+::\+Buffer\+::buffer = VK\+\_\+\+NULL\+\_\+\+HANDLE}
+
+\mbox{\Hypertarget{structaxiom_1_1vks_1_1_buffer_a59b9e9c11cdf76999a42ec82778f3c8a}\label{structaxiom_1_1vks_1_1_buffer_a59b9e9c11cdf76999a42ec82778f3c8a}} 
+\index{axiom::vks::Buffer@{axiom::vks::Buffer}!descriptor@{descriptor}}
+\index{descriptor@{descriptor}!axiom::vks::Buffer@{axiom::vks::Buffer}}
+\doxysubsubsection{\texorpdfstring{descriptor}{descriptor}}
+{\footnotesize\ttfamily Vk\+Descriptor\+Buffer\+Info axiom\+::vks\+::\+Buffer\+::descriptor}
+
+\mbox{\Hypertarget{structaxiom_1_1vks_1_1_buffer_a25943541a33d113030ec55a8c386e6fe}\label{structaxiom_1_1vks_1_1_buffer_a25943541a33d113030ec55a8c386e6fe}} 
+\index{axiom::vks::Buffer@{axiom::vks::Buffer}!device@{device}}
+\index{device@{device}!axiom::vks::Buffer@{axiom::vks::Buffer}}
+\doxysubsubsection{\texorpdfstring{device}{device}}
+{\footnotesize\ttfamily Vk\+Device axiom\+::vks\+::\+Buffer\+::device}
+
+\mbox{\Hypertarget{structaxiom_1_1vks_1_1_buffer_a6724f562d2c82b9c273d2ee36e7d551e}\label{structaxiom_1_1vks_1_1_buffer_a6724f562d2c82b9c273d2ee36e7d551e}} 
+\index{axiom::vks::Buffer@{axiom::vks::Buffer}!mapped@{mapped}}
+\index{mapped@{mapped}!axiom::vks::Buffer@{axiom::vks::Buffer}}
+\doxysubsubsection{\texorpdfstring{mapped}{mapped}}
+{\footnotesize\ttfamily void$\ast$ axiom\+::vks\+::\+Buffer\+::mapped = nullptr}
+
+\mbox{\Hypertarget{structaxiom_1_1vks_1_1_buffer_a486c473201ec188067c6e50a5f1515c2}\label{structaxiom_1_1vks_1_1_buffer_a486c473201ec188067c6e50a5f1515c2}} 
+\index{axiom::vks::Buffer@{axiom::vks::Buffer}!memory@{memory}}
+\index{memory@{memory}!axiom::vks::Buffer@{axiom::vks::Buffer}}
+\doxysubsubsection{\texorpdfstring{memory}{memory}}
+{\footnotesize\ttfamily Vk\+Device\+Memory axiom\+::vks\+::\+Buffer\+::memory = VK\+\_\+\+NULL\+\_\+\+HANDLE}
+
+\mbox{\Hypertarget{structaxiom_1_1vks_1_1_buffer_a031f7a0563310073533282f1a89f94de}\label{structaxiom_1_1vks_1_1_buffer_a031f7a0563310073533282f1a89f94de}} 
+\index{axiom::vks::Buffer@{axiom::vks::Buffer}!memoryPropertyFlags@{memoryPropertyFlags}}
+\index{memoryPropertyFlags@{memoryPropertyFlags}!axiom::vks::Buffer@{axiom::vks::Buffer}}
+\doxysubsubsection{\texorpdfstring{memoryPropertyFlags}{memoryPropertyFlags}}
+{\footnotesize\ttfamily Vk\+Memory\+Property\+Flags axiom\+::vks\+::\+Buffer\+::memory\+Property\+Flags}
+
+
+
+Memory propertys flags to be filled by external source at buffer creation (to query at some later point) 
+
+\mbox{\Hypertarget{structaxiom_1_1vks_1_1_buffer_a444c72d8d1d53a0a6aaa4febbfb8037d}\label{structaxiom_1_1vks_1_1_buffer_a444c72d8d1d53a0a6aaa4febbfb8037d}} 
+\index{axiom::vks::Buffer@{axiom::vks::Buffer}!size@{size}}
+\index{size@{size}!axiom::vks::Buffer@{axiom::vks::Buffer}}
+\doxysubsubsection{\texorpdfstring{size}{size}}
+{\footnotesize\ttfamily Vk\+Device\+Size axiom\+::vks\+::\+Buffer\+::size = 0}
+
+\mbox{\Hypertarget{structaxiom_1_1vks_1_1_buffer_ad04327cb8d014075f0910aa6b9c4726a}\label{structaxiom_1_1vks_1_1_buffer_ad04327cb8d014075f0910aa6b9c4726a}} 
+\index{axiom::vks::Buffer@{axiom::vks::Buffer}!usageFlags@{usageFlags}}
+\index{usageFlags@{usageFlags}!axiom::vks::Buffer@{axiom::vks::Buffer}}
+\doxysubsubsection{\texorpdfstring{usageFlags}{usageFlags}}
+{\footnotesize\ttfamily Vk\+Buffer\+Usage\+Flags axiom\+::vks\+::\+Buffer\+::usage\+Flags}
+
+
+
+Usage flags to be filled by external source at buffer creation (to query at some later point) 
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/mmurrell/repos/axiom/components/render/vulkan/\mbox{\hyperlink{vulkan-buffer_8hpp}{vulkan-\/buffer.\+hpp}}\end{DoxyCompactItemize}

@@ -1,0 +1,28 @@
+\hypertarget{sys-log_8h_source}{}\doxysection{sys-\/log.h}
+\label{sys-log_8h_source}\index{C:/Users/mmurrell/repos/axiom/systems/core/sys-\/log.h@{C:/Users/mmurrell/repos/axiom/systems/core/sys-\/log.h}}
+\mbox{\hyperlink{sys-log_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{//\ logger.h}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <fstream>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <sstream>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <mutex>}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{flecs-world_8h}{flecs-\/world.h}}>}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ "{}../components/core/cmp-\/timer.h"{}}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}../components/core/cmp-\/log.h"{}}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespaceaxiom}{axiom}}\ \{}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keyword}{namespace\ }log\ \{}
+\DoxyCodeLine{00016\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespaceaxiom_1_1log_a37a4f2606d76e27c9376a1480ba2148d}{Init}}();}
+\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ \textcolor{comment}{//This\ Creates/Opens\ the\ logfile}}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespaceaxiom_1_1log_abcffd4e47685a7bdf9478baeb87e19d8}{Save}}(std::string\ message);}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespaceaxiom_1_1log_add20a260bd4f069d93cfe5d8d0ef1650}{Set}}(\mbox{\hyperlink{namespaceaxiom_a0586d377c8b51316334033e5f719d9ce}{axiom::LogLevel}}\ level,\ std::string\ message);}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespaceaxiom_1_1log_a60dcad125bc5bf47f4c7aaa08f72ec20}{Check}}(\textcolor{keywordtype}{bool}\ b,\ std::string\ message);\ \ \ \ }
+\DoxyCodeLine{00021\ \ \ \ \ \};}
+\DoxyCodeLine{00022\ \}}
+
+\end{DoxyCode}

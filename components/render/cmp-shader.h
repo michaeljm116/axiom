@@ -1,9 +1,20 @@
+/**
+ * @file cmp-shader.h
+ * @author Mike Murrell (mikestoleyobike@aim.com)
+ * @brief These are the structs for the shaders (memory layout is important for this)
+ * @version 0.1
+ * @date 2023-05-10
+ * 
+ * @copyright Copyright (c) 2023
+ * 
+ */
 #pragma once
 #include <GLM.glm.hpp>
+#include "cmp-render.h"
 
 namespace axiom{
     namespace render{
-        	struct ssGUI {
+		struct ssGUI {
 		glm::vec2 min;
 		glm::vec2 extents;
 		glm::vec2 alignMin;
@@ -28,7 +39,7 @@ namespace axiom{
 		int endIndex = 0;
 
 		ssPrimitive() {};
-		ssPrimitive(PrimitiveComponent* pc) : world(pc->world), extents(pc->extents), numChildren(pc->numChildren),
+		ssPrimitive(Cmp_Primitive* pc) : world(pc->world), extents(pc->extents), numChildren(pc->numChildren),
 			id(pc->id), matId(pc->matId), startIndex(pc->startIndex), endIndex(pc->endIndex)
 		{};
 

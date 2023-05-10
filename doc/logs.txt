@@ -170,3 +170,83 @@
 2023-05-04 23:08:48 - [INFO] Finding Root Node for Scene5.xml was a success!
 2023-05-04 23:08:48 - [INFO] Finding Scene Node for Scene5.xml was a success!
 2023-05-04 23:11:46 - [INFO] File Closed
+2023-05-10 08:28:55 - [INFO] Log File Opened
+2023-05-10 08:28:55 - [ERROR] Cannot make current with a window that has no OpenGL or OpenGL ES context
+2023-05-10 08:28:55 - [ERROR] Cannot set swap interval without a current OpenGL or OpenGL ES context
+2023-05-10 08:28:55 - [INFO] Loading Scene File: ../../assets/Scenes/TestEntrance.xml | XMLResult:XML_SUCCESS was a success!
+2023-05-10 08:28:55 - [INFO] Finding Root Node for TestEntrance.xml was a success!
+2023-05-10 08:28:55 - [INFO] Finding Scene Node for TestEntrance.xml was a success!
+2023-05-10 08:29:11 - [INFO] File Closed
+2023-05-10 08:30:13 - [INFO] Log File Opened
+2023-05-10 08:30:13 - [ERROR] Cannot make current with a window that has no OpenGL or OpenGL ES context
+2023-05-10 08:30:13 - [ERROR] Cannot set swap interval without a current OpenGL or OpenGL ES context
+2023-05-10 08:30:17 - [INFO] Loading Scene File: ../../assets/Scenes/TestEntrance.xml | XMLResult:XML_SUCCESS was a success!
+2023-05-10 08:30:17 - [INFO] Finding Root Node for TestEntrance.xml was a success!
+2023-05-10 08:30:17 - [INFO] Finding Scene Node for TestEntrance.xml was a success!
+2023-05-10 08:30:33 - [INFO] File Closed
+2023-05-10 08:30:45 - [INFO] Log File Opened
+2023-05-10 08:30:45 - [ERROR] Cannot make current with a window that has no OpenGL or OpenGL ES context
+2023-05-10 08:30:45 - [ERROR] Cannot set swap interval without a current OpenGL or OpenGL ES context
+2023-05-10 08:31:01 - [INFO] Loading Scene File: ../../assets/Scenes/TestEntrance.xml | XMLResult:XML_SUCCESS was a success!
+2023-05-10 08:31:01 - [INFO] Finding Root Node for TestEntrance.xml was a success!
+2023-05-10 08:31:01 - [INFO] Finding Scene Node for TestEntrance.xml was a success!
+2023-05-10 08:31:57 - [INFO] Log File Opened
+2023-05-10 08:31:57 - [ERROR] Cannot make current with a window that has no OpenGL or OpenGL ES context
+2023-05-10 08:31:57 - [ERROR] Cannot set swap interval without a current OpenGL or OpenGL ES context
+2023-05-10 08:32:21 - [INFO] Loading Scene File: ../../assets/Scenes/TestEntrance.xml | XMLResult:XML_SUCCESS was a success!
+2023-05-10 08:32:21 - [INFO] Finding Root Node for TestEntrance.xml was a success!
+2023-05-10 08:32:21 - [INFO] Finding Scene Node for TestEntrance.xml was a success!
+2023-05-10 08:44:13 - [INFO] Log File Opened
+2023-05-10 08:44:13 - [ERROR] Cannot make current with a window that has no OpenGL or OpenGL ES context
+2023-05-10 08:44:13 - [ERROR] Cannot set swap interval without a current OpenGL or OpenGL ES context
+2023-05-10 08:44:23 - [INFO] Loading Scene File: ../../assets/Scenes/TestEntrance.xml | XMLResult:XML_SUCCESS was a success!
+2023-05-10 08:44:23 - [INFO] Finding Root Node for TestEntrance.xml was a success!
+2023-05-10 08:44:23 - [INFO] Finding Scene Node for TestEntrance.xml was a success!
+2023-05-10 08:57:58 - [INFO] Log File Opened
+2023-05-10 08:57:58 - [ERROR] Cannot make current with a window that has no OpenGL or OpenGL ES context
+2023-05-10 08:57:58 - [ERROR] Cannot set swap interval without a current OpenGL or OpenGL ES context
+2023-05-10 08:57:58 - [INFO] Loading Scene File: ../../assets/Scenes/TestEntrance.xml | XMLResult:XML_SUCCESS was a success!
+2023-05-10 08:57:58 - [INFO] Finding Root Node for TestEntrance.xml was a success!
+2023-05-10 08:57:58 - [INFO] Finding Scene Node for TestEntrance.xml was a success!
+2023-05-10 08:57:58 - [DEBUG] Sun: {1, 1, 1}
+
+2023-05-10 08:57:58 - [DEBUG] Earth: {5, 5, 5}
+
+2023-05-10 08:57:58 - [DEBUG] Moon: {2, 2, 2}
+
+2023-05-10 08:58:39 - [INFO] File Closed
+2023-05-10 09:00:28 - [INFO] Log File Opened
+2023-05-10 09:00:28 - [ERROR] Cannot make current with a window that has no OpenGL or OpenGL ES context
+2023-05-10 09:00:28 - [ERROR] Cannot set swap interval without a current OpenGL or OpenGL ES context
+2023-05-10 09:00:28 - [INFO] Loading Scene File: ../../assets/Scenes/TestEntrance.xml | XMLResult:XML_SUCCESS was a success!
+2023-05-10 09:00:28 - [INFO] Finding Root Node for TestEntrance.xml was a success!
+2023-05-10 09:00:28 - [INFO] Finding Scene Node for TestEntrance.xml was a success!
+2023-05-10 09:01:11 - [INFO] Log File Opened
+2023-05-10 09:01:11 - [ERROR] Cannot make current with a window that has no OpenGL or OpenGL ES context
+2023-05-10 09:01:11 - [ERROR] Cannot set swap interval without a current OpenGL or OpenGL ES context
+2023-05-10 09:01:11 - [INFO] Loading Scene File: ../../assets/Scenes/TestEntrance.xml | XMLResult:XML_SUCCESS was a success!
+2023-05-10 09:01:11 - [INFO] Finding Root Node for TestEntrance.xml was a success!
+2023-05-10 09:01:11 - [INFO] Finding Scene Node for TestEntrance.xml was a success!
+2023-05-10 09:01:11 - [DEBUG] Camera(661): {8.04952, 2.13982, 2.54945}
+2023-05-10 09:01:11 - [DEBUG] Light(663): {8, -2, 24}
+2023-05-10 09:01:11 - [DEBUG] Light2(664): {8, -2, 8}
+2023-05-10 09:01:11 - [DEBUG] LevelTriggerLeft(676): {-1, -4.25, 8}
+2023-05-10 09:01:11 - [DEBUG] New Sphere!(677): {14.7092, -3.8501, 11.7511}
+2023-05-10 09:01:11 - [DEBUG] Barrel(680): {4.15984, -3.99992, 12.4099}
+2023-05-10 09:01:11 - [DEBUG] Floor(665): {8, -6, 8}
+2023-05-10 09:01:11 - [DEBUG] FrontWall(666): {2, -10, 15}
+2023-05-10 09:01:11 - [DEBUG] FrontWall(667): {14, -10, 15}
+2023-05-10 09:01:11 - [DEBUG] BottomWall(668): {8, -10, 1}
+2023-05-10 09:01:11 - [DEBUG] leftWall(669): {-1, -10, 13}
+2023-05-10 09:01:11 - [DEBUG] leftWall(670): {-1, -10, 3}
+2023-05-10 09:01:11 - [DEBUG] rightWall(671): {17, -10, 13}
+2023-05-10 09:01:11 - [DEBUG] rightWall(672): {17, -10, 3}
+2023-05-10 09:01:11 - [DEBUG] AwningTop(673): {8, -1, 15}
+2023-05-10 09:01:11 - [DEBUG] AwningRight(674): {17, -1, 8}
+2023-05-10 09:01:11 - [DEBUG] AwningLeft(675): {-1, -1, 8}
+2023-05-10 09:01:11 - [DEBUG] New Sphere!(678): {8.14919, -3.8501, 13.7012}
+2023-05-10 09:01:11 - [DEBUG] New Sphere!(679): {1.959, -3.8501, 11.6907}
+2023-05-10 09:01:11 - [DEBUG] Mesh(681): {0, 0.0240588, 0}
+2023-05-10 09:01:11 - [DEBUG] Mesh(682): {0, 0.025, 0}
+2023-05-10 09:01:11 - [DEBUG] Mesh(683): {0, 0.0249996, -1.47123e-06}
+2023-05-10 09:01:16 - [INFO] File Closed

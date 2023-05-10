@@ -1,0 +1,38 @@
+\hypertarget{cmp-log_8h_source}{}\doxysection{cmp-\/log.h}
+\label{cmp-log_8h_source}\index{C:/Users/mmurrell/repos/axiom/components/core/cmp-\/log.h@{C:/Users/mmurrell/repos/axiom/components/core/cmp-\/log.h}}
+\mbox{\hyperlink{cmp-log_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ <fstream>}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <mutex>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <memory>}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespaceaxiom}{axiom}}}
+\DoxyCodeLine{00008\ \{}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structaxiom_1_1_log_data}{LogData}}\ \{}
+\DoxyCodeLine{00011\ \ \ \ \ \ \ \ \ std::ofstream\ \mbox{\hyperlink{structaxiom_1_1_log_data_a829f55aaa6b5961cb2751be3f798bb17}{log\_file}};}
+\DoxyCodeLine{00012\ \ \ \ \ \ \ \ \ std::mutex\ \mbox{\hyperlink{structaxiom_1_1_log_data_ab15ca704b6a26b3533bcf7cd8e44afdb}{log\_mutex}};}
+\DoxyCodeLine{00013\ \ \ \ \ \};}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structaxiom_1_1_cmp___log_file}{Cmp\_LogFile}}\ \{}
+\DoxyCodeLine{00016\ \ \ \ \ \ \ \ \ std::string\ \mbox{\hyperlink{structaxiom_1_1_cmp___log_file_ad5c252f21d8371fed6b562897e8706ec}{log\_filename}}\ =\ \textcolor{stringliteral}{"{}../../doc/logs.txt"{}};}
+\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ std::shared\_ptr<LogData>\ \mbox{\hyperlink{structaxiom_1_1_cmp___log_file_abefe843b3c26c6e7c8912933c93d7f13}{log\_data}}\ =\ std::make\_shared<LogData>();}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structaxiom_1_1_cmp___log_file_ad1285d2be5fa01db3403a40006d9aae1}{Cmp\_LogFile}}(std::string\ fn)\ :\ \mbox{\hyperlink{structaxiom_1_1_cmp___log_file_ad5c252f21d8371fed6b562897e8706ec}{log\_filename}}(fn)\{\};}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structaxiom_1_1_cmp___log_file_a5345b4542e2993d5f1b331ff86db1a25}{Cmp\_LogFile}}()\{\};}
+\DoxyCodeLine{00020\ \ \ \ \ \};}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{namespaceaxiom_a0586d377c8b51316334033e5f719d9ce}{LogLevel}}\ \{\ }
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_a0586d377c8b51316334033e5f719d9ceadc30ec20708ef7b0f641ef78b7880a15}{DEBUG}},\ \mbox{\hyperlink{namespaceaxiom_a0586d377c8b51316334033e5f719d9cea551b723eafd6a31d444fcb2f5920fbd3}{INFO}},\ \mbox{\hyperlink{namespaceaxiom_a0586d377c8b51316334033e5f719d9cea059e9861e0400dfbe05c98a841f3f96b}{WARNING}},\ \mbox{\hyperlink{namespaceaxiom_a0586d377c8b51316334033e5f719d9ceabb1ca97ec761fc37101737ba0aa2e7c5}{ERROR}},\ \mbox{\hyperlink{namespaceaxiom_a0586d377c8b51316334033e5f719d9cea8c46d8d9d3402788403e2f6911153089}{CHECK}}}
+\DoxyCodeLine{00024\ \ \ \ \ \};}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structaxiom_1_1_cmp___log}{Cmp\_Log}}\{}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_a0586d377c8b51316334033e5f719d9ce}{LogLevel}}\ \mbox{\hyperlink{structaxiom_1_1_cmp___log_a3c3faa07ba25f6425b8e45f3b979a5c0}{lvl}};}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{structaxiom_1_1_cmp___log_a79d609ee254cff6a95ac12f71deed06c}{check}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ std::string\ \mbox{\hyperlink{structaxiom_1_1_cmp___log_a8165a695b32ae427d2a2e8a9c20fdde8}{message}};}
+\DoxyCodeLine{00030\ \ \ \ \ \};}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \}}
+
+\end{DoxyCode}
