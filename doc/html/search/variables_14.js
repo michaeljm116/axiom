@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['v_0',['v',['../structaxiom_1_1render_1_1ss_vert.html#a5c73322952b1a0e8da4008e2a36d26a6',1,'axiom::render::ssVert::v()'],['../structaxiom_1_1render_1_1ss_triangle_index.html#aa0666356e16c5263e5f7c4276d446993',1,'axiom::render::ssTriangleIndex::v()'],['../structaxiom_1_1render_1_1ss_index.html#ac887f9efabd4e8a7f9f32830699852eb',1,'axiom::render::ssIndex::v()']]],
+  ['v_0',['v',['../structaxiom_1_1shader_1_1ss_vert.html#ac93fa12fee08e906fb367ba65583e204',1,'axiom::shader::ssVert::v()'],['../structaxiom_1_1shader_1_1ss_triangle_index.html#a91ed623d6d60e8857067f15c255e1cb8',1,'axiom::shader::ssTriangleIndex::v()'],['../structaxiom_1_1shader_1_1ss_index.html#a42bea46514f56f241a1a631d6689436f',1,'axiom::shader::ssIndex::v()']]],
   ['validationlayers_1',['validationLayers',['../structaxiom_1_1_vulkan_device.html#a959112acdac6a828fc2abff9369453fa',1,'axiom::VulkanDevice']]],
-  ['verts_2',['verts',['../structaxiom_1_1_r___mesh.html#aa6b9ff521a49dcc160bde87b8f236f81',1,'axiom::R_Mesh']]]
+  ['verts_2',['verts',['../structaxiom_1_1resource_1_1_mesh.html#aaec7381713fa90d6c154b1cfb3ef50f7',1,'axiom::resource::Mesh']]]
 ];

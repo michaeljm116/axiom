@@ -1,11 +1,13 @@
 var searchData=
 [
   ['callback_0',['callback',['../structaxiom_1_1_vulkan_device.html#ac747214159fab9ad7602a8fc9b1173a0',1,'axiom::VulkanDevice']]],
-  ['center_1',['center',['../structaxiom_1_1_cmp___box.html#abcb965b487769babbcd051c4e0820e90',1,'axiom::Cmp_Box::center()'],['../structaxiom_1_1render_1_1ss_shape.html#a5fbafbb2976ea3b7d0e0f308d7dcebdb',1,'axiom::render::ssShape::center()'],['../structaxiom_1_1_r___mesh.html#a04f0d3f031ce9a1730f8695c122dffe1',1,'axiom::R_Mesh::center()'],['../structaxiom_1_1_r___shape.html#a3878ac4fee3de0f3b4082f4cf06b2d2d',1,'axiom::R_Shape::center()'],['../structaxiom_1_1_r___model.html#a17e3bd364de256a71f1d78d8961a81b5',1,'axiom::R_Model::center()']]],
+  ['center_1',['center',['../structaxiom_1_1_cmp___box.html#abcb965b487769babbcd051c4e0820e90',1,'axiom::Cmp_Box::center()'],['../structaxiom_1_1shader_1_1ss_shape.html#afd3cb64fa2148f733666bf1f18bbbe20',1,'axiom::shader::ssShape::center()'],['../structaxiom_1_1bvh_1_1_b_v_h_bounds.html#ac683fbc9b011e1e2fb4792a3f0b07589',1,'axiom::bvh::BVHBounds::center()'],['../structaxiom_1_1resource_1_1_mesh.html#a999191fedbeb71b3043834dd7e621338',1,'axiom::resource::Mesh::center()'],['../structaxiom_1_1resource_1_1_shape.html#a54636dcaee7ef163c8cc3640370b2c6a',1,'axiom::resource::Shape::center()'],['../structaxiom_1_1resource_1_1_model.html#a002f595c9477878a45df29f438f90868',1,'axiom::resource::Model::center()']]],
   ['check_2',['check',['../structaxiom_1_1_cmp___log.html#a79d609ee254cff6a95ac12f71deed06c',1,'axiom::Cmp_Log']]],
-  ['color_3',['color',['../structaxiom_1_1_cmp___light.html#ae08689149f32a02bb8601ee974b66188',1,'axiom::Cmp_Light::color()'],['../structaxiom_1_1render_1_1ss_light.html#a296fd950bd6bfeef51ef9ff6d3adb972',1,'axiom::render::ssLight::color()']]],
-  ['commandpool_4',['commandPool',['../structaxiom_1_1_vulkan_device.html#ac268d652f1a5ceda58b259b1158099ba',1,'axiom::VulkanDevice']]],
-  ['computefamily_5',['computeFamily',['../structaxiom_1_1_queue_family_indices.html#a323ab8b4093ccab51072be86c7958398',1,'axiom::QueueFamilyIndices']]],
-  ['controllerconfigs_6',['controllerConfigs',['../structaxiom_1_1_r___config.html#a1b33a99946643b43da685a8acec5302b',1,'axiom::R_Config']]],
-  ['cylinderindex_7',['cylinderIndex',['../structaxiom_1_1_cmp___cylinder.html#a54085c61035295af899ea56343e400ce',1,'axiom::Cmp_Cylinder']]]
+  ['children_3',['children',['../structaxiom_1_1bvh_1_1_b_v_h_node.html#ab2ef5c61769339435552ba48ead56a68',1,'axiom::bvh::BVHNode']]],
+  ['color_4',['color',['../structaxiom_1_1_cmp___light.html#ae08689149f32a02bb8601ee974b66188',1,'axiom::Cmp_Light::color()'],['../structaxiom_1_1shader_1_1ss_light.html#aed14b3a80058ba550b778beaf2a061c9',1,'axiom::shader::ssLight::color()']]],
+  ['commandpool_5',['commandPool',['../structaxiom_1_1_vulkan_device.html#ac268d652f1a5ceda58b259b1158099ba',1,'axiom::VulkanDevice']]],
+  ['computefamily_6',['computeFamily',['../structaxiom_1_1_queue_family_indices.html#a323ab8b4093ccab51072be86c7958398',1,'axiom::QueueFamilyIndices']]],
+  ['controllerconfigs_7',['controllerConfigs',['../structaxiom_1_1resource_1_1_config.html#abc1bcd3f2d1286c7d6c814d13f4bd52b',1,'axiom::resource::Config']]],
+  ['count_8',['count',['../structaxiom_1_1bvh_1_1_b_v_h_bucket.html#acaddd03e5a6e3afbe748d1674b56bd5c',1,'axiom::bvh::BVHBucket']]],
+  ['cylinderindex_9',['cylinderIndex',['../structaxiom_1_1_cmp___cylinder.html#a54085c61035295af899ea56343e400ce',1,'axiom::Cmp_Cylinder']]]
 ];

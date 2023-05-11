@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['renderertype_0',['RendererType',['../namespaceaxiom.html#af4d6915d00d603955e5bb98cf1b865dc',1,'axiom']]],
-  ['rendertype_1',['RenderType',['../namespaceaxiom.html#ad0bb303c60d47178dd0cde56e25cd65a',1,'axiom']]],
-  ['resource_5ftype_2',['Resource_Type',['../namespaceaxiom.html#a8822a519e9948786160295fee7d6571e',1,'axiom']]]
+  ['renderertype_0',['RendererType',['../namespaceaxiom_1_1render.html#ae904f9a416ed9736aa57930a7fa5e0b4',1,'axiom::render']]],
+  ['rendertype_1',['RenderType',['../namespaceaxiom_1_1render.html#a8f6af6d0163957972bf2459945019bd9',1,'axiom::render']]],
+  ['resource_5ftype_2',['Resource_Type',['../namespaceaxiom_1_1resource.html#a836385594c5af3266b6d5a0304529c8f',1,'axiom::resource']]]
 ];

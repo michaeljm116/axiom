@@ -83,6 +83,9 @@ $(function() {
   <div class="headertitle"><div class="title">cmp-input.h File Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Input Component.  
+<a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;array&gt;</code><br />
 </div>
 <p><a href="cmp-input_8h_source.html">Go to the source code of this file.</a></p>
@@ -90,8 +93,10 @@ $(function() {
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structaxiom_1_1_cmp___mouse.html">axiom::Cmp_Mouse</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mouse Component.  <a href="structaxiom_1_1_cmp___mouse.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structaxiom_1_1_cmp___keyboard.html">axiom::Cmp_Keyboard</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Keyboard Component.  <a href="structaxiom_1_1_cmp___keyboard.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structaxiom_1_1_cmp___controller.html">axiom::Cmp_Controller</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -99,6 +104,8 @@ Classes</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
 <tr class="memitem:namespaceaxiom"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceaxiom.html">axiom</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:namespaceaxiom_1_1input"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceaxiom_1_1input.html">axiom::input</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
@@ -110,20 +117,26 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
-<tr class="memitem:a248ccb5232692ec99d694565137dece2"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceaxiom.html#a248ccb5232692ec99d694565137dece2">axiom::InputStates</a> { <a class="el" href="namespaceaxiom.html#a248ccb5232692ec99d694565137dece2a698f04e070c58f01a5c9519d32e2f54b">axiom::NONE</a> = 0x00
-, <a class="el" href="namespaceaxiom.html#a248ccb5232692ec99d694565137dece2af54870c667a6d3d4a15cdf1779f2ba45">axiom::RELEASED</a> = 0b01
-, <a class="el" href="namespaceaxiom.html#a248ccb5232692ec99d694565137dece2af0bce986c1ccf5f0e0af2888e4b38b00">axiom::HELD</a> = 0b10
-, <a class="el" href="namespaceaxiom.html#a248ccb5232692ec99d694565137dece2ac6040b13eb88e35a0f3039571df87675">axiom::PRESSED</a> = 0b11
+<tr class="memitem:ad6d8e983364d5b5bd8b8d2c114f22f13"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceaxiom_1_1input.html#ad6d8e983364d5b5bd8b8d2c114f22f13">axiom::input::InputStates</a> { <a class="el" href="namespaceaxiom_1_1input.html#ad6d8e983364d5b5bd8b8d2c114f22f13ae70bc09e4b39258deb63aa55890cca22">axiom::input::NONE</a> = 0x00
+, <a class="el" href="namespaceaxiom_1_1input.html#ad6d8e983364d5b5bd8b8d2c114f22f13a0fd53f68f115c46fb039088ed2cc9b21">axiom::input::RELEASED</a> = 0b01
+, <a class="el" href="namespaceaxiom_1_1input.html#ad6d8e983364d5b5bd8b8d2c114f22f13ae93970736458a199f7ebd4fb7d4f80ce">axiom::input::HELD</a> = 0b10
+, <a class="el" href="namespaceaxiom_1_1input.html#ad6d8e983364d5b5bd8b8d2c114f22f13a3f1cacc1a25631debd4a28716d41b0d0">axiom::input::PRESSED</a> = 0b11
  }</td></tr>
-<tr class="separator:a248ccb5232692ec99d694565137dece2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8981a466c490292c8df620bf62eacf0a"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceaxiom.html#a8981a466c490292c8df620bf62eacf0a">axiom::Input_States</a> { <a class="el" href="namespaceaxiom.html#a8981a466c490292c8df620bf62eacf0aa6adf97f83acf6453d4a6a4b1070f3754">axiom::None</a> = 0
-, <a class="el" href="namespaceaxiom.html#a8981a466c490292c8df620bf62eacf0aaea1e34304a5d8ffa7c9b0ed8ede4ef1a">axiom::Released</a> = 1
-, <a class="el" href="namespaceaxiom.html#a8981a466c490292c8df620bf62eacf0aaeffe06cc3bbfdd18fa0d95a403cd2d3f">axiom::Held</a> = 2
-, <a class="el" href="namespaceaxiom.html#a8981a466c490292c8df620bf62eacf0aad78a68f6a85421ae121c2cb5b73a1040">axiom::Pressed</a> = 3
+<tr class="separator:ad6d8e983364d5b5bd8b8d2c114f22f13"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa22e25169f6e86f6ab192ed00896f685"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceaxiom_1_1input.html#aa22e25169f6e86f6ab192ed00896f685">axiom::input::Input_States</a> { <a class="el" href="namespaceaxiom_1_1input.html#aa22e25169f6e86f6ab192ed00896f685a6adf97f83acf6453d4a6a4b1070f3754">axiom::input::None</a> = 0
+, <a class="el" href="namespaceaxiom_1_1input.html#aa22e25169f6e86f6ab192ed00896f685aea1e34304a5d8ffa7c9b0ed8ede4ef1a">axiom::input::Released</a> = 1
+, <a class="el" href="namespaceaxiom_1_1input.html#aa22e25169f6e86f6ab192ed00896f685aeffe06cc3bbfdd18fa0d95a403cd2d3f">axiom::input::Held</a> = 2
+, <a class="el" href="namespaceaxiom_1_1input.html#aa22e25169f6e86f6ab192ed00896f685ad78a68f6a85421ae121c2cb5b73a1040">axiom::input::Pressed</a> = 3
  }</td></tr>
-<tr class="separator:a8981a466c490292c8df620bf62eacf0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:aa22e25169f6e86f6ab192ed00896f685"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Macro Definition Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Input Component. </p>
+<dl class="section author"><dt>Author</dt><dd>Mike Murrell (<a href="#" onclick="location.href='mai'+'lto:'+'mik'+'es'+'tol'+'ey'+'obi'+'ke'+'@ai'+'m.'+'com'; return false;">mikes<span class="obfuscator">.nosp@m.</span>tole<span class="obfuscator">.nosp@m.</span>yobik<span class="obfuscator">.nosp@m.</span>e@ai<span class="obfuscator">.nosp@m.</span>m.com</a>) </dd></dl>
+<dl class="section version"><dt>Version</dt><dd>0.1 </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2023-05-11</dd></dl>
+<dl class="section copyright"><dt>Copyright</dt><dd>Copyright (c) 2023 </dd></dl>
+</div><h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="a688195e40acbe02a4f9f6e243fce8a65" name="a688195e40acbe02a4f9f6e243fce8a65"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a688195e40acbe02a4f9f6e243fce8a65">&#9670;&#160;</a></span>MOUSE_BUTTON_CHANGED</h2>
 

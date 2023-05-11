@@ -2,30 +2,35 @@
 \label{cmp-window_8h_source}\index{C:/Users/mmurrell/repos/axiom/components/render/cmp-\/window.h@{C:/Users/mmurrell/repos/axiom/components/render/cmp-\/window.h}}
 \mbox{\hyperlink{cmp-window_8h}{Go to the documentation of this file.}}
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
-\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ <GLFW/glfw3.h>}}
-\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <string>}}
-\DoxyCodeLine{00004\ }
-\DoxyCodeLine{00005\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespaceaxiom}{axiom}}\{}
-\DoxyCodeLine{00006\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structaxiom_1_1_cmp___window}{Cmp\_Window}}\{}
-\DoxyCodeLine{00007\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structaxiom_1_1_cmp___window_a1c5c18b5e0e61dc527891a409d579a2f}{width}}\ =\ 1280;}
-\DoxyCodeLine{00008\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structaxiom_1_1_cmp___window_a933dbf3b998caf12d27d0ac459f289f4}{height}}\ =\ 720;}
-\DoxyCodeLine{00009\ \ \ \ \ \ \ \ \ std::string\ \mbox{\hyperlink{structaxiom_1_1_cmp___window_afd70015cbaf45b4525c37dec4ede7354}{name}};}
-\DoxyCodeLine{00010\ \ \ \ \ \ \ \ \ GLFWwindow*\ \mbox{\hyperlink{structaxiom_1_1_cmp___window_a960a9e587d0b993986da08e00d332074}{window}};}
-\DoxyCodeLine{00011\ \ \ \ \ \ \ \ \ GLFWmonitor*\ \mbox{\hyperlink{structaxiom_1_1_cmp___window_a4a9afdca9a52393e95e0a9ba39d8acf1}{primary}};}
-\DoxyCodeLine{00012\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ GLFWvidmode*\ \mbox{\hyperlink{structaxiom_1_1_cmp___window_a424879d66e980a7b4b997e30e7daa119}{mode}};}
-\DoxyCodeLine{00013\ \ \ \ \ \};}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ <GLFW/glfw3.h>}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ <string>}}
 \DoxyCodeLine{00014\ }
-\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{namespaceaxiom_a1017b7c0e0e329529ccdef4f684317c8}{WindowSetting}}\{}
-\DoxyCodeLine{00016\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_a1017b7c0e0e329529ccdef4f684317c8a9d723d04c40bfd81835c0766a698cf63}{Resize}},}
-\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_a1017b7c0e0e329529ccdef4f684317c8ab13311ab51c4c34757f67f26580018dd}{Windowed}},}
-\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_a1017b7c0e0e329529ccdef4f684317c8ae7ec409749889353b8f83a6b04159420}{FullScreen}},}
-\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_a1017b7c0e0e329529ccdef4f684317c8a084c9e66005aa8b5d844eb7ab331f219}{WindowedFullScreen}}}
-\DoxyCodeLine{00020\ \ \ \ \ \};}
-\DoxyCodeLine{00021\ }
-\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structaxiom_1_1_cmp___window___change}{Cmp\_Window\_Change}}\{}
-\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_a1017b7c0e0e329529ccdef4f684317c8}{WindowSetting}}\ \mbox{\hyperlink{structaxiom_1_1_cmp___window___change_a291b27fe169e9ef9963ad86aa57bdf3a}{setting}};}
-\DoxyCodeLine{00024\ \ \ \ \ \};}
-\DoxyCodeLine{00025\ \}}
+\DoxyCodeLine{00015\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespaceaxiom}{axiom}}\{}
+\DoxyCodeLine{00016\ \ \ \ \ \textcolor{keyword}{namespace\ }window\{}
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{namespaceaxiom_1_1window_aa93908a72d8712b1112f203fb1da1ad5}{Setting}}\{}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1window_aa93908a72d8712b1112f203fb1da1ad5a9d723d04c40bfd81835c0766a698cf63}{Resize}},}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1window_aa93908a72d8712b1112f203fb1da1ad5ab13311ab51c4c34757f67f26580018dd}{Windowed}},}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1window_aa93908a72d8712b1112f203fb1da1ad5ae7ec409749889353b8f83a6b04159420}{FullScreen}},}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1window_aa93908a72d8712b1112f203fb1da1ad5a084c9e66005aa8b5d844eb7ab331f219}{WindowedFullScreen}}}
+\DoxyCodeLine{00022\ \ \ \ \ \};\};}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structaxiom_1_1_cmp___window}{Cmp\_Window}}\{}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structaxiom_1_1_cmp___window_a1c5c18b5e0e61dc527891a409d579a2f}{width}}\ =\ 1280;}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structaxiom_1_1_cmp___window_a933dbf3b998caf12d27d0ac459f289f4}{height}}\ =\ 720;}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ std::string\ \mbox{\hyperlink{structaxiom_1_1_cmp___window_afd70015cbaf45b4525c37dec4ede7354}{name}};}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ GLFWwindow*\ \mbox{\hyperlink{structaxiom_1_1_cmp___window_a960a9e587d0b993986da08e00d332074}{window}};}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ GLFWmonitor*\ \mbox{\hyperlink{structaxiom_1_1_cmp___window_a4a9afdca9a52393e95e0a9ba39d8acf1}{primary}};}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ GLFWvidmode*\ \mbox{\hyperlink{structaxiom_1_1_cmp___window_a424879d66e980a7b4b997e30e7daa119}{mode}};}
+\DoxyCodeLine{00031\ \ \ \ \ \};}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structaxiom_1_1_cmp___window___change}{Cmp\_Window\_Change}}\{}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1window_aa93908a72d8712b1112f203fb1da1ad5}{window::Setting}}\ \mbox{\hyperlink{structaxiom_1_1_cmp___window___change_a22d0f6c401be43d7ec0d74f86244a350}{setting}};}
+\DoxyCodeLine{00035\ \ \ \ \ \};}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \}}
 
 \end{DoxyCode}

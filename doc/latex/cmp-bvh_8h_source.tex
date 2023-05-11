@@ -2,190 +2,143 @@
 \label{cmp-bvh_8h_source}\index{C:/Users/mmurrell/repos/axiom/components/scene/cmp-\/bvh.h@{C:/Users/mmurrell/repos/axiom/components/scene/cmp-\/bvh.h}}
 \mbox{\hyperlink{cmp-bvh_8h}{Go to the documentation of this file.}}
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
-\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ <GLM/glm.hpp>}}
-\DoxyCodeLine{00003\ }
-\DoxyCodeLine{00004\ \textcolor{keyword}{namespace}\{}
-\DoxyCodeLine{00005\ \ \ \ \ \textcolor{keyword}{struct\ }Cmp\_Bvh\{}
-\DoxyCodeLine{00006\ }
-\DoxyCodeLine{00007\ \ \ \ \ \}}
-\DoxyCodeLine{00008\ \ \ \ \ \ \ \ \ \textcolor{keyword}{enum\ class}\ TreeType\ \{}
-\DoxyCodeLine{00009\ \ \ \ \ \ \ \ \ Recursive,}
-\DoxyCodeLine{00010\ \ \ \ \ \ \ \ \ HLBVH}
-\DoxyCodeLine{00011\ \ \ \ \ \};}
-\DoxyCodeLine{00012\ \ \ \ \ \textcolor{keyword}{enum\ class}\ SplitMethod\ \{}
-\DoxyCodeLine{00013\ \ \ \ \ \ \ \ \ Middle,\ SAH,\ EqualsCounts}
-\DoxyCodeLine{00014\ \ \ \ \ \};}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ <GLM/glm.hpp>}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ <flecs.h>}}
 \DoxyCodeLine{00015\ }
-\DoxyCodeLine{00016\ \ \ \ \ \textcolor{keyword}{struct\ }BVHBounds\ \{}
-\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ glm::vec3\ center;}
-\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ glm::vec3\ extents;}
-\DoxyCodeLine{00019\ }
-\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ BVHBounds(glm::vec3\ c,\ glm::vec3\ e)\ :\ center(c),\ extents(e)\ \{\};}
-\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ BVHBounds()\ \{\};}
-\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ glm::vec3\ max()\ \{}
-\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ center\ +\ extents;}
-\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ glm::vec3\ min()\ \{}
-\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ center\ -\/\ extents;}
-\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00028\ }
-\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ BVHBounds\ combine(BVHBounds\ b)\ \{}
-\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (center.x\ ==\ NAN)\ \textcolor{keywordflow}{return}\ b;}
-\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//find\ the\ highest\ and\ the\ lowest\ x\ and\ y\ values}}
-\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \ \ \ \ glm::vec3\ max\ =\ tulip::maxV(this-\/>max(),\ b.max());}
-\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \ \ \ \ glm::vec3\ min\ =\ tulip::minV(this-\/>min(),\ b.min());}
-\DoxyCodeLine{00034\ }
-\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//center\ =\ halfway\ between\ the\ two,\ extents\ =\ max-\/center}}
-\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \ \ \ \ glm::vec3\ c\ =\ (max\ +\ min)\ *\ 0.5f;}
-\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \ \ \ \ glm::vec3\ e\ =\ max\ -\/\ c;}
-\DoxyCodeLine{00038\ }
-\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ BVHBounds(c,\ e);}
-\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00041\ }
-\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ BVHBounds\ combine(glm::vec3\ c,\ glm::vec3\ e)\ \{}
-\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \ \ \ \ glm::vec3\ max\ =\ tulip::maxV(this-\/>max(),\ (c\ +\ e));}
-\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \ \ \ \ glm::vec3\ min\ =\ tulip::minV(this-\/>min(),\ (c\ -\/\ e));}
-\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \ \ \ \ glm::vec3\ ce\ =\ (max\ +\ min)\ *\ 0.5f;}
-\DoxyCodeLine{00046\ }
-\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ BVHBounds(ce,\ max\ -\/\ ce);}
-\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00049\ }
-\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ Offset(glm::vec3\ c,\ \textcolor{keywordtype}{int}\ a)\textcolor{keyword}{\ const\ }\{}
-\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ ret\ =\ (c[a]\ -\/\ (center[a]\ -\/\ extents[a]))\ /\ (extents[a]\ *\ 2);}
-\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ret;}
-\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ glm::vec3\ Offset(glm::vec3\ c)\textcolor{keyword}{\ const\ }\{}
-\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \ \ \ \ glm::vec3\ ret\ =\ center;}
-\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \ \ \ \ ret.x\ =\ Offset(c,\ 0);}
-\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \ \ \ \ ret.y\ =\ Offset(c,\ 1);}
-\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \ \ \ \ ret.z\ =\ Offset(c,\ 2);}
-\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ret;}
-\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00061\ }
-\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ SurfaceArea()\ \{}
-\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \ \ \ \ glm::vec3\ te\ =\ extents\ *\ 2.f;}
-\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 2\ *\ (te.x\ *\ te.y\ +\ te.x\ *\ te.z\ +\ te.y\ *\ te.z);}
-\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00066\ \ \ \ \ \};}
-\DoxyCodeLine{00067\ }
-\DoxyCodeLine{00068\ \ \ \ \ \textcolor{keyword}{struct\ }BVHBucket\ \{}
-\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ count\ =\ 0;}
-\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ BVHBounds\ bounds;\textcolor{comment}{//\ =\ BVHBounds(glm::vec3(0),\ glm::vec3(0));}}
-\DoxyCodeLine{00071\ \ \ \ \ \};}
-\DoxyCodeLine{00072\ }
-\DoxyCodeLine{00073\ \ \ \ \ \textcolor{keyword}{struct\ }BVHNode\ \{}
-\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ BVHBounds\ bounds;}
-\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ BVHNode*\ children[2];}
-\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ splitAxis;}
-\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ firstPrimOffset;}
-\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ nPrims;}
-\DoxyCodeLine{00079\ }
-\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ initLeaf(\textcolor{keywordtype}{int}\ first,\ \textcolor{keywordtype}{int}\ n,\ \textcolor{keyword}{const}\ BVHBounds\&\ b)\ \{}
-\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \ \ \ \ firstPrimOffset\ =\ first;}
-\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \ \ \ \ nPrims\ =\ n;}
-\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \ \ \ \ bounds\ =\ b;}
-\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \ \ \ \ children[0]\ =\ children[1]\ =\ \textcolor{keyword}{nullptr};}
-\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00086\ }
-\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ initInterior(\textcolor{keywordtype}{int}\ axis,\ BVHNode*\ c0,\ BVHNode*\ c1)\ \{}
-\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \ \ \ \ children[0]\ =\ c0;}
-\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \ \ \ \ children[1]\ =\ c1;}
-\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//bounds\ =\ c0-\/>bounds.union2D(c1-\/>bounds);}}
-\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \ \ \ \ bounds\ =\ c0-\/>bounds.combine(c1-\/>bounds);}
-\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \ \ \ \ splitAxis\ =\ axis;}
-\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \ \ \ \ nPrims\ =\ 0;}
-\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00095\ \ \ \ \ \};}
-\DoxyCodeLine{00096\ }
-\DoxyCodeLine{00097\ \ \ \ \ \textcolor{keyword}{struct\ }ssBVHNode\ \{}
-\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ glm::vec3\ upper;}
-\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ offset;}
-\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ glm::vec3\ lower;}
-\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ numChildren;}
-\DoxyCodeLine{00102\ \ \ \ \ \};}
+\DoxyCodeLine{00016\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespaceaxiom}{axiom}}\{}
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structaxiom_1_1_cmp___bvh}{Cmp\_Bvh}}\{}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_node}{bvh::BVHNode}}*\ \mbox{\hyperlink{structaxiom_1_1_cmp___bvh_a000f4b8b554722d0b83179cc8a62da41}{root}};}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structaxiom_1_1_cmp___bvh_add98660461d80b843dec3e19c412224f}{num\_nodes}};}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ std::vector<flecs::entity*>\ \mbox{\hyperlink{structaxiom_1_1_cmp___bvh_a4923f068a259cacd0814d8b2ffab7798}{ordered\_prims}};}
+\DoxyCodeLine{00027\ \ \ \ \ \};}
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keyword}{namespace\ }bvh\{}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{namespaceaxiom_1_1bvh_a92ae439e454dbd454eb32eacae78c058}{TreeType}}\ \{}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1bvh_a92ae439e454dbd454eb32eacae78c058a556c3dd912453ae5cb3095cd5054e6f4}{Recursive}},}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1bvh_a92ae439e454dbd454eb32eacae78c058a0ff1f32cc71c2d0f87e1a5d04683eb2f}{HLBVH}}}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{namespaceaxiom_1_1bvh_a4c8856bb5eb5a9c49499ef0f46a9a38f}{SplitMethod}}\ \{}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1bvh_a4c8856bb5eb5a9c49499ef0f46a9a38fab1ca34f82e83c52b010f86955f264e05}{Middle}},\ \mbox{\hyperlink{namespaceaxiom_1_1bvh_a4c8856bb5eb5a9c49499ef0f46a9a38fa2c825725f1016edf12b60a8c3b9d8714}{SAH}},\ \mbox{\hyperlink{namespaceaxiom_1_1bvh_a4c8856bb5eb5a9c49499ef0f46a9a38fa528f5f26f8ab5a7d3ac5cc4d49825dbd}{EqualsCounts}}}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ glm::vec3\ \mbox{\hyperlink{namespaceaxiom_1_1bvh_a4e457f42d66901ea9fa38d92d02ed2db}{maxV}}(\textcolor{keyword}{const}\ glm::vec3\&\ a,\ \textcolor{keyword}{const}\ glm::vec3\&\ b)\{}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \ \ \ \ glm::vec3\ ret;}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \ \ \ \ ret.x\ =\ std::max(a.x,\ b.x);}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \ \ \ \ ret.y\ =\ std::max(a.y,\ b.y);}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \ \ \ \ ret.z\ =\ std::max(a.z,\ b.z);}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ret;}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ glm::vec3\ \mbox{\hyperlink{namespaceaxiom_1_1bvh_a4676f707e47829232c6821f558a0cdfd}{minV}}(\textcolor{keyword}{const}\ glm::vec3\&\ a,\ \textcolor{keyword}{const}\ glm::vec3\&\ b)\{}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \ \ \ \ glm::vec3\ ret;}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \ \ \ \ ret.x\ =\ std::min(a.x,\ b.x);}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \ \ \ \ ret.y\ =\ std::min(a.y,\ b.y);}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \ \ \ \ ret.z\ =\ std::min(a.z,\ b.z);}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ret;}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_bounds}{BVHBounds}}\ \{}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \ \ \ \ glm::vec3\ \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_bounds_ac683fbc9b011e1e2fb4792a3f0b07589}{center}};}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \ \ \ \ glm::vec3\ \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_bounds_aa82842af372f89cc254149109712c4ab}{extents}};}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_bounds_ac562c4e0cf29f075163d2a3776f66908}{BVHBounds}}(glm::vec3\ c,\ glm::vec3\ e)\ :\ \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_bounds_ac683fbc9b011e1e2fb4792a3f0b07589}{center}}(c),\ \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_bounds_aa82842af372f89cc254149109712c4ab}{extents}}(e)\ \{\};}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_bounds_acf309fe3c6a50d45eca25ad6dd51431a}{BVHBounds}}()\ \{\};}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \ \ \ \ glm::vec3\ \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_bounds_a0dfe08b47b359988e7966d8f08474d73}{max}}()\ \{}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_bounds_ac683fbc9b011e1e2fb4792a3f0b07589}{center}}\ +\ \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_bounds_aa82842af372f89cc254149109712c4ab}{extents}};}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \ \ \ \ glm::vec3\ \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_bounds_a83239e1810966968f55a18bdfc7e6a48}{min}}()\ \{}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_bounds_ac683fbc9b011e1e2fb4792a3f0b07589}{center}}\ -\/\ \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_bounds_aa82842af372f89cc254149109712c4ab}{extents}};}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_bounds}{BVHBounds}}\ \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_bounds_acb6b47e88847acd25782880c5d8fa686}{combine}}(\mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_bounds}{BVHBounds}}\ b)\ \{}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_bounds_ac683fbc9b011e1e2fb4792a3f0b07589}{center}}.x\ ==\ NAN)\ \textcolor{keywordflow}{return}\ b;}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//find\ the\ highest\ and\ the\ lowest\ x\ and\ y\ values}}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ glm::vec3\ \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_bounds_a0dfe08b47b359988e7966d8f08474d73}{max}}\ =\ \mbox{\hyperlink{namespaceaxiom_1_1bvh_a4e457f42d66901ea9fa38d92d02ed2db}{maxV}}(this-\/>\mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_bounds_a0dfe08b47b359988e7966d8f08474d73}{max}}(),\ b.\mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_bounds_a0dfe08b47b359988e7966d8f08474d73}{max}}());}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ glm::vec3\ \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_bounds_a83239e1810966968f55a18bdfc7e6a48}{min}}\ =\ \mbox{\hyperlink{namespaceaxiom_1_1bvh_a4676f707e47829232c6821f558a0cdfd}{minV}}(this-\/>\mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_bounds_a83239e1810966968f55a18bdfc7e6a48}{min}}(),\ b.\mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_bounds_a83239e1810966968f55a18bdfc7e6a48}{min}}());}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//center\ =\ halfway\ between\ the\ two,\ extents\ =\ max-\/center}}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ glm::vec3\ c\ =\ (\mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_bounds_a0dfe08b47b359988e7966d8f08474d73}{max}}\ +\ \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_bounds_a83239e1810966968f55a18bdfc7e6a48}{min}})\ *\ 0.5f;}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ glm::vec3\ e\ =\ \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_bounds_a0dfe08b47b359988e7966d8f08474d73}{max}}\ -\/\ c;}
+\DoxyCodeLine{00074\ }
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_bounds_acf309fe3c6a50d45eca25ad6dd51431a}{BVHBounds}}(c,\ e);}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_bounds}{BVHBounds}}\ \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_bounds_ae98ddbc171b57ee4040ead9c2f7de66e}{combine}}(glm::vec3\ c,\ glm::vec3\ e)\ \{}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ glm::vec3\ \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_bounds_a0dfe08b47b359988e7966d8f08474d73}{max}}\ =\ \mbox{\hyperlink{namespaceaxiom_1_1bvh_a4e457f42d66901ea9fa38d92d02ed2db}{maxV}}(this-\/>\mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_bounds_a0dfe08b47b359988e7966d8f08474d73}{max}}(),\ (c\ +\ e));}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ glm::vec3\ \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_bounds_a83239e1810966968f55a18bdfc7e6a48}{min}}\ =\ \mbox{\hyperlink{namespaceaxiom_1_1bvh_a4676f707e47829232c6821f558a0cdfd}{minV}}(this-\/>\mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_bounds_a83239e1810966968f55a18bdfc7e6a48}{min}}(),\ (c\ -\/\ e));}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ glm::vec3\ ce\ =\ (\mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_bounds_a0dfe08b47b359988e7966d8f08474d73}{max}}\ +\ \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_bounds_a83239e1810966968f55a18bdfc7e6a48}{min}})\ *\ 0.5f;}
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_bounds_acf309fe3c6a50d45eca25ad6dd51431a}{BVHBounds}}(ce,\ \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_bounds_a0dfe08b47b359988e7966d8f08474d73}{max}}\ -\/\ ce);}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00085\ }
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_bounds_a6fb242433d8061df012f4f893f51af6b}{Offset}}(glm::vec3\ c,\ \textcolor{keywordtype}{int}\ a)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ ret\ =\ (c[a]\ -\/\ (\mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_bounds_ac683fbc9b011e1e2fb4792a3f0b07589}{center}}[a]\ -\/\ \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_bounds_aa82842af372f89cc254149109712c4ab}{extents}}[a]))\ /\ (\mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_bounds_aa82842af372f89cc254149109712c4ab}{extents}}[a]\ *\ 2);}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ret;}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \ \ \ \ glm::vec3\ \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_bounds_a3ba69999b52891fa381830cb12ff25c4}{Offset}}(glm::vec3\ c)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ glm::vec3\ ret\ =\ \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_bounds_ac683fbc9b011e1e2fb4792a3f0b07589}{center}};}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ret.x\ =\ \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_bounds_a6fb242433d8061df012f4f893f51af6b}{Offset}}(c,\ 0);}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ret.y\ =\ \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_bounds_a6fb242433d8061df012f4f893f51af6b}{Offset}}(c,\ 1);}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ret.z\ =\ \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_bounds_a6fb242433d8061df012f4f893f51af6b}{Offset}}(c,\ 2);}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ret;}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00097\ }
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_bounds_a7ec6b500403adb87c21407f74ba54888}{SurfaceArea}}()\ \{}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ glm::vec3\ te\ =\ \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_bounds_aa82842af372f89cc254149109712c4ab}{extents}}\ *\ 2.f;}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 2\ *\ (te.x\ *\ te.y\ +\ te.x\ *\ te.z\ +\ te.y\ *\ te.z);}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \};}
 \DoxyCodeLine{00103\ }
-\DoxyCodeLine{00104\ \ \ \ \ \textcolor{keyword}{struct\ }MortonPrimitive\ \{}
-\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ primitive\_index;}
-\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ uint32\_t\ morton\_code;}
-\DoxyCodeLine{00107\ \ \ \ \ \};}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_bucket}{BVHBucket}}\ \{}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_bucket_acaddd03e5a6e3afbe748d1674b56bd5c}{count}}\ =\ 0;}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_bounds}{BVHBounds}}\ \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_bucket_ad4072a89bca74967dbeb5dcc303e8408}{bounds}};\textcolor{comment}{//\ =\ BVHBounds(glm::vec3(0),\ glm::vec3(0));}}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \};}
 \DoxyCodeLine{00108\ }
-\DoxyCodeLine{00109\ \ \ \ \ \textcolor{keyword}{struct\ }LBVHTreelet\ \{}
-\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ start\_index,\ n\_primitives;}
-\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ BVHNode*\ build\_nodes;}
-\DoxyCodeLine{00112\ \ \ \ \ \};}
-\DoxyCodeLine{00113\ }
-\DoxyCodeLine{00114\ \ \ \ \ \textcolor{keyword}{struct\ }BVHPrimitive\ \{}
-\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ BVHPrimitive()\ \{\}}
-\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ BVHPrimitive(\textcolor{keywordtype}{size\_t}\ prim\_ind,\ \textcolor{keyword}{const}\ BVHBounds\ \&\_b)\ :\ primitive\_index(prim\_ind),\ bounds(\_b)\ \{\}}
-\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ primitive\_index;}
-\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ BVHBounds\ bounds;}
-\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ glm::vec3\ Centroid()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ bounds.center;\ \}}
-\DoxyCodeLine{00120\ \ \ \ \ \};}
-\DoxyCodeLine{00121\ }
-\DoxyCodeLine{00122\ \ \ \ \ \textcolor{keyword}{inline}\ uint32\_t\ LeftShift3(uint32\_t\ x)\ \{}
-\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ assert(x\ <=\ (1u\ <<\ 10));}
-\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (x\ ==\ (1\ <<\ 10))}
-\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ \ \ \ \ -\/-\/x;}
-\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ x\ =\ (x\ |\ (x\ <<\ 16))\ \&\ 0b00000011000000000000000011111111;}
-\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ x\ =\ -\/-\/-\/-\/\ -\/-\/98\ -\/-\/-\/-\/\ -\/-\/-\/-\/\ -\/-\/-\/-\/\ -\/-\/-\/-\/\ 7654\ 3210}}
-\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ x\ =\ (x\ |\ (x\ <<\ 8))\ \&\ 0b00000011000000001111000000001111;}
-\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ x\ =\ -\/-\/-\/-\/\ -\/-\/98\ -\/-\/-\/-\/\ -\/-\/-\/-\/\ 7654\ -\/-\/-\/-\/\ -\/-\/-\/-\/\ 3210}}
-\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ x\ =\ (x\ |\ (x\ <<\ 4))\ \&\ 0b00000011000011000011000011000011;}
-\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ x\ =\ -\/-\/-\/-\/\ -\/-\/98\ -\/-\/-\/-\/\ 76-\/-\/\ -\/-\/54\ -\/-\/-\/-\/\ 32-\/-\/\ -\/-\/10}}
-\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ x\ =\ (x\ |\ (x\ <<\ 2))\ \&\ 0b00001001001001001001001001001001;}
-\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ x\ =\ -\/-\/-\/-\/\ 9-\/-\/8\ -\/-\/7-\/\ -\/6-\/-\/\ 5-\/-\/4\ -\/-\/3-\/\ -\/2-\/-\/\ 1-\/-\/0}}
-\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ x;}
-\DoxyCodeLine{00135\ \ \ \ \ \}}
-\DoxyCodeLine{00136\ }
-\DoxyCodeLine{00137\ \ \ \ \ \textcolor{keyword}{inline}\ uint32\_t\ EncodeMorton3(\textcolor{keywordtype}{float}\ x,\ \textcolor{keywordtype}{float}\ y,\ \textcolor{keywordtype}{float}\ z)\ \{}
-\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ assert(x\ >=\ 0);}
-\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ assert(y\ >=\ 0);}
-\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ assert(z\ >=\ 0);}
-\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (LeftShift3(z)\ <<\ 2)\ |\ (LeftShift3(y)\ <<\ 1)\ |\ LeftShift3(x);}
-\DoxyCodeLine{00142\ \ \ \ \ \}}
-\DoxyCodeLine{00143\ }
-\DoxyCodeLine{00144\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ RadixSort(std::vector<MortonPrimitive>*\ v)\ \{}
-\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ std::vector<MortonPrimitive>\ tempVector(v-\/>size());}
-\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{int}\ bitsPerPass\ =\ 6;}
-\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{int}\ nBits\ =\ 30;}
-\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_assert}((nBits\ \%\ bitsPerPass)\ ==\ 0,}
-\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Radix\ sort\ bitsPerPass\ must\ evenly\ divide\ nBits"{}});}
-\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{int}\ nPasses\ =\ nBits\ /\ bitsPerPass;}
-\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ pass\ =\ 0;\ pass\ <\ nPasses;\ ++pass)\ \{}
-\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Perform\ one\ pass\ of\ radix\ sort,\ sorting\ \_bitsPerPass\_\ bits}}
-\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ lowBit\ =\ pass\ *\ bitsPerPass;}
-\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Set\ in\ and\ out\ vector\ references\ for\ radix\ sort\ pass}}
-\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ \ \ \ \ std::vector<MortonPrimitive>\&\ in\ =\ (pass\ \&\ 1)\ ?\ tempVector\ :\ *v;}
-\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ \ \ \ \ std::vector<MortonPrimitive>\&\ out\ =\ (pass\ \&\ 1)\ ?\ *v\ :\ tempVector;}
-\DoxyCodeLine{00157\ }
-\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Count\ number\ of\ zero\ bits\ in\ array\ for\ current\ radix\ sort\ bit}}
-\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{int}\ nBuckets\ =\ 1\ <<\ bitsPerPass;}
-\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ bucketCount[nBuckets]\ =\ \{\ 0\ \};}
-\DoxyCodeLine{00161\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{int}\ bitMask\ =\ (1\ <<\ bitsPerPass)\ -\/\ 1;}
-\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ MortonPrimitive\&\ mp\ :\ in)\ \{}
-\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ bucket\ =\ (mp.morton\_code\ >>\ lowBit)\ \&\ bitMask;}
-\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ assert(bucket\ >=\ 0);}
-\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ assert(bucket\ <\ nBuckets);}
-\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ++bucketCount[bucket];}
-\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00168\ }
-\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Compute\ starting\ index\ in\ output\ array\ for\ each\ bucket}}
-\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ outIndex[nBuckets];}
-\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ \ \ \ \ outIndex[0]\ =\ 0;}
-\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 1;\ i\ <\ nBuckets;\ ++i)}
-\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ outIndex[i]\ =\ outIndex[i\ -\/\ 1]\ +\ bucketCount[i\ -\/\ 1];}
-\DoxyCodeLine{00174\ }
-\DoxyCodeLine{00175\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Store\ sorted\ values\ in\ output\ array}}
-\DoxyCodeLine{00176\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ MortonPrimitive\&\ mp\ :\ in)\ \{}
-\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ bucket\ =\ (mp.morton\_code\ >>\ lowBit)\ \&\ bitMask;}
-\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ out[outIndex[bucket]++]\ =\ mp;}
-\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Copy\ final\ result\ from\ \_tempVector\_,\ if\ needed}}
-\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (nPasses\ \&\ 1)}
-\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ \ \ \ \ std::swap(*v,\ tempVector);}
-\DoxyCodeLine{00184\ \ \ \ \ \}}
-\DoxyCodeLine{00185\ \}}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_node}{BVHNode}}\ \{}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_bounds}{BVHBounds}}\ \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_node_a536c0c3ea1006d0774fce4d9a839d1af}{bounds}};}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_node}{BVHNode}}*\ \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_node_ab2ef5c61769339435552ba48ead56a68}{children}}[2];}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_node_a7767c0f01a8de1960e1a1e008c42327e}{splitAxis}};}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_node_a3173968605d0a76ce4e3d78bf4e8a5ee}{firstPrimOffset}};}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_node_ad6487f7105834159ebb090466fe1fa66}{nPrims}};}
+\DoxyCodeLine{00115\ }
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_node_a406bf0e15a9aec158a5a6eb4175b173d}{initLeaf}}(\textcolor{keywordtype}{int}\ first,\ \textcolor{keywordtype}{int}\ n,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_bounds}{BVHBounds}}\&\ b)\ \{}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_node_a3173968605d0a76ce4e3d78bf4e8a5ee}{firstPrimOffset}}\ =\ first;}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_node_ad6487f7105834159ebb090466fe1fa66}{nPrims}}\ =\ n;}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_node_a536c0c3ea1006d0774fce4d9a839d1af}{bounds}}\ =\ b;}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_node_ab2ef5c61769339435552ba48ead56a68}{children}}[0]\ =\ \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_node_ab2ef5c61769339435552ba48ead56a68}{children}}[1]\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00122\ }
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_node_ae6e25f8732da2f32f677a4e36b547ae6}{initInterior}}(\textcolor{keywordtype}{int}\ axis,\ \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_node}{BVHNode}}*\ c0,\ \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_node}{BVHNode}}*\ c1)\ \{}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_node_ab2ef5c61769339435552ba48ead56a68}{children}}[0]\ =\ c0;}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_node_ab2ef5c61769339435552ba48ead56a68}{children}}[1]\ =\ c1;}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//bounds\ =\ c0-\/>bounds.union2D(c1-\/>bounds);}}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_node_a536c0c3ea1006d0774fce4d9a839d1af}{bounds}}\ =\ c0-\/>\mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_node_a536c0c3ea1006d0774fce4d9a839d1af}{bounds}}.\mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_bounds_acb6b47e88847acd25782880c5d8fa686}{combine}}(c1-\/>\mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_node_a536c0c3ea1006d0774fce4d9a839d1af}{bounds}});}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_node_a7767c0f01a8de1960e1a1e008c42327e}{splitAxis}}\ =\ axis;}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_node_ad6487f7105834159ebb090466fe1fa66}{nPrims}}\ =\ 0;}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00132\ }
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structaxiom_1_1bvh_1_1ss_b_v_h_node}{ssBVHNode}}\ \{}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \ \ \ \ glm::vec3\ \mbox{\hyperlink{structaxiom_1_1bvh_1_1ss_b_v_h_node_a6a23f366a7b7c6fd829e1a3bcf7e3497}{upper}};}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structaxiom_1_1bvh_1_1ss_b_v_h_node_a40c40c6ca274738c4363b75fd929d5af}{offset}};}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \ \ \ \ glm::vec3\ \mbox{\hyperlink{structaxiom_1_1bvh_1_1ss_b_v_h_node_a69444cfda2a5a323af5defe5a4799b21}{lower}};}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structaxiom_1_1bvh_1_1ss_b_v_h_node_a03102dcf74a0898955c64d619c1cc525}{numChildren}};}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00139\ }
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structaxiom_1_1bvh_1_1_l_b_v_h_treelet}{LBVHTreelet}}\ \{}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{structaxiom_1_1bvh_1_1_l_b_v_h_treelet_aadb29b20df559a05b26f6bf56e85fb92}{start\_index}},\ \mbox{\hyperlink{structaxiom_1_1bvh_1_1_l_b_v_h_treelet_abaa9d3e6e1228239a4d9e95066f1e40f}{n\_primitives}};}
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_node}{BVHNode}}*\ \mbox{\hyperlink{structaxiom_1_1bvh_1_1_l_b_v_h_treelet_a70011bf8e510052ad2a95888cd7dc29b}{build\_nodes}};}
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00144\ }
+\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_primitive}{BVHPrimitive}}\ \{}
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_primitive_ad2945c0920371a47a9f3c05850295cad}{BVHPrimitive}}()\ \{\}}
+\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_primitive_add8e5df1e70cec892fd3f76c087dd7a3}{BVHPrimitive}}(\textcolor{keywordtype}{size\_t}\ prim\_ind,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_bounds}{BVHBounds}}\ \&\_b)\ :\ \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_primitive_a79de0f10e30e7a7a1681a673710715ed}{primitive\_index}}(prim\_ind),\ \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_primitive_abee179d82ec185b1055663a760ad4f61}{bounds}}(\_b)\ \{\}}
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_primitive_a79de0f10e30e7a7a1681a673710715ed}{primitive\_index}};}
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_bounds}{BVHBounds}}\ \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_primitive_abee179d82ec185b1055663a760ad4f61}{bounds}};}
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ \ \ \ \ glm::vec3\ \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_primitive_a19b49ddfe7a3f06c62374366a98b4402}{Centroid}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_primitive_abee179d82ec185b1055663a760ad4f61}{bounds}}.\mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_bounds_ac683fbc9b011e1e2fb4792a3f0b07589}{center}};\ \}}
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00152\ \ \ \ \ \}}
+\DoxyCodeLine{00153\ \}}
 
 \end{DoxyCode}

@@ -1,0 +1,90 @@
+\hypertarget{namespaceaxiom_1_1bvh}{}\doxysection{axiom\+::bvh Namespace Reference}
+\label{namespaceaxiom_1_1bvh}\index{axiom::bvh@{axiom::bvh}}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_bounds}{BVHBounds}}
+\item 
+struct \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_bucket}{BVHBucket}}
+\item 
+struct \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_node}{BVHNode}}
+\item 
+struct \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_primitive}{BVHPrimitive}}
+\item 
+struct \mbox{\hyperlink{structaxiom_1_1bvh_1_1_l_b_v_h_treelet}{LBVHTreelet}}
+\item 
+struct \mbox{\hyperlink{structaxiom_1_1bvh_1_1ss_b_v_h_node}{ss\+BVHNode}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum class \mbox{\hyperlink{namespaceaxiom_1_1bvh_a92ae439e454dbd454eb32eacae78c058}{Tree\+Type}} \{ \mbox{\hyperlink{namespaceaxiom_1_1bvh_a92ae439e454dbd454eb32eacae78c058a556c3dd912453ae5cb3095cd5054e6f4}{Recursive}}
+, \mbox{\hyperlink{namespaceaxiom_1_1bvh_a92ae439e454dbd454eb32eacae78c058a0ff1f32cc71c2d0f87e1a5d04683eb2f}{HLBVH}}
+ \}
+\item 
+enum class \mbox{\hyperlink{namespaceaxiom_1_1bvh_a4c8856bb5eb5a9c49499ef0f46a9a38f}{Split\+Method}} \{ \mbox{\hyperlink{namespaceaxiom_1_1bvh_a4c8856bb5eb5a9c49499ef0f46a9a38fab1ca34f82e83c52b010f86955f264e05}{Middle}}
+, \mbox{\hyperlink{namespaceaxiom_1_1bvh_a4c8856bb5eb5a9c49499ef0f46a9a38fa2c825725f1016edf12b60a8c3b9d8714}{SAH}}
+, \mbox{\hyperlink{namespaceaxiom_1_1bvh_a4c8856bb5eb5a9c49499ef0f46a9a38fa528f5f26f8ab5a7d3ac5cc4d49825dbd}{Equals\+Counts}}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+glm\+::vec3 \mbox{\hyperlink{namespaceaxiom_1_1bvh_a4e457f42d66901ea9fa38d92d02ed2db}{maxV}} (const glm\+::vec3 \&a, const glm\+::vec3 \&b)
+\item 
+glm\+::vec3 \mbox{\hyperlink{namespaceaxiom_1_1bvh_a4676f707e47829232c6821f558a0cdfd}{minV}} (const glm\+::vec3 \&a, const glm\+::vec3 \&b)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Enumeration Type Documentation}
+\mbox{\Hypertarget{namespaceaxiom_1_1bvh_a4c8856bb5eb5a9c49499ef0f46a9a38f}\label{namespaceaxiom_1_1bvh_a4c8856bb5eb5a9c49499ef0f46a9a38f}} 
+\index{axiom::bvh@{axiom::bvh}!SplitMethod@{SplitMethod}}
+\index{SplitMethod@{SplitMethod}!axiom::bvh@{axiom::bvh}}
+\doxysubsubsection{\texorpdfstring{SplitMethod}{SplitMethod}}
+{\footnotesize\ttfamily enum class \mbox{\hyperlink{namespaceaxiom_1_1bvh_a4c8856bb5eb5a9c49499ef0f46a9a38f}{axiom\+::bvh\+::\+Split\+Method}}\hspace{0.3cm}{\ttfamily [strong]}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Middle@{Middle}!axiom::bvh@{axiom::bvh}}\index{axiom::bvh@{axiom::bvh}!Middle@{Middle}}}\mbox{\Hypertarget{namespaceaxiom_1_1bvh_a4c8856bb5eb5a9c49499ef0f46a9a38fab1ca34f82e83c52b010f86955f264e05}\label{namespaceaxiom_1_1bvh_a4c8856bb5eb5a9c49499ef0f46a9a38fab1ca34f82e83c52b010f86955f264e05}} 
+Middle&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SAH@{SAH}!axiom::bvh@{axiom::bvh}}\index{axiom::bvh@{axiom::bvh}!SAH@{SAH}}}\mbox{\Hypertarget{namespaceaxiom_1_1bvh_a4c8856bb5eb5a9c49499ef0f46a9a38fa2c825725f1016edf12b60a8c3b9d8714}\label{namespaceaxiom_1_1bvh_a4c8856bb5eb5a9c49499ef0f46a9a38fa2c825725f1016edf12b60a8c3b9d8714}} 
+SAH&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{EqualsCounts@{EqualsCounts}!axiom::bvh@{axiom::bvh}}\index{axiom::bvh@{axiom::bvh}!EqualsCounts@{EqualsCounts}}}\mbox{\Hypertarget{namespaceaxiom_1_1bvh_a4c8856bb5eb5a9c49499ef0f46a9a38fa528f5f26f8ab5a7d3ac5cc4d49825dbd}\label{namespaceaxiom_1_1bvh_a4c8856bb5eb5a9c49499ef0f46a9a38fa528f5f26f8ab5a7d3ac5cc4d49825dbd}} 
+Equals\+Counts&\\
+\hline
+
+\end{DoxyEnumFields}
+\mbox{\Hypertarget{namespaceaxiom_1_1bvh_a92ae439e454dbd454eb32eacae78c058}\label{namespaceaxiom_1_1bvh_a92ae439e454dbd454eb32eacae78c058}} 
+\index{axiom::bvh@{axiom::bvh}!TreeType@{TreeType}}
+\index{TreeType@{TreeType}!axiom::bvh@{axiom::bvh}}
+\doxysubsubsection{\texorpdfstring{TreeType}{TreeType}}
+{\footnotesize\ttfamily enum class \mbox{\hyperlink{namespaceaxiom_1_1bvh_a92ae439e454dbd454eb32eacae78c058}{axiom\+::bvh\+::\+Tree\+Type}}\hspace{0.3cm}{\ttfamily [strong]}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Recursive@{Recursive}!axiom::bvh@{axiom::bvh}}\index{axiom::bvh@{axiom::bvh}!Recursive@{Recursive}}}\mbox{\Hypertarget{namespaceaxiom_1_1bvh_a92ae439e454dbd454eb32eacae78c058a556c3dd912453ae5cb3095cd5054e6f4}\label{namespaceaxiom_1_1bvh_a92ae439e454dbd454eb32eacae78c058a556c3dd912453ae5cb3095cd5054e6f4}} 
+Recursive&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{HLBVH@{HLBVH}!axiom::bvh@{axiom::bvh}}\index{axiom::bvh@{axiom::bvh}!HLBVH@{HLBVH}}}\mbox{\Hypertarget{namespaceaxiom_1_1bvh_a92ae439e454dbd454eb32eacae78c058a0ff1f32cc71c2d0f87e1a5d04683eb2f}\label{namespaceaxiom_1_1bvh_a92ae439e454dbd454eb32eacae78c058a0ff1f32cc71c2d0f87e1a5d04683eb2f}} 
+HLBVH&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{namespaceaxiom_1_1bvh_a4e457f42d66901ea9fa38d92d02ed2db}\label{namespaceaxiom_1_1bvh_a4e457f42d66901ea9fa38d92d02ed2db}} 
+\index{axiom::bvh@{axiom::bvh}!maxV@{maxV}}
+\index{maxV@{maxV}!axiom::bvh@{axiom::bvh}}
+\doxysubsubsection{\texorpdfstring{maxV()}{maxV()}}
+{\footnotesize\ttfamily glm\+::vec3 axiom\+::bvh\+::maxV (\begin{DoxyParamCaption}\item[{const glm\+::vec3 \&}]{a,  }\item[{const glm\+::vec3 \&}]{b }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceaxiom_1_1bvh_a4676f707e47829232c6821f558a0cdfd}\label{namespaceaxiom_1_1bvh_a4676f707e47829232c6821f558a0cdfd}} 
+\index{axiom::bvh@{axiom::bvh}!minV@{minV}}
+\index{minV@{minV}!axiom::bvh@{axiom::bvh}}
+\doxysubsubsection{\texorpdfstring{minV()}{minV()}}
+{\footnotesize\ttfamily glm\+::vec3 axiom\+::bvh\+::minV (\begin{DoxyParamCaption}\item[{const glm\+::vec3 \&}]{a,  }\item[{const glm\+::vec3 \&}]{b }\end{DoxyParamCaption})}
+

@@ -1,12 +1,16 @@
 var searchData=
 [
-  ['warning_0',['WARNING',['../namespaceaxiom.html#a0586d377c8b51316334033e5f719d9cea059e9861e0400dfbe05c98a841f3f96b',1,'axiom']]],
-  ['weights_1',['weights',['../structaxiom_1_1_r___joint_data.html#a1f615bcfcb44e1e915bd66137a1d86b2',1,'axiom::R_JointData']]],
-  ['width_2',['width',['../structaxiom_1_1_cmp___window.html#a1c5c18b5e0e61dc527891a409d579a2f',1,'axiom::Cmp_Window']]],
-  ['window_3',['window',['../structaxiom_1_1_cmp___window.html#a960a9e587d0b993986da08e00d332074',1,'axiom::Cmp_Window']]],
-  ['windowed_4',['Windowed',['../namespaceaxiom.html#a1017b7c0e0e329529ccdef4f684317c8ab13311ab51c4c34757f67f26580018dd',1,'axiom']]],
-  ['windowedfullscreen_5',['WindowedFullScreen',['../namespaceaxiom.html#a1017b7c0e0e329529ccdef4f684317c8a084c9e66005aa8b5d844eb7ab331f219',1,'axiom']]],
-  ['windowsetting_6',['WindowSetting',['../namespaceaxiom.html#a1017b7c0e0e329529ccdef4f684317c8',1,'axiom']]],
-  ['world_7',['world',['../structaxiom_1_1_cmp___primitive.html#ad3815933ab3845ba1acc88e70f44abaa',1,'axiom::Cmp_Primitive::world()'],['../structaxiom_1_1render_1_1ss_primitive.html#a4ca5a0bb5589487f8c9952ef972332b4',1,'axiom::render::ssPrimitive::world()'],['../structaxiom_1_1_cmp___transform.html#a649506d2fac92e20f9724a62e210251c',1,'axiom::Cmp_Transform::world()']]],
-  ['writedescriptorset_8',['writeDescriptorSet',['../namespaceaxiom_1_1vks_1_1initializers.html#a747276ce6a01218cc95b58e3bed99103',1,'axiom::vks::initializers::writeDescriptorSet(VkDescriptorSet dstSet, VkDescriptorType type, uint32_t binding, VkDescriptorBufferInfo *bufferInfo, uint32_t descriptorCount=1)'],['../namespaceaxiom_1_1vks_1_1initializers.html#ac88392e2a9661852ac3a0e8276a6c27c',1,'axiom::vks::initializers::writeDescriptorSet(VkDescriptorSet dstSet, VkDescriptorType type, uint32_t binding, VkDescriptorImageInfo *imageInfo, uint32_t descriptorCount=1)']]]
+  ['v_0',['v',['../structaxiom_1_1shader_1_1ss_vert.html#ac93fa12fee08e906fb367ba65583e204',1,'axiom::shader::ssVert::v()'],['../structaxiom_1_1shader_1_1ss_triangle_index.html#a91ed623d6d60e8857067f15c255e1cb8',1,'axiom::shader::ssTriangleIndex::v()'],['../structaxiom_1_1shader_1_1ss_index.html#a42bea46514f56f241a1a631d6689436f',1,'axiom::shader::ssIndex::v()']]],
+  ['validationlayers_1',['validationLayers',['../structaxiom_1_1_vulkan_device.html#a959112acdac6a828fc2abff9369453fa',1,'axiom::VulkanDevice']]],
+  ['vertex_2',['Vertex',['../structaxiom_1_1resource_1_1_vertex.html',1,'axiom::resource::Vertex'],['../structaxiom_1_1resource_1_1_vertex.html#aab514ade5cd31f111507533cd8961394',1,'axiom::resource::Vertex::Vertex(const glm::vec3 &amp;p, const glm::vec3 &amp;n)'],['../structaxiom_1_1resource_1_1_vertex.html#a32fd7b088c5f1a12e19da7b3d9b4a076',1,'axiom::resource::Vertex::Vertex()']]],
+  ['vertexinputattributedescription_3',['vertexInputAttributeDescription',['../namespaceaxiom_1_1vks_1_1initializers.html#a0d0053def7c6f8a514d3ed9375a17b8b',1,'axiom::vks::initializers']]],
+  ['vertexinputbindingdescription_4',['vertexInputBindingDescription',['../namespaceaxiom_1_1vks_1_1initializers.html#a997e9464a0b78703a576a309acbfb7ed',1,'axiom::vks::initializers']]],
+  ['verts_5',['verts',['../structaxiom_1_1resource_1_1_mesh.html#aaec7381713fa90d6c154b1cfb3ef50f7',1,'axiom::resource::Mesh']]],
+  ['viewport_6',['viewport',['../namespaceaxiom_1_1vks_1_1initializers.html#a175e2970ce79381fea254751d41707e3',1,'axiom::vks::initializers']]],
+  ['vk_5fcheckresult_7',['VK_CHECKRESULT',['../namespaceaxiom.html#a4c6b7937b781aa0e85a834a034868995',1,'axiom']]],
+  ['volk_5fimplementation_8',['VOLK_IMPLEMENTATION',['../main_8cpp.html#a3f9cc32a45d00b3fc9419fed02937a89',1,'main.cpp']]],
+  ['vulkan_2dbase_2ehpp_9',['vulkan-base.hpp',['../vulkan-base_8hpp.html',1,'']]],
+  ['vulkan_2dbuffer_2ehpp_10',['vulkan-buffer.hpp',['../vulkan-buffer_8hpp.html',1,'']]],
+  ['vulkan_2dinitializers_2ehpp_11',['vulkan-initializers.hpp',['../vulkan-initializers_8hpp.html',1,'']]],
+  ['vulkandevice_12',['VulkanDevice',['../structaxiom_1_1_vulkan_device.html',1,'axiom']]]
 ];

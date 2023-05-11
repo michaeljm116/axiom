@@ -2,166 +2,168 @@
 \label{cmp-resource_8h_source}\index{C:/Users/mmurrell/repos/axiom/components/scene/cmp-\/resource.h@{C:/Users/mmurrell/repos/axiom/components/scene/cmp-\/resource.h}}
 \mbox{\hyperlink{cmp-resource_8h}{Go to the documentation of this file.}}
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
-\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ <glm/glm.hpp>}}
-\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <glm/gtx/quaternion.hpp>}}
-\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <array>}}
-\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <vector>}}
-\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <string>}}
-\DoxyCodeLine{00007\ }
-\DoxyCodeLine{00008\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespaceaxiom}{axiom}}\{}
-\DoxyCodeLine{00009\ }
-\DoxyCodeLine{00010\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structaxiom_1_1_r___controller}{R\_Controller}}\ \{}
-\DoxyCodeLine{00011\ \ \ \ \ \ \ \ \ std::array<int,\ 16>\ \mbox{\hyperlink{structaxiom_1_1_r___controller_a8e99c1d0f18809ec8ab050cc2cccea88}{buttons}};}
-\DoxyCodeLine{00012\ \ \ \ \ \ \ \ \ std::array<float,\ 6>\ \mbox{\hyperlink{structaxiom_1_1_r___controller_a684e8f8262f004e942a4b8a9e49589ee}{axis}};}
-\DoxyCodeLine{00013\ \ \ \ \ \};}
-\DoxyCodeLine{00014\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structaxiom_1_1_r___config}{R\_Config}}\ \{}
-\DoxyCodeLine{00015\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structaxiom_1_1_r___config_a4d6fc074cf12f7faf58ac4df24a3b0dd}{numControllersConfigs}};}
-\DoxyCodeLine{00016\ \ \ \ \ \ \ \ \ std::vector<R\_Controller>\ \mbox{\hyperlink{structaxiom_1_1_r___config_a1b33a99946643b43da685a8acec5302b}{controllerConfigs}};}
-\DoxyCodeLine{00017\ \ \ \ \ \};}
-\DoxyCodeLine{00018\ }
-\DoxyCodeLine{00019\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{namespaceaxiom_aba8d50d7a7f298cd27977e18ad7c95b2}{BONE\_EPSILON}}\ =\ 0.05f;}
-\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structaxiom_1_1_r___joint_data}{R\_JointData}}\ \{}
-\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ std::array<int,\ 4>\ \mbox{\hyperlink{structaxiom_1_1_r___joint_data_aacda087034b0ef1b86bdae59412f5376}{id}};}
-\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ std::array<float,\ 4>\ \mbox{\hyperlink{structaxiom_1_1_r___joint_data_a1f615bcfcb44e1e915bd66137a1d86b2}{weights}};}
-\DoxyCodeLine{00023\ }
-\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structaxiom_1_1_r___joint_data_aee1c41ff2f35a0e793a655ffa36f14dc}{R\_JointData}}()\ \{\};}
-\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{structaxiom_1_1_r___joint_data_a239f9d42dc5c9d104b58813cb10935b7}{average}}()\ \{}
-\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ total\ =\ 0;}
-\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ 4;\ ++i)\ \{}
-\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{structaxiom_1_1_r___joint_data_a1f615bcfcb44e1e915bd66137a1d86b2}{weights}}[i]\ <\ \mbox{\hyperlink{namespaceaxiom_aba8d50d7a7f298cd27977e18ad7c95b2}{BONE\_EPSILON}})}
-\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structaxiom_1_1_r___joint_data_a1f615bcfcb44e1e915bd66137a1d86b2}{weights}}[i]\ =\ 0;}
-\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ total\ +=\ \mbox{\hyperlink{structaxiom_1_1_r___joint_data_a1f615bcfcb44e1e915bd66137a1d86b2}{weights}}[i];}
-\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \ \ \ \ assert(total\ !=\ 0);}
-\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ 4;\ ++i)\ \{}
-\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structaxiom_1_1_r___joint_data_a1f615bcfcb44e1e915bd66137a1d86b2}{weights}}[i]\ /=\ total;}
-\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00037\ \ \ \ \ \};}
-\DoxyCodeLine{00038\ }
-\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keyword}{struct\ \ }\mbox{\hyperlink{structaxiom_1_1_r___material}{R\_Material}}}
-\DoxyCodeLine{00040\ \ \ \ \ \{}
-\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ glm::vec3\ \mbox{\hyperlink{structaxiom_1_1_r___material_a6c707c461f92c8b3f021dc0482f1d4f7}{diffuse}};}
-\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{structaxiom_1_1_r___material_a9330c607894990164ac4da5e666bcc4e}{reflective}};}
-\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{structaxiom_1_1_r___material_a001cff1b277996c1ab20e57392fbb9f9}{roughness}};}
-\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{structaxiom_1_1_r___material_a719f22d28c10f0e21808db31c7412390}{transparency}};}
-\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{structaxiom_1_1_r___material_adf161a39438d2a2cc812380b30e11726}{refractiveIndex}};}
-\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structaxiom_1_1_r___material_a9534e5332b3964d2ea841cebce322d35}{textureID}}\ =\ -\/1;}
-\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structaxiom_1_1_r___material_a63448137eea4871c8cef92b52297dda7}{uniqueID}}\ =\ 0;}
-\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ std::string\ \mbox{\hyperlink{structaxiom_1_1_r___material_af7a886761206fbfbe6c0f8b97a82c4b9}{Texture}};}
-\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ std::string\ \mbox{\hyperlink{structaxiom_1_1_r___material_a206072891523f024e631c2eb725e79af}{name}};}
-\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \textcolor{comment}{//ssMaterial*\ renderedMat;}}
-\DoxyCodeLine{00051\ }
-\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structaxiom_1_1_r___material_a911865376c6698245d8d91f2296e598d}{R\_Material}}()\ \{\};}
-\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structaxiom_1_1_r___material_ac1017b9d67c5334a487989f7a588ff65}{R\_Material}}(std::string\ n,\ glm::vec3\ d,\ \textcolor{keywordtype}{float}\ rfl,\ \textcolor{keywordtype}{float}\ rgh,\ \textcolor{keywordtype}{float}\ trns,\ \textcolor{keywordtype}{float}\ rfr,\ \textcolor{keywordtype}{int}\ ti)\ \{}
-\DoxyCodeLine{00054\ }
-\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structaxiom_1_1_r___material_a206072891523f024e631c2eb725e79af}{name}}\ =\ n;\ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structaxiom_1_1_r___material_a6c707c461f92c8b3f021dc0482f1d4f7}{diffuse}}\ =\ d;}
-\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structaxiom_1_1_r___material_a9330c607894990164ac4da5e666bcc4e}{reflective}}\ =\ rfl;\ \mbox{\hyperlink{structaxiom_1_1_r___material_adf161a39438d2a2cc812380b30e11726}{refractiveIndex}}\ =\ rfr;}
-\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structaxiom_1_1_r___material_a001cff1b277996c1ab20e57392fbb9f9}{roughness}}\ =\ rgh;\ \ \ \mbox{\hyperlink{structaxiom_1_1_r___material_a719f22d28c10f0e21808db31c7412390}{transparency}}\ =\ trns;}
-\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structaxiom_1_1_r___material_a9534e5332b3964d2ea841cebce322d35}{textureID}}\ =\ ti;}
-\DoxyCodeLine{00059\ }
-\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structaxiom_1_1_r___material_a63448137eea4871c8cef92b52297dda7}{uniqueID}}\ =\ \mbox{\hyperlink{structaxiom_1_1_r___material_a206072891523f024e631c2eb725e79af}{name}}[0];}
-\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 1;\ i\ <\ \mbox{\hyperlink{structaxiom_1_1_r___material_a206072891523f024e631c2eb725e79af}{name}}.size();\ ++i)\ \{}
-\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structaxiom_1_1_r___material_a63448137eea4871c8cef92b52297dda7}{uniqueID}}\ *=\ \mbox{\hyperlink{structaxiom_1_1_r___material_a206072891523f024e631c2eb725e79af}{name}}[i]\ +\ \mbox{\hyperlink{structaxiom_1_1_r___material_a206072891523f024e631c2eb725e79af}{name}}[i\ -\/\ 1];}
-\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00065\ \ \ \ \ \};}
-\DoxyCodeLine{00066\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structaxiom_1_1_r___vertex}{R\_Vertex}}\ \{}
-\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ glm::vec3\ \mbox{\hyperlink{structaxiom_1_1_r___vertex_a386c21fc753bdd3c5bc187a8dd866476}{pos}};}
-\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ glm::vec3\ \mbox{\hyperlink{structaxiom_1_1_r___vertex_a3d1a1db6e6653bdb8dc0032a96e92b5d}{norm}};}
-\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ glm::vec2\ \mbox{\hyperlink{structaxiom_1_1_r___vertex_a21021377256aa41373b424842e066975}{uv}};}
-\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structaxiom_1_1_r___vertex_a8a15e63576e6ce14bbb7e9735fddc6fc}{R\_Vertex}}(\textcolor{keyword}{const}\ glm::vec3\&\ p,\ \textcolor{keyword}{const}\ glm::vec3\&\ n)\ :\ \mbox{\hyperlink{structaxiom_1_1_r___vertex_a386c21fc753bdd3c5bc187a8dd866476}{pos}}(p),\ \mbox{\hyperlink{structaxiom_1_1_r___vertex_a3d1a1db6e6653bdb8dc0032a96e92b5d}{norm}}(n)\ \{\};}
-\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structaxiom_1_1_r___vertex_afd613bf2f1a27766844d0838359890f8}{R\_Vertex}}()\ \{\};}
-\DoxyCodeLine{00072\ \ \ \ \ \};}
-\DoxyCodeLine{00073\ }
-\DoxyCodeLine{00074\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structaxiom_1_1_r___b_v_h_node}{R\_BVHNode}}\ \{}
-\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ glm::vec3\ \mbox{\hyperlink{structaxiom_1_1_r___b_v_h_node_a9a4e3a35269ed0ca759da3eba80b4dd9}{upper}};}
-\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structaxiom_1_1_r___b_v_h_node_aa3a3f2645afae40393bf9e04b21772ae}{offset}};}
-\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ glm::vec3\ \mbox{\hyperlink{structaxiom_1_1_r___b_v_h_node_a45e7717db86e684aeecdec10f369fffc}{lower}};}
-\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structaxiom_1_1_r___b_v_h_node_a61234c445b963ec0ea21073818b22204}{numChildren}};}
-\DoxyCodeLine{00079\ \ \ \ \ \};}
-\DoxyCodeLine{00080\ }
-\DoxyCodeLine{00081\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structaxiom_1_1_r___mesh}{R\_Mesh}}\ \{}
-\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ std::vector<R\_Vertex>\ \mbox{\hyperlink{structaxiom_1_1_r___mesh_aa6b9ff521a49dcc160bde87b8f236f81}{verts}};}
-\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ std::vector<glm::ivec4>\ \mbox{\hyperlink{structaxiom_1_1_r___mesh_a791af81b10fb6a60c8a3b08866353e51}{faces}};}
-\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ std::vector<R\_BVHNode>\ \mbox{\hyperlink{structaxiom_1_1_r___mesh_a30feacaf30749e1bfc0c21046ef318a2}{bvh}};}
-\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ std::vector<R\_JointData>\ \mbox{\hyperlink{structaxiom_1_1_r___mesh_aa1aff264dc0ed989f4fcd99b368a4190}{bones}};}
-\DoxyCodeLine{00086\ }
-\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ glm::vec3\ \mbox{\hyperlink{structaxiom_1_1_r___mesh_a04f0d3f031ce9a1730f8695c122dffe1}{center}};}
-\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ glm::vec3\ \mbox{\hyperlink{structaxiom_1_1_r___mesh_ad9b65cfbdcc5fb48a3f684417f709ffc}{extents}};}
-\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ std::string\ \mbox{\hyperlink{structaxiom_1_1_r___mesh_a97fd16d095fce2d60fb209614739e1ec}{name}};}
-\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structaxiom_1_1_r___material}{R\_Material}}\ \mbox{\hyperlink{structaxiom_1_1_r___mesh_a5040ec50bb8df2131cd360bce925037d}{mat}};}
-\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structaxiom_1_1_r___mesh_ad7e86b607769a51ee283fa4750762d1d}{matId}}\ =\ 0;}
-\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structaxiom_1_1_r___mesh_a99635117bc2d1e6a6c91f4bca2a04c9e}{meshID}};}
-\DoxyCodeLine{00093\ \ \ \ \ \};}
-\DoxyCodeLine{00094\ }
-\DoxyCodeLine{00095\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structaxiom_1_1_r___shape}{R\_Shape}}\ \{}
-\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ std::string\ \mbox{\hyperlink{structaxiom_1_1_r___shape_aca5ed785bf319ae643642a9036f213f7}{name}};}
-\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structaxiom_1_1_r___shape_a725b4cb890aff1c9709b64ad94b41c1f}{type}};}
-\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ glm::vec3\ \mbox{\hyperlink{structaxiom_1_1_r___shape_a3878ac4fee3de0f3b4082f4cf06b2d2d}{center}};}
-\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ glm::vec3\ \mbox{\hyperlink{structaxiom_1_1_r___shape_a17444cd073afdb51bce3646ce155449c}{extents}};}
-\DoxyCodeLine{00100\ \ \ \ \ \};}
-\DoxyCodeLine{00101\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structaxiom_1_1_r___model}{R\_Model}}\ \{}
-\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ std::string\ \mbox{\hyperlink{structaxiom_1_1_r___model_a88ae2c09f600e371331f277afc29eff8}{name}};}
-\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ std::vector<R\_Mesh>\ \mbox{\hyperlink{structaxiom_1_1_r___model_af4d4f2f6702e471934abaf2639f68245}{meshes}};}
-\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ std::vector<R\_Shape>\ \mbox{\hyperlink{structaxiom_1_1_r___model_a6300b10cc21cfe2411a49fd413cdde8c}{shapes}};}
-\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ glm::vec3\ \mbox{\hyperlink{structaxiom_1_1_r___model_a17e3bd364de256a71f1d78d8961a81b5}{center}};}
-\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ glm::vec3\ \mbox{\hyperlink{structaxiom_1_1_r___model_a1cba5c4cb5cc7db5d98157443a442b3a}{extents}};}
-\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structaxiom_1_1_r___model_abdc0bff9a8e98c0a9a0c99076f271b7c}{uniqueID}};}
-\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structaxiom_1_1_r___model_a77864c3888250799a13396631e0bc8d0}{skeletonID}};}
-\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{structaxiom_1_1_r___model_a0704239cd11e18b21ba2f18cd96998d1}{skinned}}\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{structaxiom_1_1_r___model_acaebe2aa470e5a9160dd0c61d1e1cfcb}{triangular}}\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00111\ \ \ \ \ \};}
-\DoxyCodeLine{00112\ \ \ \ \ }
-\DoxyCodeLine{00113\ }
-\DoxyCodeLine{00114\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structaxiom_1_1_r___sqt}{R\_Sqt}}\{}
-\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ glm::quat\ \mbox{\hyperlink{structaxiom_1_1_r___sqt_a39239343e1e50948410318723cae35e3}{rot}}\ =\ glm::quat();}
-\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ glm::vec4\ \mbox{\hyperlink{structaxiom_1_1_r___sqt_a91e7ab4ce2eda60be4aa940e9423b483}{pos}}\ =\ glm::vec4(0);}
-\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ glm::vec4\ \mbox{\hyperlink{structaxiom_1_1_r___sqt_a31b241d70600433b5d424aa52eba8171}{sca}}\ =\ glm::vec4(1);}
-\DoxyCodeLine{00118\ \ \ \ \ \};\ \textcolor{comment}{//48\ bytes}}
-\DoxyCodeLine{00119\ }
-\DoxyCodeLine{00120\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structaxiom_1_1_r___pose}{R\_Pose}}\ \{}
-\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ std::string\ \mbox{\hyperlink{structaxiom_1_1_r___pose_ae1b7a13f7451d5c0fc41b417b3d12db3}{name}};}
-\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ std::vector<std::pair<int,\ R\_Sqt>>\ \mbox{\hyperlink{structaxiom_1_1_r___pose_a6ca9ebb1e1dc6e808328f89cfdc3ce33}{pose}};\ \ \ \ }
-\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structaxiom_1_1_r___pose_ace95479a3ebfdd2a4cec0e18040c9025}{hashVal}};}
-\DoxyCodeLine{00124\ \ \ \ \ \};}
-\DoxyCodeLine{00125\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structaxiom_1_1_r___pose_list}{R\_PoseList}}\ \{}
-\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ std::string\ \mbox{\hyperlink{structaxiom_1_1_r___pose_list_a5bcf8a49155cd15cf593714701a7c27b}{name}};}
-\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ std::vector<R\_Pose>\ \mbox{\hyperlink{structaxiom_1_1_r___pose_list_af42eaf3e317c62575e0316f9cea50641}{poses}};}
-\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structaxiom_1_1_r___pose_list_a4c0c5d2cb4560d77ead8ec625df58aea}{hashVal}};}
-\DoxyCodeLine{00129\ \ \ \ \ \};\ \ \ \ }
-\DoxyCodeLine{00130\ }
-\DoxyCodeLine{00131\ }
-\DoxyCodeLine{00132\ \ \ \ \ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{namespaceaxiom_a8822a519e9948786160295fee7d6571e}{Resource\_Type}}\{}
-\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_a8981a466c490292c8df620bf62eacf0aa6adf97f83acf6453d4a6a4b1070f3754}{None}},}
-\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_a8822a519e9948786160295fee7d6571eaa559b87068921eec05086ce5485e9784}{Model}},}
-\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_a8822a519e9948786160295fee7d6571ead6b6b668dbca9d4fe774bb654226ebe3}{Animation}},}
-\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_a8822a519e9948786160295fee7d6571ea9d07e0e08af7f96cf45be0112b9ccfbe}{Sound}},\ }
-\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_a8822a519e9948786160295fee7d6571eaa3e8ae43188ae76d38f414b2bdb0077b}{Texture}},}
-\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_a8822a519e9948786160295fee7d6571ead92a8333dd3ccb895cc65f7455b71206}{Material}}}
-\DoxyCodeLine{00139\ \ \ \ \ \};}
-\DoxyCodeLine{00140\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structaxiom_1_1_cmp___resource}{Cmp\_Resource}}}
-\DoxyCodeLine{00141\ \ \ \ \ \{}
-\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ std::string\ \mbox{\hyperlink{structaxiom_1_1_cmp___resource_afd99e8f2f9b3f74684634165822d251d}{file\_path}};}
-\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ std::string\ \mbox{\hyperlink{structaxiom_1_1_cmp___resource_a18f96da2f39b9c67289ff5c63a8a73c9}{file\_name}};}
-\DoxyCodeLine{00144\ \ \ \ \ \};}
-\DoxyCodeLine{00145\ }
-\DoxyCodeLine{00146\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structaxiom_1_1_cmp___res___model}{Cmp\_Res\_Model}}}
-\DoxyCodeLine{00147\ \ \ \ \ \{}
-\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structaxiom_1_1_r___model}{R\_Model}}\ \mbox{\hyperlink{structaxiom_1_1_cmp___res___model_ac1eb9528f3b36438650ed789b3f040a3}{data}};}
-\DoxyCodeLine{00149\ \ \ \ \ \};}
-\DoxyCodeLine{00150\ }
-\DoxyCodeLine{00151\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structaxiom_1_1_cmp___res___material}{Cmp\_Res\_Material}}}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ <glm/glm.hpp>}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ <glm/gtx/quaternion.hpp>}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ <array>}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespaceaxiom}{axiom}}\{}
+\DoxyCodeLine{00019\ \ \ \ \ \textcolor{keyword}{namespace\ }resource\{}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structaxiom_1_1resource_1_1_controller}{Controller}}\ \{}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ \ \ \ \ std::array<int,\ 16>\ \mbox{\hyperlink{structaxiom_1_1resource_1_1_controller_a35e2c71fd3ff995048147cf52e71fdc9}{buttons}};}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ \ \ \ \ std::array<float,\ 6>\ \mbox{\hyperlink{structaxiom_1_1resource_1_1_controller_a0cba1472405db84a91bb367b7bb3de57}{axis}};}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structaxiom_1_1resource_1_1_config}{Config}}\ \{}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structaxiom_1_1resource_1_1_config_a028dde791704ba8e9f6cabcea5a14461}{numControllersConfigs}};}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \ \ \ \ std::vector<Controller>\ \mbox{\hyperlink{structaxiom_1_1resource_1_1_config_abc1bcd3f2d1286c7d6c814d13f4bd52b}{controllerConfigs}};}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{namespaceaxiom_1_1resource_a79b43e1d7afe52b4cb5bf5b5155d978c}{BONE\_EPSILON}}\ =\ 0.05f;}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structaxiom_1_1resource_1_1_joint_data}{JointData}}\ \{}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \ \ \ \ std::array<int,\ 4>\ \mbox{\hyperlink{structaxiom_1_1resource_1_1_joint_data_a73a8fbe07050a17973bd971b872c6c10}{id}};}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \ \ \ \ std::array<float,\ 4>\ \mbox{\hyperlink{structaxiom_1_1resource_1_1_joint_data_a3cedc4772c26a298aa5dcc8470cd1d4d}{weights}};}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structaxiom_1_1resource_1_1_joint_data_a921811c5f25efeefb1a096a9b3fe0458}{JointData}}()\ \{\};}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{structaxiom_1_1resource_1_1_joint_data_a6a3a33e3cf2952818d4c500caf95be25}{average}}()\ \{}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ total\ =\ 0;}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ 4;\ ++i)\ \{}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{structaxiom_1_1resource_1_1_joint_data_a3cedc4772c26a298aa5dcc8470cd1d4d}{weights}}[i]\ <\ \mbox{\hyperlink{namespaceaxiom_1_1resource_a79b43e1d7afe52b4cb5bf5b5155d978c}{BONE\_EPSILON}})}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structaxiom_1_1resource_1_1_joint_data_a3cedc4772c26a298aa5dcc8470cd1d4d}{weights}}[i]\ =\ 0;}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ total\ +=\ \mbox{\hyperlink{structaxiom_1_1resource_1_1_joint_data_a3cedc4772c26a298aa5dcc8470cd1d4d}{weights}}[i];}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ assert(total\ !=\ 0);}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ 4;\ ++i)\ \{}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structaxiom_1_1resource_1_1_joint_data_a3cedc4772c26a298aa5dcc8470cd1d4d}{weights}}[i]\ /=\ total;}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ \ }\mbox{\hyperlink{structaxiom_1_1resource_1_1_material}{Material}}}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \ \ \ \ glm::vec3\ \mbox{\hyperlink{structaxiom_1_1resource_1_1_material_a98df34ad4cab5fc6bd4a0f245a5ea817}{diffuse}};}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{structaxiom_1_1resource_1_1_material_a6e0ad2c8ea4f296fd1efc2ba3f127ae3}{reflective}};}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{structaxiom_1_1resource_1_1_material_a202d734777b1189aab3dc45ef6bf2e65}{roughness}};}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{structaxiom_1_1resource_1_1_material_a8fefa25979ce4f5cfdc6fd5cce411598}{transparency}};}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{structaxiom_1_1resource_1_1_material_a06307f7421a00290158d3b13b6d22f20}{refractiveIndex}};}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structaxiom_1_1resource_1_1_material_a948d15e9f608aaced96fc91dac83b07f}{textureID}}\ =\ -\/1;}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structaxiom_1_1resource_1_1_material_a03e78115f8b692670c5bf9d0ad843280}{uniqueID}}\ =\ 0;}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \ \ \ \ std::string\ \mbox{\hyperlink{structaxiom_1_1resource_1_1_material_a7afa0a481c175fafdb41295ab3bc01c2}{Texture}};}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \ \ \ \ std::string\ \mbox{\hyperlink{structaxiom_1_1resource_1_1_material_a196b37059ffd86ba679805e90a2b3f6f}{name}};}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//ssMaterial*\ renderedMat;}}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structaxiom_1_1resource_1_1_material_a1855802e809ad6d7ab56e57836b6e503}{Material}}()\ \{\};}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structaxiom_1_1resource_1_1_material_a9dc9c9134b626314db53f4c2dab941c5}{Material}}(std::string\ n,\ glm::vec3\ d,\ \textcolor{keywordtype}{float}\ rfl,\ \textcolor{keywordtype}{float}\ rgh,\ \textcolor{keywordtype}{float}\ trns,\ \textcolor{keywordtype}{float}\ rfr,\ \textcolor{keywordtype}{int}\ ti)\ \{}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structaxiom_1_1resource_1_1_material_a196b37059ffd86ba679805e90a2b3f6f}{name}}\ =\ n;\ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structaxiom_1_1resource_1_1_material_a98df34ad4cab5fc6bd4a0f245a5ea817}{diffuse}}\ =\ d;}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structaxiom_1_1resource_1_1_material_a6e0ad2c8ea4f296fd1efc2ba3f127ae3}{reflective}}\ =\ rfl;\ \mbox{\hyperlink{structaxiom_1_1resource_1_1_material_a06307f7421a00290158d3b13b6d22f20}{refractiveIndex}}\ =\ rfr;}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structaxiom_1_1resource_1_1_material_a202d734777b1189aab3dc45ef6bf2e65}{roughness}}\ =\ rgh;\ \ \ \mbox{\hyperlink{structaxiom_1_1resource_1_1_material_a8fefa25979ce4f5cfdc6fd5cce411598}{transparency}}\ =\ trns;}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structaxiom_1_1resource_1_1_material_a948d15e9f608aaced96fc91dac83b07f}{textureID}}\ =\ ti;}
+\DoxyCodeLine{00069\ }
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structaxiom_1_1resource_1_1_material_a03e78115f8b692670c5bf9d0ad843280}{uniqueID}}\ =\ \mbox{\hyperlink{structaxiom_1_1resource_1_1_material_a196b37059ffd86ba679805e90a2b3f6f}{name}}[0];}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 1;\ i\ <\ \mbox{\hyperlink{structaxiom_1_1resource_1_1_material_a196b37059ffd86ba679805e90a2b3f6f}{name}}.size();\ ++i)\ \{}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structaxiom_1_1resource_1_1_material_a03e78115f8b692670c5bf9d0ad843280}{uniqueID}}\ *=\ \mbox{\hyperlink{structaxiom_1_1resource_1_1_material_a196b37059ffd86ba679805e90a2b3f6f}{name}}[i]\ +\ \mbox{\hyperlink{structaxiom_1_1resource_1_1_material_a196b37059ffd86ba679805e90a2b3f6f}{name}}[i\ -\/\ 1];}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structaxiom_1_1resource_1_1_vertex}{Vertex}}\ \{}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \ \ \ \ glm::vec3\ \mbox{\hyperlink{structaxiom_1_1resource_1_1_vertex_a9c537c9c2be78697424df94aa8927aab}{pos}};}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \ \ \ \ glm::vec3\ \mbox{\hyperlink{structaxiom_1_1resource_1_1_vertex_a24a1c311c6b4eb37d8e10c9fde17efa0}{norm}};}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \ \ \ \ glm::vec2\ \mbox{\hyperlink{structaxiom_1_1resource_1_1_vertex_ad972b4fe6742d62926f064cd6fefc0f7}{uv}};}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structaxiom_1_1resource_1_1_vertex_aab514ade5cd31f111507533cd8961394}{Vertex}}(\textcolor{keyword}{const}\ glm::vec3\&\ p,\ \textcolor{keyword}{const}\ glm::vec3\&\ n)\ :\ \mbox{\hyperlink{structaxiom_1_1resource_1_1_vertex_a9c537c9c2be78697424df94aa8927aab}{pos}}(p),\ \mbox{\hyperlink{structaxiom_1_1resource_1_1_vertex_a24a1c311c6b4eb37d8e10c9fde17efa0}{norm}}(n)\ \{\};}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structaxiom_1_1resource_1_1_vertex_a32fd7b088c5f1a12e19da7b3d9b4a076}{Vertex}}()\ \{\};}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00083\ }
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structaxiom_1_1resource_1_1_b_v_h_node}{BVHNode}}\ \{}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \ \ \ \ glm::vec3\ \mbox{\hyperlink{structaxiom_1_1resource_1_1_b_v_h_node_a2686c19ca516d71b57c56dc6b19780bf}{upper}};}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structaxiom_1_1resource_1_1_b_v_h_node_ab6adcdba48360116e51baa7dfce20979}{offset}};}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \ \ \ \ glm::vec3\ \mbox{\hyperlink{structaxiom_1_1resource_1_1_b_v_h_node_a028dd907802e93d91a56582101f7e8a4}{lower}};}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structaxiom_1_1resource_1_1_b_v_h_node_a9e31c1e78b18c6ab30119bd88eabf307}{numChildren}};}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00090\ }
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structaxiom_1_1resource_1_1_mesh}{Mesh}}\ \{}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \ \ \ \ std::vector<Vertex>\ \mbox{\hyperlink{structaxiom_1_1resource_1_1_mesh_aaec7381713fa90d6c154b1cfb3ef50f7}{verts}};}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \ \ \ \ std::vector<glm::ivec4>\ \mbox{\hyperlink{structaxiom_1_1resource_1_1_mesh_a68a1ecc1073a1bd5b12e9daf151cb72f}{faces}};}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \ \ \ \ std::vector<BVHNode>\ \mbox{\hyperlink{structaxiom_1_1resource_1_1_mesh_ac5c62e9317a68e423b7e2a2980cd2fb8}{bvh}};}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \ \ \ \ std::vector<JointData>\ \mbox{\hyperlink{structaxiom_1_1resource_1_1_mesh_a6460ac7aa1edf3257148be6e1440c8ff}{bones}};}
+\DoxyCodeLine{00096\ }
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \ \ \ \ glm::vec3\ \mbox{\hyperlink{structaxiom_1_1resource_1_1_mesh_a999191fedbeb71b3043834dd7e621338}{center}};}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \ \ \ \ glm::vec3\ \mbox{\hyperlink{structaxiom_1_1resource_1_1_mesh_ac545df120d9c4d2f475a0474c31edff6}{extents}};}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \ \ \ \ std::string\ \mbox{\hyperlink{structaxiom_1_1resource_1_1_mesh_a14cde20fe9cf56df04e3c0bbb67591f6}{name}};}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structaxiom_1_1resource_1_1_material}{Material}}\ \mbox{\hyperlink{structaxiom_1_1resource_1_1_mesh_a5f3b638d03a30255940459dc96a567f5}{mat}};}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structaxiom_1_1resource_1_1_mesh_ae9a50f0e1624750c8aeb3910c518783f}{matId}}\ =\ 0;}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structaxiom_1_1resource_1_1_mesh_a8749702acea19e4b1f436351a3def85f}{meshID}};}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00104\ }
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structaxiom_1_1resource_1_1_shape}{Shape}}\ \{}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \ \ \ \ std::string\ \mbox{\hyperlink{structaxiom_1_1resource_1_1_shape_a237cebf05f125b750c29403c517bd50e}{name}};}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structaxiom_1_1resource_1_1_shape_ac7b3cf847691c285b8da2acc303e06cb}{type}};}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \ \ \ \ glm::vec3\ \mbox{\hyperlink{structaxiom_1_1resource_1_1_shape_a54636dcaee7ef163c8cc3640370b2c6a}{center}};}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \ \ \ \ glm::vec3\ \mbox{\hyperlink{structaxiom_1_1resource_1_1_shape_a02530b94ca15c2e1ca884807353d1318}{extents}};}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structaxiom_1_1resource_1_1_model}{Model}}\ \{}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \ \ \ \ std::string\ \mbox{\hyperlink{structaxiom_1_1resource_1_1_model_a73ffe255293a69930375ee5ac0f54db7}{name}};}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \ \ \ \ std::vector<Mesh>\ \mbox{\hyperlink{structaxiom_1_1resource_1_1_model_ac80ecbcf1577cbf299751a88301c7796}{meshes}};}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \ \ \ \ std::vector<Shape>\ \mbox{\hyperlink{structaxiom_1_1resource_1_1_model_a05ca31a489acbe057f87d079d9fcf0d6}{shapes}};}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \ \ \ \ glm::vec3\ \mbox{\hyperlink{structaxiom_1_1resource_1_1_model_a002f595c9477878a45df29f438f90868}{center}};}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \ \ \ \ glm::vec3\ \mbox{\hyperlink{structaxiom_1_1resource_1_1_model_a0a2995730e9fface1d25cd3a97034652}{extents}};}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structaxiom_1_1resource_1_1_model_aaf59c155873174edcd0bab0cab8ffbd1}{uniqueID}};}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structaxiom_1_1resource_1_1_model_af9f9ae3c6515580235d8b251a156eba4}{skeletonID}};}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{structaxiom_1_1resource_1_1_model_aea0a156dd739645de97eba2d468a772c}{skinned}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{structaxiom_1_1resource_1_1_model_a4e1560beb981938ada9f172415708783}{triangular}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00123\ }
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structaxiom_1_1resource_1_1_sqt}{Sqt}}\{}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ \ \ \ \ glm::quat\ \mbox{\hyperlink{structaxiom_1_1resource_1_1_sqt_ae4c39265fca6ffd646fd5202680be73d}{rot}}\ =\ glm::quat();}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \ \ \ \ glm::vec4\ \mbox{\hyperlink{structaxiom_1_1resource_1_1_sqt_ae330124c119e960305dce13d04e61826}{pos}}\ =\ glm::vec4(0);}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \ \ \ \ glm::vec4\ \mbox{\hyperlink{structaxiom_1_1resource_1_1_sqt_abbc622daf8e402e1c2fe7b037b6125cb}{sca}}\ =\ glm::vec4(1);}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \};\ \textcolor{comment}{//48\ bytes}}
+\DoxyCodeLine{00129\ }
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structaxiom_1_1resource_1_1_pose}{Pose}}\ \{}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \ \ \ \ std::string\ \mbox{\hyperlink{structaxiom_1_1resource_1_1_pose_af8a5c47fb80fb1d7d0173fbba14a735a}{name}};}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \ \ \ \ std::vector<std::pair<int,\ Sqt>>\ \mbox{\hyperlink{structaxiom_1_1resource_1_1_pose_a831a015387f0879131219864b3dbc2fe}{pose}};\ \ }
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structaxiom_1_1resource_1_1_pose_a5161b188643273760b7c51d53e770e18}{hashVal}};}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structaxiom_1_1resource_1_1_pose_list}{PoseList}}\ \{}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \ \ \ \ std::string\ \mbox{\hyperlink{structaxiom_1_1resource_1_1_pose_list_a46f5da649bbde400f553c810a8969bcb}{name}};}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \ \ \ \ std::vector<Pose>\ \mbox{\hyperlink{structaxiom_1_1resource_1_1_pose_list_a833074dc27fd95352294a2ad271bd43f}{poses}};}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structaxiom_1_1resource_1_1_pose_list_a93d71515add5543eb0b6a2681420f564}{hashVal}};}
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ \};\ \ \ \ }
+\DoxyCodeLine{00140\ }
+\DoxyCodeLine{00141\ }
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{namespaceaxiom_1_1resource_a836385594c5af3266b6d5a0304529c8f}{Resource\_Type}}\{}
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1resource_a836385594c5af3266b6d5a0304529c8fa6adf97f83acf6453d4a6a4b1070f3754}{None}},}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structaxiom_1_1resource_1_1_model}{Model}},}
+\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1resource_a836385594c5af3266b6d5a0304529c8fad6b6b668dbca9d4fe774bb654226ebe3}{Animation}},}
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1resource_a836385594c5af3266b6d5a0304529c8fa9d07e0e08af7f96cf45be0112b9ccfbe}{Sound}},\ }
+\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1resource_a836385594c5af3266b6d5a0304529c8faa3e8ae43188ae76d38f414b2bdb0077b}{Texture}},}
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structaxiom_1_1resource_1_1_material}{Material}}}
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00150\ \ \ \ \ \};}
+\DoxyCodeLine{00151\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structaxiom_1_1_cmp___resource}{Cmp\_Resource}}}
 \DoxyCodeLine{00152\ \ \ \ \ \{}
-\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structaxiom_1_1_r___material}{R\_Material}}\ \mbox{\hyperlink{structaxiom_1_1_cmp___res___material_a6cbfc0d9d0f261e829bb166d3ca2ef17}{data}};}
-\DoxyCodeLine{00154\ \ \ \ \ \};}
-\DoxyCodeLine{00155\ }
-\DoxyCodeLine{00156\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structaxiom_1_1_cmp___res___animations}{Cmp\_Res\_Animations}}}
-\DoxyCodeLine{00157\ \ \ \ \ \{}
-\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structaxiom_1_1_r___pose_list}{R\_PoseList}}\ \mbox{\hyperlink{structaxiom_1_1_cmp___res___animations_aa58d1339c7e064889d8e383decab63df}{data}};}
-\DoxyCodeLine{00159\ \ \ \ \ \};}
-\DoxyCodeLine{00160\ }
-\DoxyCodeLine{00161\ \}}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ std::string\ \mbox{\hyperlink{structaxiom_1_1_cmp___resource_afd99e8f2f9b3f74684634165822d251d}{file\_path}};}
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ std::string\ \mbox{\hyperlink{structaxiom_1_1_cmp___resource_a18f96da2f39b9c67289ff5c63a8a73c9}{file\_name}};}
+\DoxyCodeLine{00155\ \ \ \ \ \};}
+\DoxyCodeLine{00156\ }
+\DoxyCodeLine{00157\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structaxiom_1_1_cmp___res___model}{Cmp\_Res\_Model}}}
+\DoxyCodeLine{00158\ \ \ \ \ \{}
+\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structaxiom_1_1resource_1_1_model}{resource::Model}}\ \mbox{\hyperlink{structaxiom_1_1_cmp___res___model_a89316a15aa2ff0073dddff42b6cc458a}{data}};}
+\DoxyCodeLine{00160\ \ \ \ \ \};}
+\DoxyCodeLine{00161\ }
+\DoxyCodeLine{00162\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structaxiom_1_1_cmp___res___material}{Cmp\_Res\_Material}}}
+\DoxyCodeLine{00163\ \ \ \ \ \{}
+\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structaxiom_1_1resource_1_1_material}{resource::Material}}\ \mbox{\hyperlink{structaxiom_1_1_cmp___res___material_a498a340e4e35d06f46f233637e8bccae}{data}};}
+\DoxyCodeLine{00165\ \ \ \ \ \};}
+\DoxyCodeLine{00166\ }
+\DoxyCodeLine{00167\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structaxiom_1_1_cmp___res___animations}{Cmp\_Res\_Animations}}}
+\DoxyCodeLine{00168\ \ \ \ \ \{}
+\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structaxiom_1_1resource_1_1_pose_list}{resource::PoseList}}\ \mbox{\hyperlink{structaxiom_1_1_cmp___res___animations_aa482890766ee3539b43785981a51caf3}{data}};}
+\DoxyCodeLine{00170\ \ \ \ \ \};}
+\DoxyCodeLine{00171\ }
+\DoxyCodeLine{00172\ \}}
 
 \end{DoxyCode}

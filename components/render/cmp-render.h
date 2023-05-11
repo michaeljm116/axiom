@@ -14,6 +14,24 @@
 
 namespace axiom
 {
+	namespace render{
+		enum RenderType {
+			RENDER_NONE = 0x00,
+			RENDER_MATERIAL = 0x01,
+			RENDER_PRIMITIVE = 0x02,
+			RENDER_LIGHT = 0x04,
+			RENDER_GUI = 0x08,
+			RENDER_GUINUM = 0x10,
+			RENDER_CAMERA = 0x20
+		};
+
+		enum RendererType {
+			kComputeRaytracer,
+			kHardwareRaytracer,
+			kComputeRasterizer,
+			kHardwareRasterizer
+		};
+	};
     struct Cmp_Light
     {
         glm::vec3 color;
@@ -37,29 +55,12 @@ namespace axiom
 
         inline glm::vec3 center() { return glm::vec3(world[3].x, world[3].y, world[3].z); };  
     };
-
-	enum RenderType {
-		RENDER_NONE = 0x00,
-		RENDER_MATERIAL = 0x01,
-		RENDER_PRIMITIVE = 0x02,
-		RENDER_LIGHT = 0x04,
-		RENDER_GUI = 0x08,
-		RENDER_GUINUM = 0x10,
-		RENDER_CAMERA = 0x20
-	};
-
-	enum RendererType {
-		kComputeRaytracer,
-		kHardwareRaytracer,
-		kComputeRasterizer,
-		kHardwareRasterizer
-	};
     
-    	struct Cmp_Render {
-		RenderType type;
-		RendererType renderer = kComputeRaytracer;
+   	struct Cmp_Render {
+		render::RenderType type;
+		render::RendererType renderer = render::kComputeRaytracer;
 		Cmp_Render() {};
-		Cmp_Render(RenderType t) : type(t) {};
+		Cmp_Render(render::RenderType t) : type(t) {};
 	};
 
 	struct Cmp_Sphere {

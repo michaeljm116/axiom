@@ -2,55 +2,62 @@
 \label{cmp-input_8h_source}\index{C:/Users/mmurrell/repos/axiom/components/core/cmp-\/input.h@{C:/Users/mmurrell/repos/axiom/components/core/cmp-\/input.h}}
 \mbox{\hyperlink{cmp-input_8h}{Go to the documentation of this file.}}
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
-\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ <array>}}
-\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#define\ MOUSE\_BUTTON\_DOWN\ 2}}
-\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#define\ MOUSE\_BUTTON\_CHANGED\ 1}}
-\DoxyCodeLine{00005\ }
-\DoxyCodeLine{00006\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespaceaxiom}{axiom}}\ \{}
-\DoxyCodeLine{00007\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ uint32\_t\ prev\_action\_bit\ =\ 2;}
-\DoxyCodeLine{00008\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structaxiom_1_1_cmp___mouse}{Cmp\_Mouse}}\{}
-\DoxyCodeLine{00009\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{structaxiom_1_1_cmp___mouse_af92575cd9673ddb400783810832d37fb}{x}};}
-\DoxyCodeLine{00010\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{structaxiom_1_1_cmp___mouse_a297db38e1dee08063b084f4bfc403501}{y}};}
-\DoxyCodeLine{00011\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{structaxiom_1_1_cmp___mouse_ab56516707a79b11ccf3dbb072976da04}{scroll}};}
-\DoxyCodeLine{00012\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{structaxiom_1_1_cmp___mouse_a787161b3c88c3015e3f7277c4f3accaa}{active}};}
-\DoxyCodeLine{00013\ \ \ \ \ \ \ \ \ std::array<uint8\_t,12>\ \mbox{\hyperlink{structaxiom_1_1_cmp___mouse_a5f5770d119530c47745de8334bcdf722}{buttons}};}
-\DoxyCodeLine{00014\ \ \ \ \ \};}
-\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structaxiom_1_1_cmp___keyboard}{Cmp\_Keyboard}}\{}
-\DoxyCodeLine{00016\ \ \ \ \ \ \ \ \ std::array<uint8\_t,348>\ \mbox{\hyperlink{structaxiom_1_1_cmp___keyboard_afd99598dc5726446eaa2150237fb8c32}{keys}}\ =\ \{0\};}
-\DoxyCodeLine{00017\ \ \ \ \ \};}
-\DoxyCodeLine{00018\ \ \ \ \ }
-\DoxyCodeLine{00019\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structaxiom_1_1_cmp___controller}{Cmp\_Controller}}\{\};}
-\DoxyCodeLine{00020\ }
-\DoxyCodeLine{00021\ }
-\DoxyCodeLine{00022\ \ \ \ \ \textcolor{comment}{//Bit\ 1\ =\ the\ change\ bit}}
-\DoxyCodeLine{00023\ \ \ \ \ \textcolor{comment}{//bit\ 2\ =\ the\ mouse\ button\ state}}
-\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keyword}{enum}\ \mbox{\hyperlink{namespaceaxiom_a248ccb5232692ec99d694565137dece2}{InputStates}}\ \{}
-\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_a248ccb5232692ec99d694565137dece2a698f04e070c58f01a5c9519d32e2f54b}{NONE}}\ =\ 0x00,}
-\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_a248ccb5232692ec99d694565137dece2af54870c667a6d3d4a15cdf1779f2ba45}{RELEASED}}\ =\ 0b01,}
-\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_a248ccb5232692ec99d694565137dece2af0bce986c1ccf5f0e0af2888e4b38b00}{HELD}}\ =\ 0b10,}
-\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_a248ccb5232692ec99d694565137dece2ac6040b13eb88e35a0f3039571df87675}{PRESSED}}\ =\ 0b11,}
-\DoxyCodeLine{00029\ \ \ \ \ \};}
-\DoxyCodeLine{00030\ }
-\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{namespaceaxiom_a8981a466c490292c8df620bf62eacf0a}{Input\_States}}\{}
-\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_a8981a466c490292c8df620bf62eacf0aa6adf97f83acf6453d4a6a4b1070f3754}{None}}\ =\ 0,}
-\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_a8981a466c490292c8df620bf62eacf0aaea1e34304a5d8ffa7c9b0ed8ede4ef1a}{Released}}\ =\ 1,}
-\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_a8981a466c490292c8df620bf62eacf0aaeffe06cc3bbfdd18fa0d95a403cd2d3f}{Held}}\ =\ 2,}
-\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_a8981a466c490292c8df620bf62eacf0aad78a68f6a85421ae121c2cb5b73a1040}{Pressed}}\ =\ 3}
-\DoxyCodeLine{00036\ \ \ \ \ \};}
-\DoxyCodeLine{00037\ }
-\DoxyCodeLine{00038\ \ \ \ \ \textcolor{comment}{/*}}
-\DoxyCodeLine{00039\ \textcolor{comment}{\ \ \ \ void\ updateKey(Key\ key,\ bool\ pressed)\ \{\ \ \ \ \ }}
-\DoxyCodeLine{00040\ \textcolor{comment}{\ \ \ \ \ \ \ \ bool\ prev\_action\ =\ buttons[btn]\ \&\ prev\_action\_bit;}}
-\DoxyCodeLine{00041\ \textcolor{comment}{\ \ \ \ \ \ \ \ key.action.prev\ =\ key.action.curr\ \&\ prev\_action\_bit;}}
-\DoxyCodeLine{00042\ \textcolor{comment}{\ \ \ \ \ \ \ \ int\ change\ =\ prev\_action\ !=\ pressed;}}
-\DoxyCodeLine{00043\ \textcolor{comment}{\ \ \ \ \ \ \ \ uint16\_t\ change\ =\ key.action.prev\ !=\ ac}}
-\DoxyCodeLine{00044\ \textcolor{comment}{\ \ \ \ \ \ \ \ buttons[btn]\ =\ change\ +\ (pressed\ <<\ 1);}}
-\DoxyCodeLine{00045\ \textcolor{comment}{\ \ \ \ \ \ \ \ bool\ prev\_action\ =\ key.action.curr\ \&\ prev\_action\_bit;}}
-\DoxyCodeLine{00046\ \textcolor{comment}{\ \ \ \ \ \ \ \ int\ change\ =\ prev\_action\ !=\ pressed;}}
-\DoxyCodeLine{00047\ \textcolor{comment}{\ \ \ \ \ \ \ \ key.action}}
-\DoxyCodeLine{00048\ \textcolor{comment}{\ \ \ \ \};*/}}
-\DoxyCodeLine{00049\ }
-\DoxyCodeLine{00050\ \}}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ <array>}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#define\ MOUSE\_BUTTON\_DOWN\ 2}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#define\ MOUSE\_BUTTON\_CHANGED\ 1}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespaceaxiom}{axiom}}\ \{}
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keyword}{namespace\ }input\{}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ uint32\_t\ prev\_action\_bit\ =\ 2;}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ \textcolor{keyword}{enum}\ \mbox{\hyperlink{namespaceaxiom_1_1input_ad6d8e983364d5b5bd8b8d2c114f22f13}{InputStates}}\ \{}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1input_ad6d8e983364d5b5bd8b8d2c114f22f13ae70bc09e4b39258deb63aa55890cca22}{NONE}}\ =\ 0x00,}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1input_ad6d8e983364d5b5bd8b8d2c114f22f13a0fd53f68f115c46fb039088ed2cc9b21}{RELEASED}}\ =\ 0b01,}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1input_ad6d8e983364d5b5bd8b8d2c114f22f13ae93970736458a199f7ebd4fb7d4f80ce}{HELD}}\ =\ 0b10,}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1input_ad6d8e983364d5b5bd8b8d2c114f22f13a3f1cacc1a25631debd4a28716d41b0d0}{PRESSED}}\ =\ 0b11,}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{namespaceaxiom_1_1input_aa22e25169f6e86f6ab192ed00896f685}{Input\_States}}\{}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1input_aa22e25169f6e86f6ab192ed00896f685a6adf97f83acf6453d4a6a4b1070f3754}{None}}\ =\ 0,}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1input_aa22e25169f6e86f6ab192ed00896f685aea1e34304a5d8ffa7c9b0ed8ede4ef1a}{Released}}\ =\ 1,}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1input_aa22e25169f6e86f6ab192ed00896f685aeffe06cc3bbfdd18fa0d95a403cd2d3f}{Held}}\ =\ 2,}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceaxiom_1_1input_aa22e25169f6e86f6ab192ed00896f685ad78a68f6a85421ae121c2cb5b73a1040}{Pressed}}\ =\ 3}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00033\ \ \ \ \ \};}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00040\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structaxiom_1_1_cmp___mouse}{Cmp\_Mouse}}\{}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{structaxiom_1_1_cmp___mouse_af92575cd9673ddb400783810832d37fb}{x}};}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{structaxiom_1_1_cmp___mouse_a297db38e1dee08063b084f4bfc403501}{y}};}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{structaxiom_1_1_cmp___mouse_ab56516707a79b11ccf3dbb072976da04}{scroll}};}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{structaxiom_1_1_cmp___mouse_a787161b3c88c3015e3f7277c4f3accaa}{active}};}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ std::array<uint8\_t,12>\ \mbox{\hyperlink{structaxiom_1_1_cmp___mouse_a5f5770d119530c47745de8334bcdf722}{buttons}};}
+\DoxyCodeLine{00046\ \ \ \ \ \};}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00052\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structaxiom_1_1_cmp___keyboard}{Cmp\_Keyboard}}\{}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ std::array<uint8\_t,348>\ \mbox{\hyperlink{structaxiom_1_1_cmp___keyboard_afd99598dc5726446eaa2150237fb8c32}{keys}}\ =\ \{0\};}
+\DoxyCodeLine{00054\ \ \ \ \ \};}
+\DoxyCodeLine{00055\ \ \ \ \ }
+\DoxyCodeLine{00056\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structaxiom_1_1_cmp___controller}{Cmp\_Controller}}\{\};}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00059\ \ \ \ \ \textcolor{comment}{//Bit\ 1\ =\ the\ change\ bit}}
+\DoxyCodeLine{00060\ \ \ \ \ \textcolor{comment}{//bit\ 2\ =\ the\ mouse\ button\ state}}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ \ \ \ \ \textcolor{comment}{/*}}
+\DoxyCodeLine{00064\ \textcolor{comment}{\ \ \ \ void\ updateKey(Key\ key,\ bool\ pressed)\ \{\ \ \ \ \ }}
+\DoxyCodeLine{00065\ \textcolor{comment}{\ \ \ \ \ \ \ \ bool\ prev\_action\ =\ buttons[btn]\ \&\ prev\_action\_bit;}}
+\DoxyCodeLine{00066\ \textcolor{comment}{\ \ \ \ \ \ \ \ key.action.prev\ =\ key.action.curr\ \&\ prev\_action\_bit;}}
+\DoxyCodeLine{00067\ \textcolor{comment}{\ \ \ \ \ \ \ \ int\ change\ =\ prev\_action\ !=\ pressed;}}
+\DoxyCodeLine{00068\ \textcolor{comment}{\ \ \ \ \ \ \ \ uint16\_t\ change\ =\ key.action.prev\ !=\ ac}}
+\DoxyCodeLine{00069\ \textcolor{comment}{\ \ \ \ \ \ \ \ buttons[btn]\ =\ change\ +\ (pressed\ <<\ 1);}}
+\DoxyCodeLine{00070\ \textcolor{comment}{\ \ \ \ \ \ \ \ bool\ prev\_action\ =\ key.action.curr\ \&\ prev\_action\_bit;}}
+\DoxyCodeLine{00071\ \textcolor{comment}{\ \ \ \ \ \ \ \ int\ change\ =\ prev\_action\ !=\ pressed;}}
+\DoxyCodeLine{00072\ \textcolor{comment}{\ \ \ \ \ \ \ \ key.action}}
+\DoxyCodeLine{00073\ \textcolor{comment}{\ \ \ \ \};*/}}
+\DoxyCodeLine{00074\ }
+\DoxyCodeLine{00075\ \}}
 
 \end{DoxyCode}

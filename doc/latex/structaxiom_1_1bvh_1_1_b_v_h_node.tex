@@ -1,0 +1,79 @@
+\hypertarget{structaxiom_1_1bvh_1_1_b_v_h_node}{}\doxysection{axiom\+::bvh\+::BVHNode Struct Reference}
+\label{structaxiom_1_1bvh_1_1_b_v_h_node}\index{axiom::bvh::BVHNode@{axiom::bvh::BVHNode}}
+
+
+{\ttfamily \#include $<$cmp-\/bvh.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_node_a406bf0e15a9aec158a5a6eb4175b173d}{init\+Leaf}} (int first, int n, const \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_bounds}{BVHBounds}} \&b)
+\item 
+void \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_node_ae6e25f8732da2f32f677a4e36b547ae6}{init\+Interior}} (int axis, \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_node}{BVHNode}} $\ast$c0, \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_node}{BVHNode}} $\ast$c1)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_bounds}{BVHBounds}} \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_node_a536c0c3ea1006d0774fce4d9a839d1af}{bounds}}
+\item 
+\mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_node}{BVHNode}} $\ast$ \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_node_ab2ef5c61769339435552ba48ead56a68}{children}} \mbox{[}2\mbox{]}
+\item 
+int \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_node_a7767c0f01a8de1960e1a1e008c42327e}{split\+Axis}}
+\item 
+int \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_node_a3173968605d0a76ce4e3d78bf4e8a5ee}{first\+Prim\+Offset}}
+\item 
+int \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_node_ad6487f7105834159ebb090466fe1fa66}{n\+Prims}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{structaxiom_1_1bvh_1_1_b_v_h_node_ae6e25f8732da2f32f677a4e36b547ae6}\label{structaxiom_1_1bvh_1_1_b_v_h_node_ae6e25f8732da2f32f677a4e36b547ae6}} 
+\index{axiom::bvh::BVHNode@{axiom::bvh::BVHNode}!initInterior@{initInterior}}
+\index{initInterior@{initInterior}!axiom::bvh::BVHNode@{axiom::bvh::BVHNode}}
+\doxysubsubsection{\texorpdfstring{initInterior()}{initInterior()}}
+{\footnotesize\ttfamily void axiom\+::bvh\+::\+BVHNode\+::init\+Interior (\begin{DoxyParamCaption}\item[{int}]{axis,  }\item[{\mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_node}{BVHNode}} $\ast$}]{c0,  }\item[{\mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_node}{BVHNode}} $\ast$}]{c1 }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structaxiom_1_1bvh_1_1_b_v_h_node_a406bf0e15a9aec158a5a6eb4175b173d}\label{structaxiom_1_1bvh_1_1_b_v_h_node_a406bf0e15a9aec158a5a6eb4175b173d}} 
+\index{axiom::bvh::BVHNode@{axiom::bvh::BVHNode}!initLeaf@{initLeaf}}
+\index{initLeaf@{initLeaf}!axiom::bvh::BVHNode@{axiom::bvh::BVHNode}}
+\doxysubsubsection{\texorpdfstring{initLeaf()}{initLeaf()}}
+{\footnotesize\ttfamily void axiom\+::bvh\+::\+BVHNode\+::init\+Leaf (\begin{DoxyParamCaption}\item[{int}]{first,  }\item[{int}]{n,  }\item[{const \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_bounds}{BVHBounds}} \&}]{b }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{structaxiom_1_1bvh_1_1_b_v_h_node_a536c0c3ea1006d0774fce4d9a839d1af}\label{structaxiom_1_1bvh_1_1_b_v_h_node_a536c0c3ea1006d0774fce4d9a839d1af}} 
+\index{axiom::bvh::BVHNode@{axiom::bvh::BVHNode}!bounds@{bounds}}
+\index{bounds@{bounds}!axiom::bvh::BVHNode@{axiom::bvh::BVHNode}}
+\doxysubsubsection{\texorpdfstring{bounds}{bounds}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_bounds}{BVHBounds}} axiom\+::bvh\+::\+BVHNode\+::bounds}
+
+\mbox{\Hypertarget{structaxiom_1_1bvh_1_1_b_v_h_node_ab2ef5c61769339435552ba48ead56a68}\label{structaxiom_1_1bvh_1_1_b_v_h_node_ab2ef5c61769339435552ba48ead56a68}} 
+\index{axiom::bvh::BVHNode@{axiom::bvh::BVHNode}!children@{children}}
+\index{children@{children}!axiom::bvh::BVHNode@{axiom::bvh::BVHNode}}
+\doxysubsubsection{\texorpdfstring{children}{children}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_node}{BVHNode}}$\ast$ axiom\+::bvh\+::\+BVHNode\+::children\mbox{[}2\mbox{]}}
+
+\mbox{\Hypertarget{structaxiom_1_1bvh_1_1_b_v_h_node_a3173968605d0a76ce4e3d78bf4e8a5ee}\label{structaxiom_1_1bvh_1_1_b_v_h_node_a3173968605d0a76ce4e3d78bf4e8a5ee}} 
+\index{axiom::bvh::BVHNode@{axiom::bvh::BVHNode}!firstPrimOffset@{firstPrimOffset}}
+\index{firstPrimOffset@{firstPrimOffset}!axiom::bvh::BVHNode@{axiom::bvh::BVHNode}}
+\doxysubsubsection{\texorpdfstring{firstPrimOffset}{firstPrimOffset}}
+{\footnotesize\ttfamily int axiom\+::bvh\+::\+BVHNode\+::first\+Prim\+Offset}
+
+\mbox{\Hypertarget{structaxiom_1_1bvh_1_1_b_v_h_node_ad6487f7105834159ebb090466fe1fa66}\label{structaxiom_1_1bvh_1_1_b_v_h_node_ad6487f7105834159ebb090466fe1fa66}} 
+\index{axiom::bvh::BVHNode@{axiom::bvh::BVHNode}!nPrims@{nPrims}}
+\index{nPrims@{nPrims}!axiom::bvh::BVHNode@{axiom::bvh::BVHNode}}
+\doxysubsubsection{\texorpdfstring{nPrims}{nPrims}}
+{\footnotesize\ttfamily int axiom\+::bvh\+::\+BVHNode\+::n\+Prims}
+
+\mbox{\Hypertarget{structaxiom_1_1bvh_1_1_b_v_h_node_a7767c0f01a8de1960e1a1e008c42327e}\label{structaxiom_1_1bvh_1_1_b_v_h_node_a7767c0f01a8de1960e1a1e008c42327e}} 
+\index{axiom::bvh::BVHNode@{axiom::bvh::BVHNode}!splitAxis@{splitAxis}}
+\index{splitAxis@{splitAxis}!axiom::bvh::BVHNode@{axiom::bvh::BVHNode}}
+\doxysubsubsection{\texorpdfstring{splitAxis}{splitAxis}}
+{\footnotesize\ttfamily int axiom\+::bvh\+::\+BVHNode\+::split\+Axis}
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/mmurrell/repos/axiom/components/scene/\mbox{\hyperlink{cmp-bvh_8h}{cmp-\/bvh.\+h}}\end{DoxyCompactItemize}

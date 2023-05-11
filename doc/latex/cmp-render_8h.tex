@@ -1,5 +1,10 @@
 \hypertarget{cmp-render_8h}{}\doxysection{C\+:/\+Users/mmurrell/repos/axiom/components/render/cmp-\/render.h File Reference}
 \label{cmp-render_8h}\index{C:/Users/mmurrell/repos/axiom/components/render/cmp-\/render.h@{C:/Users/mmurrell/repos/axiom/components/render/cmp-\/render.h}}
+
+
+Components for rendering.  
+
+
 {\ttfamily \#include $<$GLM/glm.\+hpp$>$}\newline
 {\ttfamily \#include $<$vector$>$}\newline
 \doxysubsection*{Classes}
@@ -33,25 +38,27 @@ struct \mbox{\hyperlink{structaxiom_1_1_cmp___g_u_i_number}{axiom\+::\+Cmp\+\_\+
 \begin{DoxyCompactItemize}
 \item 
 namespace \mbox{\hyperlink{namespaceaxiom}{axiom}}
+\item 
+namespace \mbox{\hyperlink{namespaceaxiom_1_1render}{axiom\+::render}}
 \end{DoxyCompactItemize}
 \doxysubsection*{Enumerations}
 \begin{DoxyCompactItemize}
 \item 
-enum \mbox{\hyperlink{namespaceaxiom_ad0bb303c60d47178dd0cde56e25cd65a}{axiom\+::\+Render\+Type}} \{ \newline
-\mbox{\hyperlink{namespaceaxiom_ad0bb303c60d47178dd0cde56e25cd65aabfd50852ffa34965e81ca0a401435435}{axiom\+::\+RENDER\+\_\+\+NONE}} = 0x00
-, \mbox{\hyperlink{namespaceaxiom_ad0bb303c60d47178dd0cde56e25cd65aa4b45547bc8c7951d1467e5e6e6feac32}{axiom\+::\+RENDER\+\_\+\+MATERIAL}} = 0x01
-, \mbox{\hyperlink{namespaceaxiom_ad0bb303c60d47178dd0cde56e25cd65aacfde9ceb8b94f87332ac3b7a3bfb679e}{axiom\+::\+RENDER\+\_\+\+PRIMITIVE}} = 0x02
-, \mbox{\hyperlink{namespaceaxiom_ad0bb303c60d47178dd0cde56e25cd65aabea5c52229730e438809ae488f1bed12}{axiom\+::\+RENDER\+\_\+\+LIGHT}} = 0x04
+enum \mbox{\hyperlink{namespaceaxiom_1_1render_a8f6af6d0163957972bf2459945019bd9}{axiom\+::render\+::\+Render\+Type}} \{ \newline
+\mbox{\hyperlink{namespaceaxiom_1_1render_a8f6af6d0163957972bf2459945019bd9a1bb481ed36abdb29e2b9f205f7e7f9bb}{axiom\+::render\+::\+RENDER\+\_\+\+NONE}} = 0x00
+, \mbox{\hyperlink{namespaceaxiom_1_1render_a8f6af6d0163957972bf2459945019bd9a06580f8686e23b42a4b2b017d8a7a52c}{axiom\+::render\+::\+RENDER\+\_\+\+MATERIAL}} = 0x01
+, \mbox{\hyperlink{namespaceaxiom_1_1render_a8f6af6d0163957972bf2459945019bd9a0a72dadab040f1a0a78201f564d763d4}{axiom\+::render\+::\+RENDER\+\_\+\+PRIMITIVE}} = 0x02
+, \mbox{\hyperlink{namespaceaxiom_1_1render_a8f6af6d0163957972bf2459945019bd9a0a4ce8dc39697859c5c6bb69cd1df8b3}{axiom\+::render\+::\+RENDER\+\_\+\+LIGHT}} = 0x04
 , \newline
-\mbox{\hyperlink{namespaceaxiom_ad0bb303c60d47178dd0cde56e25cd65aa91992d1c0a6b4d7b622c7fef5b388d4f}{axiom\+::\+RENDER\+\_\+\+GUI}} = 0x08
-, \mbox{\hyperlink{namespaceaxiom_ad0bb303c60d47178dd0cde56e25cd65aab80a23c8858dccbf6992d8945032fde3}{axiom\+::\+RENDER\+\_\+\+GUINUM}} = 0x10
-, \mbox{\hyperlink{namespaceaxiom_ad0bb303c60d47178dd0cde56e25cd65aa7e9e9ed38e9f0c5b3fcadeed165a6c15}{axiom\+::\+RENDER\+\_\+\+CAMERA}} = 0x20
+\mbox{\hyperlink{namespaceaxiom_1_1render_a8f6af6d0163957972bf2459945019bd9a0615e40eb9086b5d7285ddfcfe6ddac7}{axiom\+::render\+::\+RENDER\+\_\+\+GUI}} = 0x08
+, \mbox{\hyperlink{namespaceaxiom_1_1render_a8f6af6d0163957972bf2459945019bd9a3a4a22524c0c6bfa93ef2766bc9df52d}{axiom\+::render\+::\+RENDER\+\_\+\+GUINUM}} = 0x10
+, \mbox{\hyperlink{namespaceaxiom_1_1render_a8f6af6d0163957972bf2459945019bd9a6a99228a297c7d7ec87e08beb3b4501a}{axiom\+::render\+::\+RENDER\+\_\+\+CAMERA}} = 0x20
  \}
 \item 
-enum \mbox{\hyperlink{namespaceaxiom_af4d6915d00d603955e5bb98cf1b865dc}{axiom\+::\+Renderer\+Type}} \{ \mbox{\hyperlink{namespaceaxiom_af4d6915d00d603955e5bb98cf1b865dca2bca4d725f93371113c745977374cf55}{axiom\+::k\+Compute\+Raytracer}}
-, \mbox{\hyperlink{namespaceaxiom_af4d6915d00d603955e5bb98cf1b865dcaffcd5d46dbc1a0acac6fe971770f6605}{axiom\+::k\+Hardware\+Raytracer}}
-, \mbox{\hyperlink{namespaceaxiom_af4d6915d00d603955e5bb98cf1b865dca8734c04173c16b66e86e1ad24dbb51a4}{axiom\+::k\+Compute\+Rasterizer}}
-, \mbox{\hyperlink{namespaceaxiom_af4d6915d00d603955e5bb98cf1b865dca414c906c1d83aa02b0490ef575c395c3}{axiom\+::k\+Hardware\+Rasterizer}}
+enum \mbox{\hyperlink{namespaceaxiom_1_1render_ae904f9a416ed9736aa57930a7fa5e0b4}{axiom\+::render\+::\+Renderer\+Type}} \{ \mbox{\hyperlink{namespaceaxiom_1_1render_ae904f9a416ed9736aa57930a7fa5e0b4a8f8a7257311337666ca8cb7e271d4d9b}{axiom\+::render\+::k\+Compute\+Raytracer}}
+, \mbox{\hyperlink{namespaceaxiom_1_1render_ae904f9a416ed9736aa57930a7fa5e0b4a56278f106faea5ac5e8e49a9d137f497}{axiom\+::render\+::k\+Hardware\+Raytracer}}
+, \mbox{\hyperlink{namespaceaxiom_1_1render_ae904f9a416ed9736aa57930a7fa5e0b4a5936015872cd741c054f42d439f60cd7}{axiom\+::render\+::k\+Compute\+Rasterizer}}
+, \mbox{\hyperlink{namespaceaxiom_1_1render_ae904f9a416ed9736aa57930a7fa5e0b4a5db7ed580b54b48acaeb4cf31ab3d722}{axiom\+::render\+::k\+Hardware\+Rasterizer}}
  \}
 \item 
 enum class \mbox{\hyperlink{namespaceaxiom_a67df71b9771f73554bbf4e2d44575fb7}{axiom\+::\+Selectable\+State}} \{ \mbox{\hyperlink{namespaceaxiom_a67df71b9771f73554bbf4e2d44575fb7a810460332a38c9ade69a49b057494cad}{axiom\+::\+Unselected}}
@@ -60,3 +67,20 @@ enum class \mbox{\hyperlink{namespaceaxiom_a67df71b9771f73554bbf4e2d44575fb7}{ax
 , \mbox{\hyperlink{namespaceaxiom_a67df71b9771f73554bbf4e2d44575fb7ad78a68f6a85421ae121c2cb5b73a1040}{axiom\+::\+Pressed}}
  \}
 \end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Components for rendering. 
+
+\begin{DoxyAuthor}{Author}
+Mike Murrell (\href{mailto:mikestoleyobike@aim.com}{\texttt{ mikestoleyobike@aim.\+com}}) 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+0.\+1 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+2023-\/05-\/10
+\end{DoxyDate}
+\begin{DoxyCopyright}{Copyright}
+Copyright (c) 2023 
+\end{DoxyCopyright}

@@ -1,3 +1,13 @@
+/**
+ * @file cmp-serialize.h
+ * @author Mike Murrell (mikestoleyobike@aim.com)
+ * @brief Serialize Component
+ * @version 0.1
+ * @date 2023-05-11
+ * 
+ * @copyright Copyright (c) 2023
+ * 
+ */
 #pragma once
 #include "cmp-transform.h"
 

@@ -1,5 +1,45 @@
 \hypertarget{namespaceaxiom_1_1resource}{}\doxysection{axiom\+::resource Namespace Reference}
 \label{namespaceaxiom_1_1resource}\index{axiom::resource@{axiom::resource}}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structaxiom_1_1resource_1_1_b_v_h_node}{BVHNode}}
+\item 
+struct \mbox{\hyperlink{structaxiom_1_1resource_1_1_config}{Config}}
+\item 
+struct \mbox{\hyperlink{structaxiom_1_1resource_1_1_controller}{Controller}}
+\item 
+struct \mbox{\hyperlink{structaxiom_1_1resource_1_1_joint_data}{Joint\+Data}}
+\item 
+struct \mbox{\hyperlink{structaxiom_1_1resource_1_1_material}{Material}}
+\item 
+struct \mbox{\hyperlink{structaxiom_1_1resource_1_1_mesh}{Mesh}}
+\item 
+struct \mbox{\hyperlink{structaxiom_1_1resource_1_1_model}{Model}}
+\item 
+struct \mbox{\hyperlink{structaxiom_1_1resource_1_1_pose}{Pose}}
+\item 
+struct \mbox{\hyperlink{structaxiom_1_1resource_1_1_pose_list}{Pose\+List}}
+\item 
+struct \mbox{\hyperlink{structaxiom_1_1resource_1_1_shape}{Shape}}
+\item 
+struct \mbox{\hyperlink{structaxiom_1_1resource_1_1_sqt}{Sqt}}
+\item 
+struct \mbox{\hyperlink{structaxiom_1_1resource_1_1_vertex}{Vertex}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum class \mbox{\hyperlink{namespaceaxiom_1_1resource_a836385594c5af3266b6d5a0304529c8f}{Resource\+\_\+\+Type}} \{ \newline
+\mbox{\hyperlink{namespaceaxiom_1_1resource_a836385594c5af3266b6d5a0304529c8fa6adf97f83acf6453d4a6a4b1070f3754}{None}}
+, \mbox{\hyperlink{namespaceaxiom_1_1resource_a836385594c5af3266b6d5a0304529c8faa559b87068921eec05086ce5485e9784}{Model}}
+, \mbox{\hyperlink{namespaceaxiom_1_1resource_a836385594c5af3266b6d5a0304529c8fad6b6b668dbca9d4fe774bb654226ebe3}{Animation}}
+, \mbox{\hyperlink{namespaceaxiom_1_1resource_a836385594c5af3266b6d5a0304529c8fa9d07e0e08af7f96cf45be0112b9ccfbe}{Sound}}
+, \newline
+\mbox{\hyperlink{namespaceaxiom_1_1resource_a836385594c5af3266b6d5a0304529c8faa3e8ae43188ae76d38f414b2bdb0077b}{Texture}}
+, \mbox{\hyperlink{namespaceaxiom_1_1resource_a836385594c5af3266b6d5a0304529c8fad92a8333dd3ccb895cc65f7455b71206}{Material}}
+ \}
+\end{DoxyCompactItemize}
 \doxysubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
@@ -15,6 +55,46 @@ bool \mbox{\hyperlink{namespaceaxiom_1_1resource_a6d802fcfa0b88697372dc5361be0ff
 \item 
 bool \mbox{\hyperlink{namespaceaxiom_1_1resource_ad883fa57e67fa3709485a06a70505271}{Load\+Materials}} (std\+::string file)
 \end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const float \mbox{\hyperlink{namespaceaxiom_1_1resource_a79b43e1d7afe52b4cb5bf5b5155d978c}{BONE\+\_\+\+EPSILON}} = 0.\+05f
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Enumeration Type Documentation}
+\mbox{\Hypertarget{namespaceaxiom_1_1resource_a836385594c5af3266b6d5a0304529c8f}\label{namespaceaxiom_1_1resource_a836385594c5af3266b6d5a0304529c8f}} 
+\index{axiom::resource@{axiom::resource}!Resource\_Type@{Resource\_Type}}
+\index{Resource\_Type@{Resource\_Type}!axiom::resource@{axiom::resource}}
+\doxysubsubsection{\texorpdfstring{Resource\_Type}{Resource\_Type}}
+{\footnotesize\ttfamily enum class \mbox{\hyperlink{namespaceaxiom_1_1resource_a836385594c5af3266b6d5a0304529c8f}{axiom\+::resource\+::\+Resource\+\_\+\+Type}}\hspace{0.3cm}{\ttfamily [strong]}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{None@{None}!axiom::resource@{axiom::resource}}\index{axiom::resource@{axiom::resource}!None@{None}}}\mbox{\Hypertarget{namespaceaxiom_1_1resource_a836385594c5af3266b6d5a0304529c8fa6adf97f83acf6453d4a6a4b1070f3754}\label{namespaceaxiom_1_1resource_a836385594c5af3266b6d5a0304529c8fa6adf97f83acf6453d4a6a4b1070f3754}} 
+None&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Model@{Model}!axiom::resource@{axiom::resource}}\index{axiom::resource@{axiom::resource}!Model@{Model}}}\mbox{\Hypertarget{namespaceaxiom_1_1resource_a836385594c5af3266b6d5a0304529c8faa559b87068921eec05086ce5485e9784}\label{namespaceaxiom_1_1resource_a836385594c5af3266b6d5a0304529c8faa559b87068921eec05086ce5485e9784}} 
+Model&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Animation@{Animation}!axiom::resource@{axiom::resource}}\index{axiom::resource@{axiom::resource}!Animation@{Animation}}}\mbox{\Hypertarget{namespaceaxiom_1_1resource_a836385594c5af3266b6d5a0304529c8fad6b6b668dbca9d4fe774bb654226ebe3}\label{namespaceaxiom_1_1resource_a836385594c5af3266b6d5a0304529c8fad6b6b668dbca9d4fe774bb654226ebe3}} 
+Animation&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Sound@{Sound}!axiom::resource@{axiom::resource}}\index{axiom::resource@{axiom::resource}!Sound@{Sound}}}\mbox{\Hypertarget{namespaceaxiom_1_1resource_a836385594c5af3266b6d5a0304529c8fa9d07e0e08af7f96cf45be0112b9ccfbe}\label{namespaceaxiom_1_1resource_a836385594c5af3266b6d5a0304529c8fa9d07e0e08af7f96cf45be0112b9ccfbe}} 
+Sound&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Texture@{Texture}!axiom::resource@{axiom::resource}}\index{axiom::resource@{axiom::resource}!Texture@{Texture}}}\mbox{\Hypertarget{namespaceaxiom_1_1resource_a836385594c5af3266b6d5a0304529c8faa3e8ae43188ae76d38f414b2bdb0077b}\label{namespaceaxiom_1_1resource_a836385594c5af3266b6d5a0304529c8faa3e8ae43188ae76d38f414b2bdb0077b}} 
+Texture&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Material@{Material}!axiom::resource@{axiom::resource}}\index{axiom::resource@{axiom::resource}!Material@{Material}}}\mbox{\Hypertarget{namespaceaxiom_1_1resource_a836385594c5af3266b6d5a0304529c8fad92a8333dd3ccb895cc65f7455b71206}\label{namespaceaxiom_1_1resource_a836385594c5af3266b6d5a0304529c8fad92a8333dd3ccb895cc65f7455b71206}} 
+Material&\\
+\hline
+
+\end{DoxyEnumFields}
 
 
 \doxysubsection{Function Documentation}
@@ -53,4 +133,13 @@ bool \mbox{\hyperlink{namespaceaxiom_1_1resource_ad883fa57e67fa3709485a06a705052
 \index{LoadPose@{LoadPose}!axiom::resource@{axiom::resource}}
 \doxysubsubsection{\texorpdfstring{LoadPose()}{LoadPose()}}
 {\footnotesize\ttfamily bool axiom\+::resource\+::\+Load\+Pose (\begin{DoxyParamCaption}\item[{flecs\+::entity}]{e,  }\item[{\mbox{\hyperlink{structaxiom_1_1_cmp___resource}{Cmp\+\_\+\+Resource}} \&}]{res,  }\item[{\mbox{\hyperlink{structaxiom_1_1_cmp___res___animations}{Cmp\+\_\+\+Res\+\_\+\+Animations}} \&}]{cmp\+\_\+anim }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{namespaceaxiom_1_1resource_a79b43e1d7afe52b4cb5bf5b5155d978c}\label{namespaceaxiom_1_1resource_a79b43e1d7afe52b4cb5bf5b5155d978c}} 
+\index{axiom::resource@{axiom::resource}!BONE\_EPSILON@{BONE\_EPSILON}}
+\index{BONE\_EPSILON@{BONE\_EPSILON}!axiom::resource@{axiom::resource}}
+\doxysubsubsection{\texorpdfstring{BONE\_EPSILON}{BONE\_EPSILON}}
+{\footnotesize\ttfamily const float axiom\+::resource\+::\+BONE\+\_\+\+EPSILON = 0.\+05f}
 

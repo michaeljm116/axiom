@@ -1,3 +1,70 @@
 \hypertarget{cmp-bvh_8h}{}\doxysection{C\+:/\+Users/mmurrell/repos/axiom/components/scene/cmp-\/bvh.h File Reference}
 \label{cmp-bvh_8h}\index{C:/Users/mmurrell/repos/axiom/components/scene/cmp-\/bvh.h@{C:/Users/mmurrell/repos/axiom/components/scene/cmp-\/bvh.h}}
+
+
+BVH Component.  
+
+
 {\ttfamily \#include $<$GLM/glm.\+hpp$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+{\ttfamily \#include $<$flecs.\+h$>$}\newline
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structaxiom_1_1_cmp___bvh}{axiom\+::\+Cmp\+\_\+\+Bvh}}
+\begin{DoxyCompactList}\small\item\em BVH Component, Singleton for the system. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_bounds}{axiom\+::bvh\+::\+BVHBounds}}
+\item 
+struct \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_bucket}{axiom\+::bvh\+::\+BVHBucket}}
+\item 
+struct \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_node}{axiom\+::bvh\+::\+BVHNode}}
+\item 
+struct \mbox{\hyperlink{structaxiom_1_1bvh_1_1ss_b_v_h_node}{axiom\+::bvh\+::ss\+BVHNode}}
+\item 
+struct \mbox{\hyperlink{structaxiom_1_1bvh_1_1_l_b_v_h_treelet}{axiom\+::bvh\+::\+LBVHTreelet}}
+\item 
+struct \mbox{\hyperlink{structaxiom_1_1bvh_1_1_b_v_h_primitive}{axiom\+::bvh\+::\+BVHPrimitive}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespaceaxiom}{axiom}}
+\item 
+namespace \mbox{\hyperlink{namespaceaxiom_1_1bvh}{axiom\+::bvh}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum class \mbox{\hyperlink{namespaceaxiom_1_1bvh_a92ae439e454dbd454eb32eacae78c058}{axiom\+::bvh\+::\+Tree\+Type}} \{ \mbox{\hyperlink{namespaceaxiom_1_1bvh_a92ae439e454dbd454eb32eacae78c058a556c3dd912453ae5cb3095cd5054e6f4}{axiom\+::bvh\+::\+Recursive}}
+, \mbox{\hyperlink{namespaceaxiom_1_1bvh_a92ae439e454dbd454eb32eacae78c058a0ff1f32cc71c2d0f87e1a5d04683eb2f}{axiom\+::bvh\+::\+HLBVH}}
+ \}
+\item 
+enum class \mbox{\hyperlink{namespaceaxiom_1_1bvh_a4c8856bb5eb5a9c49499ef0f46a9a38f}{axiom\+::bvh\+::\+Split\+Method}} \{ \mbox{\hyperlink{namespaceaxiom_1_1bvh_a4c8856bb5eb5a9c49499ef0f46a9a38fab1ca34f82e83c52b010f86955f264e05}{axiom\+::bvh\+::\+Middle}}
+, \mbox{\hyperlink{namespaceaxiom_1_1bvh_a4c8856bb5eb5a9c49499ef0f46a9a38fa2c825725f1016edf12b60a8c3b9d8714}{axiom\+::bvh\+::\+SAH}}
+, \mbox{\hyperlink{namespaceaxiom_1_1bvh_a4c8856bb5eb5a9c49499ef0f46a9a38fa528f5f26f8ab5a7d3ac5cc4d49825dbd}{axiom\+::bvh\+::\+Equals\+Counts}}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+glm\+::vec3 \mbox{\hyperlink{namespaceaxiom_1_1bvh_a4e457f42d66901ea9fa38d92d02ed2db}{axiom\+::bvh\+::maxV}} (const glm\+::vec3 \&a, const glm\+::vec3 \&b)
+\item 
+glm\+::vec3 \mbox{\hyperlink{namespaceaxiom_1_1bvh_a4676f707e47829232c6821f558a0cdfd}{axiom\+::bvh\+::minV}} (const glm\+::vec3 \&a, const glm\+::vec3 \&b)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+BVH Component. 
+
+\begin{DoxyAuthor}{Author}
+Mike Murrell (\href{mailto:mikestoleyobike@aim.com}{\texttt{ mikestoleyobike@aim.\+com}}) 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+0.\+1 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+2023-\/05-\/11
+\end{DoxyDate}
+\begin{DoxyCopyright}{Copyright}
+Copyright (c) 2023 
+\end{DoxyCopyright}

@@ -76,30 +76,76 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a>  </div>
+<a href="#enum-members">Enumerations</a>  </div>
   <div class="headertitle"><div class="title">axiom::render Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structaxiom_1_1render_1_1ss_g_u_i.html">ssGUI</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structaxiom_1_1render_1_1ss_index.html">ssIndex</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structaxiom_1_1render_1_1ss_light.html">ssLight</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structaxiom_1_1render_1_1ss_material.html">ssMaterial</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structaxiom_1_1render_1_1ss_primitive.html">ssPrimitive</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structaxiom_1_1render_1_1ss_shape.html">ssShape</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structaxiom_1_1render_1_1ss_triangle_index.html">ssTriangleIndex</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structaxiom_1_1render_1_1ss_vert.html">ssVert</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:a8f6af6d0163957972bf2459945019bd9"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceaxiom_1_1render.html#a8f6af6d0163957972bf2459945019bd9">RenderType</a> { <br />
+&#160;&#160;<a class="el" href="namespaceaxiom_1_1render.html#a8f6af6d0163957972bf2459945019bd9a1bb481ed36abdb29e2b9f205f7e7f9bb">RENDER_NONE</a> = 0x00
+, <a class="el" href="namespaceaxiom_1_1render.html#a8f6af6d0163957972bf2459945019bd9a06580f8686e23b42a4b2b017d8a7a52c">RENDER_MATERIAL</a> = 0x01
+, <a class="el" href="namespaceaxiom_1_1render.html#a8f6af6d0163957972bf2459945019bd9a0a72dadab040f1a0a78201f564d763d4">RENDER_PRIMITIVE</a> = 0x02
+, <a class="el" href="namespaceaxiom_1_1render.html#a8f6af6d0163957972bf2459945019bd9a0a4ce8dc39697859c5c6bb69cd1df8b3">RENDER_LIGHT</a> = 0x04
+, <br />
+&#160;&#160;<a class="el" href="namespaceaxiom_1_1render.html#a8f6af6d0163957972bf2459945019bd9a0615e40eb9086b5d7285ddfcfe6ddac7">RENDER_GUI</a> = 0x08
+, <a class="el" href="namespaceaxiom_1_1render.html#a8f6af6d0163957972bf2459945019bd9a3a4a22524c0c6bfa93ef2766bc9df52d">RENDER_GUINUM</a> = 0x10
+, <a class="el" href="namespaceaxiom_1_1render.html#a8f6af6d0163957972bf2459945019bd9a6a99228a297c7d7ec87e08beb3b4501a">RENDER_CAMERA</a> = 0x20
+<br />
+ }</td></tr>
+<tr class="separator:a8f6af6d0163957972bf2459945019bd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae904f9a416ed9736aa57930a7fa5e0b4"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceaxiom_1_1render.html#ae904f9a416ed9736aa57930a7fa5e0b4">RendererType</a> { <a class="el" href="namespaceaxiom_1_1render.html#ae904f9a416ed9736aa57930a7fa5e0b4a8f8a7257311337666ca8cb7e271d4d9b">kComputeRaytracer</a>
+, <a class="el" href="namespaceaxiom_1_1render.html#ae904f9a416ed9736aa57930a7fa5e0b4a56278f106faea5ac5e8e49a9d137f497">kHardwareRaytracer</a>
+, <a class="el" href="namespaceaxiom_1_1render.html#ae904f9a416ed9736aa57930a7fa5e0b4a5936015872cd741c054f42d439f60cd7">kComputeRasterizer</a>
+, <a class="el" href="namespaceaxiom_1_1render.html#ae904f9a416ed9736aa57930a7fa5e0b4a5db7ed580b54b48acaeb4cf31ab3d722">kHardwareRasterizer</a>
+ }</td></tr>
+<tr class="separator:ae904f9a416ed9736aa57930a7fa5e0b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Enumeration Type Documentation</h2>
+<a id="ae904f9a416ed9736aa57930a7fa5e0b4" name="ae904f9a416ed9736aa57930a7fa5e0b4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae904f9a416ed9736aa57930a7fa5e0b4">&#9670;&#160;</a></span>RendererType</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="namespaceaxiom_1_1render.html#ae904f9a416ed9736aa57930a7fa5e0b4">axiom::render::RendererType</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ae904f9a416ed9736aa57930a7fa5e0b4a8f8a7257311337666ca8cb7e271d4d9b" name="ae904f9a416ed9736aa57930a7fa5e0b4a8f8a7257311337666ca8cb7e271d4d9b"></a>kComputeRaytracer&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ae904f9a416ed9736aa57930a7fa5e0b4a56278f106faea5ac5e8e49a9d137f497" name="ae904f9a416ed9736aa57930a7fa5e0b4a56278f106faea5ac5e8e49a9d137f497"></a>kHardwareRaytracer&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ae904f9a416ed9736aa57930a7fa5e0b4a5936015872cd741c054f42d439f60cd7" name="ae904f9a416ed9736aa57930a7fa5e0b4a5936015872cd741c054f42d439f60cd7"></a>kComputeRasterizer&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ae904f9a416ed9736aa57930a7fa5e0b4a5db7ed580b54b48acaeb4cf31ab3d722" name="ae904f9a416ed9736aa57930a7fa5e0b4a5db7ed580b54b48acaeb4cf31ab3d722"></a>kHardwareRasterizer&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
+<a id="a8f6af6d0163957972bf2459945019bd9" name="a8f6af6d0163957972bf2459945019bd9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8f6af6d0163957972bf2459945019bd9">&#9670;&#160;</a></span>RenderType</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="namespaceaxiom_1_1render.html#a8f6af6d0163957972bf2459945019bd9">axiom::render::RenderType</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a8f6af6d0163957972bf2459945019bd9a1bb481ed36abdb29e2b9f205f7e7f9bb" name="a8f6af6d0163957972bf2459945019bd9a1bb481ed36abdb29e2b9f205f7e7f9bb"></a>RENDER_NONE&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a8f6af6d0163957972bf2459945019bd9a06580f8686e23b42a4b2b017d8a7a52c" name="a8f6af6d0163957972bf2459945019bd9a06580f8686e23b42a4b2b017d8a7a52c"></a>RENDER_MATERIAL&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a8f6af6d0163957972bf2459945019bd9a0a72dadab040f1a0a78201f564d763d4" name="a8f6af6d0163957972bf2459945019bd9a0a72dadab040f1a0a78201f564d763d4"></a>RENDER_PRIMITIVE&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a8f6af6d0163957972bf2459945019bd9a0a4ce8dc39697859c5c6bb69cd1df8b3" name="a8f6af6d0163957972bf2459945019bd9a0a4ce8dc39697859c5c6bb69cd1df8b3"></a>RENDER_LIGHT&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a8f6af6d0163957972bf2459945019bd9a0615e40eb9086b5d7285ddfcfe6ddac7" name="a8f6af6d0163957972bf2459945019bd9a0615e40eb9086b5d7285ddfcfe6ddac7"></a>RENDER_GUI&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a8f6af6d0163957972bf2459945019bd9a3a4a22524c0c6bfa93ef2766bc9df52d" name="a8f6af6d0163957972bf2459945019bd9a3a4a22524c0c6bfa93ef2766bc9df52d"></a>RENDER_GUINUM&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a8f6af6d0163957972bf2459945019bd9a6a99228a297c7d7ec87e08beb3b4501a" name="a8f6af6d0163957972bf2459945019bd9a6a99228a297c7d7ec87e08beb3b4501a"></a>RENDER_CAMERA&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

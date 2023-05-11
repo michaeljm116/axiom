@@ -1,7 +1,7 @@
 /**
  * @file cmp-bvh.h
  * @author Mike Murrell (mikestoleyobike@aim.com)
- * @brief BVH COmponent
+ * @brief BVH Component
  * @version 0.1
  * @date 2023-05-11
  * 

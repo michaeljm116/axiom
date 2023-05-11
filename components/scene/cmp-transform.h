@@ -1,3 +1,13 @@
+/**
+ * @file cmp-transform.h
+ * @author Mike Murrell (mikestolyeobike@aim.com)
+ * @brief Transform Component
+ * @version 0.1
+ * @date 2023-05-11
+ * 
+ * @copyright Copyright (c) 2023
+ * 
+ */
 #pragma once
 #ifndef GLM_FORCE_RADIANS
 #define GLM_FORCE_RADIANS
