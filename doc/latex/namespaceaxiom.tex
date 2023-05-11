@@ -3,6 +3,8 @@
 \doxysubsection*{Namespaces}
 \begin{DoxyCompactItemize}
 \item 
+namespace \mbox{\hyperlink{namespaceaxiom_1_1bvh}{bvh}}
+\item 
 namespace \mbox{\hyperlink{namespaceaxiom_1_1input}{input}}
 \item 
 namespace \mbox{\hyperlink{namespaceaxiom_1_1log}{log}}
@@ -14,6 +16,8 @@ namespace \mbox{\hyperlink{namespaceaxiom_1_1resource}{resource}}
 namespace \mbox{\hyperlink{namespaceaxiom_1_1scene}{scene}}
 \item 
 namespace \mbox{\hyperlink{namespaceaxiom_1_1serialize}{serialize}}
+\item 
+namespace \mbox{\hyperlink{namespaceaxiom_1_1shader}{shader}}
 \item 
 namespace \mbox{\hyperlink{namespaceaxiom_1_1timer}{timer}}
 \item 
@@ -28,6 +32,8 @@ namespace \mbox{\hyperlink{namespaceaxiom_1_1window}{window}}
 \item 
 struct \mbox{\hyperlink{structaxiom_1_1_cmp___box}{Cmp\+\_\+\+Box}}
 \item 
+struct \mbox{\hyperlink{structaxiom_1_1_cmp___bvh}{Cmp\+\_\+\+Bvh}}
+\begin{DoxyCompactList}\small\item\em BVH Component, Singleton for the system. \end{DoxyCompactList}\item 
 struct \mbox{\hyperlink{structaxiom_1_1_cmp___controller}{Cmp\+\_\+\+Controller}}
 \item 
 struct \mbox{\hyperlink{structaxiom_1_1_cmp___current_time}{Cmp\+\_\+\+Current\+Time}}
@@ -41,19 +47,19 @@ struct \mbox{\hyperlink{structaxiom_1_1_cmp___g_u_i}{Cmp\+\_\+\+GUI}}
 struct \mbox{\hyperlink{structaxiom_1_1_cmp___g_u_i_number}{Cmp\+\_\+\+GUINumber}}
 \item 
 struct \mbox{\hyperlink{structaxiom_1_1_cmp___keyboard}{Cmp\+\_\+\+Keyboard}}
-\item 
+\begin{DoxyCompactList}\small\item\em Keyboard Component. \end{DoxyCompactList}\item 
 struct \mbox{\hyperlink{structaxiom_1_1_cmp___light}{Cmp\+\_\+\+Light}}
 \item 
 struct \mbox{\hyperlink{structaxiom_1_1_cmp___log}{Cmp\+\_\+\+Log}}
-\item 
+\begin{DoxyCompactList}\small\item\em Log Component. \end{DoxyCompactList}\item 
 struct \mbox{\hyperlink{structaxiom_1_1_cmp___log_file}{Cmp\+\_\+\+Log\+File}}
-\item 
+\begin{DoxyCompactList}\small\item\em Log\+File Component. \end{DoxyCompactList}\item 
 struct \mbox{\hyperlink{structaxiom_1_1_cmp___mesh}{Cmp\+\_\+\+Mesh}}
 \item 
 struct \mbox{\hyperlink{structaxiom_1_1_cmp___model}{Cmp\+\_\+\+Model}}
 \item 
 struct \mbox{\hyperlink{structaxiom_1_1_cmp___mouse}{Cmp\+\_\+\+Mouse}}
-\item 
+\begin{DoxyCompactList}\small\item\em Mouse Component. \end{DoxyCompactList}\item 
 struct \mbox{\hyperlink{structaxiom_1_1_cmp___plane}{Cmp\+\_\+\+Plane}}
 \item 
 struct \mbox{\hyperlink{structaxiom_1_1_cmp___primitive}{Cmp\+\_\+\+Primitive}}
@@ -72,6 +78,8 @@ struct \mbox{\hyperlink{structaxiom_1_1_cmp___scene}{Cmp\+\_\+\+Scene}}
 \item 
 struct \mbox{\hyperlink{structaxiom_1_1_cmp___selectable}{Cmp\+\_\+\+Selectable}}
 \item 
+struct \mbox{\hyperlink{structaxiom_1_1_cmp___serialize}{Cmp\+\_\+\+Serialize}}
+\item 
 struct \mbox{\hyperlink{structaxiom_1_1_cmp___sphere}{Cmp\+\_\+\+Sphere}}
 \item 
 struct \mbox{\hyperlink{structaxiom_1_1_cmp___static}{Cmp\+\_\+\+Static}}
@@ -84,33 +92,7 @@ struct \mbox{\hyperlink{structaxiom_1_1_cmp___window}{Cmp\+\_\+\+Window}}
 \item 
 struct \mbox{\hyperlink{structaxiom_1_1_cmp___window___change}{Cmp\+\_\+\+Window\+\_\+\+Change}}
 \item 
-struct \mbox{\hyperlink{structaxiom_1_1_log_data}{Log\+Data}}
-\item 
 struct \mbox{\hyperlink{structaxiom_1_1_queue_family_indices}{Queue\+Family\+Indices}}
-\item 
-struct \mbox{\hyperlink{structaxiom_1_1_r___b_v_h_node}{R\+\_\+\+BVHNode}}
-\item 
-struct \mbox{\hyperlink{structaxiom_1_1_r___config}{R\+\_\+\+Config}}
-\item 
-struct \mbox{\hyperlink{structaxiom_1_1_r___controller}{R\+\_\+\+Controller}}
-\item 
-struct \mbox{\hyperlink{structaxiom_1_1_r___joint_data}{R\+\_\+\+Joint\+Data}}
-\item 
-struct \mbox{\hyperlink{structaxiom_1_1_r___material}{R\+\_\+\+Material}}
-\item 
-struct \mbox{\hyperlink{structaxiom_1_1_r___mesh}{R\+\_\+\+Mesh}}
-\item 
-struct \mbox{\hyperlink{structaxiom_1_1_r___model}{R\+\_\+\+Model}}
-\item 
-struct \mbox{\hyperlink{structaxiom_1_1_r___pose}{R\+\_\+\+Pose}}
-\item 
-struct \mbox{\hyperlink{structaxiom_1_1_r___pose_list}{R\+\_\+\+Pose\+List}}
-\item 
-struct \mbox{\hyperlink{structaxiom_1_1_r___shape}{R\+\_\+\+Shape}}
-\item 
-struct \mbox{\hyperlink{structaxiom_1_1_r___sqt}{R\+\_\+\+Sqt}}
-\item 
-struct \mbox{\hyperlink{structaxiom_1_1_r___vertex}{R\+\_\+\+Vertex}}
 \item 
 struct \mbox{\hyperlink{structaxiom_1_1sqt}{sqt}}
 \item 
@@ -119,64 +101,10 @@ struct \mbox{\hyperlink{structaxiom_1_1_vulkan_device}{Vulkan\+Device}}
 \doxysubsection*{Enumerations}
 \begin{DoxyCompactItemize}
 \item 
-enum \mbox{\hyperlink{namespaceaxiom_a248ccb5232692ec99d694565137dece2}{Input\+States}} \{ \mbox{\hyperlink{namespaceaxiom_a248ccb5232692ec99d694565137dece2a698f04e070c58f01a5c9519d32e2f54b}{NONE}} = 0x00
-, \mbox{\hyperlink{namespaceaxiom_a248ccb5232692ec99d694565137dece2af54870c667a6d3d4a15cdf1779f2ba45}{RELEASED}} = 0b01
-, \mbox{\hyperlink{namespaceaxiom_a248ccb5232692ec99d694565137dece2af0bce986c1ccf5f0e0af2888e4b38b00}{HELD}} = 0b10
-, \mbox{\hyperlink{namespaceaxiom_a248ccb5232692ec99d694565137dece2ac6040b13eb88e35a0f3039571df87675}{PRESSED}} = 0b11
- \}
-\item 
-enum class \mbox{\hyperlink{namespaceaxiom_a8981a466c490292c8df620bf62eacf0a}{Input\+\_\+\+States}} \{ \mbox{\hyperlink{namespaceaxiom_a8981a466c490292c8df620bf62eacf0aa6adf97f83acf6453d4a6a4b1070f3754}{None}} = 0
-, \mbox{\hyperlink{namespaceaxiom_a8981a466c490292c8df620bf62eacf0aaea1e34304a5d8ffa7c9b0ed8ede4ef1a}{Released}} = 1
-, \mbox{\hyperlink{namespaceaxiom_a8981a466c490292c8df620bf62eacf0aaeffe06cc3bbfdd18fa0d95a403cd2d3f}{Held}} = 2
-, \mbox{\hyperlink{namespaceaxiom_a8981a466c490292c8df620bf62eacf0aad78a68f6a85421ae121c2cb5b73a1040}{Pressed}} = 3
- \}
-\item 
-enum class \mbox{\hyperlink{namespaceaxiom_a0586d377c8b51316334033e5f719d9ce}{Log\+Level}} \{ \newline
-\mbox{\hyperlink{namespaceaxiom_a0586d377c8b51316334033e5f719d9ceadc30ec20708ef7b0f641ef78b7880a15}{DEBUG}}
-, \mbox{\hyperlink{namespaceaxiom_a0586d377c8b51316334033e5f719d9cea551b723eafd6a31d444fcb2f5920fbd3}{INFO}}
-, \mbox{\hyperlink{namespaceaxiom_a0586d377c8b51316334033e5f719d9cea059e9861e0400dfbe05c98a841f3f96b}{WARNING}}
-, \mbox{\hyperlink{namespaceaxiom_a0586d377c8b51316334033e5f719d9ceabb1ca97ec761fc37101737ba0aa2e7c5}{ERROR}}
-, \newline
-\mbox{\hyperlink{namespaceaxiom_a0586d377c8b51316334033e5f719d9cea8c46d8d9d3402788403e2f6911153089}{CHECK}}
- \}
-\item 
-enum \mbox{\hyperlink{namespaceaxiom_ad0bb303c60d47178dd0cde56e25cd65a}{Render\+Type}} \{ \newline
-\mbox{\hyperlink{namespaceaxiom_ad0bb303c60d47178dd0cde56e25cd65aabfd50852ffa34965e81ca0a401435435}{RENDER\+\_\+\+NONE}} = 0x00
-, \mbox{\hyperlink{namespaceaxiom_ad0bb303c60d47178dd0cde56e25cd65aa4b45547bc8c7951d1467e5e6e6feac32}{RENDER\+\_\+\+MATERIAL}} = 0x01
-, \mbox{\hyperlink{namespaceaxiom_ad0bb303c60d47178dd0cde56e25cd65aacfde9ceb8b94f87332ac3b7a3bfb679e}{RENDER\+\_\+\+PRIMITIVE}} = 0x02
-, \mbox{\hyperlink{namespaceaxiom_ad0bb303c60d47178dd0cde56e25cd65aabea5c52229730e438809ae488f1bed12}{RENDER\+\_\+\+LIGHT}} = 0x04
-, \newline
-\mbox{\hyperlink{namespaceaxiom_ad0bb303c60d47178dd0cde56e25cd65aa91992d1c0a6b4d7b622c7fef5b388d4f}{RENDER\+\_\+\+GUI}} = 0x08
-, \mbox{\hyperlink{namespaceaxiom_ad0bb303c60d47178dd0cde56e25cd65aab80a23c8858dccbf6992d8945032fde3}{RENDER\+\_\+\+GUINUM}} = 0x10
-, \mbox{\hyperlink{namespaceaxiom_ad0bb303c60d47178dd0cde56e25cd65aa7e9e9ed38e9f0c5b3fcadeed165a6c15}{RENDER\+\_\+\+CAMERA}} = 0x20
- \}
-\item 
-enum \mbox{\hyperlink{namespaceaxiom_af4d6915d00d603955e5bb98cf1b865dc}{Renderer\+Type}} \{ \mbox{\hyperlink{namespaceaxiom_af4d6915d00d603955e5bb98cf1b865dca2bca4d725f93371113c745977374cf55}{k\+Compute\+Raytracer}}
-, \mbox{\hyperlink{namespaceaxiom_af4d6915d00d603955e5bb98cf1b865dcaffcd5d46dbc1a0acac6fe971770f6605}{k\+Hardware\+Raytracer}}
-, \mbox{\hyperlink{namespaceaxiom_af4d6915d00d603955e5bb98cf1b865dca8734c04173c16b66e86e1ad24dbb51a4}{k\+Compute\+Rasterizer}}
-, \mbox{\hyperlink{namespaceaxiom_af4d6915d00d603955e5bb98cf1b865dca414c906c1d83aa02b0490ef575c395c3}{k\+Hardware\+Rasterizer}}
- \}
-\item 
 enum class \mbox{\hyperlink{namespaceaxiom_a67df71b9771f73554bbf4e2d44575fb7}{Selectable\+State}} \{ \mbox{\hyperlink{namespaceaxiom_a67df71b9771f73554bbf4e2d44575fb7a810460332a38c9ade69a49b057494cad}{Unselected}}
 , \mbox{\hyperlink{namespaceaxiom_a67df71b9771f73554bbf4e2d44575fb7aea1e34304a5d8ffa7c9b0ed8ede4ef1a}{Released}}
 , \mbox{\hyperlink{namespaceaxiom_a67df71b9771f73554bbf4e2d44575fb7aeffe06cc3bbfdd18fa0d95a403cd2d3f}{Held}}
 , \mbox{\hyperlink{namespaceaxiom_a67df71b9771f73554bbf4e2d44575fb7ad78a68f6a85421ae121c2cb5b73a1040}{Pressed}}
- \}
-\item 
-enum class \mbox{\hyperlink{namespaceaxiom_a1017b7c0e0e329529ccdef4f684317c8}{Window\+Setting}} \{ \mbox{\hyperlink{namespaceaxiom_a1017b7c0e0e329529ccdef4f684317c8a9d723d04c40bfd81835c0766a698cf63}{Resize}}
-, \mbox{\hyperlink{namespaceaxiom_a1017b7c0e0e329529ccdef4f684317c8ab13311ab51c4c34757f67f26580018dd}{Windowed}}
-, \mbox{\hyperlink{namespaceaxiom_a1017b7c0e0e329529ccdef4f684317c8ae7ec409749889353b8f83a6b04159420}{Full\+Screen}}
-, \mbox{\hyperlink{namespaceaxiom_a1017b7c0e0e329529ccdef4f684317c8a084c9e66005aa8b5d844eb7ab331f219}{Windowed\+Full\+Screen}}
- \}
-\item 
-enum class \mbox{\hyperlink{namespaceaxiom_a8822a519e9948786160295fee7d6571e}{Resource\+\_\+\+Type}} \{ \newline
-\mbox{\hyperlink{namespaceaxiom_a8822a519e9948786160295fee7d6571ea6adf97f83acf6453d4a6a4b1070f3754}{None}}
-, \mbox{\hyperlink{namespaceaxiom_a8822a519e9948786160295fee7d6571eaa559b87068921eec05086ce5485e9784}{Model}}
-, \mbox{\hyperlink{namespaceaxiom_a8822a519e9948786160295fee7d6571ead6b6b668dbca9d4fe774bb654226ebe3}{Animation}}
-, \mbox{\hyperlink{namespaceaxiom_a8822a519e9948786160295fee7d6571ea9d07e0e08af7f96cf45be0112b9ccfbe}{Sound}}
-, \newline
-\mbox{\hyperlink{namespaceaxiom_a8822a519e9948786160295fee7d6571eaa3e8ae43188ae76d38f414b2bdb0077b}{Texture}}
-, \mbox{\hyperlink{namespaceaxiom_a8822a519e9948786160295fee7d6571ead92a8333dd3ccb895cc65f7455b71206}{Material}}
  \}
 \end{DoxyCompactItemize}
 \doxysubsection*{Functions}
@@ -189,181 +117,11 @@ bool \mbox{\hyperlink{namespaceaxiom_ad1692425584a988456436bec7121b427}{operator
 \doxysubsection*{Variables}
 \begin{DoxyCompactItemize}
 \item 
-const float \mbox{\hyperlink{namespaceaxiom_aba8d50d7a7f298cd27977e18ad7c95b2}{BONE\+\_\+\+EPSILON}} = 0.\+05f
-\item 
 flecs\+::world \mbox{\hyperlink{namespaceaxiom_ac1d5ed87ec9aa3ecaaf2b00ae08b8905}{g\+\_\+world}}
 \end{DoxyCompactItemize}
 
 
 \doxysubsection{Enumeration Type Documentation}
-\mbox{\Hypertarget{namespaceaxiom_a8981a466c490292c8df620bf62eacf0a}\label{namespaceaxiom_a8981a466c490292c8df620bf62eacf0a}} 
-\index{axiom@{axiom}!Input\_States@{Input\_States}}
-\index{Input\_States@{Input\_States}!axiom@{axiom}}
-\doxysubsubsection{\texorpdfstring{Input\_States}{Input\_States}}
-{\footnotesize\ttfamily enum class \mbox{\hyperlink{namespaceaxiom_a8981a466c490292c8df620bf62eacf0a}{axiom\+::\+Input\+\_\+\+States}}\hspace{0.3cm}{\ttfamily [strong]}}
-
-\begin{DoxyEnumFields}{Enumerator}
-\raisebox{\heightof{T}}[0pt][0pt]{\index{None@{None}!axiom@{axiom}}\index{axiom@{axiom}!None@{None}}}\mbox{\Hypertarget{namespaceaxiom_a8981a466c490292c8df620bf62eacf0aa6adf97f83acf6453d4a6a4b1070f3754}\label{namespaceaxiom_a8981a466c490292c8df620bf62eacf0aa6adf97f83acf6453d4a6a4b1070f3754}} 
-None&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{Released@{Released}!axiom@{axiom}}\index{axiom@{axiom}!Released@{Released}}}\mbox{\Hypertarget{namespaceaxiom_a8981a466c490292c8df620bf62eacf0aaea1e34304a5d8ffa7c9b0ed8ede4ef1a}\label{namespaceaxiom_a8981a466c490292c8df620bf62eacf0aaea1e34304a5d8ffa7c9b0ed8ede4ef1a}} 
-Released&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{Held@{Held}!axiom@{axiom}}\index{axiom@{axiom}!Held@{Held}}}\mbox{\Hypertarget{namespaceaxiom_a8981a466c490292c8df620bf62eacf0aaeffe06cc3bbfdd18fa0d95a403cd2d3f}\label{namespaceaxiom_a8981a466c490292c8df620bf62eacf0aaeffe06cc3bbfdd18fa0d95a403cd2d3f}} 
-Held&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{Pressed@{Pressed}!axiom@{axiom}}\index{axiom@{axiom}!Pressed@{Pressed}}}\mbox{\Hypertarget{namespaceaxiom_a8981a466c490292c8df620bf62eacf0aad78a68f6a85421ae121c2cb5b73a1040}\label{namespaceaxiom_a8981a466c490292c8df620bf62eacf0aad78a68f6a85421ae121c2cb5b73a1040}} 
-Pressed&\\
-\hline
-
-\end{DoxyEnumFields}
-\mbox{\Hypertarget{namespaceaxiom_a248ccb5232692ec99d694565137dece2}\label{namespaceaxiom_a248ccb5232692ec99d694565137dece2}} 
-\index{axiom@{axiom}!InputStates@{InputStates}}
-\index{InputStates@{InputStates}!axiom@{axiom}}
-\doxysubsubsection{\texorpdfstring{InputStates}{InputStates}}
-{\footnotesize\ttfamily enum \mbox{\hyperlink{namespaceaxiom_a248ccb5232692ec99d694565137dece2}{axiom\+::\+Input\+States}}}
-
-\begin{DoxyEnumFields}{Enumerator}
-\raisebox{\heightof{T}}[0pt][0pt]{\index{NONE@{NONE}!axiom@{axiom}}\index{axiom@{axiom}!NONE@{NONE}}}\mbox{\Hypertarget{namespaceaxiom_a248ccb5232692ec99d694565137dece2a698f04e070c58f01a5c9519d32e2f54b}\label{namespaceaxiom_a248ccb5232692ec99d694565137dece2a698f04e070c58f01a5c9519d32e2f54b}} 
-NONE&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{RELEASED@{RELEASED}!axiom@{axiom}}\index{axiom@{axiom}!RELEASED@{RELEASED}}}\mbox{\Hypertarget{namespaceaxiom_a248ccb5232692ec99d694565137dece2af54870c667a6d3d4a15cdf1779f2ba45}\label{namespaceaxiom_a248ccb5232692ec99d694565137dece2af54870c667a6d3d4a15cdf1779f2ba45}} 
-RELEASED&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{HELD@{HELD}!axiom@{axiom}}\index{axiom@{axiom}!HELD@{HELD}}}\mbox{\Hypertarget{namespaceaxiom_a248ccb5232692ec99d694565137dece2af0bce986c1ccf5f0e0af2888e4b38b00}\label{namespaceaxiom_a248ccb5232692ec99d694565137dece2af0bce986c1ccf5f0e0af2888e4b38b00}} 
-HELD&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{PRESSED@{PRESSED}!axiom@{axiom}}\index{axiom@{axiom}!PRESSED@{PRESSED}}}\mbox{\Hypertarget{namespaceaxiom_a248ccb5232692ec99d694565137dece2ac6040b13eb88e35a0f3039571df87675}\label{namespaceaxiom_a248ccb5232692ec99d694565137dece2ac6040b13eb88e35a0f3039571df87675}} 
-PRESSED&\\
-\hline
-
-\end{DoxyEnumFields}
-\mbox{\Hypertarget{namespaceaxiom_a0586d377c8b51316334033e5f719d9ce}\label{namespaceaxiom_a0586d377c8b51316334033e5f719d9ce}} 
-\index{axiom@{axiom}!LogLevel@{LogLevel}}
-\index{LogLevel@{LogLevel}!axiom@{axiom}}
-\doxysubsubsection{\texorpdfstring{LogLevel}{LogLevel}}
-{\footnotesize\ttfamily enum class \mbox{\hyperlink{namespaceaxiom_a0586d377c8b51316334033e5f719d9ce}{axiom\+::\+Log\+Level}}\hspace{0.3cm}{\ttfamily [strong]}}
-
-\begin{DoxyEnumFields}{Enumerator}
-\raisebox{\heightof{T}}[0pt][0pt]{\index{DEBUG@{DEBUG}!axiom@{axiom}}\index{axiom@{axiom}!DEBUG@{DEBUG}}}\mbox{\Hypertarget{namespaceaxiom_a0586d377c8b51316334033e5f719d9ceadc30ec20708ef7b0f641ef78b7880a15}\label{namespaceaxiom_a0586d377c8b51316334033e5f719d9ceadc30ec20708ef7b0f641ef78b7880a15}} 
-DEBUG&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{INFO@{INFO}!axiom@{axiom}}\index{axiom@{axiom}!INFO@{INFO}}}\mbox{\Hypertarget{namespaceaxiom_a0586d377c8b51316334033e5f719d9cea551b723eafd6a31d444fcb2f5920fbd3}\label{namespaceaxiom_a0586d377c8b51316334033e5f719d9cea551b723eafd6a31d444fcb2f5920fbd3}} 
-INFO&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{WARNING@{WARNING}!axiom@{axiom}}\index{axiom@{axiom}!WARNING@{WARNING}}}\mbox{\Hypertarget{namespaceaxiom_a0586d377c8b51316334033e5f719d9cea059e9861e0400dfbe05c98a841f3f96b}\label{namespaceaxiom_a0586d377c8b51316334033e5f719d9cea059e9861e0400dfbe05c98a841f3f96b}} 
-WARNING&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{ERROR@{ERROR}!axiom@{axiom}}\index{axiom@{axiom}!ERROR@{ERROR}}}\mbox{\Hypertarget{namespaceaxiom_a0586d377c8b51316334033e5f719d9ceabb1ca97ec761fc37101737ba0aa2e7c5}\label{namespaceaxiom_a0586d377c8b51316334033e5f719d9ceabb1ca97ec761fc37101737ba0aa2e7c5}} 
-ERROR&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{CHECK@{CHECK}!axiom@{axiom}}\index{axiom@{axiom}!CHECK@{CHECK}}}\mbox{\Hypertarget{namespaceaxiom_a0586d377c8b51316334033e5f719d9cea8c46d8d9d3402788403e2f6911153089}\label{namespaceaxiom_a0586d377c8b51316334033e5f719d9cea8c46d8d9d3402788403e2f6911153089}} 
-CHECK&\\
-\hline
-
-\end{DoxyEnumFields}
-\mbox{\Hypertarget{namespaceaxiom_af4d6915d00d603955e5bb98cf1b865dc}\label{namespaceaxiom_af4d6915d00d603955e5bb98cf1b865dc}} 
-\index{axiom@{axiom}!RendererType@{RendererType}}
-\index{RendererType@{RendererType}!axiom@{axiom}}
-\doxysubsubsection{\texorpdfstring{RendererType}{RendererType}}
-{\footnotesize\ttfamily enum \mbox{\hyperlink{namespaceaxiom_af4d6915d00d603955e5bb98cf1b865dc}{axiom\+::\+Renderer\+Type}}}
-
-\begin{DoxyEnumFields}{Enumerator}
-\raisebox{\heightof{T}}[0pt][0pt]{\index{kComputeRaytracer@{kComputeRaytracer}!axiom@{axiom}}\index{axiom@{axiom}!kComputeRaytracer@{kComputeRaytracer}}}\mbox{\Hypertarget{namespaceaxiom_af4d6915d00d603955e5bb98cf1b865dca2bca4d725f93371113c745977374cf55}\label{namespaceaxiom_af4d6915d00d603955e5bb98cf1b865dca2bca4d725f93371113c745977374cf55}} 
-k\+Compute\+Raytracer&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{kHardwareRaytracer@{kHardwareRaytracer}!axiom@{axiom}}\index{axiom@{axiom}!kHardwareRaytracer@{kHardwareRaytracer}}}\mbox{\Hypertarget{namespaceaxiom_af4d6915d00d603955e5bb98cf1b865dcaffcd5d46dbc1a0acac6fe971770f6605}\label{namespaceaxiom_af4d6915d00d603955e5bb98cf1b865dcaffcd5d46dbc1a0acac6fe971770f6605}} 
-k\+Hardware\+Raytracer&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{kComputeRasterizer@{kComputeRasterizer}!axiom@{axiom}}\index{axiom@{axiom}!kComputeRasterizer@{kComputeRasterizer}}}\mbox{\Hypertarget{namespaceaxiom_af4d6915d00d603955e5bb98cf1b865dca8734c04173c16b66e86e1ad24dbb51a4}\label{namespaceaxiom_af4d6915d00d603955e5bb98cf1b865dca8734c04173c16b66e86e1ad24dbb51a4}} 
-k\+Compute\+Rasterizer&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{kHardwareRasterizer@{kHardwareRasterizer}!axiom@{axiom}}\index{axiom@{axiom}!kHardwareRasterizer@{kHardwareRasterizer}}}\mbox{\Hypertarget{namespaceaxiom_af4d6915d00d603955e5bb98cf1b865dca414c906c1d83aa02b0490ef575c395c3}\label{namespaceaxiom_af4d6915d00d603955e5bb98cf1b865dca414c906c1d83aa02b0490ef575c395c3}} 
-k\+Hardware\+Rasterizer&\\
-\hline
-
-\end{DoxyEnumFields}
-\mbox{\Hypertarget{namespaceaxiom_ad0bb303c60d47178dd0cde56e25cd65a}\label{namespaceaxiom_ad0bb303c60d47178dd0cde56e25cd65a}} 
-\index{axiom@{axiom}!RenderType@{RenderType}}
-\index{RenderType@{RenderType}!axiom@{axiom}}
-\doxysubsubsection{\texorpdfstring{RenderType}{RenderType}}
-{\footnotesize\ttfamily enum \mbox{\hyperlink{namespaceaxiom_ad0bb303c60d47178dd0cde56e25cd65a}{axiom\+::\+Render\+Type}}}
-
-\begin{DoxyEnumFields}{Enumerator}
-\raisebox{\heightof{T}}[0pt][0pt]{\index{RENDER\_NONE@{RENDER\_NONE}!axiom@{axiom}}\index{axiom@{axiom}!RENDER\_NONE@{RENDER\_NONE}}}\mbox{\Hypertarget{namespaceaxiom_ad0bb303c60d47178dd0cde56e25cd65aabfd50852ffa34965e81ca0a401435435}\label{namespaceaxiom_ad0bb303c60d47178dd0cde56e25cd65aabfd50852ffa34965e81ca0a401435435}} 
-RENDER\+\_\+\+NONE&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{RENDER\_MATERIAL@{RENDER\_MATERIAL}!axiom@{axiom}}\index{axiom@{axiom}!RENDER\_MATERIAL@{RENDER\_MATERIAL}}}\mbox{\Hypertarget{namespaceaxiom_ad0bb303c60d47178dd0cde56e25cd65aa4b45547bc8c7951d1467e5e6e6feac32}\label{namespaceaxiom_ad0bb303c60d47178dd0cde56e25cd65aa4b45547bc8c7951d1467e5e6e6feac32}} 
-RENDER\+\_\+\+MATERIAL&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{RENDER\_PRIMITIVE@{RENDER\_PRIMITIVE}!axiom@{axiom}}\index{axiom@{axiom}!RENDER\_PRIMITIVE@{RENDER\_PRIMITIVE}}}\mbox{\Hypertarget{namespaceaxiom_ad0bb303c60d47178dd0cde56e25cd65aacfde9ceb8b94f87332ac3b7a3bfb679e}\label{namespaceaxiom_ad0bb303c60d47178dd0cde56e25cd65aacfde9ceb8b94f87332ac3b7a3bfb679e}} 
-RENDER\+\_\+\+PRIMITIVE&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{RENDER\_LIGHT@{RENDER\_LIGHT}!axiom@{axiom}}\index{axiom@{axiom}!RENDER\_LIGHT@{RENDER\_LIGHT}}}\mbox{\Hypertarget{namespaceaxiom_ad0bb303c60d47178dd0cde56e25cd65aabea5c52229730e438809ae488f1bed12}\label{namespaceaxiom_ad0bb303c60d47178dd0cde56e25cd65aabea5c52229730e438809ae488f1bed12}} 
-RENDER\+\_\+\+LIGHT&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{RENDER\_GUI@{RENDER\_GUI}!axiom@{axiom}}\index{axiom@{axiom}!RENDER\_GUI@{RENDER\_GUI}}}\mbox{\Hypertarget{namespaceaxiom_ad0bb303c60d47178dd0cde56e25cd65aa91992d1c0a6b4d7b622c7fef5b388d4f}\label{namespaceaxiom_ad0bb303c60d47178dd0cde56e25cd65aa91992d1c0a6b4d7b622c7fef5b388d4f}} 
-RENDER\+\_\+\+GUI&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{RENDER\_GUINUM@{RENDER\_GUINUM}!axiom@{axiom}}\index{axiom@{axiom}!RENDER\_GUINUM@{RENDER\_GUINUM}}}\mbox{\Hypertarget{namespaceaxiom_ad0bb303c60d47178dd0cde56e25cd65aab80a23c8858dccbf6992d8945032fde3}\label{namespaceaxiom_ad0bb303c60d47178dd0cde56e25cd65aab80a23c8858dccbf6992d8945032fde3}} 
-RENDER\+\_\+\+GUINUM&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{RENDER\_CAMERA@{RENDER\_CAMERA}!axiom@{axiom}}\index{axiom@{axiom}!RENDER\_CAMERA@{RENDER\_CAMERA}}}\mbox{\Hypertarget{namespaceaxiom_ad0bb303c60d47178dd0cde56e25cd65aa7e9e9ed38e9f0c5b3fcadeed165a6c15}\label{namespaceaxiom_ad0bb303c60d47178dd0cde56e25cd65aa7e9e9ed38e9f0c5b3fcadeed165a6c15}} 
-RENDER\+\_\+\+CAMERA&\\
-\hline
-
-\end{DoxyEnumFields}
-\mbox{\Hypertarget{namespaceaxiom_a8822a519e9948786160295fee7d6571e}\label{namespaceaxiom_a8822a519e9948786160295fee7d6571e}} 
-\index{axiom@{axiom}!Resource\_Type@{Resource\_Type}}
-\index{Resource\_Type@{Resource\_Type}!axiom@{axiom}}
-\doxysubsubsection{\texorpdfstring{Resource\_Type}{Resource\_Type}}
-{\footnotesize\ttfamily enum class \mbox{\hyperlink{namespaceaxiom_a8822a519e9948786160295fee7d6571e}{axiom\+::\+Resource\+\_\+\+Type}}\hspace{0.3cm}{\ttfamily [strong]}}
-
-\begin{DoxyEnumFields}{Enumerator}
-\raisebox{\heightof{T}}[0pt][0pt]{\index{None@{None}!axiom@{axiom}}\index{axiom@{axiom}!None@{None}}}\mbox{\Hypertarget{namespaceaxiom_a8822a519e9948786160295fee7d6571ea6adf97f83acf6453d4a6a4b1070f3754}\label{namespaceaxiom_a8822a519e9948786160295fee7d6571ea6adf97f83acf6453d4a6a4b1070f3754}} 
-None&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{Model@{Model}!axiom@{axiom}}\index{axiom@{axiom}!Model@{Model}}}\mbox{\Hypertarget{namespaceaxiom_a8822a519e9948786160295fee7d6571eaa559b87068921eec05086ce5485e9784}\label{namespaceaxiom_a8822a519e9948786160295fee7d6571eaa559b87068921eec05086ce5485e9784}} 
-Model&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{Animation@{Animation}!axiom@{axiom}}\index{axiom@{axiom}!Animation@{Animation}}}\mbox{\Hypertarget{namespaceaxiom_a8822a519e9948786160295fee7d6571ead6b6b668dbca9d4fe774bb654226ebe3}\label{namespaceaxiom_a8822a519e9948786160295fee7d6571ead6b6b668dbca9d4fe774bb654226ebe3}} 
-Animation&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{Sound@{Sound}!axiom@{axiom}}\index{axiom@{axiom}!Sound@{Sound}}}\mbox{\Hypertarget{namespaceaxiom_a8822a519e9948786160295fee7d6571ea9d07e0e08af7f96cf45be0112b9ccfbe}\label{namespaceaxiom_a8822a519e9948786160295fee7d6571ea9d07e0e08af7f96cf45be0112b9ccfbe}} 
-Sound&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{Texture@{Texture}!axiom@{axiom}}\index{axiom@{axiom}!Texture@{Texture}}}\mbox{\Hypertarget{namespaceaxiom_a8822a519e9948786160295fee7d6571eaa3e8ae43188ae76d38f414b2bdb0077b}\label{namespaceaxiom_a8822a519e9948786160295fee7d6571eaa3e8ae43188ae76d38f414b2bdb0077b}} 
-Texture&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{Material@{Material}!axiom@{axiom}}\index{axiom@{axiom}!Material@{Material}}}\mbox{\Hypertarget{namespaceaxiom_a8822a519e9948786160295fee7d6571ead92a8333dd3ccb895cc65f7455b71206}\label{namespaceaxiom_a8822a519e9948786160295fee7d6571ead92a8333dd3ccb895cc65f7455b71206}} 
-Material&\\
-\hline
-
-\end{DoxyEnumFields}
 \mbox{\Hypertarget{namespaceaxiom_a67df71b9771f73554bbf4e2d44575fb7}\label{namespaceaxiom_a67df71b9771f73554bbf4e2d44575fb7}} 
 \index{axiom@{axiom}!SelectableState@{SelectableState}}
 \index{SelectableState@{SelectableState}!axiom@{axiom}}
@@ -388,30 +146,6 @@ Pressed&\\
 \hline
 
 \end{DoxyEnumFields}
-\mbox{\Hypertarget{namespaceaxiom_a1017b7c0e0e329529ccdef4f684317c8}\label{namespaceaxiom_a1017b7c0e0e329529ccdef4f684317c8}} 
-\index{axiom@{axiom}!WindowSetting@{WindowSetting}}
-\index{WindowSetting@{WindowSetting}!axiom@{axiom}}
-\doxysubsubsection{\texorpdfstring{WindowSetting}{WindowSetting}}
-{\footnotesize\ttfamily enum class \mbox{\hyperlink{namespaceaxiom_a1017b7c0e0e329529ccdef4f684317c8}{axiom\+::\+Window\+Setting}}\hspace{0.3cm}{\ttfamily [strong]}}
-
-\begin{DoxyEnumFields}{Enumerator}
-\raisebox{\heightof{T}}[0pt][0pt]{\index{Resize@{Resize}!axiom@{axiom}}\index{axiom@{axiom}!Resize@{Resize}}}\mbox{\Hypertarget{namespaceaxiom_a1017b7c0e0e329529ccdef4f684317c8a9d723d04c40bfd81835c0766a698cf63}\label{namespaceaxiom_a1017b7c0e0e329529ccdef4f684317c8a9d723d04c40bfd81835c0766a698cf63}} 
-Resize&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{Windowed@{Windowed}!axiom@{axiom}}\index{axiom@{axiom}!Windowed@{Windowed}}}\mbox{\Hypertarget{namespaceaxiom_a1017b7c0e0e329529ccdef4f684317c8ab13311ab51c4c34757f67f26580018dd}\label{namespaceaxiom_a1017b7c0e0e329529ccdef4f684317c8ab13311ab51c4c34757f67f26580018dd}} 
-Windowed&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{FullScreen@{FullScreen}!axiom@{axiom}}\index{axiom@{axiom}!FullScreen@{FullScreen}}}\mbox{\Hypertarget{namespaceaxiom_a1017b7c0e0e329529ccdef4f684317c8ae7ec409749889353b8f83a6b04159420}\label{namespaceaxiom_a1017b7c0e0e329529ccdef4f684317c8ae7ec409749889353b8f83a6b04159420}} 
-Full\+Screen&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{WindowedFullScreen@{WindowedFullScreen}!axiom@{axiom}}\index{axiom@{axiom}!WindowedFullScreen@{WindowedFullScreen}}}\mbox{\Hypertarget{namespaceaxiom_a1017b7c0e0e329529ccdef4f684317c8a084c9e66005aa8b5d844eb7ab331f219}\label{namespaceaxiom_a1017b7c0e0e329529ccdef4f684317c8a084c9e66005aa8b5d844eb7ab331f219}} 
-Windowed\+Full\+Screen&\\
-\hline
-
-\end{DoxyEnumFields}
 
 
 \doxysubsection{Function Documentation}
@@ -431,12 +165,6 @@ void axiom\+::\+VK\+\_\+\+CHECKRESULT (\begin{DoxyParamCaption}\item[{const T \&
 
 
 \doxysubsection{Variable Documentation}
-\mbox{\Hypertarget{namespaceaxiom_aba8d50d7a7f298cd27977e18ad7c95b2}\label{namespaceaxiom_aba8d50d7a7f298cd27977e18ad7c95b2}} 
-\index{axiom@{axiom}!BONE\_EPSILON@{BONE\_EPSILON}}
-\index{BONE\_EPSILON@{BONE\_EPSILON}!axiom@{axiom}}
-\doxysubsubsection{\texorpdfstring{BONE\_EPSILON}{BONE\_EPSILON}}
-{\footnotesize\ttfamily const float axiom\+::\+BONE\+\_\+\+EPSILON = 0.\+05f}
-
 \mbox{\Hypertarget{namespaceaxiom_ac1d5ed87ec9aa3ecaaf2b00ae08b8905}\label{namespaceaxiom_ac1d5ed87ec9aa3ecaaf2b00ae08b8905}} 
 \index{axiom@{axiom}!g\_world@{g\_world}}
 \index{g\_world@{g\_world}!axiom@{axiom}}

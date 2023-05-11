@@ -1,12 +1,16 @@
 var searchData=
 [
-  ['r_5fjointdata_0',['R_JointData',['../structaxiom_1_1_r___joint_data.html#aee1c41ff2f35a0e793a655ffa36f14dc',1,'axiom::R_JointData']]],
-  ['r_5fmaterial_1',['R_Material',['../structaxiom_1_1_r___material.html#a911865376c6698245d8d91f2296e598d',1,'axiom::R_Material::R_Material()'],['../structaxiom_1_1_r___material.html#ac1017b9d67c5334a487989f7a588ff65',1,'axiom::R_Material::R_Material(std::string n, glm::vec3 d, float rfl, float rgh, float trns, float rfr, int ti)']]],
-  ['r_5fvertex_2',['R_Vertex',['../structaxiom_1_1_r___vertex.html#a8a15e63576e6ce14bbb7e9735fddc6fc',1,'axiom::R_Vertex::R_Vertex(const glm::vec3 &amp;p, const glm::vec3 &amp;n)'],['../structaxiom_1_1_r___vertex.html#afd613bf2f1a27766844d0838359890f8',1,'axiom::R_Vertex::R_Vertex()']]],
-  ['rect2d_3',['rect2D',['../namespaceaxiom_1_1vks_1_1initializers.html#a50b2b6f58050fc50c5a8fe9ed6f407a5',1,'axiom::vks::initializers']]],
-  ['recursive_5ftransform_4',['recursive_transform',['../namespaceaxiom_1_1transform.html#aee0f0ba6144c91321b6d95a41e8622a0',1,'axiom::transform']]],
-  ['renderpassbegininfo_5',['renderPassBeginInfo',['../namespaceaxiom_1_1vks_1_1initializers.html#ae8facabe29dca474969e379d235b29e0',1,'axiom::vks::initializers']]],
-  ['renderpasscreateinfo_6',['renderPassCreateInfo',['../namespaceaxiom_1_1vks_1_1initializers.html#a040eff04b744ce25f7500eb56485237b',1,'axiom::vks::initializers']]],
-  ['resize_7',['Resize',['../namespaceaxiom_1_1window.html#a4229cc9bb450c1ef93ce2b3bbf414b8d',1,'axiom::window']]],
-  ['rotate_5faabb_8',['rotate_aabb',['../namespaceaxiom_1_1transform.html#a6795bf611c6cc13bd1bbe3d982144296',1,'axiom::transform']]]
+  ['pipelinecolorblendattachmentstate_0',['pipelineColorBlendAttachmentState',['../namespaceaxiom_1_1vks_1_1initializers.html#a849602f253d2313078cc466480827210',1,'axiom::vks::initializers']]],
+  ['pipelinecolorblendstatecreateinfo_1',['pipelineColorBlendStateCreateInfo',['../namespaceaxiom_1_1vks_1_1initializers.html#a1d0a250084e354858ae75156e6865f2c',1,'axiom::vks::initializers']]],
+  ['pipelinecreateinfo_2',['pipelineCreateInfo',['../namespaceaxiom_1_1vks_1_1initializers.html#ab32d6d85c8275e68271fce5c7d136f72',1,'axiom::vks::initializers']]],
+  ['pipelinedepthstencilstatecreateinfo_3',['pipelineDepthStencilStateCreateInfo',['../namespaceaxiom_1_1vks_1_1initializers.html#a7e87a79c3e3136c3091c4670eeda5753',1,'axiom::vks::initializers']]],
+  ['pipelinedynamicstatecreateinfo_4',['pipelineDynamicStateCreateInfo',['../namespaceaxiom_1_1vks_1_1initializers.html#a98d043b5a3a6afdba33b707c0f860bf5',1,'axiom::vks::initializers::pipelineDynamicStateCreateInfo(const VkDynamicState *pDynamicStates, uint32_t dynamicStateCount, VkPipelineDynamicStateCreateFlags flags=0)'],['../namespaceaxiom_1_1vks_1_1initializers.html#a6bbb50ebc25e525bfbab0eaf47ca4fc1',1,'axiom::vks::initializers::pipelineDynamicStateCreateInfo(const std::vector&lt; VkDynamicState &gt; &amp;pDynamicStates, VkPipelineDynamicStateCreateFlags flags=0)']]],
+  ['pipelineinputassemblystatecreateinfo_5',['pipelineInputAssemblyStateCreateInfo',['../namespaceaxiom_1_1vks_1_1initializers.html#a5b96f3db306419531d83f39b2519103a',1,'axiom::vks::initializers']]],
+  ['pipelinelayoutcreateinfo_6',['pipelineLayoutCreateInfo',['../namespaceaxiom_1_1vks_1_1initializers.html#a53145965f8ca8e3ade1bf13106e2eb15',1,'axiom::vks::initializers::pipelineLayoutCreateInfo(const VkDescriptorSetLayout *pSetLayouts, uint32_t setLayoutCount=1)'],['../namespaceaxiom_1_1vks_1_1initializers.html#a750375c701a08deb960456439fb20d3f',1,'axiom::vks::initializers::pipelineLayoutCreateInfo(uint32_t setLayoutCount=1)']]],
+  ['pipelinemultisamplestatecreateinfo_7',['pipelineMultisampleStateCreateInfo',['../namespaceaxiom_1_1vks_1_1initializers.html#a67ec1fb5eff89ce7cebc5cddbf4c38b9',1,'axiom::vks::initializers']]],
+  ['pipelinerasterizationstatecreateinfo_8',['pipelineRasterizationStateCreateInfo',['../namespaceaxiom_1_1vks_1_1initializers.html#a0f18a55d3f6f96f2241a754ea2e3bcd0',1,'axiom::vks::initializers']]],
+  ['pipelinetessellationstatecreateinfo_9',['pipelineTessellationStateCreateInfo',['../namespaceaxiom_1_1vks_1_1initializers.html#ae3f8d1ecd2b0f3997f8725ed24cde1cc',1,'axiom::vks::initializers']]],
+  ['pipelinevertexinputstatecreateinfo_10',['pipelineVertexInputStateCreateInfo',['../namespaceaxiom_1_1vks_1_1initializers.html#a970bb449ad5b344cb5ce9db892d34dcb',1,'axiom::vks::initializers']]],
+  ['pipelineviewportstatecreateinfo_11',['pipelineViewportStateCreateInfo',['../namespaceaxiom_1_1vks_1_1initializers.html#a9a1b7b0fdfdf3cdea2a3860731b4cffa',1,'axiom::vks::initializers']]],
+  ['pushconstantrange_12',['pushConstantRange',['../namespaceaxiom_1_1vks_1_1initializers.html#ad5689cb99a7a7ba0ecefe4934e1a0472',1,'axiom::vks::initializers']]]
 ];

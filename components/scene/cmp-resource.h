@@ -1,3 +1,13 @@
+/**
+ * @file cmp-resource.h
+ * @author Mike Murrell (mikestoleyobike@aim.com)
+ * @brief Resource Components
+ * @version 0.1
+ * @date 2023-05-11
+ * 
+ * @copyright Copyright (c) 2023
+ * 
+ */
 #pragma once
 #include <glm/glm.hpp>
 #include <glm/gtx/quaternion.hpp>

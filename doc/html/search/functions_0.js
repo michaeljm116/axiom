@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['average_0',['average',['../structaxiom_1_1_r___joint_data.html#a239f9d42dc5c9d104b58813cb10935b7',1,'axiom::R_JointData']]]
+  ['average_0',['average',['../structaxiom_1_1resource_1_1_joint_data.html#a6a3a33e3cf2952818d4c500caf95be25',1,'axiom::resource::JointData']]]
 ];

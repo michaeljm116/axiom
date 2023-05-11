@@ -82,6 +82,9 @@ $(function() {
   <div class="headertitle"><div class="title">cmp-render.h File Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Components for rendering.  
+<a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;GLM/glm.hpp&gt;</code><br />
 <code>#include &lt;vector&gt;</code><br />
 </div>
@@ -118,27 +121,29 @@ Classes</h2></td></tr>
 Namespaces</h2></td></tr>
 <tr class="memitem:namespaceaxiom"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceaxiom.html">axiom</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:namespaceaxiom_1_1render"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceaxiom_1_1render.html">axiom::render</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
-<tr class="memitem:ad0bb303c60d47178dd0cde56e25cd65a"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceaxiom.html#ad0bb303c60d47178dd0cde56e25cd65a">axiom::RenderType</a> { <br />
-&#160;&#160;<a class="el" href="namespaceaxiom.html#ad0bb303c60d47178dd0cde56e25cd65aabfd50852ffa34965e81ca0a401435435">axiom::RENDER_NONE</a> = 0x00
-, <a class="el" href="namespaceaxiom.html#ad0bb303c60d47178dd0cde56e25cd65aa4b45547bc8c7951d1467e5e6e6feac32">axiom::RENDER_MATERIAL</a> = 0x01
-, <a class="el" href="namespaceaxiom.html#ad0bb303c60d47178dd0cde56e25cd65aacfde9ceb8b94f87332ac3b7a3bfb679e">axiom::RENDER_PRIMITIVE</a> = 0x02
-, <a class="el" href="namespaceaxiom.html#ad0bb303c60d47178dd0cde56e25cd65aabea5c52229730e438809ae488f1bed12">axiom::RENDER_LIGHT</a> = 0x04
+<tr class="memitem:a8f6af6d0163957972bf2459945019bd9"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceaxiom_1_1render.html#a8f6af6d0163957972bf2459945019bd9">axiom::render::RenderType</a> { <br />
+&#160;&#160;<a class="el" href="namespaceaxiom_1_1render.html#a8f6af6d0163957972bf2459945019bd9a1bb481ed36abdb29e2b9f205f7e7f9bb">axiom::render::RENDER_NONE</a> = 0x00
+, <a class="el" href="namespaceaxiom_1_1render.html#a8f6af6d0163957972bf2459945019bd9a06580f8686e23b42a4b2b017d8a7a52c">axiom::render::RENDER_MATERIAL</a> = 0x01
+, <a class="el" href="namespaceaxiom_1_1render.html#a8f6af6d0163957972bf2459945019bd9a0a72dadab040f1a0a78201f564d763d4">axiom::render::RENDER_PRIMITIVE</a> = 0x02
+, <a class="el" href="namespaceaxiom_1_1render.html#a8f6af6d0163957972bf2459945019bd9a0a4ce8dc39697859c5c6bb69cd1df8b3">axiom::render::RENDER_LIGHT</a> = 0x04
 , <br />
-&#160;&#160;<a class="el" href="namespaceaxiom.html#ad0bb303c60d47178dd0cde56e25cd65aa91992d1c0a6b4d7b622c7fef5b388d4f">axiom::RENDER_GUI</a> = 0x08
-, <a class="el" href="namespaceaxiom.html#ad0bb303c60d47178dd0cde56e25cd65aab80a23c8858dccbf6992d8945032fde3">axiom::RENDER_GUINUM</a> = 0x10
-, <a class="el" href="namespaceaxiom.html#ad0bb303c60d47178dd0cde56e25cd65aa7e9e9ed38e9f0c5b3fcadeed165a6c15">axiom::RENDER_CAMERA</a> = 0x20
+&#160;&#160;<a class="el" href="namespaceaxiom_1_1render.html#a8f6af6d0163957972bf2459945019bd9a0615e40eb9086b5d7285ddfcfe6ddac7">axiom::render::RENDER_GUI</a> = 0x08
+, <a class="el" href="namespaceaxiom_1_1render.html#a8f6af6d0163957972bf2459945019bd9a3a4a22524c0c6bfa93ef2766bc9df52d">axiom::render::RENDER_GUINUM</a> = 0x10
+, <a class="el" href="namespaceaxiom_1_1render.html#a8f6af6d0163957972bf2459945019bd9a6a99228a297c7d7ec87e08beb3b4501a">axiom::render::RENDER_CAMERA</a> = 0x20
 <br />
  }</td></tr>
-<tr class="separator:ad0bb303c60d47178dd0cde56e25cd65a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af4d6915d00d603955e5bb98cf1b865dc"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceaxiom.html#af4d6915d00d603955e5bb98cf1b865dc">axiom::RendererType</a> { <a class="el" href="namespaceaxiom.html#af4d6915d00d603955e5bb98cf1b865dca2bca4d725f93371113c745977374cf55">axiom::kComputeRaytracer</a>
-, <a class="el" href="namespaceaxiom.html#af4d6915d00d603955e5bb98cf1b865dcaffcd5d46dbc1a0acac6fe971770f6605">axiom::kHardwareRaytracer</a>
-, <a class="el" href="namespaceaxiom.html#af4d6915d00d603955e5bb98cf1b865dca8734c04173c16b66e86e1ad24dbb51a4">axiom::kComputeRasterizer</a>
-, <a class="el" href="namespaceaxiom.html#af4d6915d00d603955e5bb98cf1b865dca414c906c1d83aa02b0490ef575c395c3">axiom::kHardwareRasterizer</a>
+<tr class="separator:a8f6af6d0163957972bf2459945019bd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae904f9a416ed9736aa57930a7fa5e0b4"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceaxiom_1_1render.html#ae904f9a416ed9736aa57930a7fa5e0b4">axiom::render::RendererType</a> { <a class="el" href="namespaceaxiom_1_1render.html#ae904f9a416ed9736aa57930a7fa5e0b4a8f8a7257311337666ca8cb7e271d4d9b">axiom::render::kComputeRaytracer</a>
+, <a class="el" href="namespaceaxiom_1_1render.html#ae904f9a416ed9736aa57930a7fa5e0b4a56278f106faea5ac5e8e49a9d137f497">axiom::render::kHardwareRaytracer</a>
+, <a class="el" href="namespaceaxiom_1_1render.html#ae904f9a416ed9736aa57930a7fa5e0b4a5936015872cd741c054f42d439f60cd7">axiom::render::kComputeRasterizer</a>
+, <a class="el" href="namespaceaxiom_1_1render.html#ae904f9a416ed9736aa57930a7fa5e0b4a5db7ed580b54b48acaeb4cf31ab3d722">axiom::render::kHardwareRasterizer</a>
  }</td></tr>
-<tr class="separator:af4d6915d00d603955e5bb98cf1b865dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:ae904f9a416ed9736aa57930a7fa5e0b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a67df71b9771f73554bbf4e2d44575fb7"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceaxiom.html#a67df71b9771f73554bbf4e2d44575fb7">axiom::SelectableState</a> { <a class="el" href="namespaceaxiom.html#a67df71b9771f73554bbf4e2d44575fb7a810460332a38c9ade69a49b057494cad">axiom::Unselected</a>
 , <a class="el" href="namespaceaxiom.html#a67df71b9771f73554bbf4e2d44575fb7aea1e34304a5d8ffa7c9b0ed8ede4ef1a">axiom::Released</a>
 , <a class="el" href="namespaceaxiom.html#a67df71b9771f73554bbf4e2d44575fb7aeffe06cc3bbfdd18fa0d95a403cd2d3f">axiom::Held</a>
@@ -146,7 +151,13 @@ Enumerations</h2></td></tr>
  }</td></tr>
 <tr class="separator:a67df71b9771f73554bbf4e2d44575fb7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-</div><!-- contents -->
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Components for rendering. </p>
+<dl class="section author"><dt>Author</dt><dd>Mike Murrell (<a href="#" onclick="location.href='mai'+'lto:'+'mik'+'es'+'tol'+'ey'+'obi'+'ke'+'@ai'+'m.'+'com'; return false;">mikes<span class="obfuscator">.nosp@m.</span>tole<span class="obfuscator">.nosp@m.</span>yobik<span class="obfuscator">.nosp@m.</span>e@ai<span class="obfuscator">.nosp@m.</span>m.com</a>) </dd></dl>
+<dl class="section version"><dt>Version</dt><dd>0.1 </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2023-05-10</dd></dl>
+<dl class="section copyright"><dt>Copyright</dt><dd>Copyright (c) 2023 </dd></dl>
+</div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.6

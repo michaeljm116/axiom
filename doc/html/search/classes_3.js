@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['queuefamilyindices_0',['QueueFamilyIndices',['../structaxiom_1_1_queue_family_indices.html',1,'axiom']]]
+  ['jointdata_0',['JointData',['../structaxiom_1_1resource_1_1_joint_data.html',1,'axiom::resource']]]
 ];

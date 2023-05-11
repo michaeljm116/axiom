@@ -82,6 +82,9 @@ $(function() {
   <div class="headertitle"><div class="title">cmp-log.h File Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Log Component.  
+<a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;fstream&gt;</code><br />
 <code>#include &lt;string&gt;</code><br />
 <code>#include &lt;mutex&gt;</code><br />
@@ -91,32 +94,42 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structaxiom_1_1_log_data.html">axiom::LogData</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structaxiom_1_1log_1_1_data.html">axiom::log::Data</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structaxiom_1_1_cmp___log_file.html">axiom::Cmp_LogFile</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">LogFile Component.  <a href="structaxiom_1_1_cmp___log_file.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structaxiom_1_1_cmp___log.html">axiom::Cmp_Log</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Log Component.  <a href="structaxiom_1_1_cmp___log.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
 <tr class="memitem:namespaceaxiom"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceaxiom.html">axiom</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:namespaceaxiom_1_1log"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceaxiom_1_1log.html">axiom::log</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
-<tr class="memitem:a0586d377c8b51316334033e5f719d9ce"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceaxiom.html#a0586d377c8b51316334033e5f719d9ce">axiom::LogLevel</a> { <br />
-&#160;&#160;<a class="el" href="namespaceaxiom.html#a0586d377c8b51316334033e5f719d9ceadc30ec20708ef7b0f641ef78b7880a15">axiom::DEBUG</a>
-, <a class="el" href="namespaceaxiom.html#a0586d377c8b51316334033e5f719d9cea551b723eafd6a31d444fcb2f5920fbd3">axiom::INFO</a>
-, <a class="el" href="namespaceaxiom.html#a0586d377c8b51316334033e5f719d9cea059e9861e0400dfbe05c98a841f3f96b">axiom::WARNING</a>
-, <a class="el" href="namespaceaxiom.html#a0586d377c8b51316334033e5f719d9ceabb1ca97ec761fc37101737ba0aa2e7c5">axiom::ERROR</a>
+<tr class="memitem:aa3721fbaa0224877e471ad1afd8322ab"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceaxiom_1_1log.html#aa3721fbaa0224877e471ad1afd8322ab">axiom::log::Level</a> { <br />
+&#160;&#160;<a class="el" href="namespaceaxiom_1_1log.html#aa3721fbaa0224877e471ad1afd8322abadc30ec20708ef7b0f641ef78b7880a15">axiom::log::DEBUG</a>
+, <a class="el" href="namespaceaxiom_1_1log.html#aa3721fbaa0224877e471ad1afd8322aba551b723eafd6a31d444fcb2f5920fbd3">axiom::log::INFO</a>
+, <a class="el" href="namespaceaxiom_1_1log.html#aa3721fbaa0224877e471ad1afd8322aba059e9861e0400dfbe05c98a841f3f96b">axiom::log::WARNING</a>
+, <a class="el" href="namespaceaxiom_1_1log.html#aa3721fbaa0224877e471ad1afd8322ababb1ca97ec761fc37101737ba0aa2e7c5">axiom::log::ERROR</a>
 , <br />
-&#160;&#160;<a class="el" href="namespaceaxiom.html#a0586d377c8b51316334033e5f719d9cea8c46d8d9d3402788403e2f6911153089">axiom::CHECK</a>
+&#160;&#160;<a class="el" href="namespaceaxiom_1_1log.html#aa3721fbaa0224877e471ad1afd8322aba8c46d8d9d3402788403e2f6911153089">axiom::log::CHECK</a>
 <br />
  }</td></tr>
-<tr class="separator:a0586d377c8b51316334033e5f719d9ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:aa3721fbaa0224877e471ad1afd8322ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-</div><!-- contents -->
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Log Component. </p>
+<dl class="section author"><dt>Author</dt><dd>Mike Murrell (<a href="#" onclick="location.href='mai'+'lto:'+'mik'+'es'+'tol'+'ey'+'obi'+'ke'+'@ai'+'m.'+'com'; return false;">mikes<span class="obfuscator">.nosp@m.</span>tole<span class="obfuscator">.nosp@m.</span>yobik<span class="obfuscator">.nosp@m.</span>e@ai<span class="obfuscator">.nosp@m.</span>m.com</a>) </dd></dl>
+<dl class="section version"><dt>Version</dt><dd>0.1 </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2023-05-11</dd></dl>
+<dl class="section copyright"><dt>Copyright</dt><dd>Copyright (c) 2023 </dd></dl>
+</div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.6

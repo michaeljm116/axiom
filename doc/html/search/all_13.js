@@ -1,13 +1,13 @@
 var searchData=
 [
-  ['u_0',['u',['../structaxiom_1_1render_1_1ss_vert.html#adcdf84990342119d04e574b7e9b2f2bc',1,'axiom::render::ssVert']]],
-  ['uniqueid_1',['uniqueID',['../structaxiom_1_1_cmp___mesh.html#a677905f8daccef56d9b49e0e2189f87d',1,'axiom::Cmp_Mesh::uniqueID()'],['../structaxiom_1_1_r___material.html#a63448137eea4871c8cef92b52297dda7',1,'axiom::R_Material::uniqueID()'],['../structaxiom_1_1_r___model.html#abdc0bff9a8e98c0a9a0c99076f271b7c',1,'axiom::R_Model::uniqueID()']]],
-  ['unmap_2',['unmap',['../structaxiom_1_1vks_1_1_buffer.html#ace0534704bee0703ae2edae2c498a8f8',1,'axiom::vks::Buffer']]],
-  ['unselected_3',['Unselected',['../namespaceaxiom.html#a67df71b9771f73554bbf4e2d44575fb7a810460332a38c9ade69a49b057494cad',1,'axiom']]],
-  ['update_4',['update',['../structaxiom_1_1_cmp___g_u_i.html#a758208febe371eabc201f15854a9decd',1,'axiom::Cmp_GUI']]],
-  ['update_5',['Update',['../namespaceaxiom_1_1window.html#a0715105944b9245dea2a95a8442c163b',1,'axiom::window']]],
-  ['updatebutton_6',['UpdateButton',['../namespaceaxiom_1_1input.html#a3a0f49d661dbac67fde1d3d3ff010490',1,'axiom::input']]],
-  ['upper_7',['upper',['../structaxiom_1_1_r___b_v_h_node.html#a9a4e3a35269ed0ca759da3eba80b4dd9',1,'axiom::R_BVHNode']]],
-  ['usageflags_8',['usageFlags',['../structaxiom_1_1vks_1_1_buffer.html#ad04327cb8d014075f0910aa6b9c4726a',1,'axiom::vks::Buffer']]],
-  ['uv_9',['uv',['../structaxiom_1_1_r___vertex.html#a21021377256aa41373b424842e066975',1,'axiom::R_Vertex']]]
+  ['texture_0',['Texture',['../structaxiom_1_1resource_1_1_material.html#a7afa0a481c175fafdb41295ab3bc01c2',1,'axiom::resource::Material::Texture()'],['../namespaceaxiom_1_1resource.html#a836385594c5af3266b6d5a0304529c8faa3e8ae43188ae76d38f414b2bdb0077b',1,'axiom::resource::Texture()']]],
+  ['textureid_1',['textureID',['../structaxiom_1_1shader_1_1ss_material.html#ad45b8196a43da9d16dfa91abf5cc970c',1,'axiom::shader::ssMaterial::textureID()'],['../structaxiom_1_1resource_1_1_material.html#a948d15e9f608aaced96fc91dac83b07f',1,'axiom::resource::Material::textureID()']]],
+  ['time_5fstr_2',['time_str',['../structaxiom_1_1_cmp___current_time.html#aa1db2043e97b575f16e83826838f8878',1,'axiom::Cmp_CurrentTime']]],
+  ['top_3',['top',['../structaxiom_1_1_cmp___cylinder.html#a55a9be0982e81fb1783c8788ca89a2d6',1,'axiom::Cmp_Cylinder']]],
+  ['transitionimagelayout_4',['transitionImageLayout',['../structaxiom_1_1_vulkan_device.html#a8441830e64ee8925e3e4d035a0673e35',1,'axiom::VulkanDevice']]],
+  ['transparency_5',['transparency',['../structaxiom_1_1shader_1_1ss_material.html#a84916086570ed790fe747410ffe6e0a6',1,'axiom::shader::ssMaterial::transparency()'],['../structaxiom_1_1resource_1_1_material.html#a8fefa25979ce4f5cfdc6fd5cce411598',1,'axiom::resource::Material::transparency()']]],
+  ['treetype_6',['TreeType',['../namespaceaxiom_1_1bvh.html#a92ae439e454dbd454eb32eacae78c058',1,'axiom::bvh']]],
+  ['triangular_7',['triangular',['../structaxiom_1_1resource_1_1_model.html#a4e1560beb981938ada9f172415708783',1,'axiom::resource::Model']]],
+  ['trm_8',['trm',['../structaxiom_1_1_cmp___transform.html#acc9e7eafd74189622028fdfc12652be6',1,'axiom::Cmp_Transform']]],
+  ['type_9',['type',['../structaxiom_1_1_cmp___render.html#aebae8a3fc0473613d23e8e4a0f45c09a',1,'axiom::Cmp_Render::type()'],['../structaxiom_1_1shader_1_1ss_shape.html#a304b1f0549addcb553e8b0b566e04231',1,'axiom::shader::ssShape::type()'],['../structaxiom_1_1resource_1_1_shape.html#ac7b3cf847691c285b8da2acc303e06cb',1,'axiom::resource::Shape::type()']]]
 ];

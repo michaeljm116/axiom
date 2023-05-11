@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['logdata_0',['LogData',['../structaxiom_1_1_log_data.html',1,'axiom']]]
+  ['data_0',['Data',['../structaxiom_1_1log_1_1_data.html',1,'axiom::log']]]
 ];

@@ -1,5 +1,10 @@
 \hypertarget{cmp-resource_8h}{}\doxysection{C\+:/\+Users/mmurrell/repos/axiom/components/scene/cmp-\/resource.h File Reference}
 \label{cmp-resource_8h}\index{C:/Users/mmurrell/repos/axiom/components/scene/cmp-\/resource.h@{C:/Users/mmurrell/repos/axiom/components/scene/cmp-\/resource.h}}
+
+
+Resource Components.  
+
+
 {\ttfamily \#include $<$glm/glm.\+hpp$>$}\newline
 {\ttfamily \#include $<$glm/gtx/quaternion.\+hpp$>$}\newline
 {\ttfamily \#include $<$array$>$}\newline
@@ -8,29 +13,29 @@
 \doxysubsection*{Classes}
 \begin{DoxyCompactItemize}
 \item 
-struct \mbox{\hyperlink{structaxiom_1_1_r___controller}{axiom\+::\+R\+\_\+\+Controller}}
+struct \mbox{\hyperlink{structaxiom_1_1resource_1_1_controller}{axiom\+::resource\+::\+Controller}}
 \item 
-struct \mbox{\hyperlink{structaxiom_1_1_r___config}{axiom\+::\+R\+\_\+\+Config}}
+struct \mbox{\hyperlink{structaxiom_1_1resource_1_1_config}{axiom\+::resource\+::\+Config}}
 \item 
-struct \mbox{\hyperlink{structaxiom_1_1_r___joint_data}{axiom\+::\+R\+\_\+\+Joint\+Data}}
+struct \mbox{\hyperlink{structaxiom_1_1resource_1_1_joint_data}{axiom\+::resource\+::\+Joint\+Data}}
 \item 
-struct \mbox{\hyperlink{structaxiom_1_1_r___material}{axiom\+::\+R\+\_\+\+Material}}
+struct \mbox{\hyperlink{structaxiom_1_1resource_1_1_material}{axiom\+::resource\+::\+Material}}
 \item 
-struct \mbox{\hyperlink{structaxiom_1_1_r___vertex}{axiom\+::\+R\+\_\+\+Vertex}}
+struct \mbox{\hyperlink{structaxiom_1_1resource_1_1_vertex}{axiom\+::resource\+::\+Vertex}}
 \item 
-struct \mbox{\hyperlink{structaxiom_1_1_r___b_v_h_node}{axiom\+::\+R\+\_\+\+BVHNode}}
+struct \mbox{\hyperlink{structaxiom_1_1resource_1_1_b_v_h_node}{axiom\+::resource\+::\+BVHNode}}
 \item 
-struct \mbox{\hyperlink{structaxiom_1_1_r___mesh}{axiom\+::\+R\+\_\+\+Mesh}}
+struct \mbox{\hyperlink{structaxiom_1_1resource_1_1_mesh}{axiom\+::resource\+::\+Mesh}}
 \item 
-struct \mbox{\hyperlink{structaxiom_1_1_r___shape}{axiom\+::\+R\+\_\+\+Shape}}
+struct \mbox{\hyperlink{structaxiom_1_1resource_1_1_shape}{axiom\+::resource\+::\+Shape}}
 \item 
-struct \mbox{\hyperlink{structaxiom_1_1_r___model}{axiom\+::\+R\+\_\+\+Model}}
+struct \mbox{\hyperlink{structaxiom_1_1resource_1_1_model}{axiom\+::resource\+::\+Model}}
 \item 
-struct \mbox{\hyperlink{structaxiom_1_1_r___sqt}{axiom\+::\+R\+\_\+\+Sqt}}
+struct \mbox{\hyperlink{structaxiom_1_1resource_1_1_sqt}{axiom\+::resource\+::\+Sqt}}
 \item 
-struct \mbox{\hyperlink{structaxiom_1_1_r___pose}{axiom\+::\+R\+\_\+\+Pose}}
+struct \mbox{\hyperlink{structaxiom_1_1resource_1_1_pose}{axiom\+::resource\+::\+Pose}}
 \item 
-struct \mbox{\hyperlink{structaxiom_1_1_r___pose_list}{axiom\+::\+R\+\_\+\+Pose\+List}}
+struct \mbox{\hyperlink{structaxiom_1_1resource_1_1_pose_list}{axiom\+::resource\+::\+Pose\+List}}
 \item 
 struct \mbox{\hyperlink{structaxiom_1_1_cmp___resource}{axiom\+::\+Cmp\+\_\+\+Resource}}
 \item 
@@ -44,22 +49,41 @@ struct \mbox{\hyperlink{structaxiom_1_1_cmp___res___animations}{axiom\+::\+Cmp\+
 \begin{DoxyCompactItemize}
 \item 
 namespace \mbox{\hyperlink{namespaceaxiom}{axiom}}
+\item 
+namespace \mbox{\hyperlink{namespaceaxiom_1_1resource}{axiom\+::resource}}
 \end{DoxyCompactItemize}
 \doxysubsection*{Enumerations}
 \begin{DoxyCompactItemize}
 \item 
-enum class \mbox{\hyperlink{namespaceaxiom_a8822a519e9948786160295fee7d6571e}{axiom\+::\+Resource\+\_\+\+Type}} \{ \newline
-\mbox{\hyperlink{namespaceaxiom_a8822a519e9948786160295fee7d6571ea6adf97f83acf6453d4a6a4b1070f3754}{axiom\+::\+None}}
-, \mbox{\hyperlink{namespaceaxiom_a8822a519e9948786160295fee7d6571eaa559b87068921eec05086ce5485e9784}{axiom\+::\+Model}}
-, \mbox{\hyperlink{namespaceaxiom_a8822a519e9948786160295fee7d6571ead6b6b668dbca9d4fe774bb654226ebe3}{axiom\+::\+Animation}}
-, \mbox{\hyperlink{namespaceaxiom_a8822a519e9948786160295fee7d6571ea9d07e0e08af7f96cf45be0112b9ccfbe}{axiom\+::\+Sound}}
+enum class \mbox{\hyperlink{namespaceaxiom_1_1resource_a836385594c5af3266b6d5a0304529c8f}{axiom\+::resource\+::\+Resource\+\_\+\+Type}} \{ \newline
+\mbox{\hyperlink{namespaceaxiom_1_1resource_a836385594c5af3266b6d5a0304529c8fa6adf97f83acf6453d4a6a4b1070f3754}{axiom\+::resource\+::\+None}}
+, \mbox{\hyperlink{namespaceaxiom_1_1resource_a836385594c5af3266b6d5a0304529c8faa559b87068921eec05086ce5485e9784}{axiom\+::resource\+::\+Model}}
+, \mbox{\hyperlink{namespaceaxiom_1_1resource_a836385594c5af3266b6d5a0304529c8fad6b6b668dbca9d4fe774bb654226ebe3}{axiom\+::resource\+::\+Animation}}
+, \mbox{\hyperlink{namespaceaxiom_1_1resource_a836385594c5af3266b6d5a0304529c8fa9d07e0e08af7f96cf45be0112b9ccfbe}{axiom\+::resource\+::\+Sound}}
 , \newline
-\mbox{\hyperlink{namespaceaxiom_a8822a519e9948786160295fee7d6571eaa3e8ae43188ae76d38f414b2bdb0077b}{axiom\+::\+Texture}}
-, \mbox{\hyperlink{namespaceaxiom_a8822a519e9948786160295fee7d6571ead92a8333dd3ccb895cc65f7455b71206}{axiom\+::\+Material}}
+\mbox{\hyperlink{namespaceaxiom_1_1resource_a836385594c5af3266b6d5a0304529c8faa3e8ae43188ae76d38f414b2bdb0077b}{axiom\+::resource\+::\+Texture}}
+, \mbox{\hyperlink{namespaceaxiom_1_1resource_a836385594c5af3266b6d5a0304529c8fad92a8333dd3ccb895cc65f7455b71206}{axiom\+::resource\+::\+Material}}
  \}
 \end{DoxyCompactItemize}
 \doxysubsection*{Variables}
 \begin{DoxyCompactItemize}
 \item 
-const float \mbox{\hyperlink{namespaceaxiom_aba8d50d7a7f298cd27977e18ad7c95b2}{axiom\+::\+BONE\+\_\+\+EPSILON}} = 0.\+05f
+const float \mbox{\hyperlink{namespaceaxiom_1_1resource_a79b43e1d7afe52b4cb5bf5b5155d978c}{axiom\+::resource\+::\+BONE\+\_\+\+EPSILON}} = 0.\+05f
 \end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Resource Components. 
+
+\begin{DoxyAuthor}{Author}
+Mike Murrell (\href{mailto:mikestoleyobike@aim.com}{\texttt{ mikestoleyobike@aim.\+com}}) 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+0.\+1 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+2023-\/05-\/11
+\end{DoxyDate}
+\begin{DoxyCopyright}{Copyright}
+Copyright (c) 2023 
+\end{DoxyCopyright}

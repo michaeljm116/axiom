@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['texture_0',['Texture',['../namespaceaxiom.html#a8822a519e9948786160295fee7d6571eaa3e8ae43188ae76d38f414b2bdb0077b',1,'axiom']]]
+  ['texture_0',['Texture',['../namespaceaxiom_1_1resource.html#a836385594c5af3266b6d5a0304529c8faa3e8ae43188ae76d38f414b2bdb0077b',1,'axiom::resource']]]
 ];

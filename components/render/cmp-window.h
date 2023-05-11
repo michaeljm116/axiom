@@ -1,3 +1,13 @@
+/**
+ * @file cmp-window.h
+ * @author Mike Murrell (mikestoleyobike@aim.com)
+ * @brief Window Components
+ * @version 0.1
+ * @date 2023-05-11
+ * 
+ * @copyright Copyright (c) 2023
+ * 
+ */
 #pragma once
 #include <GLFW/glfw3.h>
 #include <string>

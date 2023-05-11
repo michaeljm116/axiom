@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['loglevel_0',['LogLevel',['../namespaceaxiom.html#a0586d377c8b51316334033e5f719d9ce',1,'axiom']]]
+  ['level_0',['Level',['../namespaceaxiom_1_1log.html#aa3721fbaa0224877e471ad1afd8322ab',1,'axiom::log']]]
 ];
