@@ -13,7 +13,7 @@ namespace axiom{
                     if (!f.log_data->log_file.is_open()) {
                         std::cerr << "Failed to open log file: " << f.log_filename << std::endl;
                     }
-                    Set(LogLevel::INFO, "Log File Opened");
+                    Set(log::Level::INFO, "Log File Opened");
             });
 
             // CLose file
@@ -31,7 +31,7 @@ namespace axiom{
             g_world.observer<Cmp_Log>("OnSetLog")
                 .event(flecs::OnSet)
                 .each([](flecs::entity e, Cmp_Log& l){
-                    if(l.lvl == LogLevel::CHECK)
+                    if(l.lvl == log::Level::CHECK)
                         Check(l.check, l.message);
                     else
                         Set(l.lvl, l.message);
@@ -48,23 +48,23 @@ namespace axiom{
             lock.unlock();
         }
 
-        void Set(axiom::LogLevel level, std::string message){
+        void Set(axiom::log::Level level, std::string message){
             std::stringstream ss; 
             ss << timer::Current() << " - ";
             switch (level) {
-                case LogLevel::DEBUG:
+                case log::Level::DEBUG:
                     ss << "[DEBUG] ";
                     break;
-                case LogLevel::INFO:
+                case log::Level::INFO:
                     ss << "[INFO] ";
                     break;
-                case LogLevel::WARNING:
+                case log::Level::WARNING:
                     ss << "[WARNING] ";
                     break;
-                case LogLevel::ERROR:
+                case log::Level::ERROR:
                     ss << "[ERROR] ";
                     break;
-                case LogLevel::CHECK:
+                case log::Level::CHECK:
                     break;
             }
             ss << message << std::endl;
@@ -74,8 +74,8 @@ namespace axiom{
         }
         
         void Check(bool b, std::string message){
-            if(!b) Set(LogLevel::ERROR ,"Failed When " + message);
-            else Set(LogLevel::INFO , message + " was a success!");
+            if(!b) Set(log::Level::ERROR ,"Failed When " + message);
+            else Set(log::Level::INFO , message + " was a success!");
         }
     }
 }

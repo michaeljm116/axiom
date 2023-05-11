@@ -250,3 +250,269 @@
 2023-05-10 09:01:11 - [DEBUG] Mesh(682): {0, 0.025, 0}
 2023-05-10 09:01:11 - [DEBUG] Mesh(683): {0, 0.0249996, -1.47123e-06}
 2023-05-10 09:01:16 - [INFO] File Closed
+2023-05-10 12:19:16 - [INFO] Log File Opened
+2023-05-10 12:19:16 - [ERROR] Cannot make current with a window that has no OpenGL or OpenGL ES context
+2023-05-10 12:19:16 - [ERROR] Cannot set swap interval without a current OpenGL or OpenGL ES context
+2023-05-10 12:19:16 - [INFO] Loading Scene File: ../../assets/Scenes/TestEntrance.xml | XMLResult:XML_SUCCESS was a success!
+2023-05-10 12:19:16 - [INFO] Finding Root Node for TestEntrance.xml was a success!
+2023-05-10 12:19:16 - [INFO] Finding Scene Node for TestEntrance.xml was a success!
+2023-05-10 12:19:16 - [DEBUG] Camera(661): {8.04952, 2.13982, 2.54945}
+2023-05-10 12:19:16 - [DEBUG] Light(663): {8, -2, 24}
+2023-05-10 12:19:16 - [DEBUG] Light2(664): {8, -2, 8}
+2023-05-10 12:19:16 - [DEBUG] LevelTriggerLeft(676): {-1, -4.25, 8}
+2023-05-10 12:19:16 - [DEBUG] New Sphere!(677): {14.7092, -3.8501, 11.7511}
+2023-05-10 12:19:16 - [DEBUG] Barrel(680): {4.15984, -3.99992, 12.4099}
+2023-05-10 12:19:16 - [DEBUG] Floor(665): {8, -6, 8}
+2023-05-10 12:19:16 - [DEBUG] FrontWall(666): {2, -10, 15}
+2023-05-10 12:19:16 - [DEBUG] FrontWall(667): {14, -10, 15}
+2023-05-10 12:19:16 - [DEBUG] BottomWall(668): {8, -10, 1}
+2023-05-10 12:19:16 - [DEBUG] leftWall(669): {-1, -10, 13}
+2023-05-10 12:19:16 - [DEBUG] leftWall(670): {-1, -10, 3}
+2023-05-10 12:19:16 - [DEBUG] rightWall(671): {17, -10, 13}
+2023-05-10 12:19:16 - [DEBUG] rightWall(672): {17, -10, 3}
+2023-05-10 12:19:16 - [DEBUG] AwningTop(673): {8, -1, 15}
+2023-05-10 12:19:16 - [DEBUG] AwningRight(674): {17, -1, 8}
+2023-05-10 12:19:16 - [DEBUG] AwningLeft(675): {-1, -1, 8}
+2023-05-10 12:19:16 - [DEBUG] New Sphere!(678): {8.14919, -3.8501, 13.7012}
+2023-05-10 12:19:16 - [DEBUG] New Sphere!(679): {1.959, -3.8501, 11.6907}
+2023-05-10 12:19:16 - [DEBUG] Mesh(681): {0, 0.0240588, 0}
+2023-05-10 12:19:16 - [DEBUG] Mesh(682): {0, 0.025, 0}
+2023-05-10 12:19:16 - [DEBUG] Mesh(683): {0, 0.0249996, -1.47123e-06}
+2023-05-10 12:19:16 - [DEBUG] Sun: {1, 1, 1}
+2023-05-10 12:19:16 - [DEBUG] Earth: {5, 5, 5}
+2023-05-10 12:19:16 - [DEBUG] Moon: {2, 2, 2}
+2023-05-10 12:33:52 - [INFO] Log File Opened
+2023-05-10 12:33:52 - [ERROR] Cannot make current with a window that has no OpenGL or OpenGL ES context
+2023-05-10 12:33:52 - [ERROR] Cannot set swap interval without a current OpenGL or OpenGL ES context
+2023-05-10 12:33:52 - [INFO] Loading Scene File: ../../assets/Scenes/TestEntrance.xml | XMLResult:XML_SUCCESS was a success!
+2023-05-10 12:33:52 - [INFO] Finding Root Node for TestEntrance.xml was a success!
+2023-05-10 12:33:52 - [INFO] Finding Scene Node for TestEntrance.xml was a success!
+2023-05-10 12:34:24 - [INFO] Log File Opened
+2023-05-10 12:34:24 - [ERROR] Cannot make current with a window that has no OpenGL or OpenGL ES context
+2023-05-10 12:34:24 - [ERROR] Cannot set swap interval without a current OpenGL or OpenGL ES context
+2023-05-10 12:34:24 - [INFO] Loading Scene File: ../../assets/Scenes/TestEntrance.xml | XMLResult:XML_SUCCESS was a success!
+2023-05-10 12:34:24 - [INFO] Finding Root Node for TestEntrance.xml was a success!
+2023-05-10 12:34:24 - [INFO] Finding Scene Node for TestEntrance.xml was a success!
+2023-05-10 12:34:35 - [INFO] Log File Opened
+2023-05-10 12:34:35 - [ERROR] Cannot make current with a window that has no OpenGL or OpenGL ES context
+2023-05-10 12:34:35 - [ERROR] Cannot set swap interval without a current OpenGL or OpenGL ES context
+2023-05-10 12:34:35 - [INFO] Loading Scene File: ../../assets/Scenes/TestEntrance.xml | XMLResult:XML_SUCCESS was a success!
+2023-05-10 12:34:35 - [INFO] Finding Root Node for TestEntrance.xml was a success!
+2023-05-10 12:34:35 - [INFO] Finding Scene Node for TestEntrance.xml was a success!
+2023-05-10 12:37:41 - [INFO] Log File Opened
+2023-05-10 12:37:41 - [ERROR] Cannot make current with a window that has no OpenGL or OpenGL ES context
+2023-05-10 12:37:41 - [ERROR] Cannot set swap interval without a current OpenGL or OpenGL ES context
+2023-05-10 12:37:41 - [INFO] Loading Scene File: ../../assets/Scenes/TestEntrance.xml | XMLResult:XML_SUCCESS was a success!
+2023-05-10 12:37:41 - [INFO] Finding Root Node for TestEntrance.xml was a success!
+2023-05-10 12:37:41 - [INFO] Finding Scene Node for TestEntrance.xml was a success!
+2023-05-10 12:38:24 - [INFO] Log File Opened
+2023-05-10 12:38:24 - [ERROR] Cannot make current with a window that has no OpenGL or OpenGL ES context
+2023-05-10 12:38:24 - [ERROR] Cannot set swap interval without a current OpenGL or OpenGL ES context
+2023-05-10 12:38:24 - [INFO] Loading Scene File: ../../assets/Scenes/TestEntrance.xml | XMLResult:XML_SUCCESS was a success!
+2023-05-10 12:38:24 - [INFO] Finding Root Node for TestEntrance.xml was a success!
+2023-05-10 12:38:24 - [INFO] Finding Scene Node for TestEntrance.xml was a success!
+2023-05-10 12:39:13 - [INFO] Log File Opened
+2023-05-10 12:39:13 - [ERROR] Cannot make current with a window that has no OpenGL or OpenGL ES context
+2023-05-10 12:39:13 - [ERROR] Cannot set swap interval without a current OpenGL or OpenGL ES context
+2023-05-10 12:39:13 - [INFO] Loading Scene File: ../../assets/Scenes/TestEntrance.xml | XMLResult:XML_SUCCESS was a success!
+2023-05-10 12:39:13 - [INFO] Finding Root Node for TestEntrance.xml was a success!
+2023-05-10 12:39:13 - [INFO] Finding Scene Node for TestEntrance.xml was a success!
+2023-05-10 12:42:41 - [INFO] Log File Opened
+2023-05-10 12:42:41 - [ERROR] Cannot make current with a window that has no OpenGL or OpenGL ES context
+2023-05-10 12:42:41 - [ERROR] Cannot set swap interval without a current OpenGL or OpenGL ES context
+2023-05-10 12:42:41 - [INFO] Loading Scene File: ../../assets/Scenes/TestEntrance.xml | XMLResult:XML_SUCCESS was a success!
+2023-05-10 12:42:41 - [INFO] Finding Root Node for TestEntrance.xml was a success!
+2023-05-10 12:42:41 - [INFO] Finding Scene Node for TestEntrance.xml was a success!
+2023-05-10 12:42:41 - [DEBUG] Camera(664): {8.04952, 2.13982, 2.54945}
+2023-05-10 12:42:56 - [DEBUG] Light(666): {8, -2, 24}
+2023-05-10 12:42:56 - [DEBUG] Light2(667): {8, -2, 8}
+2023-05-10 12:42:56 - [DEBUG] LevelTriggerLeft(679): {-1, -4.25, 8}
+2023-05-10 12:42:56 - [DEBUG] New Sphere!(680): {14.7092, -3.8501, 11.7511}
+2023-05-10 12:42:56 - [DEBUG] Barrel(683): {4.15984, -3.99992, 12.4099}
+2023-05-10 12:42:56 - [DEBUG] Floor(668): {8, -6, 8}
+2023-05-10 12:42:56 - [DEBUG] FrontWall(669): {2, -10, 15}
+2023-05-10 12:42:56 - [DEBUG] FrontWall(670): {14, -10, 15}
+2023-05-10 12:42:56 - [DEBUG] BottomWall(671): {8, -10, 1}
+2023-05-10 12:42:56 - [DEBUG] leftWall(672): {-1, -10, 13}
+2023-05-10 12:42:56 - [DEBUG] leftWall(673): {-1, -10, 3}
+2023-05-10 12:42:56 - [DEBUG] rightWall(674): {17, -10, 13}
+2023-05-10 12:42:56 - [DEBUG] rightWall(675): {17, -10, 3}
+2023-05-10 12:42:56 - [DEBUG] AwningTop(676): {8, -1, 15}
+2023-05-10 12:42:56 - [DEBUG] AwningRight(677): {17, -1, 8}
+2023-05-10 12:42:56 - [DEBUG] AwningLeft(678): {-1, -1, 8}
+2023-05-10 12:42:56 - [DEBUG] New Sphere!(681): {8.14919, -3.8501, 13.7012}
+2023-05-10 12:42:56 - [DEBUG] New Sphere!(682): {1.959, -3.8501, 11.6907}
+2023-05-10 12:42:56 - [DEBUG] Mesh(684): {0, 0.0240588, 0}
+2023-05-10 12:42:56 - [DEBUG] Mesh(685): {0, 0.025, 0}
+2023-05-10 12:42:56 - [DEBUG] Mesh(686): {0, 0.0249996, -1.47123e-06}
+2023-05-10 12:42:56 - [DEBUG] Sun: {1, 1, 1}
+2023-05-10 12:42:56 - [DEBUG] Earth: {5, 5, 5}
+2023-05-10 12:42:56 - [DEBUG] Moon: {2, 2, 2}
+2023-05-10 12:43:03 - [INFO] File Closed
+2023-05-10 12:44:28 - [INFO] Log File Opened
+2023-05-10 12:44:45 - [INFO] Log File Opened
+2023-05-10 12:44:45 - [INFO] Loading Scene File: ../../assets/Scenes/TestEntrance.xml | XMLResult:XML_SUCCESS was a success!
+2023-05-10 12:44:45 - [INFO] Finding Root Node for TestEntrance.xml was a success!
+2023-05-10 12:44:45 - [INFO] Finding Scene Node for TestEntrance.xml was a success!
+2023-05-10 12:44:45 - [DEBUG] Camera(663): {8.04952, 2.13982, 2.54945}
+2023-05-10 12:44:45 - [DEBUG] Light(665): {8, -2, 24}
+2023-05-10 12:44:45 - [DEBUG] Light2(666): {8, -2, 8}
+2023-05-10 12:44:45 - [DEBUG] LevelTriggerLeft(678): {-1, -4.25, 8}
+2023-05-10 12:44:45 - [DEBUG] New Sphere!(679): {14.7092, -3.8501, 11.7511}
+2023-05-10 12:44:45 - [DEBUG] Barrel(682): {4.15984, -3.99992, 12.4099}
+2023-05-10 12:44:45 - [DEBUG] Floor(667): {8, -6, 8}
+2023-05-10 12:44:45 - [DEBUG] FrontWall(668): {2, -10, 15}
+2023-05-10 12:44:45 - [DEBUG] FrontWall(669): {14, -10, 15}
+2023-05-10 12:44:45 - [DEBUG] BottomWall(670): {8, -10, 1}
+2023-05-10 12:44:45 - [DEBUG] leftWall(671): {-1, -10, 13}
+2023-05-10 12:44:45 - [DEBUG] leftWall(672): {-1, -10, 3}
+2023-05-10 12:44:45 - [DEBUG] rightWall(673): {17, -10, 13}
+2023-05-10 12:44:45 - [DEBUG] rightWall(674): {17, -10, 3}
+2023-05-10 12:44:45 - [DEBUG] AwningTop(675): {8, -1, 15}
+2023-05-10 12:44:45 - [DEBUG] AwningRight(676): {17, -1, 8}
+2023-05-10 12:44:45 - [DEBUG] AwningLeft(677): {-1, -1, 8}
+2023-05-10 12:44:45 - [DEBUG] New Sphere!(680): {8.14919, -3.8501, 13.7012}
+2023-05-10 12:44:45 - [DEBUG] New Sphere!(681): {1.959, -3.8501, 11.6907}
+2023-05-10 12:44:45 - [DEBUG] Mesh(683): {0, 0.0240588, 0}
+2023-05-10 12:44:45 - [DEBUG] Mesh(684): {0, 0.025, 0}
+2023-05-10 12:44:45 - [DEBUG] Mesh(685): {0, 0.0249996, -1.47123e-06}
+2023-05-10 12:44:45 - [DEBUG] Sun: {1, 1, 1}
+2023-05-10 12:44:45 - [DEBUG] Earth: {5, 5, 5}
+2023-05-10 12:44:45 - [DEBUG] Moon: {2, 2, 2}
+2023-05-10 12:44:45 - [INFO] File Closed
+2023-05-10 12:45:04 - [INFO] Log File Opened
+2023-05-10 12:45:04 - [INFO] Loading Scene File: ../../assets/Scenes/TestEntrance.xml | XMLResult:XML_SUCCESS was a success!
+2023-05-10 12:45:04 - [INFO] Finding Root Node for TestEntrance.xml was a success!
+2023-05-10 12:45:04 - [INFO] Finding Scene Node for TestEntrance.xml was a success!
+2023-05-10 12:45:13 - [DEBUG] Camera(663): {8.04952, 2.13982, 2.54945}
+2023-05-10 12:45:13 - [DEBUG] Light(665): {8, -2, 24}
+2023-05-10 12:45:13 - [DEBUG] Light2(666): {8, -2, 8}
+2023-05-10 12:45:13 - [DEBUG] LevelTriggerLeft(678): {-1, -4.25, 8}
+2023-05-10 12:45:13 - [DEBUG] New Sphere!(679): {14.7092, -3.8501, 11.7511}
+2023-05-10 12:45:13 - [DEBUG] Barrel(682): {4.15984, -3.99992, 12.4099}
+2023-05-10 12:45:13 - [DEBUG] Floor(667): {8, -6, 8}
+2023-05-10 12:45:13 - [DEBUG] FrontWall(668): {2, -10, 15}
+2023-05-10 12:45:13 - [DEBUG] FrontWall(669): {14, -10, 15}
+2023-05-10 12:45:13 - [DEBUG] BottomWall(670): {8, -10, 1}
+2023-05-10 12:45:13 - [DEBUG] leftWall(671): {-1, -10, 13}
+2023-05-10 12:45:13 - [DEBUG] leftWall(672): {-1, -10, 3}
+2023-05-10 12:45:13 - [DEBUG] rightWall(673): {17, -10, 13}
+2023-05-10 12:45:13 - [DEBUG] rightWall(674): {17, -10, 3}
+2023-05-10 12:45:13 - [DEBUG] AwningTop(675): {8, -1, 15}
+2023-05-10 12:45:13 - [DEBUG] AwningRight(676): {17, -1, 8}
+2023-05-10 12:45:13 - [DEBUG] AwningLeft(677): {-1, -1, 8}
+2023-05-10 12:45:13 - [DEBUG] New Sphere!(680): {8.14919, -3.8501, 13.7012}
+2023-05-10 12:45:13 - [DEBUG] New Sphere!(681): {1.959, -3.8501, 11.6907}
+2023-05-10 12:45:13 - [DEBUG] Mesh(683): {0, 0.0240588, 0}
+2023-05-10 12:45:13 - [DEBUG] Mesh(684): {0, 0.025, 0}
+2023-05-10 12:45:13 - [DEBUG] Mesh(685): {0, 0.0249996, -1.47123e-06}
+2023-05-10 12:45:13 - [DEBUG] Sun: {1, 1, 1}
+2023-05-10 12:45:13 - [DEBUG] Earth: {5, 5, 5}
+2023-05-10 12:45:13 - [DEBUG] Moon: {2, 2, 2}
+2023-05-10 12:45:13 - [INFO] File Closed
+2023-05-10 12:45:54 - [INFO] Log File Opened
+2023-05-10 12:45:54 - [INFO] Loading Scene File: ../../assets/Scenes/TestEntrance.xml | XMLResult:XML_SUCCESS was a success!
+2023-05-10 12:45:54 - [INFO] Finding Root Node for TestEntrance.xml was a success!
+2023-05-10 12:45:54 - [INFO] Finding Scene Node for TestEntrance.xml was a success!
+2023-05-10 12:45:54 - [DEBUG] Sun: {1, 1, 1}
+2023-05-10 12:45:54 - [DEBUG] Earth: {5, 5, 5}
+2023-05-10 12:45:54 - [DEBUG] Moon: {2, 2, 2}
+2023-05-10 12:45:54 - [INFO] File Closed
+2023-05-10 12:46:41 - [INFO] Log File Opened
+2023-05-10 12:46:41 - [INFO] Loading Scene File: ../../assets/Scenes/TestEntrance.xml | XMLResult:XML_SUCCESS was a success!
+2023-05-10 12:46:41 - [INFO] Finding Root Node for TestEntrance.xml was a success!
+2023-05-10 12:46:41 - [INFO] Finding Scene Node for TestEntrance.xml was a success!
+2023-05-10 12:46:41 - [DEBUG] Sun: {1, 1, 1}
+2023-05-10 12:46:41 - [DEBUG] Earth: {5, 5, 5}
+2023-05-10 12:46:41 - [DEBUG] Moon: {2, 2, 2}
+2023-05-10 12:46:41 - [INFO] File Closed
+2023-05-10 16:40:41 - [INFO] Log File Opened
+2023-05-10 16:40:41 - [INFO] Loading Scene File: ../../assets/Scenes/TestEntrance.xml | XMLResult:XML_SUCCESS was a success!
+2023-05-10 16:40:41 - [INFO] Finding Root Node for TestEntrance.xml was a success!
+2023-05-10 16:40:41 - [INFO] Finding Scene Node for TestEntrance.xml was a success!
+2023-05-10 16:40:41 - [DEBUG] Sun: {1, 1, 1}
+2023-05-10 16:40:41 - [DEBUG] Earth: {5, 5, 5}
+2023-05-10 16:40:41 - [DEBUG] Moon: {2, 2, 2}
+2023-05-10 16:40:41 - [INFO] File Closed
+2023-05-10 17:09:25 - [INFO] Log File Opened
+2023-05-10 17:09:25 - [INFO] Loading Scene File: ../../assets/Scenes/TestEntrance.xml | XMLResult:XML_SUCCESS was a success!
+2023-05-10 17:09:25 - [INFO] Finding Root Node for TestEntrance.xml was a success!
+2023-05-10 17:09:25 - [INFO] Finding Scene Node for TestEntrance.xml was a success!
+2023-05-10 17:09:25 - [DEBUG] Sun: {1, 1, 1}
+2023-05-10 17:09:25 - [DEBUG] Earth: {5, 5, 5}
+2023-05-10 17:09:25 - [DEBUG] Moon: {2, 2, 2}
+2023-05-10 17:09:25 - [INFO] File Closed
+2023-05-10 17:11:24 - [INFO] Log File Opened
+2023-05-10 17:11:24 - [INFO] Loading Scene File: ../../assets/Scenes/TestEntrance.xml | XMLResult:XML_SUCCESS was a success!
+2023-05-10 17:11:24 - [INFO] Finding Root Node for TestEntrance.xml was a success!
+2023-05-10 17:11:24 - [INFO] Finding Scene Node for TestEntrance.xml was a success!
+2023-05-10 17:11:24 - [DEBUG] STATIC
+2023-05-10 17:11:24 - [DEBUG] Sun: {1, 1, 1}
+2023-05-10 17:11:24 - [DEBUG] Earth: {5, 5, 5}
+2023-05-10 17:11:24 - [DEBUG] Moon: {2, 2, 2}
+2023-05-10 17:11:24 - [DEBUG] DYNAMIC
+2023-05-10 17:11:24 - [DEBUG] Camera(660): {8.04952, 2.13982, 2.54945}
+2023-05-10 17:11:24 - [DEBUG] Light(662): {8, -2, 24}
+2023-05-10 17:11:24 - [DEBUG] Light2(663): {8, -2, 8}
+2023-05-10 17:11:24 - [DEBUG] LevelTriggerLeft(675): {-1, -4.25, 8}
+2023-05-10 17:11:24 - [DEBUG] New Sphere!(676): {14.7092, -3.8501, 11.7511}
+2023-05-10 17:11:24 - [DEBUG] Barrel(679): {4.15984, -3.99992, 12.4099}
+2023-05-10 17:11:24 - [INFO] File Closed
+2023-05-10 17:13:40 - [INFO] Log File Opened
+2023-05-10 17:13:40 - [INFO] Loading Scene File: ../../assets/Scenes/TestEntrance.xml | XMLResult:XML_SUCCESS was a success!
+2023-05-10 17:13:40 - [INFO] Finding Root Node for TestEntrance.xml was a success!
+2023-05-10 17:13:40 - [INFO] Finding Scene Node for TestEntrance.xml was a success!
+2023-05-10 17:13:40 - [DEBUG] -------STATIC-------
+2023-05-10 17:13:40 - [DEBUG] Floor(664): {8, -6, 8}
+2023-05-10 17:13:40 - [DEBUG] FrontWall(665): {2, -10, 15}
+2023-05-10 17:13:40 - [DEBUG] FrontWall(666): {14, -10, 15}
+2023-05-10 17:13:40 - [DEBUG] BottomWall(667): {8, -10, 1}
+2023-05-10 17:13:40 - [DEBUG] leftWall(668): {-1, -10, 13}
+2023-05-10 17:13:40 - [DEBUG] leftWall(669): {-1, -10, 3}
+2023-05-10 17:13:40 - [DEBUG] rightWall(670): {17, -10, 13}
+2023-05-10 17:13:40 - [DEBUG] rightWall(671): {17, -10, 3}
+2023-05-10 17:13:40 - [DEBUG] AwningTop(672): {8, -1, 15}
+2023-05-10 17:13:40 - [DEBUG] AwningRight(673): {17, -1, 8}
+2023-05-10 17:13:40 - [DEBUG] AwningLeft(674): {-1, -1, 8}
+2023-05-10 17:13:40 - [DEBUG] New Sphere!(677): {8.14919, -3.8501, 13.7012}
+2023-05-10 17:13:40 - [DEBUG] New Sphere!(678): {1.959, -3.8501, 11.6907}
+2023-05-10 17:13:40 - [DEBUG] Mesh(680): {0, 0.0240588, 0}
+2023-05-10 17:13:40 - [DEBUG] Mesh(681): {0, 0.025, 0}
+2023-05-10 17:13:40 - [DEBUG] Mesh(682): {0, 0.0249996, -1.47123e-06}
+2023-05-10 17:13:40 - [DEBUG] -------DYNAMIC-------
+2023-05-10 17:13:40 - [DEBUG] Camera(660): {8.04952, 2.13982, 2.54945}
+2023-05-10 17:13:40 - [DEBUG] Light(662): {8, -2, 24}
+2023-05-10 17:13:40 - [DEBUG] Light2(663): {8, -2, 8}
+2023-05-10 17:13:40 - [DEBUG] LevelTriggerLeft(675): {-1, -4.25, 8}
+2023-05-10 17:13:40 - [DEBUG] New Sphere!(676): {14.7092, -3.8501, 11.7511}
+2023-05-10 17:13:40 - [DEBUG] Barrel(679): {4.15984, -3.99992, 12.4099}
+2023-05-10 17:13:40 - [INFO] File Closed
+2023-05-11 11:04:24 - [INFO] Log File Opened
+2023-05-11 11:04:24 - [INFO] Loading Scene File: ../../assets/Scenes/TestEntrance.xml | XMLResult:XML_SUCCESS was a success!
+2023-05-11 11:04:24 - [INFO] Finding Root Node for TestEntrance.xml was a success!
+2023-05-11 11:04:24 - [INFO] Finding Scene Node for TestEntrance.xml was a success!
+2023-05-11 11:04:24 - [DEBUG] -------STATIC-------
+2023-05-11 11:04:24 - [DEBUG] Floor(664): {8, -6, 8}
+2023-05-11 11:04:24 - [DEBUG] FrontWall(665): {2, -10, 15}
+2023-05-11 11:04:24 - [DEBUG] FrontWall(666): {14, -10, 15}
+2023-05-11 11:04:24 - [DEBUG] BottomWall(667): {8, -10, 1}
+2023-05-11 11:04:24 - [DEBUG] leftWall(668): {-1, -10, 13}
+2023-05-11 11:04:24 - [DEBUG] leftWall(669): {-1, -10, 3}
+2023-05-11 11:04:24 - [DEBUG] rightWall(670): {17, -10, 13}
+2023-05-11 11:04:24 - [DEBUG] rightWall(671): {17, -10, 3}
+2023-05-11 11:04:24 - [DEBUG] AwningTop(672): {8, -1, 15}
+2023-05-11 11:04:24 - [DEBUG] AwningRight(673): {17, -1, 8}
+2023-05-11 11:04:24 - [DEBUG] AwningLeft(674): {-1, -1, 8}
+2023-05-11 11:04:24 - [DEBUG] New Sphere!(677): {8.14919, -3.8501, 13.7012}
+2023-05-11 11:04:24 - [DEBUG] New Sphere!(678): {1.959, -3.8501, 11.6907}
+2023-05-11 11:04:24 - [DEBUG] Mesh(680): {0, 0.0240588, 0}
+2023-05-11 11:04:24 - [DEBUG] Mesh(681): {0, 0.025, 0}
+2023-05-11 11:04:24 - [DEBUG] Mesh(682): {0, 0.0249996, -1.47123e-06}
+2023-05-11 11:04:24 - [DEBUG] -------DYNAMIC-------
+2023-05-11 11:04:24 - [DEBUG] Camera(661): {8.04952, 2.13982, 2.54945}
+2023-05-11 11:04:24 - [DEBUG] Light(662): {8, -2, 24}
+2023-05-11 11:04:24 - [DEBUG] Light2(663): {8, -2, 8}
+2023-05-11 11:04:24 - [DEBUG] LevelTriggerLeft(675): {-1, -4.25, 8}
+2023-05-11 11:04:24 - [DEBUG] New Sphere!(676): {14.7092, -3.8501, 11.7511}
+2023-05-11 11:04:24 - [DEBUG] Barrel(679): {4.15984, -3.99992, 12.4099}
+2023-05-11 11:04:24 - [INFO] File Closed

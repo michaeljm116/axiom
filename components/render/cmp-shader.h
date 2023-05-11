@@ -13,7 +13,7 @@
 #include "cmp-render.h"
 
 namespace axiom{
-    namespace render{
+    namespace shader{
 		struct ssGUI {
 		glm::vec2 min;
 		glm::vec2 extents;

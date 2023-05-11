@@ -60,7 +60,7 @@ int main(){
 	axiom::log::Init();
 	axiom::timer::Init();
 	axiom::resource::Init();
-	axiom::window::Init("Axiom Engine", 1280, 720);
+	//axiom::window::Init("Axiom Engine", 1280, 720);
 
 	g_world.add<axiom::Cmp_CurrentTime>();
 	g_world.add<axiom::Cmp_LogFile>();
@@ -106,7 +106,7 @@ int main(){
 	for(auto d : d_froku.meshes){
 		std::string name = d.name;
 		auto bp = g_world.entity(name.c_str());
-		bp.set<axiom::R_Mesh>({d});
+		bp.set<axiom::resource::Mesh>({d});
 		bp.child_of(e_froku);
 		body_parts.push_back(bp);
 	}
@@ -115,15 +115,15 @@ int main(){
 		std::cout << bp.name() << std::endl;
 	}
 	auto head = g_world.lookup("Froku::head");
-	auto h_cmp = head.get<axiom::R_Mesh>();
+	auto h_cmp = head.get<axiom::resource::Mesh>();
 	auto afro = e_froku.lookup("afro");
 	afro.child_of(head);
-	auto a_cmp = afro.get<axiom::R_Mesh>();
+	auto a_cmp = afro.get<axiom::resource::Mesh>();
 
 	auto prnt = afro.parent();
 	auto prnt_cmp = prnt.get<axiom::Cmp_Res_Model>();
 
-	auto* twindow = g_world.get<Cmp_Window>()->window;
+	//auto* twindow = g_world.get<Cmp_Window>()->window;
 
 
 	axiom::transform::Init();
@@ -152,17 +152,32 @@ int main(){
 	scene::init();
 	g_world.set<axiom::Cmp_Scene>({"../../assets/Scenes/", "TestEntrance.xml", 0});
 
-	
+	g_world.progress();
 	g_world.each([](flecs::entity e, Cmp_Transform p){
-				std::stringstream ssl;
-				ssl << e.name() << ": {" << p.local.pos.x << ", " << p.local.pos.y << ", " << p.local.pos.z << "}";
-				axiom::log::Set(axiom::LogLevel::DEBUG, ssl.str());
+				//std::stringstream ssl;
+				//ssl << e.name() << ": {" << p.local.pos.x << ", " << p.local.pos.y << ", " << p.local.pos.z << "}";
+				//axiom::log::Set(axiom::log::Level::DEBUG, ssl.str());
+				//e.add<Cmp_Static>();
 			});
-	
-	while(!glfwWindowShouldClose(twindow)){
+			
+	axiom::log::Set(axiom::log::Level::DEBUG, "-------STATIC-------");
+	g_world.each([](flecs::entity e, Cmp_Transform p, Cmp_Static s){
+		std::stringstream ssl;
+		ssl << e.name() << ": {" << p.local.pos.x << ", " << p.local.pos.y << ", " << p.local.pos.z << "}";
+		axiom::log::Set(axiom::log::Level::DEBUG, ssl.str());
+	});
+	axiom::log::Set(axiom::log::Level::DEBUG, "-------DYNAMIC-------");
+	g_world.each([](flecs::entity e, Cmp_Transform p,  Cmp_Dynamic d){
+		std::stringstream ssl;
+		ssl << e.name() << ": {" << p.local.pos.x << ", " << p.local.pos.y << ", " << p.local.pos.z << "}";
+		axiom::log::Set(axiom::log::Level::DEBUG, ssl.str());
+	});
+
+	//while(!glfwWindowShouldClose(twindow)){
 		g_world.progress();
+		
 
 		
-	}
-	axiom::window::Destruct();
+	//}
+	//axiom::window::Destruct();
 };

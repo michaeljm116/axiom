@@ -37,9 +37,9 @@ namespace axiom
             return flag;
         };*/
 
-        struct Cmp_Serialize{
-            int64_t engine_flags;
-            int64_t game_flags;
-        };
     }
+    struct Cmp_Serialize{
+        int64_t engine_flags;
+        int64_t game_flags;
+    };
 }

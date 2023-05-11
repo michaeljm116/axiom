@@ -3,6 +3,14 @@
 #include <string>
 
 namespace axiom{
+    namespace window{
+    enum class Setting{
+        Resize,
+        Windowed,
+        FullScreen,
+        WindowedFullScreen
+    };};
+
     struct Cmp_Window{
         int width = 1280;
         int height = 720;
@@ -12,14 +20,10 @@ namespace axiom{
         const GLFWvidmode* mode;
     };
 
-    enum class WindowSetting{
-        Resize,
-        Windowed,
-        FullScreen,
-        WindowedFullScreen
+    struct Cmp_Window_Change{
+        window::Setting setting;
     };
 
-    struct Cmp_Window_Change{
-        WindowSetting setting;
-    };
+
+
 }
