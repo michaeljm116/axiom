@@ -36,6 +36,7 @@ namespace axiom
             g_world.observer<const Cmp_Transform, Cmp_Transform>()
             .term_at(1).parent()
             .event(flecs::OnSet)
+            .event(flecs::OnAdd)
             .iter([](flecs::iter& it, const Cmp_Transform * parent, Cmp_Transform* child){
                                 //build rotaiton matrix
                 glm::mat4 rot_m = glm::rotate(glm::radians(child->euler_rot.x), glm::vec3(1.f, 0.f, 0.f));
@@ -64,6 +65,14 @@ namespace axiom
                 }
                             
             });
+
+            // g_world.system<Cmp_Transform, Cmp_Dynamic>()
+            // .term_at(1).parent()
+            // .kind(flecs::OnUpdate)
+            // .iter([](flecs::iter& it, const Cmp_Transform * parent, Cmp_Transform* child){
+
+            // });
+
             /*static_transform.iter([](flecs::iter& it, const Cmp_Transform *parent, Cmp_Transform* child)
             {
                 //build rotaiton matrix

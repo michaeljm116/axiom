@@ -16,7 +16,7 @@ namespace axiom {
       glfwInit();
       glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
       if(!glfwInit()){
-        log::Set(LogLevel::ERROR, "FAILED TO INITIALIZE GLFW");
+        log::Set(log::Level::ERROR, "FAILED TO INITIALIZE GLFW");
         exit(EXIT_FAILURE);
       }
 
@@ -40,12 +40,12 @@ namespace axiom {
 
     auto* window = g_world.get<Cmp_Window>()->window;
     if(!window){
-        axiom::log::Set(LogLevel::ERROR, "Failed to Create Window");
+        axiom::log::Set(log::Level::ERROR, "Failed to Create Window");
         exit(EXIT_FAILURE);
       }
       // Set call backs
       glfwSetErrorCallback([](int error, const char* description){
-        axiom::log::Set(LogLevel::ERROR, description);
+        axiom::log::Set(log::Level::ERROR, description);
       });
 
       glfwSetKeyCallback(window, [](GLFWwindow* window, int key, int scancode, int action, int mods){
@@ -72,10 +72,10 @@ namespace axiom {
 
 
     void Resize(flecs::entity e, Cmp_Window& cmp_wind, Cmp_Window_Change& cmp_change) {
-      if(cmp_change.setting == WindowSetting::FullScreen){
+      if(cmp_change.setting == window::Setting::FullScreen){
         glfwMaximizeWindow(cmp_wind.window);
       }
-      if(cmp_change.setting == WindowSetting::Windowed){
+      if(cmp_change.setting == window::Setting::Windowed){
         glfwSetWindowMonitor(cmp_wind.window, cmp_wind.primary, 0, 0, cmp_wind.mode->width, cmp_wind.mode->height, cmp_wind.mode->refreshRate);
       }
       glfwGetWindowSize(cmp_wind.window, &cmp_wind.width, &cmp_wind.height);

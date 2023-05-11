@@ -1,3 +1,23 @@
+5/11/2023
+* I think the most important thing you can do right now is...
+* * Get to a point where you can see things
+* * anything
+* * And then be able to move things
+* * anything
+* So right now you have a scene
+* You need a BVH
+* Then render
+* You'll just have to use your own right now 
+* Then try embree later
+
+
+5/10/23 what do?
+* Test out the transform for:
+* * static_transform
+* * Dynamic_Transform
+* * * OnAdd/OnSet/OnUpdate
+* 
+
 
 https://github.com/SanderMertens/flecs/tree/master/examples/cpp
 

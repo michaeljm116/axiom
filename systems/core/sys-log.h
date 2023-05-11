@@ -16,7 +16,7 @@ namespace axiom {
         void Init();
         //This Creates/Opens the logfile
         void Save(std::string message);
-        void Set(axiom::LogLevel level, std::string message);
+        void Set(axiom::log::Level level, std::string message);
         void Check(bool b, std::string message);    
     };
 }
