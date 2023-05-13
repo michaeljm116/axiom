@@ -23,7 +23,10 @@ namespace axiom{
     struct Cmp_Bvh{
 		bvh::BVHNode* root;
 		int num_nodes;
-		std::vector<flecs::entity*> ordered_prims;
+		bool rebuild = true;
+		std::vector<flecs::entity*> prims;
+		std::vector<Cmp_Primitive*> prim_comps;
+		bvh::SplitMethod split_method = bvh::SplitMethod::SAH;
     };
 	namespace bvh{
 		enum class TreeType {
@@ -49,7 +52,7 @@ namespace axiom{
 			ret.z = std::min(a.z, b.z);
 			return ret;
 		};
-		struct BVHBounds {
+		struct BVHBounds{
 			glm::vec3 center;
 			glm::vec3 extents;
 
@@ -127,6 +130,14 @@ namespace axiom{
 				bounds = c0->bounds.combine(c1->bounds);
 				splitAxis = axis;
 				nPrims = 0;
+			}
+			void* operator new (size_t s, BVHNode* arena, size_t& curr) {
+				curr += s;
+				return arena + curr - s;
+			}
+
+			void* operator new (size_t s) {
+				return new BVHNode();
 			}
 		};
 
