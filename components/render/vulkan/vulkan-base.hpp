@@ -65,7 +65,8 @@ namespace axiom {
 		}
 	};
 
-	struct VulkanDevice {
+	struct VulkanDevice 
+	{
 		VkInstance instance;
 		VkDevice logicalDevice;
 		VkPhysicalDevice physicalDevice = VK_NULL_HANDLE;

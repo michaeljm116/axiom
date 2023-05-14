@@ -12,23 +12,12 @@
 #include <GLM/glm.hpp>
 #include <vector>
 #include <flecs.h>
+#include "cmp-render.h"
 
 namespace axiom{
-	/**
-	 * @brief BVH Component, Singleton for the system
-	 * @param root head of the bvh node
-	 * @param num_nodes number of nodes
-	 * @param ordered_prims vector of prims ordered by the BVH system
-	 */
-    struct Cmp_Bvh{
-		bvh::BVHNode* root;
-		int num_nodes;
-		bool rebuild = true;
-		std::vector<flecs::entity*> prims;
-		std::vector<Cmp_Primitive*> prim_comps;
-		bvh::SplitMethod split_method = bvh::SplitMethod::SAH;
-    };
-	namespace bvh{
+
+	namespace bvh
+	{
 		enum class TreeType {
 			Recursive,
 			HLBVH
@@ -161,4 +150,20 @@ namespace axiom{
 			glm::vec3 Centroid() const { return bounds.center; }
 		};
 	}
+    
+	/**
+	 * @brief BVH Component, Singleton for the system
+	 * @param root head of the bvh node
+	 * @param num_nodes number of nodes
+	 * @param ordered_prims vector of prims ordered by the BVH system
+	 */
+	struct Cmp_Bvh{
+		bvh::BVHNode* root;
+		int num_nodes;
+		bool rebuild = true;
+		std::vector<flecs::entity*> prims;
+		std::vector<Cmp_Primitive*> prim_comps;
+		bvh::SplitMethod split_method = bvh::SplitMethod::SAH;
+    };
+
 }
