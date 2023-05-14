@@ -516,3 +516,32 @@
 2023-05-11 11:04:24 - [DEBUG] New Sphere!(676): {14.7092, -3.8501, 11.7511}
 2023-05-11 11:04:24 - [DEBUG] Barrel(679): {4.15984, -3.99992, 12.4099}
 2023-05-11 11:04:24 - [INFO] File Closed
+2023-05-14 00:17:08 - [INFO] Log File Opened
+2023-05-14 00:17:09 - [INFO] Loading Scene File: ../../assets/Scenes/TestEntrance.xml | XMLResult:XML_SUCCESS was a success!
+2023-05-14 00:17:09 - [INFO] Finding Root Node for TestEntrance.xml was a success!
+2023-05-14 00:17:09 - [INFO] Finding Scene Node for TestEntrance.xml was a success!
+2023-05-14 00:17:09 - [DEBUG] -------STATIC-------
+2023-05-14 00:17:09 - [DEBUG] Floor(664): {8, -6, 8}
+2023-05-14 00:17:09 - [DEBUG] FrontWall(665): {2, -10, 15}
+2023-05-14 00:17:09 - [DEBUG] FrontWall(666): {14, -10, 15}
+2023-05-14 00:17:09 - [DEBUG] BottomWall(667): {8, -10, 1}
+2023-05-14 00:17:09 - [DEBUG] leftWall(668): {-1, -10, 13}
+2023-05-14 00:17:09 - [DEBUG] leftWall(669): {-1, -10, 3}
+2023-05-14 00:17:09 - [DEBUG] rightWall(670): {17, -10, 13}
+2023-05-14 00:17:09 - [DEBUG] rightWall(671): {17, -10, 3}
+2023-05-14 00:17:09 - [DEBUG] AwningTop(672): {8, -1, 15}
+2023-05-14 00:17:09 - [DEBUG] AwningRight(673): {17, -1, 8}
+2023-05-14 00:17:09 - [DEBUG] AwningLeft(674): {-1, -1, 8}
+2023-05-14 00:17:09 - [DEBUG] New Sphere!(677): {8.14919, -3.8501, 13.7012}
+2023-05-14 00:17:09 - [DEBUG] New Sphere!(678): {1.959, -3.8501, 11.6907}
+2023-05-14 00:17:09 - [DEBUG] Mesh(680): {0, 0.0240588, 0}
+2023-05-14 00:17:09 - [DEBUG] Mesh(681): {0, 0.025, 0}
+2023-05-14 00:17:09 - [DEBUG] Mesh(682): {0, 0.0249996, -1.47123e-06}
+2023-05-14 00:17:09 - [DEBUG] -------DYNAMIC-------
+2023-05-14 00:17:09 - [DEBUG] Camera(661): {8.04952, 2.13982, 2.54945}
+2023-05-14 00:17:09 - [DEBUG] Light(662): {8, -2, 24}
+2023-05-14 00:17:09 - [DEBUG] Light2(663): {8, -2, 8}
+2023-05-14 00:17:09 - [DEBUG] LevelTriggerLeft(675): {-1, -4.25, 8}
+2023-05-14 00:17:09 - [DEBUG] New Sphere!(676): {14.7092, -3.8501, 11.7511}
+2023-05-14 00:17:09 - [DEBUG] Barrel(679): {4.15984, -3.99992, 12.4099}
+2023-05-14 00:17:09 - [INFO] File Closed
