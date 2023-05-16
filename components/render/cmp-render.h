@@ -155,4 +155,4 @@ namespace axiom
 		Cmp_GUINumber(glm::vec2 m, glm::vec2 e, int n, float a) { min = m; extents = e; number = n; alignMin = glm::vec2(0.0f, 0.0f); alignExt = glm::vec2(0.1f, 1.f); layer = 0; id = 0; alpha = a; };
 	};
 
-} // namespace axiom
+} // namespace axio

@@ -11,6 +11,7 @@
 #include "sys-window.h"
 #include "sys-serialize.h"
 #include "sys-scene.h"
+#include "sys-vulkan-boilerplate.h"
 
 /* Set platform defines at build time for volk to pick up. */
 #if defined(_WIN32)
@@ -29,7 +30,7 @@
 using namespace axiom;
 
 int main(){
-	#pragma region Volk Init
+#pragma region Volk Init
 	VkResult r;
 	uint32_t version;
 	void* ptr;
@@ -54,6 +55,7 @@ int main(){
 
 #pragma endregion Initializing volk
 
+
 	tf::Executor executor;
 	tf::Taskflow taskflow;
 
@@ -66,6 +68,13 @@ int main(){
 	g_world.add<axiom::Cmp_LogFile>();
 	g_world.add<axiom::Cmp_Timer>();
 	
+
+
+	vulkany::Init();
+	vulkany::Check(r, "Initializing Volk");
+
+
+
 	std::string assets_folder = "../../assets/";
 	auto t = g_world.entity("Models Timer");
 	auto at = g_world.entity("Animations TImer");
