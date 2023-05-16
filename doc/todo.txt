@@ -1,5 +1,28 @@
-5/12/2023
-* 
+5/16/2023
+* Vulkan boilerplate = step 1
+* * Initializing just like... the window to support vulkan
+* * Setting up the debug stuff
+* * Getting the Devices
+* * * Seeing if it supports compute
+* * * Seeing if it supports any other extensions
+* * Setting Up the Swap/FrameBuffers
+* * Setting Up the Queues
+* * * Compute/Graphics/Transfer?
+
+* Lets see if you can just create a device right now
+
+
+5/15/2023
+* Rendering Okay so yeah you want to start seeing stuff
+* question is: do you want to throw in your renderer or build from bottom up
+* So what do you need to do:
+* 1. DataFlow to all the ShaderStructures
+* 2. DataFlow for initial vulkan setup
+* 3. Vulkan boilerplate/setup
+* 4. Vulkan Start/Stop Render
+* 5. Dataflow for Uniform Buffer updates
+* 6. Vulkan Screen resizing 
+
 5/11/2023
 * I think the most important thing you can do right now is...
 * * Get to a point where you can see things
