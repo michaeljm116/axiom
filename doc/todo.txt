@@ -1,3 +1,45 @@
+5/17/2023
+* Yesterday I came to realize that vulkan will always be messy
+* * so just bare with it and muscle through
+* * If your previous vulkan ish aint broke then dont fix it
+* * There's no good way to make it super clean feeling
+* However, the things you mentioned in 5/15 should be clean
+* * you should encapsulate a lot of the disgustinig boilerplate
+* * but keep public, your ability to manipulate those 6
+* * and also debugging can be added to the list
+* public: 
+* 1. Shaders
+* 2. Pipelines
+* 3. FrameBuffers/Resize
+* 4. Draw
+* 5. debug
+* 6. Buffers
+
+* Question is: should there be a large public component that handles all vulkan
+* or have like... just small component and a singleton that handles all the backend
+
+* Better question is... is this slowing you down too much???
+* is it okay to be slowed down? this is some foundational stuff...
+* i mean it sucks... but once you get through this hurdle it'll be GOLDEN
+* Okay so right now you have a vulkan device struct that has all the devices 
+* * its a huge class that does many things
+* * should i make it a component?
+* * is that even possible?
+* so yeah what you can do is... make the device a component,
+* * and make those functions get the cmp
+* but why? outside of the logical device...
+* * maybe the queue, callback and commandpool... is anything else used that much?
+* * only the logical device is used a lot, physical once, qfams a few
+* yo real talk, there's legit no reason do to everything again i think a lot of yo ish is already clean
+* and the messy ish.... can't help but be messy... its Vulkan just get yo ish up n runnin  usin volk
+* question is though.... how to ECSify some of it, but i think that
+* * the only way is to make a Cmp for vulkan and pass it in everywhere
+* How about have:
+* 1. a vulkan-boilerplate-component
+* 2. a vulkan-common-component
+* 3. a compute-raytracer-component
+
+
 5/16/2023
 * Vulkan boilerplate = step 1
 * * Initializing just like... the window to support vulkan
