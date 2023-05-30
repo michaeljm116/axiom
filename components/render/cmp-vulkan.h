@@ -23,6 +23,7 @@ namespace axiom
                     std::vector<VkSurfaceFormatKHR> formats;
                     std::vector<VkPresentModeKHR> present_modes;   
                 } details;
+                VkSurfaceKHR surface;
                 VkSwapchainKHR get;
                 VkFormat image_format;
                 VkExtent2D extent;
@@ -46,7 +47,7 @@ namespace axiom
 
             /** @brief Vulkan Device Info*/
             struct DeviceInfo{
-                VulkanDevice* device;
+                vulkan::Device* device;
                 VkQueue copy_queue;
                 VkRenderPass render_pass;
                 std::vector<VkFramebuffer> frame_buffers;
@@ -58,11 +59,13 @@ namespace axiom
             };
         }
 
-
-        struct Cmp_Vulkan{
-
-        }
-
-
+        struct Cmp_Vulkan
+        {
+            vulkan::Device device;
+            vulkan::Semaphores semaphores;
+            vulkan::Command command;
+            vulkan::SwapChain swapchain;
+            vulkan::Queues queues;
+        };
     }
 }

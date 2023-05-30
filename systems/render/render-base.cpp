@@ -6,6 +6,14 @@ namespace axiom
     {
         namespace base
         {
+
+            void InitializeVulkan(Cmp_Vulkan& vulkan_component){
+                RenderBase base;
+                base.initVulkan();
+
+                vulkan_component.device = base.vkDevice;
+            };
+
             void RenderBase::initWindow() {
                 //Handle swapchain recreation
                 auto* window = g_world.get_mut<Cmp_Window>();

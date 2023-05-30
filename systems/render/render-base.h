@@ -2,6 +2,7 @@
 #include "vulkan/vulkan-base.hpp"
 #include "vulkan/vulkan-buffer.hpp"
 #include "vulkan/vulkan-initializers.hpp"
+#include "render/cmp-vulkan.h"
 #include "cmp-window.h"
 #include "flecs-world.h"
 
@@ -18,7 +19,7 @@ namespace axiom
             };
 
             struct VkDeviceInfo {
-                VulkanDevice *device;
+                vulkan::Device *device;
                 VkQueue copyQueue;
                 VkRenderPass renderPass;
                 std::vector<VkFramebuffer> framebuffers;
@@ -27,6 +28,8 @@ namespace axiom
                 uint32_t width;
                 uint32_t height;
             };
+
+            void InitializeVulkan(Cmp_Vulkan& vulkan_component);
 
             class RenderBase {
             public:
@@ -47,7 +50,7 @@ namespace axiom
                     RenderBase* app = reinterpret_cast<RenderBase*>(glfwGetWindowUserPointer(window));
                     app->recreateSwapChain();
                 }
-                VulkanDevice vkDevice;
+                vulkan::Device vkDevice;
 
             protected:
                 VkSurfaceKHR surface;
@@ -94,7 +97,7 @@ namespace axiom
                 VkFormat findSupportedFormat(const std::vector<VkFormat>&, VkImageTiling, VkFormatFeatureFlags);
 
                 bool isDeviceSuitable(VkPhysicalDevice);
-                QueueFamilyIndices findQueueFamilies(VkPhysicalDevice);
+                vulkan::QueueFamilyIndices findQueueFamilies(VkPhysicalDevice);
 
                 SwapChainSupportDetails querySwapChainSupport(VkPhysicalDevice);
                 VkSurfaceFormatKHR chooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>&);
