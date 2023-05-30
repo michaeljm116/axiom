@@ -11,7 +11,8 @@ namespace axiom
                 RenderBase base;
                 base.initVulkan();
 
-                vulkan_component.device = base.vkDevice;
+                
+
             };
 
             void RenderBase::initWindow() {
