@@ -9,6 +9,14 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Winvalid-pch")
 
+# Different settings for Debug and Release
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+  message("Building in Debug mode")
+  add_definitions(-DDEBUG_MODE)
+elseif (CMAKE_BUILD_TYPE STREQUAL "Release")
+  message("Building in Release mode")
+endif()
+
 # Add the submodules' directories
 add_subdirectory(lib/glfw EXCLUDE_FROM_ALL)
 #add_subdirectory(lib/etc2comp EXCLUDE_FROM_ALL)
@@ -22,7 +30,6 @@ if (WIN32)
 endif()
 add_subdirectory(lib/volk EXCLUDE_FROM_ALL) 
 add_subdirectory(lib/tinyxml2 EXCLUDE_FROM_ALL)
-
 
 set(XXHASH_BUILD_ENABLE_INLINE_API ON) #optional
 set(XXHASH_BUILD_XXHSUM OFF) #optional
@@ -50,7 +57,6 @@ include_directories(
     lib/tinyxml2
     lib/xxHash
 )
-
 
 # Add source files and header files
 file(GLOB SYSTEMS_SOURCE
@@ -87,10 +93,12 @@ target_link_libraries(AxiomEngineLib ${OPENGL_LIBRARIES})
 target_link_libraries(AxiomEngineLib tinyxml2)
 target_link_libraries(AxiomEngineLib xxhash)
 
-
-# link the include libs
+# Link the include libs
 target_include_directories(AxiomEngineLib PRIVATE lib/taskflow)
 target_include_directories(AxiomEngineLib PRIVATE lib/volk)
+
+# Define DEBUG_MODE for debug configuration
+target_compile_definitions(AxiomEngineLib PRIVATE $<$<CONFIG:Debug>:DEBUG_MODE>)
 
 # Create the executable
 add_executable(AxiomEngine start/main.cpp)
