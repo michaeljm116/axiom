@@ -25,7 +25,8 @@
 #endif
 #define VOLK_IMPLEMENTATION
 #include <volk.h>
-#include <sstream>
+#include "render-base.h"
+
 
 using namespace axiom;
 
@@ -62,7 +63,13 @@ int main(){
 	axiom::log::Init();
 	axiom::timer::Init();
 	axiom::resource::Init();
-	//axiom::window::Init("Axiom Engine", 1280, 720);
+	axiom::window::Init("Axiom Engine", 1280, 720);
+
+	axiom::render::Cmp_Vulkan vc;
+	//g_world.add<axiom::render::Cmp_Vulkan>();
+	axiom::render::base::InitializeVulkan(vc);
+
+	g_world.set(vc);
 
 	g_world.add<axiom::Cmp_CurrentTime>();
 	g_world.add<axiom::Cmp_LogFile>();
@@ -133,7 +140,6 @@ int main(){
 	auto prnt_cmp = prnt.get<axiom::Cmp_Res_Model>();
 
 	//auto* twindow = g_world.get<Cmp_Window>()->window;
-
 
 	axiom::transform::Init();
 

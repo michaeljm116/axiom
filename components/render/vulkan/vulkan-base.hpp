@@ -79,10 +79,20 @@ namespace axiom {
 				VkQueue* queue;
 				VkCommandPool* commandPool;
 
+				Device& operator=(const Device& device) { 
+					instance = device.instance; 
+					logicalDevice = device.logicalDevice;
+					physicalDevice = device.physicalDevice;
+					callback = device.callback;
+					qFams = device.qFams;
+					queue = device.queue;
+					commandPool = device.commandPool; 
+				};
+
 				//Validation Layers
 				const std::vector<const char*> validationLayers = { "VK_LAYER_KHRONOS_validation" };// "VK_LAYER_LUNARG_standard_validation"};
 
-		#ifdef UIIZON
+		#ifdef _DEBUG_
 				const bool enableValidationLayers = true;
 		#else
 				const bool enableValidationLayers = false;
