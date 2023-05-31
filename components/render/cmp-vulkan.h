@@ -17,12 +17,12 @@ namespace axiom
 
              /** @brief Swapchain*/
             struct SwapChain{
-                struct SupportDetails
+                /*struct SupportDetails
                 {
                     VkSurfaceCapabilitiesKHR capabilities;
                     std::vector<VkSurfaceFormatKHR> formats;
                     std::vector<VkPresentModeKHR> present_modes;   
-                } details;
+                } details;*/
                 VkSurfaceKHR surface;
                 VkSwapchainKHR get;
                 VkFormat image_format;

@@ -576,3 +576,24 @@
 2023-05-16 09:00:38 - [DEBUG] Barrel(679): {4.15984, -3.99992, 12.4099}
 2023-05-16 09:00:38 - [INFO] File Closed
 2023-05-16 09:01:55 - [INFO] Log File Opened
+2023-05-31 08:09:10 - [INFO] Log File Opened
+2023-05-31 08:09:10 - [ERROR] Cannot make current with a window that has no OpenGL or OpenGL ES context
+2023-05-31 08:09:10 - [ERROR] Cannot set swap interval without a current OpenGL or OpenGL ES context
+2023-05-31 08:09:27 - [INFO] Log File Opened
+2023-05-31 08:09:27 - [ERROR] Cannot make current with a window that has no OpenGL or OpenGL ES context
+2023-05-31 08:09:27 - [ERROR] Cannot set swap interval without a current OpenGL or OpenGL ES context
+2023-05-31 08:10:30 - [INFO] Log File Opened
+2023-05-31 08:10:30 - [ERROR] Cannot make current with a window that has no OpenGL or OpenGL ES context
+2023-05-31 08:10:30 - [ERROR] Cannot set swap interval without a current OpenGL or OpenGL ES context
+2023-05-31 08:14:37 - [INFO] Log File Opened
+2023-05-31 08:14:37 - [ERROR] Cannot make current with a window that has no OpenGL or OpenGL ES context
+2023-05-31 08:14:37 - [ERROR] Cannot set swap interval without a current OpenGL or OpenGL ES context
+2023-05-31 08:16:03 - [INFO] Log File Opened
+2023-05-31 08:16:03 - [ERROR] Cannot make current with a window that has no OpenGL or OpenGL ES context
+2023-05-31 08:16:03 - [ERROR] Cannot set swap interval without a current OpenGL or OpenGL ES context
+2023-05-31 08:18:10 - [INFO] Log File Opened
+2023-05-31 08:18:10 - [ERROR] Cannot make current with a window that has no OpenGL or OpenGL ES context
+2023-05-31 08:18:10 - [ERROR] Cannot set swap interval without a current OpenGL or OpenGL ES context
+2023-05-31 08:18:46 - [INFO] Log File Opened
+2023-05-31 08:18:46 - [ERROR] Cannot make current with a window that has no OpenGL or OpenGL ES context
+2023-05-31 08:18:46 - [ERROR] Cannot set swap interval without a current OpenGL or OpenGL ES context

@@ -52,7 +52,7 @@ namespace axiom
                 }
                 vulkan::Device vkDevice;
 
-            protected:
+            public:
                 VkSurfaceKHR surface;
 
                 VkImage depthImage;
