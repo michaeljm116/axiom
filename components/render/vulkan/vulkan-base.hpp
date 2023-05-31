@@ -92,7 +92,7 @@ namespace axiom {
 				//Validation Layers
 				const std::vector<const char*> validationLayers = { "VK_LAYER_KHRONOS_validation" };// "VK_LAYER_LUNARG_standard_validation"};
 
-		#ifdef _DEBUG_
+		#ifdef DEBUG_MODE
 				const bool enableValidationLayers = true;
 		#else
 				const bool enableValidationLayers = false;
