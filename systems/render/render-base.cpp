@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "render-base.h"
+#include "sys-log.h"
 namespace axiom
 {
     namespace render
@@ -72,16 +73,15 @@ namespace axiom
             void RenderBase::createInstance() {
 
                 //Check validation layers
-                if (vkDevice.enableValidationLayers && !vkDevice.checkValidationLayerSupport()) {
-                    throw std::runtime_error("validation layers requested, but not available!");
-                }
+                vkDevice.validation_enabled = vkDevice.enableValidationLayers && vkDevice.checkValidationLayerSupport();
+                log::Check(vkDevice.validation_enabled, "Enable Validation Layer");
 
                 //Optional Data about the application
                 VkApplicationInfo appInfo = {};
                 appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
-                appInfo.pApplicationName = "Hello Triangle";
+                appInfo.pApplicationName = "Hello Principium Cognoscendi";
                 appInfo.applicationVersion = VK_MAKE_VERSION(1, 0, 0);
-                appInfo.pEngineName = "Principium Engine";
+                appInfo.pEngineName = "Axiom Engine";
                 appInfo.engineVersion = VK_MAKE_VERSION(1, 0, 0);
                 appInfo.apiVersion = VK_API_VERSION_1_0;
 
@@ -97,7 +97,7 @@ namespace axiom
                 createInfo.ppEnabledExtensionNames = extensions.data();
 
                 //Check for validation layers, else 0
-                if (vkDevice.enableValidationLayers) {
+                if (vkDevice.validation_enabled) {
                     createInfo.enabledLayerCount = static_cast<uint32_t>(vkDevice.validationLayers.size());
                     createInfo.ppEnabledLayerNames = vkDevice.validationLayers.data();
                 }
@@ -110,6 +110,8 @@ namespace axiom
 
                 if (result != VK_SUCCESS)
                     throw std::runtime_error("failed to create instance!");
+
+                    volkLoadInstance(vkDevice.instance);
             }
             void RenderBase::createSurface() {
                 auto* g_window = g_world.get_mut<Cmp_Window>();
@@ -159,7 +161,7 @@ namespace axiom
                 createInfo.ppEnabledExtensionNames = vkDevice.deviceExtensions.data();
 
                 //Check validation layers
-                if (vkDevice.enableValidationLayers) {
+                if (vkDevice.validation_enabled) {
                     createInfo.enabledLayerCount = static_cast<uint32_t>(vkDevice.validationLayers.size());
                     createInfo.ppEnabledLayerNames = vkDevice.validationLayers.data();
                 }
@@ -171,6 +173,7 @@ namespace axiom
                 if (vkCreateDevice(vkDevice.physicalDevice, &createInfo, nullptr, &vkDevice.logicalDevice) != VK_SUCCESS) {
                     throw std::runtime_error("failed to create logical device!");
                 }
+                volkLoadDevice(vkDevice.logicalDevice);
 
                 vkGetDeviceQueue(vkDevice.logicalDevice, vkDevice.qFams.graphicsFamily, 0, &graphicsQueue);
                 vkGetDeviceQueue(vkDevice.logicalDevice, vkDevice.qFams.presentFamily, 0, &presentQueue);
