@@ -35,3 +35,4 @@
 build/
 .vscode/
 checks.json
+doc/logs.txt
