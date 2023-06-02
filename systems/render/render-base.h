@@ -51,7 +51,6 @@ namespace axiom
                     app->recreateSwapChain();
                 }
                 vulkan::Device vkDevice;
-
             public:
                 VkSurfaceKHR surface;
 

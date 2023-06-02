@@ -612,3 +612,23 @@
 2023-06-01 08:14:58 - [INFO] Log File Opened
 2023-06-01 08:14:58 - [ERROR] Cannot make current with a window that has no OpenGL or OpenGL ES context
 2023-06-01 08:14:58 - [ERROR] Cannot set swap interval without a current OpenGL or OpenGL ES context
+2023-06-01 16:58:18 - [INFO] Log File Opened
+2023-06-01 16:58:18 - [ERROR] Cannot make current with a window that has no OpenGL or OpenGL ES context
+2023-06-01 16:58:18 - [ERROR] Cannot set swap interval without a current OpenGL or OpenGL ES context
+2023-06-01 16:58:19 - [INFO] Enable Validation Layer was a success!
+2023-06-01 16:59:22 - [INFO] Log File Opened
+2023-06-01 16:59:22 - [ERROR] Cannot make current with a window that has no OpenGL or OpenGL ES context
+2023-06-01 16:59:22 - [ERROR] Cannot set swap interval without a current OpenGL or OpenGL ES context
+2023-06-01 16:59:22 - [INFO] Enable Validation Layer was a success!
+2023-06-01 17:01:35 - [INFO] Log File Opened
+2023-06-01 17:01:35 - [ERROR] Cannot make current with a window that has no OpenGL or OpenGL ES context
+2023-06-01 17:01:35 - [ERROR] Cannot set swap interval without a current OpenGL or OpenGL ES context
+2023-06-01 17:01:35 - [INFO] Enable Validation Layer was a success!
+2023-06-01 17:09:47 - [INFO] Log File Opened
+2023-06-01 17:09:47 - [ERROR] Cannot make current with a window that has no OpenGL or OpenGL ES context
+2023-06-01 17:09:47 - [ERROR] Cannot set swap interval without a current OpenGL or OpenGL ES context
+2023-06-01 17:09:47 - [INFO] Enable Validation Layer was a success!
+2023-06-01 17:14:02 - [INFO] Log File Opened
+2023-06-01 17:14:02 - [INFO] Enable Validation Layer was a success!
+2023-06-02 08:31:52 - [INFO] Log File Opened
+2023-06-02 08:31:52 - [INFO] Enable Validation Layer was a success!
