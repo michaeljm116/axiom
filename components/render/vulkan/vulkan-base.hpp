@@ -97,6 +97,7 @@ namespace axiom {
 		#else
 				const bool enableValidationLayers = false;
 		#endif
+				bool validation_enabled = false;
 
 				const std::vector<const char*> deviceExtensions = {
 					VK_KHR_SWAPCHAIN_EXTENSION_NAME
