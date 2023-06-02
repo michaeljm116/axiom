@@ -37,12 +37,15 @@ namespace axiom {
 
       //Set the singleton in world. 
       g_world.set<Cmp_Window>({w, h, title, glfwCreateWindow(w, h, title.c_str(), nullptr, nullptr), primary, mode});
-
-    auto* window = g_world.get<Cmp_Window>()->window;
-    if(!window){
+      auto* window = g_world.get<Cmp_Window>()->window;
+      if(!window){
         axiom::log::Set(log::Level::ERROR, "Failed to Create Window");
         exit(EXIT_FAILURE);
       }
+      glfwMakeContextCurrent(window);  
+      glfwSwapInterval(1);
+
+    
       // Set call backs
       glfwSetErrorCallback([](int error, const char* description){
         axiom::log::Set(log::Level::ERROR, description);
@@ -52,8 +55,6 @@ namespace axiom {
         if(key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
             glfwSetWindowShouldClose(window, GLFW_TRUE);
       });
-      glfwMakeContextCurrent(window);  
-      glfwSwapInterval(1);
 
       //Start the Window System
       g_world.system<Cmp_Window>()
