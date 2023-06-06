@@ -50,7 +50,9 @@ namespace axiom
                     RenderBase* app = reinterpret_cast<RenderBase*>(glfwGetWindowUserPointer(window));
                     app->recreateSwapChain();
                 }
-                vulkan::Device vkDevice;
+
+                Cmp_Vulkan* vulkan_component;
+               /* vulkan::Device vkDevice;
             public:
                 VkSurfaceKHR surface;
 
@@ -76,7 +78,7 @@ namespace axiom
                 VkCommandPool commandPool;
 
                 VkSemaphore imageAvailableSemaphore;
-                VkSemaphore renderFinishedSemaphore;
+                VkSemaphore renderFinishedSemaphore;*/
 
             private:
                 void createInstance();

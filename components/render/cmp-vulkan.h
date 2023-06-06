@@ -13,7 +13,15 @@ namespace axiom
                 VkQueue graphics;
                 VkQueue present;
                 VkQueue compute;
+                VkQueue copy;
             };
+
+            struct Depth{
+                VkImage image;
+                VkDeviceMemory image_memory;
+                VkImageView image_view;
+                VkFormat format;
+            }
 
              /** @brief Swapchain*/
             struct SwapChain{
@@ -31,6 +39,8 @@ namespace axiom
                 std::vector<VkImage> images;
                 std::vector<VkImageView> image_views;
                 std::vector<VkFramebuffer> frame_buffers;
+                uint32_t width;
+                uint32_t height;
             };
 
             /** @brief Command Buffers and pool*/
@@ -65,6 +75,7 @@ namespace axiom
             vulkan::Semaphores semaphores;
             vulkan::Command command;
             vulkan::SwapChain swapchain;
+            vulkan::Depth depth;
             vulkan::Queues queues;
         };
     }
