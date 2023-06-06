@@ -79,6 +79,17 @@ namespace axiom {
 				VkQueue* queue;
 				VkCommandPool* commandPool;
 
+				struct Info{
+					VkRenderPass render_pass;
+					VkQueue copy_queue;
+					VkRenderPass render_pass;
+					std::vector<VkFramebuffer> frame_buffers;
+					VkFormat color_format;
+					VkFormat depth_format;
+					uint32_t width;
+					uint32_t height;
+				} info;
+
 				Device& operator=(const Device& device) { 
 					instance = device.instance; 
 					logicalDevice = device.logicalDevice;
