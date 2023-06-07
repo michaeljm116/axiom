@@ -21,7 +21,7 @@ namespace axiom
                 VkDeviceMemory image_memory;
                 VkImageView image_view;
                 VkFormat format;
-            }
+            };
 
              /** @brief Swapchain*/
             struct SwapChain{
@@ -34,6 +34,7 @@ namespace axiom
                 VkSurfaceKHR surface;
                 VkSwapchainKHR get;
                 VkFormat image_format;
+                VkFormat color_format; //TODO THIS IS PROBABLY WORTHLESS TBH
                 VkExtent2D extent;
                 
                 std::vector<VkImage> images;
@@ -55,19 +56,13 @@ namespace axiom
               VkSemaphore render_finished;  
             };
 
-            /** @brief Vulkan Device Info*/
-            struct DeviceInfo{
-                vulkan::Device* device;
-                VkQueue copy_queue;
+            /** @brief Vulkan Pipeline Info*/               
+            struct Pipeline{
+                VkPipelineCache cache;
                 VkRenderPass render_pass;
-                std::vector<VkFramebuffer> frame_buffers;
-                VkFormat color_format;
-                VkFormat depth_format;
-                uint32_t width;
-                uint32_t heigt;
-                
             };
         }
+
 
         struct Cmp_Vulkan
         {
@@ -77,6 +72,7 @@ namespace axiom
             vulkan::SwapChain swapchain;
             vulkan::Depth depth;
             vulkan::Queues queues;
+            vulkan::Pipeline pipeline;
         };
     }
 }
