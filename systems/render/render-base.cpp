@@ -11,13 +11,6 @@ namespace axiom
             void InitializeVulkan(Cmp_Vulkan& vulkan_component){
                 RenderBase base;
                 base.initVulkan();
-                vulkan_component.device = base.vkDevice;
-                vulkan_component.command =  {base.commandBuffers, base.commandPool};             
-                vulkan_component.queues = {base.graphicsQueue, base.presentQueue, base.computeQueue};
-                vulkan_component.semaphores = {base.imageAvailableSemaphore, base.renderFinishedSemaphore};
-                vulkan_component.swapchain = {base.surface, base.swapChain, base.swapChainImageFormat, 
-                                              base.swapChainExtent, base.swapChainImages, base.swapChainImageViews, base.swapChainFramebuffers};
-
             };
 
             void RenderBase::initWindow() {
@@ -61,13 +54,13 @@ namespace axiom
 
                 //vkFreeCommandBuffers(vulkan_component->device.logicalDevice, commandPool, static_cast<uint32_t>(commandBuffers.size()), commandBuffers.data());
 
-                vkDestroyRenderPass(vulkan_component->device.logicalDevice, renderPass, nullptr);
+                vkDestroyRenderPass(vulkan_component->device.logicalDevice, vulkan_component->pipeline.render_pass, nullptr);
 
-                for (size_t i = 0; i < swapChainImageViews.size(); i++) {
-                    vkDestroyImageView(vulkan_component->device.logicalDevice, swapChainImageViews[i], nullptr);
+                for (size_t i = 0; i < vulkan_component->swapchain.image_views.size(); i++) {
+                    vkDestroyImageView(vulkan_component->device.logicalDevice, vulkan_component->swapchain.image_views[i], nullptr);
                 }
 
-                vkDestroySwapchainKHR(vulkan_component->device.logicalDevice, swapChain, nullptr);
+                vkDestroySwapchainKHR(vulkan_component->device.logicalDevice, vulkan_component->swapchain.get, nullptr);
             }
 
             void RenderBase::createInstance() {
@@ -115,7 +108,7 @@ namespace axiom
             }
             void RenderBase::createSurface() {
                 auto* g_window = g_world.get_mut<Cmp_Window>();
-                if (glfwCreateWindowSurface(vulkan_component->device.instance, g_window->window, nullptr, &surface) != VK_SUCCESS) {
+                if (glfwCreateWindowSurface(vulkan_component->device.instance, g_window->window, nullptr, &vulkan_component->swapchain.surface) != VK_SUCCESS) {
                     throw std::runtime_error("failed to create window surface!");
                 }
             }
@@ -175,12 +168,12 @@ namespace axiom
                 }
                 volkLoadDevice(vulkan_component->device.logicalDevice);
 
-                vkGetDeviceQueue(vulkan_component->device.logicalDevice, vulkan_component->device.qFams.graphicsFamily, 0, &graphicsQueue);
-                vkGetDeviceQueue(vulkan_component->device.logicalDevice, vulkan_component->device.qFams.presentFamily, 0, &presentQueue);
-                vkGetDeviceQueue(vulkan_component->device.logicalDevice, vulkan_component->device.qFams.computeFamily, 1, &computeQueue); //might be a 0 or a 2? idk???
+                vkGetDeviceQueue(vulkan_component->device.logicalDevice, vulkan_component->device.qFams.graphicsFamily, 0, &vulkan_component->queues.graphics);
+                vkGetDeviceQueue(vulkan_component->device.logicalDevice, vulkan_component->device.qFams.presentFamily, 0, &vulkan_component->queues.present);
+                vkGetDeviceQueue(vulkan_component->device.logicalDevice, vulkan_component->device.qFams.computeFamily, 1, &vulkan_component->queues.compute); //might be a 0 or a 2? idk???
 
                 //set vkdevice queue tyighnny
-                vulkan_component->device.queue = &graphicsQueue;
+                vulkan_component->device.queue = &vulkan_component->queues.graphics;
             }
             void RenderBase::createSwapChain() {
                 SwapChainSupportDetails swapChainSupport = querySwapChainSupport(vulkan_component->device.physicalDevice);
@@ -189,7 +182,7 @@ namespace axiom
                 VkPresentModeKHR presentMode = chooseSwapPresentMode(swapChainSupport.presentModes);
                 VkExtent2D extent = chooseSwapExtent(swapChainSupport.capabilities);
 
-                //find out the number of images in the swapchain, 0 = no limit
+                //find out the number of images in the vulkan_component->swapchain.get, 0 = no limit
                 uint32_t imageCount = swapChainSupport.capabilities.minImageCount + 1;
                 if (swapChainSupport.capabilities.maxImageCount > 0 && imageCount > swapChainSupport.capabilities.maxImageCount) {
                     imageCount = swapChainSupport.capabilities.maxImageCount;
@@ -198,7 +191,7 @@ namespace axiom
                 //set up the surface of the sc
                 VkSwapchainCreateInfoKHR createInfo = {};
                 createInfo.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
-                createInfo.surface = surface;
+                createInfo.surface = vulkan_component->swapchain.surface;
 
                 //details of the swap chain
                 createInfo.minImageCount = imageCount;
@@ -235,27 +228,27 @@ namespace axiom
                 //createInfo.oldSwapchain = VK_NULL_HANDLE;
 
 
-                if (vkCreateSwapchainKHR(vulkan_component->device.logicalDevice, &createInfo, nullptr, &swapChain) != VK_SUCCESS) {
+                if (vkCreateSwapchainKHR(vulkan_component->device.logicalDevice, &createInfo, nullptr, &vulkan_component->swapchain.get) != VK_SUCCESS) {
                     throw std::runtime_error("failed to create swapchain!");
                 }
 
-                vkGetSwapchainImagesKHR(vulkan_component->device.logicalDevice, swapChain, &imageCount, nullptr);
-                swapChainImages.resize(imageCount);
-                vkGetSwapchainImagesKHR(vulkan_component->device.logicalDevice, swapChain, &imageCount, swapChainImages.data());
+                vkGetSwapchainImagesKHR(vulkan_component->device.logicalDevice, vulkan_component->swapchain.get, &imageCount, nullptr);
+                vulkan_component->swapchain.images.resize(imageCount);
+                vkGetSwapchainImagesKHR(vulkan_component->device.logicalDevice, vulkan_component->swapchain.get, &imageCount, vulkan_component->swapchain.images.data());
 
-                swapChainImageFormat = surfaceFormat.format;
-                swapChainExtent = extent;
+                vulkan_component->swapchain.image_format = surfaceFormat.format;
+                vulkan_component->swapchain.extent = extent;
             }
             void RenderBase::createImageViews() {
-                swapChainImageViews.resize(swapChainImages.size());
+                vulkan_component->swapchain.image_views.resize(vulkan_component->swapchain.images.size());
 
-                for (uint32_t i = 0; i < swapChainImages.size(); i++) {
-                    swapChainImageViews[i] = vulkan_component->device.createImageView(swapChainImages[i], swapChainImageFormat, VK_IMAGE_ASPECT_COLOR_BIT);
+                for (uint32_t i = 0; i < vulkan_component->swapchain.images.size(); i++) {
+                    vulkan_component->swapchain.image_views[i] = vulkan_component->device.createImageView(vulkan_component->swapchain.images[i], vulkan_component->swapchain.image_format, VK_IMAGE_ASPECT_COLOR_BIT);
                 }
             }
             void RenderBase::createRenderPass() {
                 VkAttachmentDescription colorAttachment = {};
-                colorAttachment.format = swapChainImageFormat;
+                colorAttachment.format = vulkan_component->swapchain.image_format;
                 colorAttachment.samples = VK_SAMPLE_COUNT_1_BIT; //no sammples
                 colorAttachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR; //Clears frambuffer before drawing new frame
                 colorAttachment.storeOp = VK_ATTACHMENT_STORE_OP_STORE; //stores the image in memory to be read later
@@ -306,7 +299,7 @@ namespace axiom
                 renderPassInfo.dependencyCount = 1;
                 renderPassInfo.pDependencies = &dependency;
 
-                if (vkCreateRenderPass(vulkan_component->device.logicalDevice, &renderPassInfo, nullptr, &renderPass) != VK_SUCCESS) {
+                if (vkCreateRenderPass(vulkan_component->device.logicalDevice, &renderPassInfo, nullptr, &vulkan_component->pipeline.render_pass) != VK_SUCCESS) {
                     throw std::runtime_error("failed to create render pass!");
                 }
             }
@@ -314,33 +307,33 @@ namespace axiom
             {
                 VkPipelineCacheCreateInfo createInfo = {};
                 createInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_CACHE_CREATE_INFO;
-                if (vkCreatePipelineCache(vulkan_component->device.logicalDevice, &createInfo, nullptr, &pipelineCache) != VK_SUCCESS)
+                if (vkCreatePipelineCache(vulkan_component->device.logicalDevice, &createInfo, nullptr, &vulkan_component->pipeline.cache) != VK_SUCCESS)
                     std::runtime_error("failed to create pipelinecache!");
             }
             void RenderBase::createDepthResources() {
                 VkFormat depthFormat = findDepthFormat();
-                vulkan_component->device.createImage(swapChainExtent.width, swapChainExtent.height, depthFormat, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, depthImage, depthImageMemory);
-                depthImageView = vulkan_component->device.createImageView(depthImage, depthFormat, VK_IMAGE_ASPECT_DEPTH_BIT);
-                vulkan_component->device.transitionImageLayout(depthImage, depthFormat, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL);
+                vulkan_component->device.createImage(vulkan_component->swapchain.extent.width, vulkan_component->swapchain.extent.height, vulkan_component->depth.format, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, vulkan_component->depth.image, vulkan_component->depth.image_memory);
+                vulkan_component->depth.image_view = vulkan_component->device.createImageView(vulkan_component->depth.image, vulkan_component->depth.format, VK_IMAGE_ASPECT_DEPTH_BIT);
+                vulkan_component->device.transitionImageLayout(vulkan_component->depth.image, vulkan_component->depth.format, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL);
             }
             void RenderBase::createFrameBuffers() {
-                swapChainFramebuffers.resize(swapChainImageViews.size());
-                for (size_t i = 0; i < swapChainImageViews.size(); i++) {
+                vulkan_component->swapchain.frame_buffers.resize(vulkan_component->swapchain.image_views.size());
+                for (size_t i = 0; i < vulkan_component->swapchain.image_views.size(); i++) {
                     std::array<VkImageView, 2> attachments = {
-                        swapChainImageViews[i],
-                        depthImageView
+                        vulkan_component->swapchain.image_views[i],
+                        vulkan_component->depth.image_view
                     };
 
                     VkFramebufferCreateInfo framebufferInfo = {};
                     framebufferInfo.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
-                    framebufferInfo.renderPass = renderPass;
+                    framebufferInfo.renderPass = vulkan_component->pipeline.render_pass;
                     framebufferInfo.attachmentCount = static_cast<uint32_t>(attachments.size());
                     framebufferInfo.pAttachments = attachments.data();
-                    framebufferInfo.width = swapChainExtent.width;
-                    framebufferInfo.height = swapChainExtent.height;
+                    framebufferInfo.width = vulkan_component->swapchain.extent.width;
+                    framebufferInfo.height = vulkan_component->swapchain.extent.height;
                     framebufferInfo.layers = 1;
 
-                    if (vkCreateFramebuffer(vulkan_component->device.logicalDevice, &framebufferInfo, nullptr, &swapChainFramebuffers[i]) != VK_SUCCESS) {
+                    if (vkCreateFramebuffer(vulkan_component->device.logicalDevice, &framebufferInfo, nullptr, &vulkan_component->swapchain.frame_buffers[i]) != VK_SUCCESS) {
                         throw std::runtime_error("failed to create framebuffer!");
                     }
                 }
@@ -356,20 +349,20 @@ namespace axiom
                 poolInfo.queueFamilyIndex = vulkan_component->device.qFams.graphicsFamily;
                 poolInfo.flags = 0; // Optional
 
-                if (vkCreateCommandPool(vulkan_component->device.logicalDevice, &poolInfo, nullptr, &commandPool) != VK_SUCCESS) {
+                if (vkCreateCommandPool(vulkan_component->device.logicalDevice, &poolInfo, nullptr, &vulkan_component->command.pool) != VK_SUCCESS) {
                     throw std::runtime_error("failed to create command pool!");
                 }
 
                 //set the cmdpool pointer to the device
-                vulkan_component->device.commandPool = &commandPool;
+                //vulkan_component->device.commandPool = &commandPool;
             }
 
             void RenderBase::createSemaphores() {
                 VkSemaphoreCreateInfo semaphoreInfo = {};
                 semaphoreInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
 
-                vulkan::VK_CHECKRESULT(vkCreateSemaphore(vulkan_component->device.logicalDevice, &semaphoreInfo, nullptr, &imageAvailableSemaphore), " FAILED TO CREATE SEMAPHORE");
-                vulkan::VK_CHECKRESULT(vkCreateSemaphore(vulkan_component->device.logicalDevice, &semaphoreInfo, nullptr, &renderFinishedSemaphore), " FAILED TO CREATE SEMAPHORE");
+                vulkan::VK_CHECKRESULT(vkCreateSemaphore(vulkan_component->device.logicalDevice, &semaphoreInfo, nullptr, &vulkan_component->semaphores.image_available), " FAILED TO CREATE SEMAPHORE");
+                vulkan::VK_CHECKRESULT(vkCreateSemaphore(vulkan_component->device.logicalDevice, &semaphoreInfo, nullptr, &vulkan_component->semaphores.render_finished), " FAILED TO CREATE SEMAPHORE");
 
             }
 
@@ -399,7 +392,7 @@ namespace axiom
                 uint32_t deviceCount = 0;
                 vkEnumeratePhysicalDevices(vulkan_component->device.instance, &deviceCount, nullptr);
                 if (deviceCount == 0)
-                    throw std::runtime_error("Failed ot find the GPU's with VULKAN support!");
+                    throw std::runtime_error("Failed to find the GPU's with VULKAN support!");
 
                 //array to hold all the physical devices
                 std::vector<VkPhysicalDevice> devices(deviceCount);
@@ -475,7 +468,7 @@ namespace axiom
                     }
                     //check support for presentation
                     VkBool32 presentSupport = false;
-                    vkGetPhysicalDeviceSurfaceSupportKHR(device, i, surface, &presentSupport);
+                    vkGetPhysicalDeviceSurfaceSupportKHR(device, i, vulkan_component->swapchain.surface, &presentSupport);
                     if (queueFamily.queueCount > 0 && presentSupport) {
                         indices.presentFamily = i;
                     }
@@ -492,20 +485,20 @@ namespace axiom
             SwapChainSupportDetails RenderBase::querySwapChainSupport(VkPhysicalDevice device) {
                 SwapChainSupportDetails details;
 
-                vkGetPhysicalDeviceSurfaceCapabilitiesKHR(device, surface, &details.capabilities);
+                vkGetPhysicalDeviceSurfaceCapabilitiesKHR(device, vulkan_component->swapchain.surface, &details.capabilities);
 
                 uint32_t formatCount;
-                vkGetPhysicalDeviceSurfaceFormatsKHR(device, surface, &formatCount, nullptr);
+                vkGetPhysicalDeviceSurfaceFormatsKHR(device, vulkan_component->swapchain.surface, &formatCount, nullptr);
                 if (formatCount != 0) {
                     details.formats.resize(formatCount);
-                    vkGetPhysicalDeviceSurfaceFormatsKHR(device, surface, &formatCount, details.formats.data());
+                    vkGetPhysicalDeviceSurfaceFormatsKHR(device, vulkan_component->swapchain.surface, &formatCount, details.formats.data());
                 }
 
                 uint32_t presentModeCount;
-                vkGetPhysicalDeviceSurfacePresentModesKHR(device, surface, &presentModeCount, nullptr);
+                vkGetPhysicalDeviceSurfacePresentModesKHR(device, vulkan_component->swapchain.surface, &presentModeCount, nullptr);
                 if (presentModeCount != 0) {
                     details.presentModes.resize(presentModeCount);
-                    vkGetPhysicalDeviceSurfacePresentModesKHR(device, surface, &presentModeCount, details.presentModes.data());
+                    vkGetPhysicalDeviceSurfacePresentModesKHR(device, vulkan_component->swapchain.surface, &presentModeCount, details.presentModes.data());
                 }
 
                 return details;
