@@ -10,6 +10,7 @@ namespace axiom
 
             void InitializeVulkan(Cmp_Vulkan& vulkan_component){
                 RenderBase base;
+                base.vulkan_component = &vulkan_component;
                 base.initVulkan();
             };
 

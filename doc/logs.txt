@@ -646,3 +646,7 @@
 2023-06-07 08:16:35 - [ERROR] Failed When Enable Validation Layer
 2023-06-07 08:17:28 - [INFO] Log File Opened
 2023-06-07 08:17:28 - [ERROR] Failed When Enable Validation Layer
+2023-06-08 07:11:26 - [INFO] Log File Opened
+2023-06-08 07:11:26 - [ERROR] Failed When Enable Validation Layer
+2023-06-08 07:47:04 - [INFO] Log File Opened
+2023-06-08 07:47:04 - [ERROR] Failed When Enable Validation Layer
