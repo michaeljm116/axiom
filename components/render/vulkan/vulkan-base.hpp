@@ -32,6 +32,13 @@ namespace axiom {
 				void* userData) {
 
 				std::cerr << "validation layer: " << msg << std::endl;
+				std::ofstream file;
+				file.open("../../doc/validationlayer.txt", std::ios::app);
+				if(file.is_open()){
+					file << msg;
+					file.flush();
+				}
+
 				//system("Pause");
 				return VK_FALSE;
 			}
