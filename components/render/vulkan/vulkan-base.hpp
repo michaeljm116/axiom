@@ -35,6 +35,8 @@ namespace axiom {
 				std::ofstream file;
 				file.open("../../doc/validationlayer.txt", std::ios::app);
 				if(file.is_open()){
+
+					file << "\n";
 					file << msg;
 					file.flush();
 				}
