@@ -656,3 +656,13 @@
 2023-06-08 08:06:29 - [INFO] Enable Validation Layer was a success!
 2023-06-08 08:08:56 - [INFO] Log File Opened
 2023-06-08 08:08:56 - [INFO] Enable Validation Layer was a success!
+2023-06-08 08:19:23 - [INFO] Log File Opened
+2023-06-08 08:19:23 - [ERROR] Failed When Enable Validation Layer
+2023-06-08 08:24:47 - [INFO] Log File Opened
+2023-06-08 08:24:47 - [ERROR] Failed When Enable Validation Layer
+2023-06-08 08:45:28 - [INFO] Log File Opened
+2023-06-08 08:45:28 - [ERROR] Failed When Enable Validation Layer
+2023-06-13 07:39:45 - [INFO] Log File Opened
+2023-06-13 07:39:45 - [ERROR] Failed When Enable Validation Layer
+2023-06-13 08:19:03 - [INFO] Log File Opened
+2023-06-13 08:19:03 - [ERROR] Failed When Enable Validation Layer

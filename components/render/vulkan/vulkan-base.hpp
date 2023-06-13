@@ -19,8 +19,6 @@ namespace axiom {
 					throw std::runtime_error("ERROR: Failed to " + msg);
 			}
 
-
-
 			static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(
 				VkDebugReportFlagsEXT flags,
 				VkDebugReportObjectTypeEXT objType,
@@ -80,8 +78,8 @@ namespace axiom {
 			struct Device 
 			{
 				VkInstance instance;
-				VkDevice logicalDevice;
-				VkPhysicalDevice physicalDevice = VK_NULL_HANDLE;
+				VkDevice logical;
+				VkPhysicalDevice physical = VK_NULL_HANDLE;
 				VkDebugReportCallbackEXT callback;
 
 				QueueFamilyIndices qFams;
@@ -90,8 +88,8 @@ namespace axiom {
 
 				Device& operator=(const Device& device) { 
 					instance = device.instance; 
-					logicalDevice = device.logicalDevice;
-					physicalDevice = device.physicalDevice;
+					logical = device.logical;
+					physical = device.physical;
 					callback = device.callback;
 					qFams = device.qFams;
 					queue = device.queue;
@@ -113,7 +111,7 @@ namespace axiom {
 				};
 
 				void Destroy() {
-					vkDestroyDevice(logicalDevice, nullptr);
+					vkDestroyDevice(logical, nullptr);
 					DestroyDebugReportCallbackEXT(instance, callback, nullptr);
 					//if (callback != NULL)
 						//vkDestroyDebugReportCallbackEXT(instance, callback, nullptr);
@@ -163,7 +161,7 @@ namespace axiom {
 
 				uint32_t findMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties) {
 					VkPhysicalDeviceMemoryProperties memProperties;
-					vkGetPhysicalDeviceMemoryProperties(physicalDevice, &memProperties);
+					vkGetPhysicalDeviceMemoryProperties(physical, &memProperties);
 
 					for (uint32_t i = 0; i < memProperties.memoryTypeCount; i++) {
 						if ((typeFilter & (1 << i)) && (memProperties.memoryTypes[i].propertyFlags & properties) == properties) {
@@ -196,7 +194,7 @@ namespace axiom {
 					createInfo.pCode = reinterpret_cast<const uint32_t*>(code.data());
 
 					VkShaderModule shaderModule;
-					VK_CHECKRESULT(vkCreateShaderModule(logicalDevice, &createInfo, nullptr, &shaderModule), "create Shader Module");
+					VK_CHECKRESULT(vkCreateShaderModule(logical, &createInfo, nullptr, &shaderModule), "create Shader Module");
 					return shaderModule;
 				}
 
@@ -208,7 +206,7 @@ namespace axiom {
 		#if defined(VK_USE_PLATFORM_ANDROID_KHR)
 					shaderStage.module = vks::tools::loadShader(androidApp->activity->assetManager, fileName.c_str(), device);
 		#else
-					shaderStage.module = loadShader(fileName.c_str());//, logicalDevice);
+					shaderStage.module = loadShader(fileName.c_str());//, logical);
 		#endif
 					shaderStage.pName = "main"; // todo : make param
 					//assert(shaderStage.module != VK_NULL_HANDLE);
@@ -239,7 +237,7 @@ namespace axiom {
 						std::string bob = shaderCode;
 						bob.at(0);
 
-						VK_CHECKRESULT(vkCreateShaderModule(logicalDevice, &moduleCreateInfo, NULL, &shaderModule), "CREATE SHADER MODULE");
+						VK_CHECKRESULT(vkCreateShaderModule(logical, &moduleCreateInfo, NULL, &shaderModule), "CREATE SHADER MODULE");
 
 						delete[] shaderCode;
 
@@ -262,20 +260,20 @@ namespace axiom {
 					bufferInfo.usage = usage;	 //type of data
 					//bufferInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;		 //how many queues can use it
 
-					VK_CHECKRESULT(vkCreateBuffer(logicalDevice, &bufferInfo, nullptr, &buffer), "Create Buffer");
+					VK_CHECKRESULT(vkCreateBuffer(logical, &bufferInfo, nullptr, &buffer), "Create Buffer");
 
 					VkMemoryRequirements memRequirements;
-					vkGetBufferMemoryRequirements(logicalDevice, buffer, &memRequirements);
+					vkGetBufferMemoryRequirements(logical, buffer, &memRequirements);
 
 					VkMemoryAllocateInfo allocInfo = {};
 					allocInfo.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
 					allocInfo.allocationSize = memRequirements.size;
 					allocInfo.memoryTypeIndex = findMemoryType(memRequirements.memoryTypeBits, properties);
 
-					VK_CHECKRESULT(vkAllocateMemory(logicalDevice, &allocInfo, nullptr, &bufferMemory), "Allocate buffer memory");
+					VK_CHECKRESULT(vkAllocateMemory(logical, &allocInfo, nullptr, &bufferMemory), "Allocate buffer memory");
 
 					//assocate the memory with teh buffer
-					vkBindBufferMemory(logicalDevice, buffer, bufferMemory, 0); //If the offset is non-zero, then it is required to be divisible by memRequirements.alignment
+					vkBindBufferMemory(logical, buffer, bufferMemory, 0); //If the offset is non-zero, then it is required to be divisible by memRequirements.alignment
 
 				}
 
@@ -287,7 +285,7 @@ namespace axiom {
 					allocInfo.commandBufferCount = 1;
 
 					VkCommandBuffer commandBuffer;
-					vkAllocateCommandBuffers(logicalDevice, &allocInfo, &commandBuffer);
+					vkAllocateCommandBuffers(logical, &allocInfo, &commandBuffer);
 
 					VkCommandBufferBeginInfo beginInfo = {};
 					beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
@@ -309,7 +307,7 @@ namespace axiom {
 					vkQueueSubmit(*queue, 1, &submitInfo, VK_NULL_HANDLE);
 					vkQueueWaitIdle(*queue);
 
-					vkFreeCommandBuffers(logicalDevice, *commandPool, 1, &commandBuffer);
+					vkFreeCommandBuffers(logical, *commandPool, 1, &commandBuffer);
 				}
 
 				void copyBuffer(VkBuffer& srcBuffer, VkBuffer& dstBuffer, VkDeviceSize size) {
@@ -340,23 +338,23 @@ namespace axiom {
 					imageInfo.samples = VK_SAMPLE_COUNT_1_BIT;
 					imageInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
 
-					if (vkCreateImage(logicalDevice, &imageInfo, nullptr, &image) != VK_SUCCESS) {
+					if (vkCreateImage(logical, &imageInfo, nullptr, &image) != VK_SUCCESS) {
 						throw std::runtime_error("failed to create image!");
 					}
 
 					VkMemoryRequirements memRequirements;
-					vkGetImageMemoryRequirements(logicalDevice, image, &memRequirements);
+					vkGetImageMemoryRequirements(logical, image, &memRequirements);
 
 					VkMemoryAllocateInfo allocInfo = {};
 					allocInfo.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
 					allocInfo.allocationSize = memRequirements.size;
 					allocInfo.memoryTypeIndex = findMemoryType(memRequirements.memoryTypeBits, properties);
 
-					if (vkAllocateMemory(logicalDevice, &allocInfo, nullptr, &imageMemory) != VK_SUCCESS) {
+					if (vkAllocateMemory(logical, &allocInfo, nullptr, &imageMemory) != VK_SUCCESS) {
 						throw std::runtime_error("failed to allocate image memory!");
 					}
 
-					vkBindImageMemory(logicalDevice, image, imageMemory, 0);
+					vkBindImageMemory(logical, image, imageMemory, 0);
 				}
 
 				VkImageView createImageView(VkImage image, VkFormat format, VkImageAspectFlags aspectFlags) {
@@ -372,7 +370,7 @@ namespace axiom {
 					viewInfo.subresourceRange.layerCount = 1;
 
 					VkImageView imageView;
-					if (vkCreateImageView(logicalDevice, &viewInfo, nullptr, &imageView) != VK_SUCCESS) {
+					if (vkCreateImageView(logical, &viewInfo, nullptr, &imageView) != VK_SUCCESS) {
 						throw std::runtime_error("failed to create texture image view!");
 					}
 
