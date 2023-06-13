@@ -38,30 +38,30 @@ namespace axiom
             }
 
             void RenderBase::cleanup() {
-                vkDestroySemaphore(vulkan_component->device.logicalDevice, vulkan_component->semaphores.render_finished, nullptr);
-                vkDestroySemaphore(vulkan_component->device.logicalDevice, vulkan_component->semaphores.image_available, nullptr);
+                vkDestroySemaphore(vulkan_component->device.logical, vulkan_component->semaphores.render_finished, nullptr);
+                vkDestroySemaphore(vulkan_component->device.logical, vulkan_component->semaphores.image_available, nullptr);
                 vkDestroySurfaceKHR(vulkan_component->device.instance, vulkan_component->swapchain.surface, nullptr);
 
                 vulkan_component->device.Destroy();
             }
             void RenderBase::cleanupSwapChain() {
-                vkDestroyImageView(vulkan_component->device.logicalDevice, vulkan_component->depth.image_view, nullptr);
-                vkDestroyImage(vulkan_component->device.logicalDevice, vulkan_component->depth.image, nullptr);
-                vkFreeMemory(vulkan_component->device.logicalDevice, vulkan_component->depth.image_memory, nullptr);
+                vkDestroyImageView(vulkan_component->device.logical, vulkan_component->depth.image_view, nullptr);
+                vkDestroyImage(vulkan_component->device.logical, vulkan_component->depth.image, nullptr);
+                vkFreeMemory(vulkan_component->device.logical, vulkan_component->depth.image_memory, nullptr);
 
                 for (size_t i = 0; i < vulkan_component->swapchain.frame_buffers.size(); i++) {
-                    vkDestroyFramebuffer(vulkan_component->device.logicalDevice, vulkan_component->swapchain.frame_buffers[i], nullptr);
+                    vkDestroyFramebuffer(vulkan_component->device.logical, vulkan_component->swapchain.frame_buffers[i], nullptr);
                 }
 
-                //vkFreeCommandBuffers(vulkan_component->device.logicalDevice, commandPool, static_cast<uint32_t>(commandBuffers.size()), commandBuffers.data());
+                //vkFreeCommandBuffers(vulkan_component->device.logical, commandPool, static_cast<uint32_t>(commandBuffers.size()), commandBuffers.data());
 
-                vkDestroyRenderPass(vulkan_component->device.logicalDevice, vulkan_component->pipeline.render_pass, nullptr);
+                vkDestroyRenderPass(vulkan_component->device.logical, vulkan_component->pipeline.render_pass, nullptr);
 
                 for (size_t i = 0; i < vulkan_component->swapchain.image_views.size(); i++) {
-                    vkDestroyImageView(vulkan_component->device.logicalDevice, vulkan_component->swapchain.image_views[i], nullptr);
+                    vkDestroyImageView(vulkan_component->device.logical, vulkan_component->swapchain.image_views[i], nullptr);
                 }
 
-                vkDestroySwapchainKHR(vulkan_component->device.logicalDevice, vulkan_component->swapchain.get, nullptr);
+                vkDestroySwapchainKHR(vulkan_component->device.logical, vulkan_component->swapchain.get, nullptr);
             }
 
             void RenderBase::createInstance() {
@@ -115,7 +115,7 @@ namespace axiom
             }
             void RenderBase::createLogicalDevice() {
 
-                vulkan_component->device.qFams = findQueueFamilies(vulkan_component->device.physicalDevice);
+                vulkan_component->device.qFams = findQueueFamilies(vulkan_component->device.physical);
                 setComputeQueueFamilyIndex();
                 //ALSO make sure it can present to the screen y0
                 std::vector<VkDeviceQueueCreateInfo> queueCreateInfos;
@@ -164,20 +164,20 @@ namespace axiom
                 }
 
                 //CREATE DAT DERR DEVICE OVA YONDER YA HEARD?
-                if (vkCreateDevice(vulkan_component->device.physicalDevice, &createInfo, nullptr, &vulkan_component->device.logicalDevice) != VK_SUCCESS) {
+                if (vkCreateDevice(vulkan_component->device.physical, &createInfo, nullptr, &vulkan_component->device.logical) != VK_SUCCESS) {
                     throw std::runtime_error("failed to create logical device!");
                 }
-                volkLoadDevice(vulkan_component->device.logicalDevice);
+                volkLoadDevice(vulkan_component->device.logical);
 
-                vkGetDeviceQueue(vulkan_component->device.logicalDevice, vulkan_component->device.qFams.graphicsFamily, 0, &vulkan_component->queues.graphics);
-                vkGetDeviceQueue(vulkan_component->device.logicalDevice, vulkan_component->device.qFams.presentFamily, 0, &vulkan_component->queues.present);
-                vkGetDeviceQueue(vulkan_component->device.logicalDevice, vulkan_component->device.qFams.computeFamily, 1, &vulkan_component->queues.compute); //might be a 0 or a 2? idk???
+                vkGetDeviceQueue(vulkan_component->device.logical, vulkan_component->device.qFams.graphicsFamily, 0, &vulkan_component->queues.graphics);
+                vkGetDeviceQueue(vulkan_component->device.logical, vulkan_component->device.qFams.presentFamily, 0, &vulkan_component->queues.present);
+                vkGetDeviceQueue(vulkan_component->device.logical, vulkan_component->device.qFams.computeFamily, 1, &vulkan_component->queues.compute); //might be a 0 or a 2? idk???
 
                 //set vkdevice queue tyighnny
                 vulkan_component->device.queue = &vulkan_component->queues.graphics;
             }
             void RenderBase::createSwapChain() {
-                SwapChainSupportDetails swapChainSupport = querySwapChainSupport(vulkan_component->device.physicalDevice);
+                SwapChainSupportDetails swapChainSupport = querySwapChainSupport(vulkan_component->device.physical);
 
                 VkSurfaceFormatKHR surfaceFormat = chooseSwapSurfaceFormat(swapChainSupport.formats);
                 VkPresentModeKHR presentMode = chooseSwapPresentMode(swapChainSupport.presentModes);
@@ -203,7 +203,7 @@ namespace axiom
                 createInfo.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT; //VK_IMAGE_USAGE_TRANSFER_DST_BIT for post-processing
 
                                                                             //Specify how to handle swap chain images across multiple queue fams
-                vulkan::QueueFamilyIndices indices = findQueueFamilies(vulkan_component->device.physicalDevice);
+                vulkan::QueueFamilyIndices indices = findQueueFamilies(vulkan_component->device.physical);
                 uint32_t queueFamilyIndices[] = { (uint32_t)indices.graphicsFamily, (uint32_t)indices.presentFamily };
 
                 if (indices.graphicsFamily != indices.presentFamily) {
@@ -229,13 +229,13 @@ namespace axiom
                 //createInfo.oldSwapchain = VK_NULL_HANDLE;
 
 
-                if (vkCreateSwapchainKHR(vulkan_component->device.logicalDevice, &createInfo, nullptr, &vulkan_component->swapchain.get) != VK_SUCCESS) {
+                if (vkCreateSwapchainKHR(vulkan_component->device.logical, &createInfo, nullptr, &vulkan_component->swapchain.get) != VK_SUCCESS) {
                     throw std::runtime_error("failed to create swapchain!");
                 }
 
-                vkGetSwapchainImagesKHR(vulkan_component->device.logicalDevice, vulkan_component->swapchain.get, &imageCount, nullptr);
+                vkGetSwapchainImagesKHR(vulkan_component->device.logical, vulkan_component->swapchain.get, &imageCount, nullptr);
                 vulkan_component->swapchain.images.resize(imageCount);
-                vkGetSwapchainImagesKHR(vulkan_component->device.logicalDevice, vulkan_component->swapchain.get, &imageCount, vulkan_component->swapchain.images.data());
+                vkGetSwapchainImagesKHR(vulkan_component->device.logical, vulkan_component->swapchain.get, &imageCount, vulkan_component->swapchain.images.data());
 
                 vulkan_component->swapchain.image_format = surfaceFormat.format;
                 vulkan_component->swapchain.extent = extent;
@@ -300,7 +300,7 @@ namespace axiom
                 renderPassInfo.dependencyCount = 1;
                 renderPassInfo.pDependencies = &dependency;
 
-                if (vkCreateRenderPass(vulkan_component->device.logicalDevice, &renderPassInfo, nullptr, &vulkan_component->pipeline.render_pass) != VK_SUCCESS) {
+                if (vkCreateRenderPass(vulkan_component->device.logical, &renderPassInfo, nullptr, &vulkan_component->pipeline.render_pass) != VK_SUCCESS) {
                     throw std::runtime_error("failed to create render pass!");
                 }
             }
@@ -308,7 +308,7 @@ namespace axiom
             {
                 VkPipelineCacheCreateInfo createInfo = {};
                 createInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_CACHE_CREATE_INFO;
-                if (vkCreatePipelineCache(vulkan_component->device.logicalDevice, &createInfo, nullptr, &vulkan_component->pipeline.cache) != VK_SUCCESS)
+                if (vkCreatePipelineCache(vulkan_component->device.logical, &createInfo, nullptr, &vulkan_component->pipeline.cache) != VK_SUCCESS)
                     std::runtime_error("failed to create pipelinecache!");
             }
             void RenderBase::createDepthResources() {
@@ -334,7 +334,7 @@ namespace axiom
                     framebufferInfo.height = vulkan_component->swapchain.extent.height;
                     framebufferInfo.layers = 1;
 
-                    if (vkCreateFramebuffer(vulkan_component->device.logicalDevice, &framebufferInfo, nullptr, &vulkan_component->swapchain.frame_buffers[i]) != VK_SUCCESS) {
+                    if (vkCreateFramebuffer(vulkan_component->device.logical, &framebufferInfo, nullptr, &vulkan_component->swapchain.frame_buffers[i]) != VK_SUCCESS) {
                         throw std::runtime_error("failed to create framebuffer!");
                     }
                 }
@@ -343,14 +343,14 @@ namespace axiom
             void RenderBase::createCommandPool()
             {
                 //@COMPUTEHERE be sure to create a pool specifically for compute only
-                //QueueFamilyIndices queueFamilyIndices = findQueueFamilies(vulkan_component->device.physicalDevice);
+                //QueueFamilyIndices queueFamilyIndices = findQueueFamilies(vulkan_component->device.physical);
 
                 VkCommandPoolCreateInfo poolInfo = {};
                 poolInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
                 poolInfo.queueFamilyIndex = vulkan_component->device.qFams.graphicsFamily;
                 poolInfo.flags = 0; // Optional
 
-                if (vkCreateCommandPool(vulkan_component->device.logicalDevice, &poolInfo, nullptr, &vulkan_component->command.pool) != VK_SUCCESS) {
+                if (vkCreateCommandPool(vulkan_component->device.logical, &poolInfo, nullptr, &vulkan_component->command.pool) != VK_SUCCESS) {
                     throw std::runtime_error("failed to create command pool!");
                 }
 
@@ -362,8 +362,8 @@ namespace axiom
                 VkSemaphoreCreateInfo semaphoreInfo = {};
                 semaphoreInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
 
-                vulkan::VK_CHECKRESULT(vkCreateSemaphore(vulkan_component->device.logicalDevice, &semaphoreInfo, nullptr, &vulkan_component->semaphores.image_available), " FAILED TO CREATE SEMAPHORE");
-                vulkan::VK_CHECKRESULT(vkCreateSemaphore(vulkan_component->device.logicalDevice, &semaphoreInfo, nullptr, &vulkan_component->semaphores.render_finished), " FAILED TO CREATE SEMAPHORE");
+                vulkan::VK_CHECKRESULT(vkCreateSemaphore(vulkan_component->device.logical, &semaphoreInfo, nullptr, &vulkan_component->semaphores.image_available), " FAILED TO CREATE SEMAPHORE");
+                vulkan::VK_CHECKRESULT(vkCreateSemaphore(vulkan_component->device.logical, &semaphoreInfo, nullptr, &vulkan_component->semaphores.render_finished), " FAILED TO CREATE SEMAPHORE");
 
             }
 
@@ -375,7 +375,7 @@ namespace axiom
                 previous swap chain to the oldSwapChain field in the VkSwapchainCreateInfoKHR
                 struct and destroy the old swap chain as soon as you've finished using it*/
 
-                vkDeviceWaitIdle(vulkan_component->device.logicalDevice); //makes sure to tuch no resources already in use
+                vkDeviceWaitIdle(vulkan_component->device.logical); //makes sure to tuch no resources already in use
 
                 cleanupSwapChain();
 
@@ -402,11 +402,11 @@ namespace axiom
                 //Make sure you pick suitable devices
                 for (const auto& device : devices) {
                     if (isDeviceSuitable(device)) {
-                        vulkan_component->device.physicalDevice = device;
+                        vulkan_component->device.physical = device;
                         break;
                     }
                 }
-                if (vulkan_component->device.physicalDevice == VK_NULL_HANDLE) { throw std::runtime_error("failed to find a suitable GPU!"); }
+                if (vulkan_component->device.physical == VK_NULL_HANDLE) { throw std::runtime_error("failed to find a suitable GPU!"); }
             }
             VkFormat RenderBase::findDepthFormat() {
                 return findSupportedFormat(
@@ -418,7 +418,7 @@ namespace axiom
             VkFormat RenderBase::findSupportedFormat(const std::vector<VkFormat>& candidates, VkImageTiling tiling, VkFormatFeatureFlags features) {
                 for (VkFormat format : candidates) {
                     VkFormatProperties props;
-                    vkGetPhysicalDeviceFormatProperties(vulkan_component->device.physicalDevice, format, &props);
+                    vkGetPhysicalDeviceFormatProperties(vulkan_component->device.physical, format, &props);
 
                     if (tiling == VK_IMAGE_TILING_LINEAR && (props.linearTilingFeatures & features) == features)
                         return format;
@@ -430,14 +430,39 @@ namespace axiom
 
             //Make sure you pick a suitable device
             bool RenderBase::isDeviceSuitable(VkPhysicalDevice device) {
-                /*
+                
                 //Details about basic device properties
                 VkPhysicalDeviceProperties deviceProperties;
                 vkGetPhysicalDeviceProperties(device, &deviceProperties);
+                
+                //Thanks ChatGPT for this VV
+                auto printPhysicalDeviceProperties = [](VkPhysicalDeviceProperties deviceProperties) {
+                    std::cout << "Device Name: " << deviceProperties.deviceName << std::endl;
+                    std::cout << "Vendor ID: 0x" << std::hex << deviceProperties.vendorID << std::dec << std::endl;
+                    std::cout << "Device ID: 0x" << std::hex << deviceProperties.deviceID << std::dec << std::endl;
+                    std::cout << "Device Type: " << deviceProperties.deviceType << std::endl;
+
+                    uint32_t apiVersion = deviceProperties.apiVersion;
+                    uint32_t driverVersion = deviceProperties.driverVersion;
+
+                    std::cout << "API Version: "
+                            << VK_VERSION_MAJOR(apiVersion) << "."
+                            << VK_VERSION_MINOR(apiVersion) << "."
+                            << VK_VERSION_PATCH(apiVersion) << std::endl;
+
+                    std::cout << "Driver Version: "
+                            << VK_VERSION_MAJOR(driverVersion) << "."
+                            << VK_VERSION_MINOR(driverVersion) << "."
+                            << VK_VERSION_PATCH(driverVersion) << std::endl;
+                };
+                printPhysicalDeviceProperties(deviceProperties);
+
 
                 //Details about device features
                 VkPhysicalDeviceFeatures deviceFeatures;
-                vkGetPhysicalDeviceFeatures(device, &deviceFeatures);*/
+                vkGetPhysicalDeviceFeatures(device, &deviceFeatures);
+
+
                 vulkan::QueueFamilyIndices indices = findQueueFamilies(device);
 
                 bool extensionsSupported = vulkan_component->device.checkDeviceExtensionSupport(device);
@@ -573,9 +598,9 @@ namespace axiom
             void RenderBase::setComputeQueueFamilyIndex()
             {
                 uint32_t qFamCount;
-                vkGetPhysicalDeviceQueueFamilyProperties(vulkan_component->device.physicalDevice, &qFamCount, NULL); //Got the count
+                vkGetPhysicalDeviceQueueFamilyProperties(vulkan_component->device.physical, &qFamCount, NULL); //Got the count
                 std::vector<VkQueueFamilyProperties> queueFams(qFamCount);
-                vkGetPhysicalDeviceQueueFamilyProperties(vulkan_component->device.physicalDevice, &qFamCount, queueFams.data());
+                vkGetPhysicalDeviceQueueFamilyProperties(vulkan_component->device.physical, &qFamCount, queueFams.data());
 
                 //first find a compute-only queue
                 bool computeOnly = false;

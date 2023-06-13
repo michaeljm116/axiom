@@ -20,7 +20,7 @@ namespace axiom
                 VkImage image;
                 VkDeviceMemory image_memory;
                 VkImageView image_view;
-                VkFormat format;
+                VkFormat format = VK_FORMAT_R8G8B8A8_UNORM;
             };
 
              /** @brief Swapchain*/
