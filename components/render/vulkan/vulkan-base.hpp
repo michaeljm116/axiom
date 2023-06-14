@@ -7,6 +7,7 @@
 #include <set>
 #include <iostream>
 #include <fstream>
+#include <chrono>
 //#include "../pch.h"
 
 namespace axiom {
@@ -48,13 +49,30 @@ namespace axiom {
 				auto func = (PFN_vkDestroyDebugReportCallbackEXT)vkGetInstanceProcAddr(instance, "vkDestroyDebugReportCallbackEXT");
 				if (func != nullptr) {
 					func(instance, callback, pAllocator);
+					
 				}
 			}
 
 			static VkResult createDebugReportCallbackEXT(VkInstance instance, const VkDebugReportCallbackCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkDebugReportCallbackEXT* pCallback) {
 				auto func = (PFN_vkCreateDebugReportCallbackEXT)vkGetInstanceProcAddr(instance, "vkCreateDebugReportCallbackEXT");
 				if (func != nullptr) {
+					// Open a doc and put in the openining line 
+					std::ofstream file;
+					file.open("../../doc/validationlayer.txt", std::ios::app);
+					if(file.is_open()){
+						auto t = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+						std::tm now_tm;
+						#if defined(_WIN32) || defined(_WIN64)
+							localtime_s(&now_tm, &t);
+						#else
+							localtime_r(&t, &now_tm);
+						#endif
+
+						file << "\nStarting Validation Layer " << std::put_time(&now_tm, "%Y-%m-%d %H:%M:%S");
+						file.flush();
+					}
 					return func(instance, pCreateInfo, pAllocator, pCallback);
+					
 				}
 				else {
 					return VK_ERROR_EXTENSION_NOT_PRESENT;
