@@ -355,7 +355,7 @@ namespace axiom
                 }
 
                 //set the cmdpool pointer to the device
-                //vulkan_component->device.commandPool = &commandPool;
+                vulkan_component->device.commandPool = &vulkan_component->command.pool;
             }
 
             void RenderBase::createSemaphores() {
