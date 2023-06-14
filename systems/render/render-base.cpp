@@ -312,7 +312,7 @@ namespace axiom
                     std::runtime_error("failed to create pipelinecache!");
             }
             void RenderBase::createDepthResources() {
-                VkFormat depthFormat = findDepthFormat();
+                vulkan_component->depth.format = findDepthFormat();
                 vulkan_component->device.createImage(vulkan_component->swapchain.extent.width, vulkan_component->swapchain.extent.height, vulkan_component->depth.format, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, vulkan_component->depth.image, vulkan_component->depth.image_memory);
                 vulkan_component->depth.image_view = vulkan_component->device.createImageView(vulkan_component->depth.image, vulkan_component->depth.format, VK_IMAGE_ASPECT_DEPTH_BIT);
                 vulkan_component->device.transitionImageLayout(vulkan_component->depth.image, vulkan_component->depth.format, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL);
