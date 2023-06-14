@@ -65,11 +65,10 @@ int main(){
 	axiom::resource::Init();
 	axiom::window::Init("Axiom Engine", 1280, 720);
 
-	axiom::render::Cmp_Vulkan vc;
-	//g_world.add<axiom::render::Cmp_Vulkan>();
-	axiom::render::base::InitializeVulkan(vc);
 
-	g_world.set(vc);
+	g_world.add<axiom::render::Cmp_Vulkan>();
+	auto vc = g_world.get_ref<axiom::render::Cmp_Vulkan>();
+	axiom::render::base::InitializeVulkan(*vc.get());
 
 	g_world.add<axiom::Cmp_CurrentTime>();
 	g_world.add<axiom::Cmp_LogFile>();
