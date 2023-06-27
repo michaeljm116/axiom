@@ -11,7 +11,6 @@
 #include "sys-window.h"
 #include "sys-serialize.h"
 #include "sys-scene.h"
-#include "sys-vulkan-boilerplate.h"
 
 /* Set platform defines at build time for volk to pick up. */
 #if defined(_WIN32)
@@ -26,6 +25,7 @@
 #define VOLK_IMPLEMENTATION
 #include <volk.h>
 #include "render-base.h"
+#include "sys-vulkan-boilerplate.h"
 
 
 using namespace axiom;
