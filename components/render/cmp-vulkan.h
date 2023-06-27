@@ -1,7 +1,7 @@
 #pragma once
 #include <volk.h>
 #include <vector>
-#include "vulkan/vulkan-base.hpp"
+#include "vulkan/base.hpp"
 namespace axiom
 {
     namespace render
@@ -36,6 +36,7 @@ namespace axiom
                 VkFormat image_format;
                 VkFormat color_format; //TODO THIS IS PROBABLY WORTHLESS TBH
                 VkExtent2D extent;
+                VkExtent2D scaled;
                 
                 std::vector<VkImage> images;
                 std::vector<VkImageView> image_views;
@@ -61,6 +62,11 @@ namespace axiom
                 VkPipelineCache cache;
                 VkRenderPass render_pass;
             };
+
+            /**@brief Vulkan Submit info*/
+            struct Submit{
+                VkSubmitInfo info;
+            };
         }
 
 
@@ -73,6 +79,7 @@ namespace axiom
             vulkan::Depth depth;
             vulkan::Queues queues;
             vulkan::Pipeline pipeline;
+            vulkan::Submit info;
         };
     }
 }

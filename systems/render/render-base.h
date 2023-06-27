@@ -1,7 +1,7 @@
 #pragma once
-#include "vulkan/vulkan-base.hpp"
-#include "vulkan/vulkan-buffer.hpp"
-#include "vulkan/vulkan-initializers.hpp"
+#include "vulkan/base.hpp"
+#include "vulkan/buffer.hpp"
+#include "vulkan/initializers.hpp"
 #include "render/cmp-vulkan.h"
 #include "cmp-window.h"
 #include "flecs-world.h"
