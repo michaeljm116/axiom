@@ -1,3 +1,69 @@
+6/28/2023
+* wow its been a long time lol and look i ts like 1 month 1 day exactly
+* was looking at this again:
+Goals for libs:
+Renderer.Lib
+Scene.Lib
+ ^^ super useful 
+ ^^ for like level generators for example
+Core.lib
+ ^^ to handle the dependencies
+
+ do I still want to do this?!??
+ is there really a point in Core.lib?
+ Also what about dependencies
+ like between renderer and scene 
+ a renderer needs a scene.lib  
+ maybe just figuring out  all the inputs and outputs of the renderer
+ and all the inputs and outputs of the scene
+ and all the inputs and o utputus of the core
+ idk what im talking about rn tbh
+ oneo of the important inputs of the renderer is the BVH
+ the bvh is connected to the scene 
+ it also depends on the type of rendnerer
+ are you really gonna have multiple types like for computeu vs regular raytracer
+ are you gonna learn regular vulkan raytracing
+ my brain doesn'tn f eel charged rnWHERES MY COFFFEE IS IT STILL AL LTHE WAY OVER HTERE
+  OOPS
+
+  hmmmm
+  maybe the BVH should be part of renderer instead of scene
+  may sound counter intutive but... its only used for renderingand if you take
+  a different path then it willb e gpu bound anyways
+
+  DO YOU WANT TO CONTINUE WITH THIS?!?!? 
+  yes/no what are the benefits etc//??? also how closoe are we
+  once we get the raytracer up we can view t hings
+  benefits are .... YES DO IT leggo
+  sooo the api you want for the renderer is something like this...
+  axiom::renderer::init()
+  axiom::renderer::destroy()
+  axiom::renderer::AddMaterial();
+  also the more i think about grammar... the more i feel like it shoudlb e the opposite
+  Axiom::Renderer::add_material()
+  All nouns should be capitalized
+  All actions should be lowercase
+  why is everything so backwards
+  Filenames should probably be caps too
+  why is programming so fing backwards?!?!?
+  why is it so hard to just make things like english
+  like wtf is up with stoff like... iPhone or iNet or whatever
+  just be normal????
+  hmmmm
+  maybe do a massive rewrite while its small and rewriteable
+
+  Namespaces = caps... i mean just look at what its called NAMEspace... NAME = CAPITAL
+  Structs/Classes = lowercase
+  variables = caps
+
+  axiom::log::Init()
+  Axiom::Log::init();
+  Axiom::Log::logger TheLogger;
+
+  also screw people who say no comments i say comments everywhere!!!!!!
+  I like encapsulation though but like... what about just like a private namespace?
+  like let people have the ability to massively screw things up but give them teh freedom to see  anyways
+
 5/27/2023
 * just do vulkan first, then ecsify it later
 * okay design your api:
