@@ -9,7 +9,7 @@
  * 
  */
 #pragma once
-#include <GLM.glm.hpp>
+#include <glm/glm.hpp>
 #include "cmp-render.h"
 
 namespace axiom{

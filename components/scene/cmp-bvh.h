@@ -9,7 +9,7 @@
  * 
  */
 #pragma once
-#include <GLM/glm.hpp>
+#include <glm/glm.hpp>
 #include <vector>
 #include <flecs.h>
 #include "cmp-render.h"
