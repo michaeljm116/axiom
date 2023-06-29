@@ -10,9 +10,9 @@
 #include <chrono>
 //#include "../pch.h"
 
-namespace axiom {
-	namespace render{
-		namespace vulkan{
+namespace Axiom {
+	namespace Render{
+		namespace Vulkan{
 			
 			template<typename T>
 			inline void VK_CHECKRESULT(const T& res, std::string msg) {

@@ -11,7 +11,7 @@
 #include <chrono>
 #include <string>
 
-namespace axiom {
+namespace Axiom {
     /**
      * @brief Timer Component, add this to start recording time, remove it to end
      * @param start_time The start time
@@ -30,4 +30,4 @@ namespace axiom {
         std::string time_str;
     };
 
-}  // namespace axiom
+}  // namespace Axiom

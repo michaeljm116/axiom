@@ -1,9 +1,9 @@
 #pragma once
 #include "../components/core/cmp-timer.h"
 
-namespace axiom
+namespace Axiom
 {
-    namespace timer 
+    namespace Timer 
     {
         void Init();
         //Get the currenet time

@@ -16,7 +16,7 @@
 #include <cstring>
 //#include "VulkanTools.h"
 
-namespace axiom {
+namespace Axiom {
 
 	namespace vks
 	{
@@ -163,8 +163,8 @@ namespace axiom {
 		};
 	}
 
-	namespace render{
-		namespace vulkan{
+	namespace Render{
+		namespace Vulkan{
 		template<typename T>
 		class VBuffer
 		{

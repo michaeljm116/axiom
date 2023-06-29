@@ -1,9 +1,9 @@
 #include "pch.h"
 #include "sys-serialize.h"
 #include "flecs-world.h"
-namespace axiom
+namespace Axiom
 {
-    namespace serialize
+    namespace Serialize
     {
         using namespace tinyxml2;
         tinyxml2::XMLElement *save_node(flecs::entity *parent, tinyxml2::XMLDocument *doc)

@@ -10,13 +10,13 @@
 #include "../components/core/cmp-timer.h"
 #include "../components/core/cmp-log.h"
 
-namespace axiom {
+namespace Axiom {
 
-    namespace log {
+    namespace Log {
         void Init();
         //This Creates/Opens the logfile
         void Save(std::string message);
-        void Set(axiom::log::Level level, std::string message);
+        void Set(Axiom::Log::Level level, std::string message);
         void Check(bool b, std::string message);    
     };
 }

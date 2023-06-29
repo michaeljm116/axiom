@@ -4,7 +4,7 @@
 #include <GLFW/glfw3.h>
 #include <cmath>
 
-namespace axiom
+namespace Axiom
 {
     namespace input
     {

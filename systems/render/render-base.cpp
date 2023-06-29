@@ -1,9 +1,9 @@
 #include "pch.h"
 #include "render-base.h"
 #include "sys-log.h"
-namespace axiom
+namespace Axiom
 {
-    namespace render
+    namespace Render
     {
         namespace base
         {
@@ -68,7 +68,7 @@ namespace axiom
 
                 //Check validation layers
                 vulkan_component->device.validation_enabled = vulkan_component->device.enableValidationLayers && vulkan_component->device.checkValidationLayerSupport();
-                log::Check(vulkan_component->device.validation_enabled, "Enable Validation Layer");
+                Log::Check(vulkan_component->device.validation_enabled, "Enable Validation Layer");
 
                 //Optional Data about the application
                 VkApplicationInfo appInfo = {};
@@ -203,7 +203,7 @@ namespace axiom
                 createInfo.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT; //VK_IMAGE_USAGE_TRANSFER_DST_BIT for post-processing
 
                                                                             //Specify how to handle swap chain images across multiple queue fams
-                vulkan::QueueFamilyIndices indices = findQueueFamilies(vulkan_component->device.physical);
+                Vulkan::QueueFamilyIndices indices = findQueueFamilies(vulkan_component->device.physical);
                 uint32_t queueFamilyIndices[] = { (uint32_t)indices.graphicsFamily, (uint32_t)indices.presentFamily };
 
                 if (indices.graphicsFamily != indices.presentFamily) {
@@ -362,8 +362,8 @@ namespace axiom
                 VkSemaphoreCreateInfo semaphoreInfo = {};
                 semaphoreInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
 
-                vulkan::VK_CHECKRESULT(vkCreateSemaphore(vulkan_component->device.logical, &semaphoreInfo, nullptr, &vulkan_component->semaphores.image_available), " FAILED TO CREATE SEMAPHORE");
-                vulkan::VK_CHECKRESULT(vkCreateSemaphore(vulkan_component->device.logical, &semaphoreInfo, nullptr, &vulkan_component->semaphores.render_finished), " FAILED TO CREATE SEMAPHORE");
+                Vulkan::VK_CHECKRESULT(vkCreateSemaphore(vulkan_component->device.logical, &semaphoreInfo, nullptr, &vulkan_component->semaphores.image_available), " FAILED TO CREATE SEMAPHORE");
+                Vulkan::VK_CHECKRESULT(vkCreateSemaphore(vulkan_component->device.logical, &semaphoreInfo, nullptr, &vulkan_component->semaphores.render_finished), " FAILED TO CREATE SEMAPHORE");
 
             }
 
@@ -463,7 +463,7 @@ namespace axiom
                 vkGetPhysicalDeviceFeatures(device, &deviceFeatures);
 
 
-                vulkan::QueueFamilyIndices indices = findQueueFamilies(device);
+                Vulkan::QueueFamilyIndices indices = findQueueFamilies(device);
 
                 bool extensionsSupported = vulkan_component->device.checkDeviceExtensionSupport(device);
                 bool swapChainAdequate = false;
@@ -476,8 +476,8 @@ namespace axiom
 
                 return indices.isComplete() && extensionsSupported && swapChainAdequate && supportedFeatures.samplerAnisotropy;
             }
-            vulkan::QueueFamilyIndices RenderBase::findQueueFamilies(VkPhysicalDevice device) {
-                vulkan::QueueFamilyIndices indices;
+            Vulkan::QueueFamilyIndices RenderBase::findQueueFamilies(VkPhysicalDevice device) {
+                Vulkan::QueueFamilyIndices indices;
 
                 //Retrieve a list of Qeueu families
                 uint32_t queueFamilyCount = 0;

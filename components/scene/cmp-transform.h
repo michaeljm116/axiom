@@ -27,7 +27,7 @@
 #include <queue>
 #include "cmp-resource.h"
 
-namespace axiom{
+namespace Axiom{
 
     struct sqt{
         glm::quat rot = glm::quat();

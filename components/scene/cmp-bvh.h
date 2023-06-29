@@ -14,9 +14,9 @@
 #include <flecs.h>
 #include "cmp-render.h"
 
-namespace axiom{
+namespace Axiom{
 
-	namespace bvh
+	namespace Bvh
 	{
 		enum class TreeType {
 			Recursive,
@@ -158,12 +158,12 @@ namespace axiom{
 	 * @param ordered_prims vector of prims ordered by the BVH system
 	 */
 	struct Cmp_Bvh{
-		bvh::BVHNode* root;
+		Bvh::BVHNode* root;
 		int num_nodes;
 		bool rebuild = true;
 		std::vector<flecs::entity*> prims;
 		std::vector<Cmp_Primitive*> prim_comps;
-		bvh::SplitMethod split_method = bvh::SplitMethod::SAH;
+		Bvh::SplitMethod split_method = Bvh::SplitMethod::SAH;
     };
 
 }

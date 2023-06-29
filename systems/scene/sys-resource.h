@@ -14,8 +14,8 @@ The api flow is as follows:
 5. There will also be helper functions to help you load an entire folder
 */
 
-namespace axiom{
-    namespace resource{
+namespace Axiom{
+    namespace Resource{
         void Init();
         bool LoadPModel(flecs::entity e, Cmp_Resource& res, Cmp_Res_Model& cmp_mod);
         bool LoadPose(flecs::entity e, Cmp_Resource& res, Cmp_Res_Animations& cmp_anim);

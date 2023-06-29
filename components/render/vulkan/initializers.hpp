@@ -13,7 +13,7 @@
 //#include "../pch.h"
 #include <vector>
 #include <volk.h>
-namespace axiom {
+namespace Axiom {
 	namespace vks
 	{
 		namespace initializers

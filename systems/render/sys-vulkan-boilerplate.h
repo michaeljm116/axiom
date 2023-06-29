@@ -1,9 +1,9 @@
 //#include <volk.h>
 #include "cmp-render.h"
 
-namespace axiom
+namespace Axiom
 {
-    namespace vulkany
+    namespace Vulkany
     {
         bool Check(bool result, std::string msg);
         void Init();

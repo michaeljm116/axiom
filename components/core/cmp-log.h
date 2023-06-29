@@ -14,9 +14,9 @@
 #include <mutex>
 #include <memory>
 
-namespace axiom
+namespace Axiom
 {
-    namespace log{
+    namespace Log{
         struct Data {
             std::ofstream log_file;
             std::mutex log_mutex;
@@ -34,7 +34,7 @@ namespace axiom
      */
     struct Cmp_LogFile {
         std::string log_filename = "../../doc/logs.txt";
-        std::shared_ptr<log::Data> log_data = std::make_shared<log::Data>();
+        std::shared_ptr<Log::Data> log_data = std::make_shared<Log::Data>();
         Cmp_LogFile(std::string fn) : log_filename(fn){};
         Cmp_LogFile(){};
     };
@@ -46,7 +46,7 @@ namespace axiom
     * @param message the log's message
     */
     struct Cmp_Log{
-        log::Level lvl;
+        Log::Level lvl;
         bool check = false;
         std::string message;
     };

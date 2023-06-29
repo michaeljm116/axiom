@@ -1,9 +1,9 @@
 #include "pch.h"
 #include "sys-transform.h"
 
-namespace axiom
+namespace Axiom
 {
-    namespace transform
+    namespace Transform
     {
         void Init()
         {

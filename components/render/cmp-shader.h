@@ -12,8 +12,8 @@
 #include <glm/glm.hpp>
 #include "cmp-render.h"
 
-namespace axiom{
-    namespace shader{
+namespace Axiom{
+    namespace Shader{
 		struct GUI {
 		glm::vec2 min;
 		glm::vec2 extents;
@@ -148,7 +148,7 @@ namespace axiom{
 		vibd[1].inputRate = VK_VERTEX_INPUT_RATE_INSTANCE;
 
 		return vibd;
-	}
+	};
 
 	static std::array<VkVertexInputAttributeDescription, 11> getPrimitiveAttributeDescriptions() {
 		std::array<VkVertexInputAttributeDescription, 11> viad{};
@@ -209,6 +209,6 @@ namespace axiom{
 		viad[10].offset = offsetof(Primitive, Primitive::endIndex);
 
 		return viad;
-	}
+	};
     }
 }

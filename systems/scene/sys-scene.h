@@ -1,7 +1,7 @@
 #pragma once
 #include "../components/scene/cmp-scene.h"
 
-namespace axiom
+namespace Axiom
 {
     namespace scene
     {

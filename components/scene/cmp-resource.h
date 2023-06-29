@@ -15,8 +15,8 @@
 #include <vector>
 #include <string>
 
-namespace axiom{
-	namespace resource{
+namespace Axiom{
+	namespace Resource{
 		struct Controller {
 			std::array<int, 16> buttons;
 			std::array<float, 6> axis;
@@ -156,17 +156,17 @@ namespace axiom{
 
     struct Cmp_Res_Model
     {
-        resource::Model data;
+        Resource::Model data;
     };
 
     struct Cmp_Res_Material
     {
-        resource::Material data;
+        Resource::Material data;
     };
 
     struct Cmp_Res_Animations
     {
-        resource::PoseList data;
+        Resource::PoseList data;
     };
 
 }

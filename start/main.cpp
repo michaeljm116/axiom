@@ -28,7 +28,7 @@
 #include "sys-vulkan-boilerplate.h"
 
 
-using namespace axiom;
+using namespace Axiom;
 
 int main(){
 #pragma region Volk Init
@@ -60,24 +60,24 @@ int main(){
 	tf::Executor executor;
 	tf::Taskflow taskflow;
 
-	axiom::log::Init();
-	axiom::timer::Init();
-	axiom::resource::Init();
-	axiom::window::Init("Axiom Engine", 1280, 720);
+	Axiom::Log::Init();
+	Axiom::Timer::Init();
+	Axiom::Resource::Init();
+	Axiom::Window::Init("Axiom Engine", 1280, 720);
 
 
-	g_world.add<axiom::render::Cmp_Vulkan>();
-	auto vc = g_world.get_ref<axiom::render::Cmp_Vulkan>();
-	axiom::render::base::InitializeVulkan(*vc.get());
+	g_world.add<Axiom::Render::Cmp_Vulkan>();
+	auto vc = g_world.get_ref<Axiom::Render::Cmp_Vulkan>();
+	Axiom::Render::base::InitializeVulkan(*vc.get());
 
-	g_world.add<axiom::Cmp_CurrentTime>();
-	g_world.add<axiom::Cmp_LogFile>();
-	g_world.add<axiom::Cmp_Timer>();
+	g_world.add<Axiom::Cmp_CurrentTime>();
+	g_world.add<Axiom::Cmp_LogFile>();
+	g_world.add<Axiom::Cmp_Timer>();
 	
 
 
-	vulkany::Init();
-	vulkany::Check(r, "Initializing Volk");
+	Vulkany::Init();
+	Vulkany::Check(r, "Initializing Volk");
 
 
 
@@ -87,41 +87,41 @@ int main(){
 
 
 	//Load Models
-	t.add<axiom::Cmp_Timer>();
-	axiom::resource::LoadDirectory(assets_folder + "Models");
-	t.remove<axiom::Cmp_Timer>();
+	t.add<Axiom::Cmp_Timer>();
+	Axiom::Resource::LoadDirectory(assets_folder + "Models");
+	t.remove<Axiom::Cmp_Timer>();
 
 	//Load Animations
-	at.add<axiom::Cmp_Timer>();
-	axiom::resource::LoadDirectory(assets_folder + "Animations");
-	at.remove<axiom::Cmp_Timer>();
+	at.add<Axiom::Cmp_Timer>();
+	Axiom::Resource::LoadDirectory(assets_folder + "Animations");
+	at.remove<Axiom::Cmp_Timer>();
 
 	//Load Materials
-	axiom::resource::LoadMaterials(assets_folder + "Materials.xml");
+	Axiom::Resource::LoadMaterials(assets_folder + "Materials.xml");
 
 
 	auto e = g_world.lookup("A_Primitive_Helix_01.pm");
-	auto m = e.get<axiom::Cmp_Res_Model>();
-	auto f = e.get<axiom::Cmp_Resource>();
+	auto m = e.get<Axiom::Cmp_Res_Model>();
+	auto f = e.get<Axiom::Cmp_Resource>();
 
 	auto bird = g_world.lookup("Bird.anim");
-	auto b = bird.get<axiom::Cmp_Res_Animations>();
-	auto bb = bird.get<axiom::Cmp_Resource>();
+	auto b = bird.get<Axiom::Cmp_Res_Animations>();
+	auto bb = bird.get<Axiom::Cmp_Resource>();
 
 	auto gold = g_world.lookup("Gold");
-	auto g = gold.get<axiom::Cmp_Res_Material>();
-	auto gg = gold.get<axiom::Cmp_Resource>();
+	auto g = gold.get<Axiom::Cmp_Res_Material>();
+	auto gg = gold.get<Axiom::Cmp_Resource>();
 
 
 	auto e_froku = g_world.entity("Froku");
 	auto r_froku = g_world.lookup("froku2.pm");
-	auto d_froku = r_froku.get<axiom::Cmp_Res_Model>()->data;
+	auto d_froku = r_froku.get<Axiom::Cmp_Res_Model>()->data;
 
 	std::vector<flecs::entity> body_parts;
 	for(auto d : d_froku.meshes){
 		std::string name = d.name;
 		auto bp = g_world.entity(name.c_str());
-		bp.set<axiom::resource::Mesh>({d});
+		bp.set<Axiom::Resource::Mesh>({d});
 		bp.child_of(e_froku);
 		body_parts.push_back(bp);
 	}
@@ -130,17 +130,17 @@ int main(){
 		std::cout << bp.name() << std::endl;
 	}
 	auto head = g_world.lookup("Froku::head");
-	auto h_cmp = head.get<axiom::resource::Mesh>();
+	auto h_cmp = head.get<Axiom::Resource::Mesh>();
 	auto afro = e_froku.lookup("afro");
 	afro.child_of(head);
-	auto a_cmp = afro.get<axiom::resource::Mesh>();
+	auto a_cmp = afro.get<Axiom::Resource::Mesh>();
 
 	auto prnt = afro.parent();
-	auto prnt_cmp = prnt.get<axiom::Cmp_Res_Model>();
+	auto prnt_cmp = prnt.get<Axiom::Cmp_Res_Model>();
 
 	//auto* twindow = g_world.get<Cmp_Window>()->window;
 
-	axiom::transform::Init();
+	Axiom::Transform::Init();
 
 	auto sun_trans = Cmp_Transform(glm::vec3(1,1,1), glm::vec3(0), glm::vec3(1));
 	auto earth_trans = Cmp_Transform(glm::vec3(5,5,5), glm::vec3(45), glm::vec3(.1));
@@ -164,27 +164,27 @@ int main(){
 			});
 
 	scene::init();
-	g_world.set<axiom::Cmp_Scene>({"../../assets/Scenes/", "TestEntrance.xml", 0});
+	g_world.set<Axiom::Cmp_Scene>({"../../assets/Scenes/", "TestEntrance.xml", 0});
 
 	g_world.progress();
 	g_world.each([](flecs::entity e, Cmp_Transform p){
 				//std::stringstream ssl;
 				//ssl << e.name() << ": {" << p.local.pos.x << ", " << p.local.pos.y << ", " << p.local.pos.z << "}";
-				//axiom::log::Set(axiom::log::Level::DEBUG, ssl.str());
+				//Axiom::Log::Set(Axiom::Log::Level::DEBUG, ssl.str());
 				//e.add<Cmp_Static>();
 			});
 			
-	axiom::log::Set(axiom::log::Level::DEBUG, "-------STATIC-------");
+	Axiom::Log::Set(Axiom::Log::Level::DEBUG, "-------STATIC-------");
 	g_world.each([](flecs::entity e, Cmp_Transform p, Cmp_Static s){
 		std::stringstream ssl;
 		ssl << e.name() << ": {" << p.local.pos.x << ", " << p.local.pos.y << ", " << p.local.pos.z << "}";
-		axiom::log::Set(axiom::log::Level::DEBUG, ssl.str());
+		Axiom::Log::Set(Axiom::Log::Level::DEBUG, ssl.str());
 	});
-	axiom::log::Set(axiom::log::Level::DEBUG, "-------DYNAMIC-------");
+	Axiom::Log::Set(Axiom::Log::Level::DEBUG, "-------DYNAMIC-------");
 	g_world.each([](flecs::entity e, Cmp_Transform p,  Cmp_Dynamic d){
 		std::stringstream ssl;
 		ssl << e.name() << ": {" << p.local.pos.x << ", " << p.local.pos.y << ", " << p.local.pos.z << "}";
-		axiom::log::Set(axiom::log::Level::DEBUG, ssl.str());
+		Axiom::Log::Set(Axiom::Log::Level::DEBUG, ssl.str());
 	});
 
 	//while(!glfwWindowShouldClose(twindow)){
@@ -193,5 +193,5 @@ int main(){
 
 		
 	//}
-	//axiom::window::Destruct();
+	//Axiom::Window::Destruct();
 };

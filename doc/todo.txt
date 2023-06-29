@@ -36,9 +36,9 @@ Core.lib
   once we get the raytracer up we can view t hings
   benefits are .... YES DO IT leggo
   sooo the api you want for the renderer is something like this...
-  axiom::renderer::init()
-  axiom::renderer::destroy()
-  axiom::renderer::AddMaterial();
+  Axiom::renderer::init()
+  Axiom::renderer::destroy()
+  Axiom::renderer::AddMaterial();
   also the more i think about grammar... the more i feel like it shoudlb e the opposite
   Axiom::Renderer::add_material()
   All nouns should be capitalized
@@ -56,21 +56,83 @@ Core.lib
   Structs/Classes = lowercase
   variables = caps
 
-  axiom::log::Init()
+  Axiom::Log::Init()
   Axiom::Log::init();
   Axiom::Log::logger TheLogger;
+  Axiom::Renderer::compute-raytracer TheRaytracer = new compute-raytracer();
+  Axiom::Log-component TheLogger = new Axiom::Log-cmp
+  Axiom::cmp-timer 
+  Axiom::Timer-cmp 
+
+  both are  ugly
+
+  Cmp_Timer looks the best way better than cmp-timer or timer-cmp or timer-component
+  but is that a bias?
+  timer-component Tc = new timer-component()
+  UGH this is so hard to get used to
+
+  ~_~ ~_~ ~~__~~        ~~~___~~~   V___V    VV__VV VVvVVVVvVvVvVVVVVvvvvVVVVVV
+
+  also it starts the thing off bad so like when you assign a variable its blah
+
+  Cmp_Timer CT 
+  however...
+  auto CT = new cmp-timer(); is okayish
+  so yeah you already start with lower cases 
+  cmp-timer CT = new cmp-timer()
+  theres no way to distinguish functions from classes
+  functions = always 2 or more words 
+   okay final discussion is... what should the api look like for components
+   should everything be like Axiom::cmp-timer or.... Axiom::Timer::cmp-timer
+   and then for the systems... do you want something like Axiom::TimerSystem::initialize() Axiom::RenderSystem::add_material(Mat)
+   Axiom::WindowSystem::initialize_window();
+   Axiom::LogSystem::initialize_logging();
+   
+   Axiom::SceneSystem::load_scene(1);
+   Axiom::cmp-scene TheScene = new Axiom::cmp-scene(1);
+   Axiom::scene-cmp TheScene = new Axiom::scene-cmp(1);
+
+   cmp after word will also be consistent with how you're doing systems
+
+   Axiom::scene-component TheScene = new Axiom::scene-component(1);
+   
+   Axiom::SceneSystem::goto_scene(2);
+
+  namespace systems s hould say system in it
+  Axiom::LogSystem::Init();
+  Axiom::RenderSystem::Init();
 
   also screw people who say no comments i say comments everywhere!!!!!!
   I like encapsulation though but like... what about just like a private namespace?
   like let people have the ability to massively screw things up but give them teh freedom to see  anyways
+
+    okay so this is establed:
+    1. Namespaces = caps
+    2. Functions = lower_case
+    3. Systems = NamespaceSystem
+
+    maybe establised
+    1. classes = lower-cas
+    2. components = class-componentt
+
+    okay this is what it will finally look like with these rules
+    Axiom::SceneSystem::initialize();
+    Axiom::scene-component SC = new Axiom::scene-component(1);
+    Axiom::SceneSystem::goto_scene(sc);
+    auto SecondScene = new Axiom::scene-component(2);
+    Axiom::SceneSystem::switch_scene_to(SecondScene);
+
+    K now what about EnUMS?
+
+
 
 5/27/2023
 * just do vulkan first, then ecsify it later
 * okay design your api:
 
 
-axiom::renderer::init();
-g_world.add<axiom::Cmp_Vulkan, axiom::Cmp_ComputeRaytracer>();
+Axiom::renderer::init();
+g_world.add<Axiom::Cmp_Vulkan, Axiom::Cmp_ComputeRaytracer>();
 
 auto* cmp_crt = g_world.get_mut<Cmp_ComputeRaytracer>()
 cmp_crt->do_stuff();
@@ -87,7 +149,7 @@ For the renderer there will be observers for:
     * OnRemvoe<Cmp_RenderFrame>() //frameend
 System for update<Cmp_Render>
 
-you can figure dat ish out later now question is... how do we get to axiom::renderer::init()?
+you can figure dat ish out later now question is... how do we get to Axiom::renderer::init()?
 renderer::init()
 InitAllTheThings
 Base::Init()

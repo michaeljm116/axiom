@@ -14,8 +14,8 @@
  #include "cmp-shader.h"
  #include "vulkan/buffer.hpp"
 
- namespace axiom{
-    namespace render{
+ namespace Axiom{
+    namespace Render{
         struct Cmp_Compute_Raytracer{
             bool editor = true;
             VkDescriptorPool descriptor_pool;
@@ -30,17 +30,17 @@
                 {
                 struct {
                     //GPU READ ONLY
-                    vulkan::VBuffer<shader::Vert> verts;			// (Shader) storage buffer object with scene verts
-                    vulkan::VBuffer<shader::Index> faces;			// (Shader) storage buffer object with scene indices
-                    vulkan::VBuffer<shader::BVHNode> blas;		// (Shader) storage buffer object with bottom level acceleration structure
-                    vulkan::VBuffer<shader::Shape> shapes;		// for animatied shapes 
+                    Vulkan::VBuffer<Shader::Vert> verts;			// (Shader) storage buffer object with scene verts
+                    Vulkan::VBuffer<Shader::Index> faces;			// (Shader) storage buffer object with scene indices
+                    Vulkan::VBuffer<Shader::BVHNode> blas;		// (Shader) storage buffer object with bottom level acceleration structure
+                    Vulkan::VBuffer<Shader::Shape> shapes;		// for animatied shapes 
 
                     //CPU + GPU 
-                    vulkan::VBuffer<shader::Primitive> primitives;	// for the primitives
-                    vulkan::VBuffer<shader::Material> materials;	// (Shader) storage buffer object with scene Materials
-                    vulkan::VBuffer<shader::Light> lights;
-                    vulkan::VBuffer<shader::GUI> guis;
-                    vulkan::VBuffer<shader::BVHNode> bvh;			// for the bvh bruh
+                    Vulkan::VBuffer<Shader::Primitive> primitives;	// for the primitives
+                    Vulkan::VBuffer<Shader::Material> materials;	// (Shader) storage buffer object with scene Materials
+                    Vulkan::VBuffer<Shader::Light> lights;
+                    Vulkan::VBuffer<Shader::GUI> guis;
+                    Vulkan::VBuffer<Shader::BVHNode> bvh;			// for the bvh bruh
 
                 } storage_buffers;
 
@@ -58,14 +58,14 @@
                     float aspect_ratio;
                     int rand;
                 } ubo;
-                vulkan::VBuffer<UBOCompute> uniform_buffer;			// Uniform buffer object containing scene data
+                Vulkan::VBuffer<UBOCompute> uniform_buffer;			// Uniform buffer object containing scene data
             } compute;
 
-            std::vector<shader::Primitive> primitives;
-            std::vector<shader::Material> materials;
-            std::vector<shader::Light> lights;
-            std::vector<shader::GUI> guis;
-            std::vector<shader::BVHNode> bvh;
+            std::vector<Shader::Primitive> primitives;
+            std::vector<Shader::Material> materials;
+            std::vector<Shader::Light> lights;
+            std::vector<Shader::GUI> guis;
+            std::vector<Shader::BVHNode> bvh;
 
             std::vector<MeshComponent*> mesh_comps;
             std::vector<LightComponent*> light_comps;

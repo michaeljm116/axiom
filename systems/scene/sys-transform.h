@@ -1,10 +1,10 @@
 #include "../components/scene/cmp-transform.h"
 #include <flecs-world.h>
 
-namespace axiom
+namespace Axiom
 {
 //flecs::system SYS_Trans = flecs::world::system<CMP_Transform>("Transform System");
-    namespace transform
+    namespace Transform
     {
         void Init();
         void Static_Transform(flecs::entity e, Cmp_Transform& t, Cmp_Static& s);

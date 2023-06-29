@@ -1,8 +1,8 @@
 #include "pch.h"
 #include "sys-log.h"
 #include "sys-timer.h"
-namespace axiom{
-    namespace log{
+namespace Axiom{
+    namespace Log{
         void Init() 
         {
             // Open/Start Log File System
@@ -13,7 +13,7 @@ namespace axiom{
                     if (!f.log_data->log_file.is_open()) {
                         std::cerr << "Failed to open log file: " << f.log_filename << std::endl;
                     }
-                    Set(log::Level::INFO, "Log File Opened");
+                    Set(Log::Level::INFO, "Log File Opened");
             });
 
             // CLose file
@@ -21,17 +21,17 @@ namespace axiom{
                 .event(flecs::OnRemove)
                 .each([](flecs::entity e, Cmp_LogFile& f){
                     if (f.log_data->log_file.is_open()){
-                        f.log_data->log_file << timer::Current() << " - [INFO] File Closed\n";
+                        f.log_data->log_file << Timer::Current() << " - [INFO] File Closed\n";
                         f.log_data->log_file.close();
                     }
-                timer::Current();
+                Timer::Current();
             });
 
             // Log File
             g_world.observer<Cmp_Log>("OnSetLog")
                 .event(flecs::OnSet)
                 .each([](flecs::entity e, Cmp_Log& l){
-                    if(l.lvl == log::Level::CHECK)
+                    if(l.lvl == Log::Level::CHECK)
                         Check(l.check, l.message);
                     else
                         Set(l.lvl, l.message);
@@ -48,23 +48,23 @@ namespace axiom{
             lock.unlock();
         }
 
-        void Set(axiom::log::Level level, std::string message){
+        void Set(Axiom::Log::Level level, std::string message){
             std::stringstream ss; 
-            ss << timer::Current() << " - ";
+            ss << Timer::Current() << " - ";
             switch (level) {
-                case log::Level::DEBUG:
+                case Log::Level::DEBUG:
                     ss << "[DEBUG] ";
                     break;
-                case log::Level::INFO:
+                case Log::Level::INFO:
                     ss << "[INFO] ";
                     break;
-                case log::Level::WARNING:
+                case Log::Level::WARNING:
                     ss << "[WARNING] ";
                     break;
-                case log::Level::ERROR:
+                case Log::Level::ERROR:
                     ss << "[ERROR] ";
                     break;
-                case log::Level::CHECK:
+                case Log::Level::CHECK:
                     break;
             }
             ss << message << std::endl;
@@ -74,8 +74,8 @@ namespace axiom{
         }
         
         void Check(bool b, std::string message){
-            if(!b) Set(log::Level::ERROR ,"Failed When " + message);
-            else Set(log::Level::INFO , message + " was a success!");
+            if(!b) Set(Log::Level::ERROR ,"Failed When " + message);
+            else Set(Log::Level::INFO , message + " was a success!");
         }
     }
 }

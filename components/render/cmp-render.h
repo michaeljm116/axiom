@@ -12,9 +12,9 @@
 #include <glm/glm.hpp>
 #include <vector>
 
-namespace axiom
+namespace Axiom
 {
-	namespace render{
+	namespace Render{
 		enum RenderType {
 			RENDER_NONE = 0x00,
 			RENDER_MATERIAL = 0x01,
@@ -57,10 +57,10 @@ namespace axiom
     };
     
    	struct Cmp_Render {
-		render::RenderType type;
-		render::RendererType renderer = render::kComputeRaytracer;
+		Render::RenderType type;
+		Render::RendererType renderer = Render::kComputeRaytracer;
 		Cmp_Render() {};
-		Cmp_Render(render::RenderType t) : type(t) {};
+		Cmp_Render(Render::RenderType t) : type(t) {};
 	};
 
 	struct Cmp_Sphere {

@@ -1,3 +1,3 @@
 #include <flecs.h>
-namespace axiom{
+namespace Axiom{
 extern flecs::world g_world;}
