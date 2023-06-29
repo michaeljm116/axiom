@@ -2,7 +2,7 @@ var searchData=
 [
   ['axiom_0',['axiom',['../namespaceaxiom.html',1,'']]],
   ['bvh_1',['bvh',['../namespaceaxiom_1_1bvh.html',1,'axiom']]],
-  ['initializers_2',['initializers',['../namespaceaxiom_1_1vks_1_1initializers.html',1,'axiom::vks']]],
+  ['initializers_2',['initializers',['../namespaceaxiom_1_1vks_1_1initializers.html',1,'Axiom::vks']]],
   ['input_3',['input',['../namespaceaxiom_1_1input.html',1,'axiom']]],
   ['log_4',['log',['../namespaceaxiom_1_1log.html',1,'axiom']]],
   ['render_5',['render',['../namespaceaxiom_1_1render.html',1,'axiom']]],

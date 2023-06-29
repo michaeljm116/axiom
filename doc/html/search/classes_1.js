@@ -31,6 +31,6 @@ var searchData=
   ['cmp_5ftransform_28',['Cmp_Transform',['../structaxiom_1_1_cmp___transform.html',1,'axiom']]],
   ['cmp_5fwindow_29',['Cmp_Window',['../structaxiom_1_1_cmp___window.html',1,'axiom']]],
   ['cmp_5fwindow_5fchange_30',['Cmp_Window_Change',['../structaxiom_1_1_cmp___window___change.html',1,'axiom']]],
-  ['config_31',['Config',['../structaxiom_1_1resource_1_1_config.html',1,'axiom::resource']]],
-  ['controller_32',['Controller',['../structaxiom_1_1resource_1_1_controller.html',1,'axiom::resource']]]
+  ['config_31',['Config',['../structaxiom_1_1resource_1_1_config.html',1,'Axiom::Resource']]],
+  ['controller_32',['Controller',['../structaxiom_1_1resource_1_1_controller.html',1,'Axiom::Resource']]]
 ];

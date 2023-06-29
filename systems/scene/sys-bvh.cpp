@@ -3,8 +3,8 @@
 #include "../components/render/cmp-render.h"
 #include <algorithm>
 
-namespace axiom{
-    namespace bvh{
+namespace Axiom{
+    namespace Bvh{
         size_t arena_ptr = 0;
         Cmp_Bvh* bvh_comp;
 

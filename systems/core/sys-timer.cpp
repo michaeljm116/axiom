@@ -6,8 +6,8 @@
 #include <chrono>
 #include <iomanip>
 
-namespace axiom{
-    namespace timer{
+namespace Axiom{
+    namespace Timer{
         void Init(){
             // Add Timer
             g_world.observer<Cmp_Timer>("TimerOnAddSystem")

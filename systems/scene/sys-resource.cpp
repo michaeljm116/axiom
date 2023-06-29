@@ -9,8 +9,8 @@
 
 #include <taskflow/taskflow.hpp>
 
-namespace axiom{
-	namespace resource{
+namespace Axiom{
+	namespace Resource{
 		void Init()
 		{
 			g_world.observer<Cmp_Resource, Cmp_Res_Model>()
@@ -28,13 +28,13 @@ namespace axiom{
 
 		bool LoadPModel(flecs::entity e, Cmp_Resource& res, Cmp_Res_Model& cmp_mod)
 		{
-			resource::Model mod;
+			Resource::Model mod;
 			auto fileName = res.file_path + "/" + res.file_name;
 			std::fstream binaryio;
 
 			binaryio.open(fileName.c_str(), std::ios::in | std::ios::binary);
 			if(!binaryio.is_open()){ 
-				log::Set(log::Level::ERROR, "Looking for Model file:" + res.file_name);
+				Log::Set(Log::Level::ERROR, "Looking for Model file:" + res.file_name);
 				return false;
 			}
 
@@ -66,7 +66,7 @@ namespace axiom{
 			binaryio.read(reinterpret_cast<char*>(&numMesh), sizeof(int));
 
 			for (int i = 0; i < numMesh; ++i) {
-				resource::Mesh m;
+				Resource::Mesh m;
 				int meshNameLength = 0;
 				int numVerts = 0;
 				int numFaces = 0;
@@ -94,8 +94,8 @@ namespace axiom{
 				//vertices
 				m.verts.reserve(numVerts);
 				for (int v = 0; v < numVerts; ++v) {
-					resource::Vertex vert;
-					binaryio.read(reinterpret_cast<char*>(&vert), sizeof(resource::Vertex));
+					Resource::Vertex vert;
+					binaryio.read(reinterpret_cast<char*>(&vert), sizeof(Resource::Vertex));
 					//m.verts.push_back(vert);
 					m.verts.emplace_back(vert);
 				}
@@ -110,8 +110,8 @@ namespace axiom{
 				//bvh nodes
 				m.bvh.reserve(numNodes);
 				for (int b = 0; b < numNodes; ++b) {
-					resource::BVHNode node;
-					binaryio.read(reinterpret_cast<char*>(&node), sizeof(resource::BVHNode));
+					Resource::BVHNode node;
+					binaryio.read(reinterpret_cast<char*>(&node), sizeof(Resource::BVHNode));
 					m.bvh.emplace_back(node);
 				}
 
@@ -126,7 +126,7 @@ namespace axiom{
 			binaryio.read(reinterpret_cast<char*>(&numShapes), sizeof(int));
 			for (int i = 0; i < numShapes; ++i) {
 				int shapeNameLength = 0;
-				resource::Shape shape;
+				Resource::Shape shape;
 				binaryio.read(reinterpret_cast<char*>(&shapeNameLength), sizeof(int));
 				for (int n = 0; n < shapeNameLength; ++n) {
 					binaryio.read(&c, sizeof(char));
@@ -182,7 +182,7 @@ namespace axiom{
 
 			// Confirm if the thing exist
 			if (eResult == tinyxml2::XML_ERROR_FILE_NOT_FOUND){ 
-				log::Set(log::Level::ERROR, "Looking for Animation file:" + res.file_name);
+				Log::Set(Log::Level::ERROR, "Looking for Animation file:" + res.file_name);
 				return eResult;
 			}
 
@@ -191,14 +191,14 @@ namespace axiom{
 			pRoot = doc.FirstChildElement("Root");
 
 			//Iterate through the poses
-			resource::PoseList pl; 
+			Resource::PoseList pl; 
 			pl.name = prefabName; 
 			pl.hashVal = XXH32(prefabName.c_str(), sizeof(char) * prefabName.size(), 0);
 			tinyxml2::XMLElement* poseElement = pRoot->FirstChildElement("Pose");
 
 			while (poseElement != nullptr) {
 				//Get the name
-				resource::Pose pose;
+				Resource::Pose pose;
 				const char* name;
 				poseElement->QueryStringAttribute("Name", &name);
 				pose.name = name;
@@ -208,7 +208,7 @@ namespace axiom{
 
 				while (transElement != nullptr) {
 					int i;
-					resource::Sqt t;
+					Resource::Sqt t;
 					transElement->QueryIntAttribute("CN", &i);
 
 					tinyxml2::XMLElement* pos = transElement->FirstChildElement("Pos");
@@ -324,7 +324,7 @@ namespace axiom{
 				first->QueryFloatAttribute("Refractive", &ri);
 				first->QueryIntAttribute("TextureID", &ti);
 
-				resource::Material mat = resource::Material(name, diff, ref, rough, trans, ri, ti);
+				Resource::Material mat = Resource::Material(name, diff, ref, rough, trans, ri, ti);
 
 
 				auto e = g_world.entity(name);

@@ -2,11 +2,11 @@
 #include <volk.h>
 #include <vector>
 #include "vulkan/base.hpp"
-namespace axiom
+namespace Axiom
 {
-    namespace render
+    namespace Render
     {
-        namespace vulkan
+        namespace Vulkan
         {
             /** @brief Device Queues */
             struct Queues{
@@ -72,14 +72,14 @@ namespace axiom
 
         struct Cmp_Vulkan
         {
-            vulkan::Device device;
-            vulkan::Semaphores semaphores;
-            vulkan::Command command;
-            vulkan::SwapChain swapchain;
-            vulkan::Depth depth;
-            vulkan::Queues queues;
-            vulkan::Pipeline pipeline;
-            vulkan::Submit info;
+            Vulkan::Device device;
+            Vulkan::Semaphores semaphores;
+            Vulkan::Command command;
+            Vulkan::SwapChain swapchain;
+            Vulkan::Depth depth;
+            Vulkan::Queues queues;
+            Vulkan::Pipeline pipeline;
+            Vulkan::Submit info;
         };
     }
 }

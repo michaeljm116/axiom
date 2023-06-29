@@ -2,8 +2,8 @@
 #include "../components/scene/cmp-bvh.h"
 #include <flecs-world.h>
 
-namespace axiom{
-    namespace bvh{
+namespace Axiom{
+    namespace Bvh{
         static const int MAX_BVH_OBJECTS = 4;
 
         void Init();

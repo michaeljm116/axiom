@@ -13,7 +13,7 @@
 #define MOUSE_BUTTON_DOWN 2
 #define MOUSE_BUTTON_CHANGED 1
 
-namespace axiom {
+namespace Axiom {
 	namespace input{
 		
 		static const uint32_t prev_action_bit = 2;

@@ -1,4 +1,4 @@
 #include "flecs-world.h"
-namespace axiom{
+namespace Axiom{
 flecs::world g_world;
 }

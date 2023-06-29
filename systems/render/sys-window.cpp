@@ -2,8 +2,8 @@
 #include "sys-window.h"
 #include "sys-log.h"
 
-namespace axiom {
-  namespace window{
+namespace Axiom {
+  namespace Window{
 
     void Destruct() {
       glfwDestroyWindow(g_world.get_mut<Cmp_Window>()->window);
@@ -16,7 +16,7 @@ namespace axiom {
       glfwInit();
       glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
       if(!glfwInit()){
-        log::Set(log::Level::ERROR, "FAILED TO INITIALIZE GLFW");
+        Log::Set(Log::Level::ERROR, "FAILED TO INITIALIZE GLFW");
         exit(EXIT_FAILURE);
       }
 
@@ -39,7 +39,7 @@ namespace axiom {
       g_world.set<Cmp_Window>({w, h, title, glfwCreateWindow(w, h, title.c_str(), nullptr, nullptr), primary, mode});
       auto* window = g_world.get<Cmp_Window>()->window;
       if(!window){
-        axiom::log::Set(log::Level::ERROR, "Failed to Create Window");
+        Axiom::Log::Set(Log::Level::ERROR, "Failed to Create Window");
         exit(EXIT_FAILURE);
       }
       glfwMakeContextCurrent(window);  
@@ -48,7 +48,7 @@ namespace axiom {
     
       // Set call backs
       glfwSetErrorCallback([](int error, const char* description){
-        axiom::log::Set(log::Level::ERROR, description);
+        Axiom::Log::Set(Log::Level::ERROR, description);
       });
 
       glfwSetKeyCallback(window, [](GLFWwindow* window, int key, int scancode, int action, int mods){
@@ -73,13 +73,13 @@ namespace axiom {
 
 
     void Resize(flecs::entity e, Cmp_Window& cmp_wind, Cmp_Window_Change& cmp_change) {
-      if(cmp_change.setting == window::Setting::FullScreen){
+      if(cmp_change.setting == Window::Setting::FullScreen){
         glfwMaximizeWindow(cmp_wind.window);
       }
-      if(cmp_change.setting == window::Setting::Windowed){
+      if(cmp_change.setting == Window::Setting::Windowed){
         glfwSetWindowMonitor(cmp_wind.window, cmp_wind.primary, 0, 0, cmp_wind.mode->width, cmp_wind.mode->height, cmp_wind.mode->refreshRate);
       }
       glfwGetWindowSize(cmp_wind.window, &cmp_wind.width, &cmp_wind.height);
     }
   }
-}  // namespace axiom
+}  // namespace Axiom

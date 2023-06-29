@@ -12,9 +12,9 @@
 #include "cmp-transform.h"
 
 #include <flecs.h>
-namespace axiom
+namespace Axiom
 {
-    namespace serialize
+    namespace Serialize
     {
             enum ComponentFlag {
             COMPONENT_NODE = 0x01,

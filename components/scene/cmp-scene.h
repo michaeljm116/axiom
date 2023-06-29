@@ -10,7 +10,7 @@
  */
 #pragma once
 #include <string>
-namespace axiom
+namespace Axiom
 {
     
         struct Cmp_Scene{
@@ -20,4 +20,4 @@ namespace axiom
         };
     
     
-} // namespace axiom
+} // namespace Axiom

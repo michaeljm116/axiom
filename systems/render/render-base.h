@@ -6,9 +6,9 @@
 #include "cmp-window.h"
 #include "flecs-world.h"
 
-namespace axiom
+namespace Axiom
 {
-    namespace render
+    namespace Render
     {
         namespace base
         {
@@ -19,7 +19,7 @@ namespace axiom
             };
 
             struct VkDeviceInfo {
-                vulkan::Device *device;
+                Vulkan::Device *device;
                 VkQueue copyQueue;
                 VkRenderPass renderPass;
                 std::vector<VkFramebuffer> framebuffers;
@@ -52,7 +52,7 @@ namespace axiom
                 }
 
                 Cmp_Vulkan* vulkan_component;
-               /* vulkan::Device vkDevice;
+               /* Vulkan::Device vkDevice;
             public:
                 VkSurfaceKHR surface;
 
@@ -98,7 +98,7 @@ namespace axiom
                 VkFormat findSupportedFormat(const std::vector<VkFormat>&, VkImageTiling, VkFormatFeatureFlags);
 
                 bool isDeviceSuitable(VkPhysicalDevice);
-                vulkan::QueueFamilyIndices findQueueFamilies(VkPhysicalDevice);
+                Vulkan::QueueFamilyIndices findQueueFamilies(VkPhysicalDevice);
 
                 SwapChainSupportDetails querySwapChainSupport(VkPhysicalDevice);
                 VkSurfaceFormatKHR chooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>&);

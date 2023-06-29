@@ -12,8 +12,8 @@
 #include <GLFW/glfw3.h>
 #include <string>
 
-namespace axiom{
-    namespace window{
+namespace Axiom{
+    namespace Window{
     enum class Setting{
         Resize,
         Windowed,
@@ -31,7 +31,7 @@ namespace axiom{
     };
 
     struct Cmp_Window_Change{
-        window::Setting setting;
+        Window::Setting setting;
     };
 
 

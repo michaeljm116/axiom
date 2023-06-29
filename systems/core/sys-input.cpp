@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "sys-input.h"
 #include "cmp-window.h"
-namespace axiom
+namespace Axiom
 {
 	namespace input{
 		void Init()
