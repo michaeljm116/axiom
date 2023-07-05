@@ -25,7 +25,6 @@
 #define VOLK_IMPLEMENTATION
 #include <volk.h>
 #include "render-base.h"
-#include "sys-vulkan-boilerplate.h"
 
 
 using namespace Axiom;
@@ -60,24 +59,21 @@ int main(){
 	tf::Executor executor;
 	tf::Taskflow taskflow;
 
-	Axiom::Log::Init();
-	Axiom::Timer::Init();
-	Axiom::Resource::Init();
-	Axiom::Window::Init("Axiom Engine", 1280, 720);
+	Axiom::Log::initialize();
+	Axiom::Timer::initialize();
+	Axiom::Resource::initialize();
+	Axiom::Window::init("Axiom Engine", 1280, 720);
 
 
 	g_world.add<Axiom::Render::Cmp_Vulkan>();
 	auto vc = g_world.get_ref<Axiom::Render::Cmp_Vulkan>();
-	Axiom::Render::base::InitializeVulkan(*vc.get());
+	Axiom::Render::Base::InitializeVulkan(*vc.get());
 
 	g_world.add<Axiom::Cmp_CurrentTime>();
 	g_world.add<Axiom::Cmp_LogFile>();
 	g_world.add<Axiom::Cmp_Timer>();
 	
-
-
-	Vulkany::Init();
-	Vulkany::Check(r, "Initializing Volk");
+	Log::check(r, "Initializing Volk");
 
 
 
@@ -88,16 +84,16 @@ int main(){
 
 	//Load Models
 	t.add<Axiom::Cmp_Timer>();
-	Axiom::Resource::LoadDirectory(assets_folder + "Models");
+	Axiom::Resource::load_directory(assets_folder + "Models");
 	t.remove<Axiom::Cmp_Timer>();
 
 	//Load Animations
 	at.add<Axiom::Cmp_Timer>();
-	Axiom::Resource::LoadDirectory(assets_folder + "Animations");
+	Axiom::Resource::load_directory(assets_folder + "Animations");
 	at.remove<Axiom::Cmp_Timer>();
 
 	//Load Materials
-	Axiom::Resource::LoadMaterials(assets_folder + "Materials.xml");
+	Axiom::Resource::load_materials(assets_folder + "Materials.xml");
 
 
 	auto e = g_world.lookup("A_Primitive_Helix_01.pm");
@@ -140,7 +136,7 @@ int main(){
 
 	//auto* twindow = g_world.get<Cmp_Window>()->window;
 
-	Axiom::Transform::Init();
+	Axiom::Transform::initialize();
 
 	auto sun_trans = Cmp_Transform(glm::vec3(1,1,1), glm::vec3(0), glm::vec3(1));
 	auto earth_trans = Cmp_Transform(glm::vec3(5,5,5), glm::vec3(45), glm::vec3(.1));
@@ -163,28 +159,28 @@ int main(){
 				std::cout << e.name() << ": {" << p->local.pos.x << "}\n";
 			});
 
-	scene::init();
+	scene::initialize();
 	g_world.set<Axiom::Cmp_Scene>({"../../assets/Scenes/", "TestEntrance.xml", 0});
 
 	g_world.progress();
 	g_world.each([](flecs::entity e, Cmp_Transform p){
 				//std::stringstream ssl;
 				//ssl << e.name() << ": {" << p.local.pos.x << ", " << p.local.pos.y << ", " << p.local.pos.z << "}";
-				//Axiom::Log::Set(Axiom::Log::Level::DEBUG, ssl.str());
+				//Axiom::Log::send(Axiom::Log::Level::DEBUG, ssl.str());
 				//e.add<Cmp_Static>();
 			});
 			
-	Axiom::Log::Set(Axiom::Log::Level::DEBUG, "-------STATIC-------");
+	Axiom::Log::send(Axiom::Log::Level::DEBUG, "-------STATIC-------");
 	g_world.each([](flecs::entity e, Cmp_Transform p, Cmp_Static s){
 		std::stringstream ssl;
 		ssl << e.name() << ": {" << p.local.pos.x << ", " << p.local.pos.y << ", " << p.local.pos.z << "}";
-		Axiom::Log::Set(Axiom::Log::Level::DEBUG, ssl.str());
+		Axiom::Log::send(Axiom::Log::Level::DEBUG, ssl.str());
 	});
-	Axiom::Log::Set(Axiom::Log::Level::DEBUG, "-------DYNAMIC-------");
+	Axiom::Log::send(Axiom::Log::Level::DEBUG, "-------DYNAMIC-------");
 	g_world.each([](flecs::entity e, Cmp_Transform p,  Cmp_Dynamic d){
 		std::stringstream ssl;
 		ssl << e.name() << ": {" << p.local.pos.x << ", " << p.local.pos.y << ", " << p.local.pos.z << "}";
-		Axiom::Log::Set(Axiom::Log::Level::DEBUG, ssl.str());
+		Axiom::Log::send(Axiom::Log::Level::DEBUG, ssl.str());
 	});
 
 	//while(!glfwWindowShouldClose(twindow)){

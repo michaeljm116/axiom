@@ -5,7 +5,7 @@ namespace Axiom
 {
     namespace Render
     {
-        namespace base
+        namespace Base
         {
 
             void InitializeVulkan(Cmp_Vulkan& vulkan_component){
@@ -68,7 +68,7 @@ namespace Axiom
 
                 //Check validation layers
                 vulkan_component->device.validation_enabled = vulkan_component->device.enableValidationLayers && vulkan_component->device.checkValidationLayerSupport();
-                Log::Check(vulkan_component->device.validation_enabled, "Enable Validation Layer");
+                Log::check(vulkan_component->device.validation_enabled, "Enable Validation Layer");
 
                 //Optional Data about the application
                 VkApplicationInfo appInfo = {};

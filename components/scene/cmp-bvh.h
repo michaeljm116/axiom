@@ -162,7 +162,7 @@ namespace Axiom{
 		int num_nodes;
 		bool rebuild = true;
 		std::vector<flecs::entity*> prims;
-		std::vector<Cmp_Primitive*> prim_comps;
+		std::vector<Render::Cmp_Primitive*> prim_comps;
 		Bvh::SplitMethod split_method = Bvh::SplitMethod::SAH;
     };
 

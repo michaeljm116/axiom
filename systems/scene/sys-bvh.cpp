@@ -19,7 +19,7 @@ namespace Axiom{
         void Build(TreeType tt, std::vector<flecs::entity *> ops)
         {
             //Find the number of primitives
-            auto num_prims = flecs::query<Cmp_Primitive>().count();
+            auto num_prims = flecs::query<Render::Cmp_Primitive>().count();
             
             //Prepare to build
             bvh_comp->num_nodes = 0;
@@ -61,20 +61,20 @@ namespace Axiom{
                     case SplitMethod::Middle: {
                         flecs::entity **midPtr = std::partition(&bvh_comp->prims[start], &bvh_comp->prims[end - 1] + 1, [axis, centroid](flecs::entity * a) {
                             //return ptm->get(*a)->center()[axis] < centroid.center[axis];
-                            return a->get_mut<Cmp_Primitive>()->center()[axis] < centroid.center[axis];
+                            return a->get_mut<Render::Cmp_Primitive>()->center()[axis] < centroid.center[axis];
                         });
                         mid = midPtr - &bvh_comp->prims[0];
                     }
                     case SplitMethod::EqualsCounts: {
                         std::nth_element(&bvh_comp->prims[start], &bvh_comp->prims[mid], &bvh_comp->prims[end - 1] + 1, [axis](flecs::entity* a, flecs::entity* b) {
-                            return a->get_mut<Cmp_Primitive>()->center()[axis] < b->get_mut<Cmp_Primitive>()->center()[axis];
+                            return a->get_mut<Render::Cmp_Primitive>()->center()[axis] < b->get_mut<Render::Cmp_Primitive>()->center()[axis];
                         });
                     }
                     case SplitMethod::SAH: {
                         if (numPrims <= MAX_BVH_OBJECTS) {
                             mid = (start + end) >> 1;
                             std::nth_element(&bvh_comp->prims[start], &bvh_comp->prims[mid], &bvh_comp->prims[end - 1] + 1, [axis](flecs::entity* a, flecs::entity* b) {
-                                return a->get_mut<Cmp_Primitive>()->center()[axis] < b->get_mut<Cmp_Primitive>()->center()[axis];
+                                return a->get_mut<Render::Cmp_Primitive>()->center()[axis] < b->get_mut<Render::Cmp_Primitive>()->center()[axis];
                             });
                         }
                         else {
@@ -83,7 +83,7 @@ namespace Axiom{
                             BVHBucket buckets[numBuckets];
                             for (int i = start; i < end; ++i) {
                                 //PrimitiveComponent* pc = ptm->get(*bvh_comp->prims[i]);
-                                auto* pc = bvh_comp->prims[i]->get_mut<Cmp_Primitive>();
+                                auto* pc = bvh_comp->prims[i]->get_mut<Render::Cmp_Primitive>();
                                 BVHBounds tempBounds = BVHBounds(pc->center(), pc->aabbExtents);
                                 int b = numBuckets * centroid.Offset(pc->center(), axis);
                                 if (b == numBuckets) b--;
@@ -119,7 +119,7 @@ namespace Axiom{
                             float leafCost = numPrims;
                             if (numPrims > MAX_BVH_OBJECTS || minCost < leafCost) {
                                 flecs::entity **midPtr = std::partition(&bvh_comp->prims[start], &bvh_comp->prims[end - 1] + 1, [axis, centroid, minCostSplitBucket, numBuckets](flecs::entity * a) {
-                                    int b = (numBuckets)* centroid.Offset(a->get_mut<Cmp_Primitive>()->center(), axis);
+                                    int b = (numBuckets)* centroid.Offset(a->get_mut<Render::Cmp_Primitive>()->center(), axis);
                                     if (b == numBuckets) b = numBuckets - 1;
                                     return b <= minCostSplitBucket;
 
@@ -162,7 +162,7 @@ namespace Axiom{
             glm::vec3 min(FLT_MAX);
             glm::vec3 max(-FLT_MAX);
             for (int i = s; i < e; ++i) {
-                auto* pc = bvh_comp->prims[i]->get_mut<Cmp_Primitive>();
+                auto* pc = bvh_comp->prims[i]->get_mut<Render::Cmp_Primitive>();
                 min = minV(min, pc->center() - pc->aabbExtents);
                 max = maxV(max, pc->center() + pc->aabbExtents);
             }

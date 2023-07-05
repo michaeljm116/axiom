@@ -13,9 +13,15 @@
  #include "cmp-vulkan.h"
  #include "cmp-shader.h"
  #include "vulkan/buffer.hpp"
+ #include "texture.h"
+ #include <unordered_map>
+
+
 
  namespace Axiom{
     namespace Render{
+        
+    static const int MAX_TEXTURES = 5;
         struct Cmp_Compute_Raytracer{
             bool editor = true;
             VkDescriptorPool descriptor_pool;
@@ -67,8 +73,8 @@
             std::vector<Shader::GUI> guis;
             std::vector<Shader::BVHNode> bvh;
 
-            std::vector<MeshComponent*> mesh_comps;
-            std::vector<LightComponent*> light_comps;
+            std::vector<Cmp_Mesh*> mesh_comps;
+            std::vector<Cmp_Light*> light_comps;
 
             std::unordered_map<int32_t, std::pair<int, int>> mesh_assigner;
             std::unordered_map<int32_t, std::pair<int, int>> joint_assigner;
@@ -77,7 +83,7 @@
             bool prepared = false;
 
             Texture compute_texture;
-            Texture gui_textures_[MAX_TEXTURES];
+            Texture gui_textures[MAX_TEXTURES];
 
             VkDescriptorSetLayoutBinding DescriptorSetLayoutBinding(uint32_t binding, VkDescriptorType descriptorType, uint32_t descriptorCount, VkShaderStageFlags flags);
             std::vector<VkWriteDescriptorSet> compute_write_descriptor_sets;

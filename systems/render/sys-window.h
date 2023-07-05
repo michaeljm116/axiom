@@ -7,10 +7,10 @@
 namespace Axiom {
 
   namespace Window {
-    void Init(std::string title, int w, int h);
-    void Destruct();
-    void Update(flecs::entity e, Cmp_Window& cmp_wind);
-    void Resize(flecs::entity e, Cmp_Window& cmp_wind, Cmp_Window_Change& cmp_change);
+    void init(std::string title, int w, int h);
+    void destruct();
+    void update(flecs::entity e, Cmp_Window& cmp_wind);
+    void resize(flecs::entity e, Cmp_Window& cmp_wind, Cmp_Window_Change& cmp_change);
   };
 
 }  // namespace Axiom

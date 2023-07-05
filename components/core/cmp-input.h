@@ -14,7 +14,7 @@
 #define MOUSE_BUTTON_CHANGED 1
 
 namespace Axiom {
-	namespace input{
+	namespace Input{
 		
 		static const uint32_t prev_action_bit = 2;
 		enum InputStates {

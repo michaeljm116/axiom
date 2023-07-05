@@ -10,7 +10,7 @@ namespace Axiom
 {
     namespace Render
     {
-        namespace base
+        namespace Base
         {
             struct SwapChainSupportDetails {
                 VkSurfaceCapabilitiesKHR capabilities;

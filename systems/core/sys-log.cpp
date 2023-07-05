@@ -3,7 +3,7 @@
 #include "sys-timer.h"
 namespace Axiom{
     namespace Log{
-        void Init() 
+        void initialize() 
         {
             // Open/Start Log File System
             g_world.observer<Cmp_LogFile>("StartLogFileSystem")
@@ -13,7 +13,7 @@ namespace Axiom{
                     if (!f.log_data->log_file.is_open()) {
                         std::cerr << "Failed to open log file: " << f.log_filename << std::endl;
                     }
-                    Set(Log::Level::INFO, "Log File Opened");
+                    send(Log::Level::INFO, "Log File Opened");
             });
 
             // CLose file
@@ -21,10 +21,10 @@ namespace Axiom{
                 .event(flecs::OnRemove)
                 .each([](flecs::entity e, Cmp_LogFile& f){
                     if (f.log_data->log_file.is_open()){
-                        f.log_data->log_file << Timer::Current() << " - [INFO] File Closed\n";
+                        f.log_data->log_file << Timer::get_current_time() << " - [INFO] File Closed\n";
                         f.log_data->log_file.close();
                     }
-                Timer::Current();
+                Timer::get_current_time();
             });
 
             // Log File
@@ -32,13 +32,13 @@ namespace Axiom{
                 .event(flecs::OnSet)
                 .each([](flecs::entity e, Cmp_Log& l){
                     if(l.lvl == Log::Level::CHECK)
-                        Check(l.check, l.message);
+                        check(l.check, l.message);
                     else
-                        Set(l.lvl, l.message);
+                        send(l.lvl, l.message);
             });
         }
 
-        void Save(std::string message) {
+        void save(std::string message) {
             auto* file = g_world.get_mut<Cmp_LogFile>();
             std::unique_lock<std::mutex> lock(file->log_data->log_mutex);
             if (file->log_data->log_file.is_open()) {
@@ -48,9 +48,9 @@ namespace Axiom{
             lock.unlock();
         }
 
-        void Set(Axiom::Log::Level level, std::string message){
+        void send(Axiom::Log::Level level, std::string message){
             std::stringstream ss; 
-            ss << Timer::Current() << " - ";
+            ss << Timer::get_current_time() << " - ";
             switch (level) {
                 case Log::Level::DEBUG:
                     ss << "[DEBUG] ";
@@ -70,12 +70,12 @@ namespace Axiom{
             ss << message << std::endl;
             std::string log_line = ss.str();
             std::cout << log_line;
-            Save(log_line);
+            save(log_line);
         }
         
-        void Check(bool b, std::string message){
-            if(!b) Set(Log::Level::ERROR ,"Failed When " + message);
-            else Set(Log::Level::INFO , message + " was a success!");
+        void check(bool b, std::string message){
+            if(!b) send(Log::Level::ERROR ,"Failed When " + message);
+            else send(Log::Level::INFO , message + " was a success!");
         }
     }
 }

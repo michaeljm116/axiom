@@ -11,22 +11,22 @@
 
 namespace Axiom{
 	namespace Resource{
-		void Init()
+		void initialize()
 		{
 			g_world.observer<Cmp_Resource, Cmp_Res_Model>()
 			.event(flecs::OnSet)
 			.each([](flecs::entity e, Cmp_Resource& res, Cmp_Res_Model& d){
-				LoadPModel(e, res, d);
+				load_pmodel(e, res, d);
 			});
 
 			g_world.observer<Cmp_Resource, Cmp_Res_Animations>()
 			.event(flecs::OnSet)
 			.each([](flecs::entity e, Cmp_Resource& res, Cmp_Res_Animations& d){
-				LoadPose(e, res, d);
+				load_pose(e, res, d);
 			});			
 		}
 
-		bool LoadPModel(flecs::entity e, Cmp_Resource& res, Cmp_Res_Model& cmp_mod)
+		bool load_pmodel(flecs::entity e, Cmp_Resource& res, Cmp_Res_Model& cmp_mod)
 		{
 			Resource::Model mod;
 			auto fileName = res.file_path + "/" + res.file_name;
@@ -34,7 +34,7 @@ namespace Axiom{
 
 			binaryio.open(fileName.c_str(), std::ios::in | std::ios::binary);
 			if(!binaryio.is_open()){ 
-				Log::Set(Log::Level::ERROR, "Looking for Model file:" + res.file_name);
+				Log::send(Log::Level::ERROR, "Looking for Model file:" + res.file_name);
 				return false;
 			}
 
@@ -169,7 +169,7 @@ namespace Axiom{
 			return true; 
 		}
 		
-		bool LoadPose(flecs::entity e, Cmp_Resource &res, Cmp_Res_Animations& cmp_anim)
+		bool load_pose(flecs::entity e, Cmp_Resource &res, Cmp_Res_Animations& cmp_anim)
 		{
 			auto fileName = res.file_path + "/" + res.file_name;
 			assert(res.file_name.size() > 5);
@@ -182,7 +182,7 @@ namespace Axiom{
 
 			// Confirm if the thing exist
 			if (eResult == tinyxml2::XML_ERROR_FILE_NOT_FOUND){ 
-				Log::Set(Log::Level::ERROR, "Looking for Animation file:" + res.file_name);
+				Log::send(Log::Level::ERROR, "Looking for Animation file:" + res.file_name);
 				return eResult;
 			}
 
@@ -240,7 +240,7 @@ namespace Axiom{
 			return eResult == tinyxml2::XML_SUCCESS;
 		}
 
-		bool LoadDirectory(std::string directory)
+		bool load_directory(std::string directory)
 		{
 			for(const auto & p : std::filesystem::directory_iterator(directory)){
 				auto extension = p.path().extension();
@@ -258,7 +258,7 @@ namespace Axiom{
 			return true;
 		}
 
-		bool LoadDirectoryMulti(std::string directory)
+		bool load_directory_multi(std::string directory)
 		{
 			tf::Taskflow taskflow;
 			tf::Executor executor;
@@ -292,7 +292,7 @@ namespace Axiom{
 			return true;
 		}
 
-		bool LoadMaterials(std::string file)
+		bool load_materials(std::string file)
 		{		
 			//materialsFileName = file;
 			tinyxml2::XMLDocument doc;

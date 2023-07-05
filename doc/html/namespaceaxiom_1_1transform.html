@@ -85,24 +85,24 @@ $(function() {
 Functions</h2></td></tr>
 <tr class="memitem:accc31fe38ba47844073e0e1907243d36"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceaxiom_1_1transform.html#accc31fe38ba47844073e0e1907243d36">Init</a> ()</td></tr>
 <tr class="separator:accc31fe38ba47844073e0e1907243d36"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8569d02211c46664c9f22c7b5df09e66"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceaxiom_1_1transform.html#a8569d02211c46664c9f22c7b5df09e66">Static_Transform</a> (flecs::entity e, <a class="el" href="structaxiom_1_1_cmp___transform.html">Cmp_Transform</a> &amp;t, <a class="el" href="structaxiom_1_1_cmp___static.html">Cmp_Static</a> &amp;s)</td></tr>
+<tr class="memitem:a8569d02211c46664c9f22c7b5df09e66"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceaxiom_1_1transform.html#a8569d02211c46664c9f22c7b5df09e66">transform_static_entity</a> (flecs::entity e, <a class="el" href="structaxiom_1_1_cmp___transform.html">Cmp_Transform</a> &amp;t, <a class="el" href="structaxiom_1_1_cmp___static.html">Cmp_Static</a> &amp;s)</td></tr>
 <tr class="separator:a8569d02211c46664c9f22c7b5df09e66"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4eacd4ab8c64b8d0a73f34ca061babf1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceaxiom_1_1transform.html#a4eacd4ab8c64b8d0a73f34ca061babf1">Dynamic_Transform</a> (flecs::entity e, <a class="el" href="structaxiom_1_1_cmp___transform.html">Cmp_Transform</a> &amp;t, <a class="el" href="structaxiom_1_1_cmp___dynamic.html">Cmp_Dynamic</a> &amp;d)</td></tr>
+<tr class="memitem:a4eacd4ab8c64b8d0a73f34ca061babf1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceaxiom_1_1transform.html#a4eacd4ab8c64b8d0a73f34ca061babf1">transform_dynamic_entity</a> (flecs::entity e, <a class="el" href="structaxiom_1_1_cmp___transform.html">Cmp_Transform</a> &amp;t, <a class="el" href="structaxiom_1_1_cmp___dynamic.html">Cmp_Dynamic</a> &amp;d)</td></tr>
 <tr class="separator:a4eacd4ab8c64b8d0a73f34ca061babf1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aee0f0ba6144c91321b6d95a41e8622a0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceaxiom_1_1transform.html#aee0f0ba6144c91321b6d95a41e8622a0">recursive_transform</a> (flecs::entity e)</td></tr>
+<tr class="memitem:aee0f0ba6144c91321b6d95a41e8622a0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceaxiom_1_1transform.html#aee0f0ba6144c91321b6d95a41e8622a0">transform_entity</a> (flecs::entity e)</td></tr>
 <tr class="separator:aee0f0ba6144c91321b6d95a41e8622a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6795bf611c6cc13bd1bbe3d982144296"><td class="memItemLeft" align="right" valign="top">glm::vec3&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceaxiom_1_1transform.html#a6795bf611c6cc13bd1bbe3d982144296">rotate_aabb</a> (const glm::mat3 &amp;m)</td></tr>
 <tr class="separator:a6795bf611c6cc13bd1bbe3d982144296"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="a4eacd4ab8c64b8d0a73f34ca061babf1" name="a4eacd4ab8c64b8d0a73f34ca061babf1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4eacd4ab8c64b8d0a73f34ca061babf1">&#9670;&#160;</a></span>Dynamic_Transform()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a4eacd4ab8c64b8d0a73f34ca061babf1">&#9670;&#160;</a></span>transform_dynamic_entity()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void Axiom::Transform::Dynamic_Transform </td>
+          <td class="memname">void Axiom::Transform::transform_dynamic_entity </td>
           <td>(</td>
           <td class="paramtype">flecs::entity&#160;</td>
           <td class="paramname"><em>e</em>, </td>
@@ -147,13 +147,13 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="aee0f0ba6144c91321b6d95a41e8622a0" name="aee0f0ba6144c91321b6d95a41e8622a0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aee0f0ba6144c91321b6d95a41e8622a0">&#9670;&#160;</a></span>recursive_transform()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aee0f0ba6144c91321b6d95a41e8622a0">&#9670;&#160;</a></span>transform_entity()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void Axiom::Transform::recursive_transform </td>
+          <td class="memname">void Axiom::Transform::transform_entity </td>
           <td>(</td>
           <td class="paramtype">flecs::entity&#160;</td>
           <td class="paramname"><em>e</em></td><td>)</td>
@@ -183,13 +183,13 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a8569d02211c46664c9f22c7b5df09e66" name="a8569d02211c46664c9f22c7b5df09e66"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8569d02211c46664c9f22c7b5df09e66">&#9670;&#160;</a></span>Static_Transform()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a8569d02211c46664c9f22c7b5df09e66">&#9670;&#160;</a></span>transform_static_entity()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void Axiom::Transform::Static_Transform </td>
+          <td class="memname">void Axiom::Transform::transform_static_entity </td>
           <td>(</td>
           <td class="paramtype">flecs::entity&#160;</td>
           <td class="paramname"><em>e</em>, </td>

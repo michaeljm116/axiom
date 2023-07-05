@@ -3,9 +3,9 @@
 
 namespace Axiom{
     namespace Render{
-        namespace compute_raytracer{
+        namespace Raytracing{
 
-            void Initialize(Cmp_Compute_Raytracer& raytracer, Cmp_Vulkan& vulkan);
+            void initialize(Cmp_Compute_Raytracer& raytracer, Cmp_Vulkan& vulkan);
 
             class Compute_Raytracer{
                 Cmp_Compute_Raytracer* raytracer;

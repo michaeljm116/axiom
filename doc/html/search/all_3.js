@@ -17,5 +17,5 @@ var searchData=
   ['deviceextensions_14',['deviceExtensions',['../structaxiom_1_1_vulkan_device.html#a6534602c67cc0e1674a1e07fa4edf15a',1,'Axiom::VulkanDevice']]],
   ['diffuse_15',['diffuse',['../structaxiom_1_1shader_1_1ss_material.html#a3b6f16ef630346e13b909f0f4ee6009e',1,'Axiom::Shader::ssMaterial::diffuse()'],['../structaxiom_1_1resource_1_1_material.html#a98df34ad4cab5fc6bd4a0f245a5ea817',1,'Axiom::Resource::Material::diffuse()']]],
   ['distance_16',['distance',['../structaxiom_1_1_cmp___plane.html#a67f8883900ef379d9c07ccef00d3d69f',1,'Axiom::Cmp_Plane']]],
-  ['dynamic_5ftransform_17',['Dynamic_Transform',['../namespaceaxiom_1_1transform.html#a4eacd4ab8c64b8d0a73f34ca061babf1',1,'Axiom::Transform']]]
+  ['dynamic_5ftransform_17',['transform_dynamic_entity',['../namespaceaxiom_1_1transform.html#a4eacd4ab8c64b8d0a73f34ca061babf1',1,'Axiom::Transform']]]
 ];

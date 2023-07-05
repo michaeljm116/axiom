@@ -1,3 +1,13 @@
+7/1/2023
+* wow... you did a lot of writing for absolutely nothign that day like name changes??? ugh why
+* Soooo with the name changes... 
+* * Caps Namespaces = yes = done
+* * lowercase functions = yes = doing
+* * I like Capitalized Variables But.... That Might Be Too Much... and also... its like i only like them... sometimess...
+* * Like I dont want to do Mouse.X i prever Mouse.x mouse.x 
+
+mouse.x Mouse.X mouse.x Mouse.X Mouse.x 
+
 6/28/2023
 * wow its been a long time lol and look i ts like 1 month 1 day exactly
 * was looking at this again:
@@ -56,7 +66,7 @@ Core.lib
   Structs/Classes = lowercase
   variables = caps
 
-  Axiom::Log::Init()
+  Axiom::Log::init()
   Axiom::Log::init();
   Axiom::Log::logger TheLogger;
   Axiom::Renderer::compute-raytracer TheRaytracer = new compute-raytracer();
@@ -124,8 +134,8 @@ Core.lib
 
     K now what about EnUMS?
 
-
-
+    sooo you can't do class-component lol
+    maybe just do class_component
 5/27/2023
 * just do vulkan first, then ecsify it later
 * okay design your api:
@@ -266,7 +276,7 @@ you can hide all functions in the base but its a lot of typing and also you'd ne
 5/10/23 what do?
 * Test out the transform for:
 * * static_transform
-* * Dynamic_Transform
+* * transform_dynamic_entity
 * * * OnAdd/OnSet/OnUpdate
 * 
 
