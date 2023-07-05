@@ -5,8 +5,8 @@ namespace Axiom
 {
     namespace Timer 
     {
-        void Init();
+        void initialize();
         //Get the currenet time
-        std::string Current();
+        std::string get_current_time();
     }
 }

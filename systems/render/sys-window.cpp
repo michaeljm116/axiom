@@ -5,18 +5,18 @@
 namespace Axiom {
   namespace Window{
 
-    void Destruct() {
+    void destruct() {
       glfwDestroyWindow(g_world.get_mut<Cmp_Window>()->window);
       glfwTerminate();
     }
 
-    void Init(std::string title, int w, int h)
+    void init(std::string title, int w, int h)
     {
       //Initialize GLFW
       glfwInit();
       glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
       if(!glfwInit()){
-        Log::Set(Log::Level::ERROR, "FAILED TO INITIALIZE GLFW");
+        Log::send(Log::Level::ERROR, "FAILED TO INITIALIZE GLFW");
         exit(EXIT_FAILURE);
       }
 
@@ -39,7 +39,7 @@ namespace Axiom {
       g_world.set<Cmp_Window>({w, h, title, glfwCreateWindow(w, h, title.c_str(), nullptr, nullptr), primary, mode});
       auto* window = g_world.get<Cmp_Window>()->window;
       if(!window){
-        Axiom::Log::Set(Log::Level::ERROR, "Failed to Create Window");
+        Axiom::Log::send(Log::Level::ERROR, "Failed to Create Window");
         exit(EXIT_FAILURE);
       }
       glfwMakeContextCurrent(window);  
@@ -48,7 +48,7 @@ namespace Axiom {
     
       // Set call backs
       glfwSetErrorCallback([](int error, const char* description){
-        Axiom::Log::Set(Log::Level::ERROR, description);
+        Axiom::Log::send(Log::Level::ERROR, description);
       });
 
       glfwSetKeyCallback(window, [](GLFWwindow* window, int key, int scancode, int action, int mods){
@@ -65,14 +65,14 @@ namespace Axiom {
 
     }
 
-    void Update(flecs::entity e, Cmp_Window& cmp_wind) {
+    void update(flecs::entity e, Cmp_Window& cmp_wind) {
       while (!glfwWindowShouldClose(cmp_wind.window)) {
         glfwPollEvents();
       }
     }
 
 
-    void Resize(flecs::entity e, Cmp_Window& cmp_wind, Cmp_Window_Change& cmp_change) {
+    void resize(flecs::entity e, Cmp_Window& cmp_wind, Cmp_Window_Change& cmp_change) {
       if(cmp_change.setting == Window::Setting::FullScreen){
         glfwMaximizeWindow(cmp_wind.window);
       }

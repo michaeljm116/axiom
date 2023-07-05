@@ -13,10 +13,10 @@
 namespace Axiom {
 
     namespace Log {
-        void Init();
+        void initialize();
         //This Creates/Opens the logfile
-        void Save(std::string message);
-        void Set(Axiom::Log::Level level, std::string message);
-        void Check(bool b, std::string message);    
+        void save(std::string message);
+        void send(Axiom::Log::Level level, std::string message);
+        void check(bool b, std::string message);    
     };
 }

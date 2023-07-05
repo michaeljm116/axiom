@@ -5,20 +5,20 @@ namespace Axiom
 {
     namespace Transform
     {
-        void Init()
+        void initialize()
         {
             /*
             world.observer<Cmp_Transform*, Cmp_Static>("StaticTransformSystem")
             .event(flecs::OnSet)
             .each([this](flecs::entity e, Cmp_Transform& t, Cmp_Static& s) {
-                this->Static_Transform(e,t,s);
+                this->transform_static_entity(e,t,s);
             });
 
             world.system<Cmp_Transform*, Cmp_Dynamic>("DynamicTransformSystem")
             .kind(flecs::OnUpdate)
             .term_at(2).parent().cascade()
             .each([this](flecs::entity e, Cmp_Transform& t, Cmp_Dynamic& d){
-                this->Dynamic_Transform(e,t,d);
+                this->transform_dynamic_entity(e,t,d);
             });*/
 
             auto static_transform = g_world.query_builder<const Cmp_Transform, Cmp_Transform>()
@@ -108,7 +108,7 @@ namespace Axiom
         }
         
 
-        void Static_Transform(flecs::entity e, Cmp_Transform &t, Cmp_Static &s)
+        void transform_static_entity(flecs::entity e, Cmp_Transform &t, Cmp_Static &s)
         {
             auto q = g_world.query_builder<Cmp_Transform, Cmp_Transform>().term_at(2).parent().cascade()
             .build();
@@ -149,11 +149,11 @@ namespace Axiom
             traverse_children(e, traverse_children);
         }
 
-        void Dynamic_Transform(flecs::entity e, Cmp_Transform &t, Cmp_Dynamic &d)
+        void transform_dynamic_entity(flecs::entity e, Cmp_Transform &t, Cmp_Dynamic &d)
         {
         }
 
-        void recursive_transform(flecs::entity e)
+        void transform_entity(flecs::entity e)
         {
 
         }

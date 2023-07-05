@@ -9,5 +9,5 @@ var searchData=
   ['destroy_6',['Destroy',['../structaxiom_1_1_vulkan_device.html#af851b490b08fbafb54bd7a5e8527a468',1,'Axiom::VulkanDevice']]],
   ['destroy_7',['destroy',['../structaxiom_1_1vks_1_1_buffer.html#a6450348cf0701c4a4c15283eac849e60',1,'Axiom::vks::Buffer']]],
   ['destruct_8',['Destruct',['../namespaceaxiom_1_1window.html#ab5f720c41e647aab83bc8581556f4f95',1,'Axiom::Window']]],
-  ['dynamic_5ftransform_9',['Dynamic_Transform',['../namespaceaxiom_1_1transform.html#a4eacd4ab8c64b8d0a73f34ca061babf1',1,'Axiom::Transform']]]
+  ['dynamic_5ftransform_9',['transform_dynamic_entity',['../namespaceaxiom_1_1transform.html#a4eacd4ab8c64b8d0a73f34ca061babf1',1,'Axiom::Transform']]]
 ];

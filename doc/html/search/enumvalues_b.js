@@ -1,7 +1,7 @@
 var searchData=
 [
   ['recursive_0',['Recursive',['../namespaceaxiom_1_1bvh.html#a92ae439e454dbd454eb32eacae78c058a556c3dd912453ae5cb3095cd5054e6f4',1,'Axiom::bvh']]],
-  ['released_1',['Released',['../namespaceaxiom_1_1input.html#aa22e25169f6e86f6ab192ed00896f685aea1e34304a5d8ffa7c9b0ed8ede4ef1a',1,'Axiom::input::Released()'],['../namespaceaxiom.html#a67df71b9771f73554bbf4e2d44575fb7aea1e34304a5d8ffa7c9b0ed8ede4ef1a',1,'Axiom::Released()']]],
+  ['released_1',['Released',['../namespaceaxiom_1_1input.html#aa22e25169f6e86f6ab192ed00896f685aea1e34304a5d8ffa7c9b0ed8ede4ef1a',1,'Axiom::Input::Released()'],['../namespaceaxiom.html#a67df71b9771f73554bbf4e2d44575fb7aea1e34304a5d8ffa7c9b0ed8ede4ef1a',1,'Axiom::Released()']]],
   ['released_2',['RELEASED',['../namespaceaxiom_1_1input.html#ad6d8e983364d5b5bd8b8d2c114f22f13a0fd53f68f115c46fb039088ed2cc9b21',1,'Axiom::input']]],
   ['render_5fcamera_3',['RENDER_CAMERA',['../namespaceaxiom_1_1render.html#a8f6af6d0163957972bf2459945019bd9a6a99228a297c7d7ec87e08beb3b4501a',1,'Axiom::render']]],
   ['render_5fgui_4',['RENDER_GUI',['../namespaceaxiom_1_1render.html#a8f6af6d0163957972bf2459945019bd9a0615e40eb9086b5d7285ddfcfe6ddac7',1,'Axiom::render']]],

@@ -8,7 +8,7 @@
 
 namespace Axiom{
     namespace Timer{
-        void Init(){
+        void initialize(){
             // Add Timer
             g_world.observer<Cmp_Timer>("TimerOnAddSystem")
                 .event(flecs::OnAdd)
@@ -28,7 +28,7 @@ namespace Axiom{
         }
 
         // Return the Current Time
-        std::string Current(){
+        std::string get_current_time(){
             auto now = std::chrono::system_clock::now();
             auto now_time_t = std::chrono::system_clock::to_time_t(now);
             std::tm now_tm;

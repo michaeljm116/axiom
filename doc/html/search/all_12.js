@@ -41,7 +41,7 @@ var searchData=
   ['start_5ftime_38',['start_time',['../structaxiom_1_1_cmp___timer.html#a54c678252d1cba8183a8cea7d7cf8624',1,'Axiom::Cmp_Timer']]],
   ['startindex_39',['startIndex',['../structaxiom_1_1shader_1_1ss_primitive.html#a13ea0c5450ad6d0abc527faefba642fb',1,'Axiom::Shader::ssPrimitive::startIndex()'],['../structaxiom_1_1_cmp___primitive.html#a24df2992efc19cf61bf7b106d540f14f',1,'Axiom::Cmp_Primitive::startIndex()']]],
   ['state_40',['state',['../structaxiom_1_1_cmp___selectable.html#aeb7604b0b060656aa11751ce2e85e1e6',1,'Axiom::Cmp_Selectable']]],
-  ['static_5ftransform_41',['Static_Transform',['../namespaceaxiom_1_1transform.html#a8569d02211c46664c9f22c7b5df09e66',1,'Axiom::Transform']]],
+  ['static_5ftransform_41',['transform_static_entity',['../namespaceaxiom_1_1transform.html#a8569d02211c46664c9f22c7b5df09e66',1,'Axiom::Transform']]],
   ['submitinfo_42',['submitInfo',['../namespaceaxiom_1_1vks_1_1initializers.html#af63979b36c7d136dd0eb16d7cf36e82c',1,'Axiom::vks::initializers']]],
   ['surfacearea_43',['SurfaceArea',['../structaxiom_1_1bvh_1_1_b_v_h_bounds.html#a7ec6b500403adb87c21407f74ba54888',1,'Axiom::Bvh::BVHBounds']]],
   ['sys_2dinput_2ecpp_44',['sys-input.cpp',['../sys-input_8cpp.html',1,'']]],

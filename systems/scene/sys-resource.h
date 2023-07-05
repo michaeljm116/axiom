@@ -16,11 +16,11 @@ The api flow is as follows:
 
 namespace Axiom{
     namespace Resource{
-        void Init();
-        bool LoadPModel(flecs::entity e, Cmp_Resource& res, Cmp_Res_Model& cmp_mod);
-        bool LoadPose(flecs::entity e, Cmp_Resource& res, Cmp_Res_Animations& cmp_anim);
-        bool LoadDirectory(std::string directory);
-        bool LoadDirectoryMulti(std::string directory);
-        bool LoadMaterials(std::string file);
+        void initialize();
+        bool load_pmodel(flecs::entity e, Cmp_Resource& res, Cmp_Res_Model& cmp_mod);
+        bool load_pose(flecs::entity e, Cmp_Resource& res, Cmp_Res_Animations& cmp_anim);
+        bool load_directory(std::string directory);
+        bool load_directory_multi(std::string directory);
+        bool load_materials(std::string file);
     };
 }

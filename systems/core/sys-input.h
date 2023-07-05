@@ -6,10 +6,10 @@
 
 namespace Axiom
 {
-    namespace input
+    namespace Input
     {
-		void Init();
-		inline void UpdateButton(Cmp_Mouse& mouse, int btn, bool pressed);
+		void initialize();
+		inline void update_button(Cmp_Mouse& mouse, int btn, bool pressed);
 
 		static void key_callback(GLFWwindow * window, int key, int scancode, int action, int mods)
 		{
