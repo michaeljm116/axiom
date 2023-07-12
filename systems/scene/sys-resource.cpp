@@ -13,20 +13,20 @@ namespace Axiom{
 	namespace Resource{
 		void initialize()
 		{
-			g_world.observer<Cmp_Resource, Cmp_Res_Model>()
+			g_world.observer<Cmp_Resource, Cmp_ResModel>()
 			.event(flecs::OnSet)
-			.each([](flecs::entity e, Cmp_Resource& res, Cmp_Res_Model& d){
+			.each([](flecs::entity e, Cmp_Resource& res, Cmp_ResModel& d){
 				load_pmodel(e, res, d);
 			});
 
-			g_world.observer<Cmp_Resource, Cmp_Res_Animations>()
+			g_world.observer<Cmp_Resource, Cmp_ResAnimations>()
 			.event(flecs::OnSet)
-			.each([](flecs::entity e, Cmp_Resource& res, Cmp_Res_Animations& d){
+			.each([](flecs::entity e, Cmp_Resource& res, Cmp_ResAnimations& d){
 				load_pose(e, res, d);
 			});			
 		}
 
-		bool load_pmodel(flecs::entity e, Cmp_Resource& res, Cmp_Res_Model& cmp_mod)
+		bool load_pmodel(flecs::entity e, Cmp_Resource& res, Cmp_ResModel& cmp_mod)
 		{
 			Resource::Model mod;
 			auto fileName = res.file_path + "/" + res.file_name;
@@ -162,14 +162,14 @@ namespace Axiom{
 			if (triCheck == "_t") mod.triangular = true;
 
 			//model.data = mod;
-			//e.set<Cmp_Res_Model>({mod});
-			e.get_mut<Cmp_Res_Model>()->data = mod;
-			//e.modified<Cmp_Res_Model>();
+			//e.set<Cmp_ResModel>({mod});
+			e.get_mut<Cmp_ResModel>()->data = mod;
+			//e.modified<Cmp_ResModel>();
 			//auto res_cmp = e.get<Cmp_Resource>();
 			return true; 
 		}
 		
-		bool load_pose(flecs::entity e, Cmp_Resource &res, Cmp_Res_Animations& cmp_anim)
+		bool load_pose(flecs::entity e, Cmp_Resource &res, Cmp_ResAnimations& cmp_anim)
 		{
 			auto fileName = res.file_path + "/" + res.file_name;
 			assert(res.file_name.size() > 5);
@@ -236,7 +236,7 @@ namespace Axiom{
 				poseElement = poseElement->NextSiblingElement("Pose");
 			}
 			
-			e.get_mut<Cmp_Res_Animations>()->data = pl;
+			e.get_mut<Cmp_ResAnimations>()->data = pl;
 			return eResult == tinyxml2::XML_SUCCESS;
 		}
 
@@ -249,10 +249,10 @@ namespace Axiom{
 				e.set<Cmp_Resource>({directory, name});
 
 				if(extension == ".pm"){
-					e.set<Cmp_Res_Model>({});
+					e.set<Cmp_ResModel>({});
 				}
 				else if(extension == ".anim"){
-					e.set<Cmp_Res_Animations>({});
+					e.set<Cmp_ResAnimations>({});
 				}
 			}
 			return true;
@@ -276,11 +276,11 @@ namespace Axiom{
 
 					if (extension == ".pm")
 					{
-						e.set<Cmp_Res_Model>({});
+						e.set<Cmp_ResModel>({});
 					}
 					else if (extension == ".anim")
 					{
-						e.set<Cmp_Res_Animations>({});
+						e.set<Cmp_ResAnimations>({});
 					}
 				}));
 			}
@@ -329,7 +329,7 @@ namespace Axiom{
 
 				auto e = g_world.entity(name);
 				e.set<Cmp_Resource>({file, name});
-				e.set<Cmp_Res_Material>({mat});
+				e.set<Cmp_ResMaterial>({mat});
 
 
 				if (first != last)

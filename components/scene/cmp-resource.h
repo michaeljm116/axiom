@@ -154,17 +154,17 @@ namespace Axiom{
         std::string file_name;
     };
 
-    struct Cmp_Res_Model
+    struct Cmp_ResModel
     {
         Resource::Model data;
     };
 
-    struct Cmp_Res_Material
+    struct Cmp_ResMaterial
     {
         Resource::Material data;
     };
 
-    struct Cmp_Res_Animations
+    struct Cmp_ResAnimations
     {
         Resource::PoseList data;
     };

@@ -37,14 +37,14 @@ namespace Axiom
                 createSemaphores();
             }
 
-            void RenderBase::cleanup() {
+            void RenderBase::clean_up() {
                 vkDestroySemaphore(vulkan_component->device.logical, vulkan_component->semaphores.render_finished, nullptr);
                 vkDestroySemaphore(vulkan_component->device.logical, vulkan_component->semaphores.image_available, nullptr);
                 vkDestroySurfaceKHR(vulkan_component->device.instance, vulkan_component->swapchain.surface, nullptr);
 
                 vulkan_component->device.Destroy();
             }
-            void RenderBase::cleanupSwapChain() {
+            void RenderBase::clean_up_swapchain() {
                 vkDestroyImageView(vulkan_component->device.logical, vulkan_component->depth.image_view, nullptr);
                 vkDestroyImage(vulkan_component->device.logical, vulkan_component->depth.image, nullptr);
                 vkFreeMemory(vulkan_component->device.logical, vulkan_component->depth.image_memory, nullptr);
@@ -367,7 +367,7 @@ namespace Axiom
 
             }
 
-            void RenderBase::recreateSwapChain() {
+            void RenderBase::recreate_swapchain() {
                 /*The disadvantage of this approach is that we need to stop all
                 rendering before creating the new swap chain. It is possible to
                 create a new swap chain while drawing commands on an image from
@@ -377,7 +377,7 @@ namespace Axiom
 
                 vkDeviceWaitIdle(vulkan_component->device.logical); //makes sure to tuch no resources already in use
 
-                cleanupSwapChain();
+                clean_up_swapchain();
 
                 createSwapChain();
                 createImageViews();

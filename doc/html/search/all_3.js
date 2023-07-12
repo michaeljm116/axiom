@@ -1,7 +1,7 @@
 var searchData=
 [
   ['data_0',['Data',['../structaxiom_1_1log_1_1_data.html',1,'Axiom::Log']]],
-  ['data_1',['data',['../structaxiom_1_1_cmp___res___model.html#a89316a15aa2ff0073dddff42b6cc458a',1,'Axiom::Cmp_Res_Model::data()'],['../structaxiom_1_1_cmp___res___material.html#a498a340e4e35d06f46f233637e8bccae',1,'Axiom::Cmp_Res_Material::data()'],['../structaxiom_1_1_cmp___res___animations.html#aa482890766ee3539b43785981a51caf3',1,'Axiom::Cmp_Res_Animations::data()']]],
+  ['data_1',['data',['../structaxiom_1_1_cmp___res___model.html#a89316a15aa2ff0073dddff42b6cc458a',1,'Axiom::Cmp_ResModel::data()'],['../structaxiom_1_1_cmp___res___material.html#a498a340e4e35d06f46f233637e8bccae',1,'Axiom::Cmp_ResMaterial::data()'],['../structaxiom_1_1_cmp___res___animations.html#aa482890766ee3539b43785981a51caf3',1,'Axiom::Cmp_ResAnimations::data()']]],
   ['debug_2',['DEBUG',['../namespaceaxiom_1_1log.html#aa3721fbaa0224877e471ad1afd8322abadc30ec20708ef7b0f641ef78b7880a15',1,'Axiom::Log']]],
   ['descriptor_3',['descriptor',['../structaxiom_1_1vks_1_1_buffer.html#a59b9e9c11cdf76999a42ec82778f3c8a',1,'Axiom::vks::Buffer']]],
   ['descriptorimageinfo_4',['descriptorImageInfo',['../namespaceaxiom_1_1vks_1_1initializers.html#a261d5b567cf8c8a0f92db616fe7b66c0',1,'Axiom::vks::initializers']]],

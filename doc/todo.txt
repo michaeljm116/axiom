@@ -1,3 +1,39 @@
+7/12/2023
+* Soooo back to the drawing board as it relates to the renderer....
+* There's some important things to think about and consider with errthang
+1. What part of the renderer do you want public?
+2. How should the data be separated?
+
+1.... So there's actually a couple things to consider...
+... so lets think about the logger, you want to at any time be able to do something like...
+log::this_thing
+so you want to be able to do something like...
+Rendering::Compute::Raytracer::add_entity(froku);
+
+
+7/11/2023
+* So for this, yourre just going to copy everything you did with the render base which is...
+* * Have a pointer to the component
+* * Have a class.... idea...
+* * have a "StartUp" namespace
+* * What ifffff... you still have a renderer and inheritace etc... that takes the render base etc...
+* * But none of the member variables of the renderer
+* * So the renderer is jsut a collection of functions
+
+
+
+7/5/2023
+* Soooo you realized that you're entire renderer is not ECSIFIED and the question is do you wanna or nah?
+* * its too complex
+* * but... if you want it to be pure... 
+* * I have no clue how i could even begin to do such a thing....
+7/6/2023
+* * its been so long that you've used flecs so i think its best to just...
+* * * Render everything as-is right now
+* * * Once it's complete, THEN restructure 
+* * * ooo but how about... all the arrays get statically externalized
+* * * Naming convention: Class = lower_case, members = lower_case. Instantiations = Upper case
+
 7/1/2023
 * wow... you did a lot of writing for absolutely nothign that day like name changes??? ugh why
 * Soooo with the name changes... 

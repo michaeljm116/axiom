@@ -40,15 +40,15 @@ namespace Axiom
 
                 void initWindow();
                 void initVulkan();
-                virtual void cleanup();
-                virtual void cleanupSwapChain();
-                virtual void recreateSwapChain();
+                virtual void clean_up();
+                virtual void clean_up_swapchain();
+                virtual void recreate_swapchain();
 
                 static void onWindowResized(GLFWwindow* window, int width, int height) {
                     if (width == 0 || height == 0) return;
 
                     RenderBase* app = reinterpret_cast<RenderBase*>(glfwGetWindowUserPointer(window));
-                    app->recreateSwapChain();
+                    app->recreate_swapchain();
                 }
 
                 Cmp_Vulkan* vulkan_component;
