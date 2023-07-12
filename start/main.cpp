@@ -97,21 +97,21 @@ int main(){
 
 
 	auto e = g_world.lookup("A_Primitive_Helix_01.pm");
-	auto m = e.get<Axiom::Cmp_Res_Model>();
+	auto m = e.get<Axiom::Cmp_ResModel>();
 	auto f = e.get<Axiom::Cmp_Resource>();
 
 	auto bird = g_world.lookup("Bird.anim");
-	auto b = bird.get<Axiom::Cmp_Res_Animations>();
+	auto b = bird.get<Axiom::Cmp_ResAnimations>();
 	auto bb = bird.get<Axiom::Cmp_Resource>();
 
 	auto gold = g_world.lookup("Gold");
-	auto g = gold.get<Axiom::Cmp_Res_Material>();
+	auto g = gold.get<Axiom::Cmp_ResMaterial>();
 	auto gg = gold.get<Axiom::Cmp_Resource>();
 
 
 	auto e_froku = g_world.entity("Froku");
 	auto r_froku = g_world.lookup("froku2.pm");
-	auto d_froku = r_froku.get<Axiom::Cmp_Res_Model>()->data;
+	auto d_froku = r_froku.get<Axiom::Cmp_ResModel>()->data;
 
 	std::vector<flecs::entity> body_parts;
 	for(auto d : d_froku.meshes){
@@ -132,7 +132,7 @@ int main(){
 	auto a_cmp = afro.get<Axiom::Resource::Mesh>();
 
 	auto prnt = afro.parent();
-	auto prnt_cmp = prnt.get<Axiom::Cmp_Res_Model>();
+	auto prnt_cmp = prnt.get<Axiom::Cmp_ResModel>();
 
 	//auto* twindow = g_world.get<Cmp_Window>()->window;
 

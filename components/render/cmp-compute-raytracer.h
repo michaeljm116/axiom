@@ -22,7 +22,7 @@
     namespace Render{
         
     static const int MAX_TEXTURES = 5;
-        struct Cmp_Compute_Raytracer{
+        struct Cmp_ComputeRaytracer{
             bool editor = true;
             VkDescriptorPool descriptor_pool;
             struct {
@@ -33,23 +33,7 @@
             }graphics;
 
             struct
-                {
-                struct {
-                    //GPU READ ONLY
-                    Vulkan::VBuffer<Shader::Vert> verts;			// (Shader) storage buffer object with scene verts
-                    Vulkan::VBuffer<Shader::Index> faces;			// (Shader) storage buffer object with scene indices
-                    Vulkan::VBuffer<Shader::BVHNode> blas;		// (Shader) storage buffer object with bottom level acceleration structure
-                    Vulkan::VBuffer<Shader::Shape> shapes;		// for animatied shapes 
-
-                    //CPU + GPU 
-                    Vulkan::VBuffer<Shader::Primitive> primitives;	// for the primitives
-                    Vulkan::VBuffer<Shader::Material> materials;	// (Shader) storage buffer object with scene Materials
-                    Vulkan::VBuffer<Shader::Light> lights;
-                    Vulkan::VBuffer<Shader::GUI> guis;
-                    Vulkan::VBuffer<Shader::BVHNode> bvh;			// for the bvh bruh
-
-                } storage_buffers;
-
+            {
                 VkQueue queue;								// Separate queue for compute commands (queue family may differ from the one used for graphics)
                 VkCommandPool command_pool;					// Use a separate command pool (queue family may differ from the one used for graphics)
                 VkCommandBuffer command_buffer;				// Command buffer storing the dispatch commands and barriers
@@ -65,20 +49,9 @@
                     int rand;
                 } ubo;
                 Vulkan::VBuffer<UBOCompute> uniform_buffer;			// Uniform buffer object containing scene data
-            } compute;
+            }compute;
 
-            std::vector<Shader::Primitive> primitives;
-            std::vector<Shader::Material> materials;
-            std::vector<Shader::Light> lights;
-            std::vector<Shader::GUI> guis;
-            std::vector<Shader::BVHNode> bvh;
 
-            std::vector<Cmp_Mesh*> mesh_comps;
-            std::vector<Cmp_Light*> light_comps;
-
-            std::unordered_map<int32_t, std::pair<int, int>> mesh_assigner;
-            std::unordered_map<int32_t, std::pair<int, int>> joint_assigner;
-            std::unordered_map<int32_t, std::pair<int, int>> shape_assigner;
 
             bool prepared = false;
 
