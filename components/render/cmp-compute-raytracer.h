@@ -51,8 +51,6 @@
                 Vulkan::VBuffer<UBOCompute> uniform_buffer;			// Uniform buffer object containing scene data
             }compute;
 
-
-
             bool prepared = false;
 
             Texture compute_texture;
@@ -60,6 +58,37 @@
 
             VkDescriptorSetLayoutBinding DescriptorSetLayoutBinding(uint32_t binding, VkDescriptorType descriptorType, uint32_t descriptorCount, VkShaderStageFlags flags);
             std::vector<VkWriteDescriptorSet> compute_write_descriptor_sets;
+        };
+        struct Cmp_ComputeData
+        {
+            struct 
+            {
+                //GPU READ ONLY
+                Vulkan::VBuffer<Shader::Vert> verts;		// (Shader) storage buffer object with scene verts
+                Vulkan::VBuffer<Shader::Index> faces;		// (Shader) storage buffer object with scene indices
+                Vulkan::VBuffer<Shader::BVHNode> blas;		// (Shader) storage buffer object with bottom level acceleration structure
+                Vulkan::VBuffer<Shader::Shape> shapes;		// for animatied shapes 
+
+                //CPU + GPU 
+                Vulkan::VBuffer<Shader::Primitive> primitives;	// for the primitives
+                Vulkan::VBuffer<Shader::Material> materials;	// (Shader) storage buffer object with scene Materials
+                Vulkan::VBuffer<Shader::Light> lights;
+                Vulkan::VBuffer<Shader::GUI> guis;
+                Vulkan::VBuffer<Shader::BVHNode> bvh;			// for the bvh bruh
+            }storage_buffers;
+
+            struct
+            {
+                std::vector<Shader::Primitive> primitives;
+                std::vector<Shader::Material> materials;
+                std::vector<Shader::Light> lights;
+                std::vector<Shader::GUI> guis;
+                std::vector<Shader::BVHNode> bvh;
+            }shader_data;
+
+            std::vector<VkWriteDescriptorSet> write_descriptor_sets;
+            std::vector<Cmp_Light*> light_comps;
+            std::unordered_map<int32_t, std::pair<int, int>> mesh_assigner;    
         };
     }
  }

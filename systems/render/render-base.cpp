@@ -8,9 +8,10 @@ namespace Axiom
         namespace Base
         {
 
-            void InitializeVulkan(Cmp_Vulkan& vulkan_component){
+            void InitializeVulkan(){
+	            auto vc = g_world.get_ref<Axiom::Render::Cmp_Vulkan>();
                 RenderBase base;
-                base.vulkan_component = &vulkan_component;
+                base.vulkan_component = vc.get();
                 base.initVulkan();
             };
 

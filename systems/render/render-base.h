@@ -29,7 +29,7 @@ namespace Axiom
                 uint32_t height;
             };
 
-            void InitializeVulkan(Cmp_Vulkan& vulkan_component);
+            void InitializeVulkan();
 
             class RenderBase {
             public:

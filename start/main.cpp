@@ -66,14 +66,13 @@ int main(){
 
 
 	g_world.add<Axiom::Render::Cmp_Vulkan>();
-	auto vc = g_world.get_ref<Axiom::Render::Cmp_Vulkan>();
-	Axiom::Render::Base::InitializeVulkan(*vc.get());
+	Axiom::Render::Base::InitializeVulkan();
 
 	g_world.add<Axiom::Cmp_CurrentTime>();
 	g_world.add<Axiom::Cmp_LogFile>();
 	g_world.add<Axiom::Cmp_Timer>();
 	
-	Log::check(r, "Initializing Volk");
+	Log::check(r == VK_SUCCESS, "Initializing Volk");
 
 
 

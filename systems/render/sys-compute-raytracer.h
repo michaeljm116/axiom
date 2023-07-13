@@ -8,44 +8,17 @@ namespace Axiom
     {
         namespace Compute
         {
-            struct StorageBuffers 
-            {
-                    //GPU READ ONLY
-                    Vulkan::VBuffer<Shader::Vert> verts;		// (Shader) storage buffer object with scene verts
-                    Vulkan::VBuffer<Shader::Index> faces;		// (Shader) storage buffer object with scene indices
-                    Vulkan::VBuffer<Shader::BVHNode> blas;		// (Shader) storage buffer object with bottom level acceleration structure
-                    Vulkan::VBuffer<Shader::Shape> shapes;		// for animatied shapes 
-
-                    //CPU + GPU 
-                    Vulkan::VBuffer<Shader::Primitive> primitives;	// for the primitives
-                    Vulkan::VBuffer<Shader::Material> materials;	// (Shader) storage buffer object with scene Materials
-                    Vulkan::VBuffer<Shader::Light> lights;
-                    Vulkan::VBuffer<Shader::GUI> guis;
-                    Vulkan::VBuffer<Shader::BVHNode> bvh;			// for the bvh bruh
-            };
-            struct ShaderData
-            {
-                std::vector<Shader::Primitive> primitives;
-                std::vector<Shader::Material> materials;
-                std::vector<Shader::Light> lights;
-                std::vector<Shader::GUI> guis;
-                std::vector<Shader::BVHNode> bvh;
-            };
-
-            extern std::vector<VkWriteDescriptorSet> write_descriptor_sets;
-            extern std::vector<Cmp_Light*> light_comps;
-            extern std::unordered_map<int32_t, std::pair<int, int>> mesh_assigner;     
-            extern StorageBuffers Storage_Buffers;
-            extern ShaderData Shader_Data;
-            extern Raytracer raytracer;
-
-            void initialize(Cmp_ComputeRaytracer& c_raytracer, Cmp_Vulkan& vulkan);
+            void initialize_raytracing();
 
             class Raytracer: public Renderer
             {
                 public:
                     Raytracer();
+                    Raytracer(Cmp_Vulkan* vk, Cmp_ComputeRaytracer* cr, Cmp_ComputeData* cd);
                     ~Raytracer();
+
+                    Cmp_ComputeData* compute_component;
+                    Cmp_ComputeRaytracer* raytracing_component; 
                     
                     void start_up() override;
                     void initialize() override;

@@ -9,6 +9,21 @@
 log::this_thing
 so you want to be able to do something like...
 Rendering::Compute::Raytracer::add_entity(froku);
+so theres like... public methods you want to consider... and public data you want to consider....
+what is the public data you want to consider?
+...tbh idk
+like if an object has a material then you'd just add a cmp_material do it
+i know that you have and use a render component but
+so bsically what the public data would be is....
+something that the renderer cycles through for every frame for every entity
+You might also want the renderer data to be accross the engine
+like for the editor thing for example
+or if you want to configure the renderer
+or swapchain info or like.... device info 
+
+7/13/2023
+sooo one thing you definitely want tho is the separation of data and functions
+sooo i think a Cmp_ComputeRaytracer is still a good idea
 
 
 7/11/2023
