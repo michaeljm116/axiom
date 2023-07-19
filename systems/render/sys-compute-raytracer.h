@@ -33,11 +33,15 @@ namespace Axiom
                     void clean_up() override;
                     void clean_up_swapchain() override;
                     void recreate_swapchain() override;
+                    void toggle_playmode(bool b) override;
 
                     void add_material(glm::vec3 diff, float rfl, float rough, float trans, float ri) override;
-                    void update_descriptors() override;
                     void update_material(int id) override;
-                    void toggle_playmode(bool b) override;
+		            void update_camera(Cmp_Camera* c) override;
+                    void update_descriptors() override;
+                    void update_buffers();
+                    void update_uniform_buffer();
+                    void load_resources();
 
                 private:
                     void set_stuff_up();

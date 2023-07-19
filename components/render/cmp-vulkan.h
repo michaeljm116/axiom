@@ -63,12 +63,11 @@ namespace Axiom
                 VkRenderPass render_pass;
             };
 
-            /**@brief Vulkan Submit info*/
+            /** @brief Vulkan Submit info*/
             struct Submit{
                 VkSubmitInfo info;
             };
         }
-
 
         struct Cmp_Vulkan
         {
@@ -79,7 +78,7 @@ namespace Axiom
             Vulkan::Depth depth;
             Vulkan::Queues queues;
             Vulkan::Pipeline pipeline;
-            Vulkan::Submit info;
+            VkSubmitInfo submit_info;
         };
     }
 }

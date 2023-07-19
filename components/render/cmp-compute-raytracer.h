@@ -34,15 +34,15 @@
 
             struct
             {
-                VkQueue queue;								// Separate queue for compute commands (queue family may differ from the one used for graphics)
-                VkCommandPool command_pool;					// Use a separate command pool (queue family may differ from the one used for graphics)
-                VkCommandBuffer command_buffer;				// Command buffer storing the dispatch commands and barriers
-                VkFence fence;								// Synchronization fence to avoid rewriting compute CB if still in use
+                VkQueue queue;								    // Separate queue for compute commands (queue family may differ from the one used for graphics)
+                VkCommandPool command_pool;					    // Use a separate command pool (queue family may differ from the one used for graphics)
+                VkCommandBuffer command_buffer;				    // Command buffer storing the dispatch commands and barriers
+                VkFence fence;								    // Synchronization fence to avoid rewriting compute CB if still in use
                 VkDescriptorSetLayout descriptor_set_layout;	// Compute shader binding layout
-                VkDescriptorSet descriptor_set;				// Compute shader bindings
-                VkPipelineLayout pipeline_layout;			// Layout of the compute pipeline
-                VkPipeline pipeline;						// Compute raytracing pipeline
-                struct UBOCompute {							// Compute shader uniform block object
+                VkDescriptorSet descriptor_set;				    // Compute shader bindings
+                VkPipelineLayout pipeline_layout;			    // Layout of the compute pipeline
+                VkPipeline pipeline;						    // Compute raytracing pipeline
+                struct UBOCompute {							    // Compute shader uniform block object
                     glm::mat4 rotM = glm::mat4(1);
                     float fov = 10.0f;
                     float aspect_ratio;
