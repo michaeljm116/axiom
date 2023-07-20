@@ -42,13 +42,6 @@
                 VkDescriptorSet descriptor_set;				    // Compute shader bindings
                 VkPipelineLayout pipeline_layout;			    // Layout of the compute pipeline
                 VkPipeline pipeline;						    // Compute raytracing pipeline
-                struct UBOCompute {							    // Compute shader uniform block object
-                    glm::mat4 rotM = glm::mat4(1);
-                    float fov = 10.0f;
-                    float aspect_ratio;
-                    int rand;
-                } ubo;
-                Vulkan::VBuffer<UBOCompute> uniform_buffer;			// Uniform buffer object containing scene data
             }compute;
 
             bool prepared = false;
@@ -85,6 +78,14 @@
                 std::vector<Shader::GUI> guis;
                 std::vector<Shader::BVHNode> bvh;
             }shader_data;
+
+            struct UBOCompute{                              // Compute shader uniform block object
+                glm::mat4 rotM = glm::mat4(1);
+                float fov = 10.0f;
+                float aspect_ratio;
+                int rand;
+            }ubo;
+            Vulkan::VBuffer<UBOCompute> uniform_buffer;     // Uniform buffer object containing scene data
 
             std::vector<VkWriteDescriptorSet> write_descriptor_sets;
             std::vector<Cmp_Light*> light_comps;

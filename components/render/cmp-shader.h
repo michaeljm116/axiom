@@ -21,30 +21,30 @@ namespace Axiom
 			struct GUI {
 				glm::vec2 min;
 				glm::vec2 extents;
-				glm::vec2 alignMin;
-				glm::vec2 alignExt;
+				glm::vec2 align_min;
+				glm::vec2 align_ext;
 				int layer;
 				int id;
 				int pad = 0;
 				float alpha = 1.f;
 
 				GUI() {};
-				GUI(glm::vec2 min, glm::vec2 max, glm::vec2 aMin, glm::vec2 aExt, int l, int i) : min(min), extents(max), alignMin(aMin), alignExt(aExt), layer(l), id(i) {};
+				GUI(glm::vec2 min, glm::vec2 max, glm::vec2 aMin, glm::vec2 aExt, int l, int i) : min(min), extents(max), align_min(aMin), align_ext(aExt), layer(l), id(i) {};
 			};
 			//
 			struct Primitive {
 				glm::mat4 world; //64bytes
 				glm::vec3 extents; //12bytes
-				int numChildren = 0; //4bytes;
+				int num_children = 0; //4bytes;
 
 				int id; //4bytes
 				int matId; //4bytes
-				int startIndex = 0;
-				int endIndex = 0;
+				int start_index = 0;
+				int end_index = 0;
 
 				Primitive() {};
-				Primitive(Cmp_Primitive* pc) : world(pc->world), extents(pc->extents), numChildren(pc->numChildren),
-					id(pc->id), matId(pc->matId), startIndex(pc->startIndex), endIndex(pc->endIndex)
+				Primitive(Cmp_Primitive* pc) : world(pc->world), extents(pc->extents), num_children(pc->num_children),
+					id(pc->id), matId(pc->matId), start_index(pc->start_index), end_index(pc->end_index)
 				{};
 
 			};//Total = 96bytes
@@ -87,11 +87,11 @@ namespace Axiom
 
 				float roughness;
 				float transparency;
-				float refractiveIndex;
-				int	  textureID;
+				float refractive_index;
+				int	  texture_id;
 				Material() {};
 				//ssMaterial(glm::vec3 d, float m, float r) { diffuse = d, metallic = m; roughness = r; };
-				Material(glm::vec3 d, float rfl, float ruf, float trn, float rfr, int ti) { diffuse = d; reflective = rfl; roughness = ruf; transparency = trn; refractiveIndex = rfr; textureID = ti; };
+				Material(glm::vec3 d, float rfl, float ruf, float trn, float rfr, int ti) { diffuse = d; reflective = rfl; roughness = ruf; transparency = trn; refractive_index = rfr; texture_id = ti; };
 				//ssMaterial(glm::vec3 d, float m, float r, bool t, int id) { diffuse = d; metallic = m; roughness = r; hasTexture = b; textureID = id; };
 			};	//32 bytes
 

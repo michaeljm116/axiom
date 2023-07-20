@@ -16,8 +16,8 @@ namespace Axiom{
                 raytracer.start_up();*/
                 Raytracer rt;
                 rt.vulkan_component = g_world.get_ref<Axiom::Render::Cmp_Vulkan>().get();
-                //rt.compute_component = g_world.get_ref<Axiom::Render::Cmp_ComputeData>().get();
-                //rt.raytracing_component = g_world.get_ref<Axiom::Render::Cmp_ComputeRaytracer>().get();
+                //rt.c_data = g_world.get_ref<Axiom::Render::Cmp_ComputeData>().get();
+                //rt.rt_data = g_world.get_ref<Axiom::Render::Cmp_ComputeRaytracer>().get();
             }
 
             Raytracer::Raytracer()
@@ -27,8 +27,8 @@ namespace Axiom{
             Raytracer::Raytracer(Cmp_Vulkan *vk, Cmp_ComputeRaytracer *cr, Cmp_ComputeData *cd)
             {
                 vulkan_component = vk;
-                raytracing_component = cr;
-                compute_component = cd;
+                rt_data = cr;
+                c_data = cd;
             }
             void Raytracer::start_up()
             {
@@ -37,8 +37,8 @@ namespace Axiom{
                 set_stuff_up();
                 std::vector<rMaterial> copy = RESOURCEMANAGER.getMaterials();
                 for (std::vector<rMaterial>::iterator itr = copy.begin(); itr != copy.end(); ++itr) {
-                    compute_component->shader_data.materials.push_back(ssMaterial(itr->diffuse, itr->reflective, itr->roughness, itr->transparency, itr->refractiveIndex, itr->textureID));
-                    itr->renderedMat = &compute_component->shader_data.materials.back();// compute_component->shader_data.materials.end();
+                    c_data->shader_data.materials.push_back(ssMaterial(itr->diffuse, itr->reflective, itr->roughness, itr->transparency, itr->refractiveIndex, itr->textureID));
+                    itr->renderedMat = &c_data->shader_data.materials.back();// c_data->shader_data.materials.end();
                 }
                 LoadResources();
             }
@@ -116,15 +116,15 @@ namespace Axiom{
                 vkQueueWaitIdle(vulkan_component->queues.present);// sync with gpu
 
                 //Possible compute here? image is in swapchain so maybe you can use image for compute stuff...
-                vkWaitForFences(vulkan_component->device.logical, 1, &raytracing_component->compute.fence, VK_TRUE, UINT64_MAX);
-                vkResetFences(vulkan_component->device.logical, 1, &raytracing_component->compute.fence);
+                vkWaitForFences(vulkan_component->device.logical, 1, &rt_data->compute.fence, VK_TRUE, UINT64_MAX);
+                vkResetFences(vulkan_component->device.logical, 1, &rt_data->compute.fence);
 
                 VkSubmitInfo compute_submit_info = {};
                 compute_submit_info.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
                 compute_submit_info.commandBufferCount = 1;
-                compute_submit_info.pCommandBuffers = &raytracing_component->compute.command_buffer;// &computeCommandBuffer;
+                compute_submit_info.pCommandBuffers = &rt_data->compute.command_buffer;// &computeCommandBuffer;
 
-                if (vkQueueSubmit(vulkan_component->queues.compute, 1, &compute_submit_info, raytracing_component->compute.fence) != VK_SUCCESS)
+                if (vkQueueSubmit(vulkan_component->queues.compute, 1, &compute_submit_info, rt_data->compute.fence) != VK_SUCCESS)
                     throw std::runtime_error("failed to submit compute commadn buffer!");
                 //render_time_.End();
                 //pINPUT.renderTime = render_time_.ms;
@@ -146,110 +146,121 @@ namespace Axiom{
                     primitive_component->world = transform_component->world;
                     primitive_component->extents = transform_component->local.sca;
                     if (primitive_component->id > 0) {
-                        std::pair<int, int> temp = compute_component->mesh_assigner[primitive_component->id];
-                        primitive_component->startIndex = temp.first;
-                        primitive_component->endIndex = temp.second;
+                        std::pair<int, int> temp = c_data->mesh_assigner[primitive_component->id];
+                        primitive_component->start_index = temp.first;
+                        primitive_component->end_index = temp.second;
                     }
-                    SetRenderUpdate(RenderUpdate::kUpdateObject);
+                    
+                    update_renderer(RendererUpdateFlags::kUpdateObject);
                 }
                 if (t == RENDER_LIGHT) {
-
-                    LightComponent* lightComp = (LightComponent*)e.getComponent<LightComponent>();
-                    TransformComponent* transComp = (TransformComponent*)e.getComponent<TransformComponent>();
-                    ssLight light;
-                    light.pos = transComp->global.position;
-                    light.color = lightComp->color;
-                    light.intensity = lightComp->intensity;
-                    light.id = e.getUniqueId();// lightComp->id;
-                    lightComp->id = light.id;
-                    lights_.push_back(light);
-                    light_comps_.push_back(lightComp);
-
+                    Cmp_Light* light_component = e.get_mut<Cmp_Light>();
+                    Cmp_Transform* transform_component = e.get_mut<Cmp_Transform>();
+                    Shader::Light light_shader;
+                    light_shader.pos = transform_component->global.pos;
+                    light_shader.color = light_component->color;
+                    light_shader.intensity = light_component->intensity;
+                    light_shader.id = e.id();// getUniqueId();// lightComp->id;
+                    light_component->id = light_shader.id;
+                    c_data->shader_data.lights.push_back(light_shader);
+                    c_data->light_comps.push_back(light_component);
                     //NodeComponent* node = (NodeComponent*)e.getComponent<NodeComponent>();
                     //addNode(node);
 
-                    compute_component->storage_buffers.lights.UpdateAndExpandBuffers(vulkan_component->device, lights_, lights_.size());
+                    c_data->storage_buffers.lights.UpdateAndExpandBuffers(vulkan_component->device, 
+                    c_data->shader_data.lights, c_data->shader_data.lights.size());
                     //update_descriptors();
                 }
                 if (t == RENDER_GUI) {
-                    GUIComponent* gc = (GUIComponent*)e.getComponent<GUIComponent>();
-                    ssGUI gui = ssGUI(gc->min, gc->extents, gc->alignMin, gc->alignExt, gc->layer, gc->id);
-                    gc->ref = guis_.size();
+                    Cmp_GUI* gc = e.get_mut<Cmp_GUI>();
+                    Shader::GUI gui = Shader::GUI(gc->min, gc->extents, gc->align_min, gc->align_ext, gc->layer, gc->id);
+                    gc->ref = c_data->shader_data.guis.size();
                     gui.alpha = gc->alpha;
-                    guis_.push_back(gui);
-                    SetRenderUpdate(kUpdateGui);
+                    c_data->shader_data.guis.push_back(gui);
+                    update_renderer(kUpdateGui);
                 }
                 if (t == RENDER_GUINUM) {
-                    GUINumberComponent* gnc = (GUINumberComponent*)e.getComponent<GUINumberComponent>();
+                    Cmp_GUINumber* gnc = e.get_mut<Cmp_GUINumber>();
+
+                    auto intToArrayOfInts = [](const int& a){
+                        if (a == 0) {
+                            std::vector<int> zro;
+                            zro.push_back(0);
+                            return zro;
+                        }
+                        std::vector<int> temp;
+                        int c = a;
+                        while (c > 0) {
+                            temp.push_back(c % 10);
+                            c /= 10;
+                        }
+                        std::vector<int> res;
+                        for (int i = temp.size() - 1; i > -1; --i)
+                            res.push_back(temp[i]);
+                        return res;
+                    };
+
                     std::vector<int> nums = intToArrayOfInts(gnc->number);
                     for (int i = 0; i < nums.size(); ++i) {
-                        ssGUI gui = ssGUI(gnc->min, gnc->extents, glm::vec2(0.1f * nums[i], 0.f), glm::vec2(0.1f, 1.f), 0, 0);
-                        gnc->shaderReferences.push_back(guis_.size());
+                        Shader::GUI gui = Shader::GUI(gnc->min, gnc->extents, glm::vec2(0.1f * nums[i], 0.f), glm::vec2(0.1f, 1.f), 0, 0);
+                        gnc->shaderReferences.push_back(c_data->shader_data.guis.size());
                         gui.alpha = gnc->alpha;
-                        guis_.push_back(gui);
+                        c_data->shader_data.guis.push_back(gui);
                     }
                     gnc->ref = gnc->shaderReferences[0];
-                    SetRenderUpdate(kUpdateGui);
+                    update_renderer(kUpdateGui);
                 }
                 if (t == RENDER_CAMERA) {
-                    CameraComponent* cam = (CameraComponent*)e.getComponent<CameraComponent>();
-                    TransformComponent* transComp = (TransformComponent*)e.getComponent<TransformComponent>();
-                    raytracing_component->compute.ubo.aspect_ratio = cam->aspectRatio;
-                    raytracing_component->compute.ubo.rotM = transComp->world;
-                    raytracing_component->compute.ubo.fov = cam->fov;
+                    Cmp_Camera* cc = e.get_mut<Cmp_Camera>();
+                    Cmp_Transform* tc = e.get_mut<Cmp_Transform>();
+                    
+                    c_data->ubo.aspect_ratio = cc->aspect_ratio;
+                    c_data->ubo.rotM = tc->world;
+                    c_data->ubo.fov = cc->fov;
                 }
             }
             void Raytracer::remove_entity(flecs::entity &e)
             {
-                RenderType t = ((RenderComponent*)e.getComponent<RenderComponent>())->type;// renderMapper.get(e)->type;
+                RenderType t = e.get_mut<Cmp_Render>()->type;// renderMapper.get(e)->type;
 
                 if (t == RENDER_LIGHT) {
-                    if (lights_.size() == 1) {
-                        lights_.clear();
-                        light_comps_.clear();
+                    if (c_data->shader_data.lights.size() == 1) {
+                        c_data->shader_data.lights.clear();
+                        c_data->light_comps.clear();
                     }
                     else {
-                        auto* lc = (LightComponent*)e.getComponent<LightComponent>();
-                        for (auto it = lights_.begin(); it != lights_.end(); ++it) {
+                        auto* lc = e.get_mut<Cmp_Light>();
+                        for (auto it = c_data->shader_data.lights.begin(); it != c_data->shader_data.lights.end(); ++it) {
                             if (lc->id == it->id)
-                                lights_.erase(it);
+                                c_data->shader_data.lights.erase(it);
                         }
                     }
                 }
-                /*else if (t == RENDER_GUINUM) {
-                    auto* gnc = (GUINumberComponent*)e.getComponent<GUINumberComponent>();
-                    //gnc->
-
-                }*/
             }
             void Raytracer::process_entity(flecs::entity &e)
             {
-                RenderType type = ((RenderComponent*)e.getComponent<RenderComponent>())->type;// renderMapper.get(e)->type;
+                RenderType type = e.get_mut<Cmp_Render>()->type;
                 if (type == RENDER_NONE) return;
                 switch (type)
                 {
                 case RENDER_MATERIAL:
-                    SetRenderUpdate(RenderUpdate::kUpdateMaterial);
+                    update_renderer(RendererUpdateFlags::kUpdateMaterial);
                     break;
                 case RENDER_PRIMITIVE:
-                    SetRenderUpdate(RenderUpdate::kUpdateObject);
+                    update_renderer(RendererUpdateFlags::kUpdateObject);
                     break;
                 case RENDER_LIGHT:
-                    SetRenderUpdate(RenderUpdate::kUpdateLight);
+                    update_renderer(RendererUpdateFlags::kUpdateLight);
                     break;
                 case RENDER_GUI: {
-                    GUIComponent* gui = (GUIComponent*)e.getComponent<GUIComponent>();
-                    UpdateGui(gui);
+                    auto* gui = e.get_mut<Cmp_GUI>();
+                    update_gui(gui);
                     break; }
                 case RENDER_GUINUM: {
-                    GUINumberComponent* gnc = (GUINumberComponent*)e.getComponent<GUINumberComponent>();			
-                    //if (gnc->number > 9) {
-                    //	/*auto* nodular = (NodeComponent*)e.getComponent<NodeComponent>();
-                    //	std::cout << nodular->name + ": " << gnc->number;*/
-                    //}
+                    auto* gnc = e.get_mut<Cmp_GUINumber>();
                     if (gnc->update) {
                         gnc->update = false;
-                        UpdateGuiNumber(gnc);
+                        update_guinumber(gnc);
                     }
                     break; }
                 default:
@@ -268,10 +279,10 @@ namespace Axiom{
             }
             void Raytracer::clean_up_swapchain()
             {
-                vkDestroyPipeline(vulkan_component->device.logical, raytracing_component->graphics.pipeline, nullptr);
-                //vkDestroyPipeline(vulkan_component->device.logical, raytracing_component->graphics.raster.pipeline, nullptr);
-                vkDestroyPipelineLayout(vulkan_component->device.logical, raytracing_component->graphics.pipeline_layout, nullptr);
-                //vkDestroyPipelineLayout(vulkan_component->device.logical, raytracing_component->graphics.raster.pipeline_layout, nullptr);
+                vkDestroyPipeline(vulkan_component->device.logical, rt_data->graphics.pipeline, nullptr);
+                //vkDestroyPipeline(vulkan_component->device.logical, rt_data->graphics.raster.pipeline, nullptr);
+                vkDestroyPipelineLayout(vulkan_component->device.logical, rt_data->graphics.pipeline_layout, nullptr);
+                //vkDestroyPipelineLayout(vulkan_component->device.logical, rt_data->graphics.raster.pipeline_layout, nullptr);
 
                 RenderBase::clean_up_swapchain();
             }
@@ -311,8 +322,8 @@ namespace Axiom{
             void Raytracer::add_material(glm::vec3 diff, float rfl, float rough, float trans, float ri)
             {
                 ssMaterial mat = ssMaterial(diff, rfl, rough, trans, ri, 0);
-                compute_component->shader_data.materials.push_back(mat);
-                compute_component->storage_buffers.materials.UpdateAndExpandBuffers(vulkan_component->device, materials_, compute_component->shader_data.materials.size());
+                c_data->shader_data.materials.push_back(mat);
+                c_data->storage_buffers.materials.UpdateAndExpandBuffers(vulkan_component->device, materials_, c_data->shader_data.materials.size());
                 update_descriptors();
             }
             void Raytracer::update_material(int id)
@@ -325,7 +336,7 @@ namespace Axiom{
                 materials_[id].refractiveIndex = m->refractiveIndex;
                 materials_[id].textureID = m->textureID;
 
-                compute_component->storage_buffers.materials.UpdateBuffers(vulkan_component->device, materials_);
+                c_data->storage_buffers.materials.UpdateBuffers(vulkan_component->device, materials_);
             }
             void Raytracer::update_camera(Cmp_Camera* c){
                 compute_.ubo.aspect_ratio = c->aspectRatio;
@@ -336,45 +347,52 @@ namespace Axiom{
             }
             void Raytracer::update_descriptors()
             {
-                vkWaitForFences(vulkan_component->device.logical, 1, &raytracing_component->compute.fence, VK_TRUE, UINT64_MAX);
+                vkWaitForFences(vulkan_component->device.logical, 1, &rt_data->compute.fence, VK_TRUE, UINT64_MAX);
                 compute_write_descriptor_sets_ =
                 {
                     // Binding 5: for objects
                     vks::initializers::writeDescriptorSet(
-                        raytracing_component->compute.descriptor_set,
+                        rt_data->compute.descriptor_set,
                         VK_DESCRIPTOR_TYPE_STORAGE_BUFFER,
                         6,
-                        &compute_component->storage_buffers.primitives.bufferInfo),
+                        &c_data->storage_buffers.primitives.bufferInfo),
                     //Binding 6 for materials
                     vks::initializers::writeDescriptorSet(
-                        raytracing_component->compute.descriptor_set,
+                        rt_data->compute.descriptor_set,
                         VK_DESCRIPTOR_TYPE_STORAGE_BUFFER,
                         7,
-                        &compute_component->storage_buffers.materials.bufferInfo),
+                        &c_data->storage_buffers.materials.bufferInfo),
                     //Binding 7 for lights
                     vks::initializers::writeDescriptorSet(
-                        raytracing_component->compute.descriptor_set,
+                        rt_data->compute.descriptor_set,
                         VK_DESCRIPTOR_TYPE_STORAGE_BUFFER,
                         8,
-                        &compute_component->storage_buffers.lights.bufferInfo),
+                        &c_data->storage_buffers.lights.bufferInfo),
                     //Binding 8 for gui
                     vks::initializers::writeDescriptorSet(
-                        raytracing_component->compute.descriptor_set,
+                        rt_data->compute.descriptor_set,
                         VK_DESCRIPTOR_TYPE_STORAGE_BUFFER,
                         9,
-                        &compute_component->storage_buffers.guis.bufferInfo),
+                        &c_data->storage_buffers.guis.bufferInfo),
                     //Binding 10 for bvhnodes
                     vks::initializers::writeDescriptorSet(
-                        raytracing_component->compute.descriptor_set,
+                        rt_data->compute.descriptor_set,
                         VK_DESCRIPTOR_TYPE_STORAGE_BUFFER,
                         10,
-                        &compute_component->storage_buffers.bvh.bufferInfo)
+                        &c_data->storage_buffers.bvh.bufferInfo)
                 };
                 vkupdate_descriptorsets(vulkan_component->device.logical, compute_write_descriptor_sets_.size(), compute_write_descriptor_sets_.data(), 0, NULL);
                 //vkupdate_descriptorsets(vulkan_component->device.logical, compute_write_descriptor_sets_.size(), compute_write_descriptor_sets_.data(), 0, NULL);
                 CreateComputeCommandBuffer();
             }
-            void Raytracer::update_buffers(){
+            void Raytracer::update_gui(Cmp_GUI *gc)
+            {
+            }
+            void Raytracer::update_guinumber(Cmp_GUINumber *gnc)
+            {
+            }
+            void Raytracer::update_buffers()
+            {
                 vkWaitForFences(vkDevice.logicalDevice, 1, &compute_.fence, VK_TRUE, UINT64_MAX);
                 if (update_flags_ & kUpdateNone)
                     return;
@@ -406,7 +424,7 @@ namespace Axiom{
                 update_descriptors();
             }
             void Raytracer::update_uniform_buffer(){
-                raytracing_component->compute.uniform_buffer.ApplyChanges(vulkan_component->device, raytracing_component->compute.ubo);
+                c_data->uniform_buffer.ApplyChanges(vulkan_component->device, c_data->ubo);
             }
             void Raytracer::set_stuff_up()
             {
@@ -417,12 +435,12 @@ namespace Axiom{
                 camera_.rotationSpeed = 0.0f;
                 camera_.movementSpeed = 7.5f;
 
-                raytracing_component->compute.ubo.aspect_ratio = camera_.aspect;
-                //raytracing_component->compute.ubo.lookat = glm::vec3(1.f, 1.f, 1.f);// testScript.vData[6];// camera_.rotation;
-                //raytracing_component->compute.ubo.pos = camera_.position * -1.0f;
-                raytracing_component->compute.ubo.fov = glm::tan(camera_.fov * 0.03490658503); //0.03490658503 = pi / 180 / 2
-                raytracing_component->compute.ubo.rotM = glm::mat4();
-                raytracing_component->compute.ubo.rand = random_int();
+                c_data->ubo.aspect_ratio = camera_.aspect;
+                //c_data->ubo.lookat = glm::vec3(1.f, 1.f, 1.f);// testScript.vData[6];// camera_.rotation;
+                //c_data->ubo.pos = camera_.position * -1.0f;
+                c_data->ubo.fov = glm::tan(camera_.fov * 0.03490658503); //0.03490658503 = pi / 180 / 2
+                c_data->ubo.rotM = glm::mat4();
+                c_data->ubo.rand = random_int();
             }
 
             #pragma region BoilerPlate
@@ -500,7 +518,7 @@ namespace Axiom{
 
                 VkGraphicsPipelineCreateInfo pipelineCreateInfo =
                     vks::initializers::pipelineCreateInfo(
-                        raytracing_component->graphics.pipeline_layout,
+                        rt_data->graphics.pipeline_layout,
                         renderPass,
                         0);
 
@@ -523,7 +541,7 @@ namespace Axiom{
                 pipelineCreateInfo.pStages = shaderStages.data();
                 pipelineCreateInfo.renderPass = renderPass;
 
-                Log::check(VK_SUCCESS == vkCreateGraphicsPipelines(vulkan_component->device.logical, pipelineCache, 1, &pipelineCreateInfo, nullptr, &raytracing_component->graphics.pipeline), "CREATE GRAPHICS PIPELINE");
+                Log::check(VK_SUCCESS == vkCreateGraphicsPipelines(vulkan_component->device.logical, pipelineCache, 1, &pipelineCreateInfo, nullptr, &rt_data->graphics.pipeline), "CREATE GRAPHICS PIPELINE");
 
                 //must be destroyed at the end of the object
                 vkDestroyShaderModule(vulkan_component->device.logical, fragShaderModule, nullptr);
@@ -553,16 +571,16 @@ namespace Axiom{
                 VkDescriptorSetAllocateInfo allocInfo =
                 vks::initializers::descriptorSetAllocateInfo(
                     descriptor_pool_,
-                    &raytracing_component->graphics.descriptor_set_layout,
+                    &rt_data->graphics.descriptor_set_layout,
                     1);
 
-                Log::check(VK_SUCCESS == vkAllocateDescriptorSets(vulkan_component->device.logical, &allocInfo, &raytracing_component->graphics.descriptor_set), "ALLOCATE DESCRIPTOR SET");
+                Log::check(VK_SUCCESS == vkAllocateDescriptorSets(vulkan_component->device.logical, &allocInfo, &rt_data->graphics.descriptor_set), "ALLOCATE DESCRIPTOR SET");
 
                 std::vector<VkWriteDescriptorSet> writeDescriptorSets =
                 {
                     // Binding 0 : Fragment shader texture sampler
                     vks::initializers::writeDescriptorSet(
-                        raytracing_component->graphics.descriptor_set,
+                        rt_data->graphics.descriptor_set,
                         VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
                         0,
                         &compute_texture_.descriptor)
@@ -586,14 +604,14 @@ namespace Axiom{
                         setLayoutBindings.data(),
                         setLayoutBindings.size());
 
-                Log::check(VK_SUCCESS == vkCreateDescriptorSetLayout(vulkan_component->device.logical, &descriptorLayout, nullptr, &raytracing_component->graphics.descriptor_set_layout), "CREATE DESCRIPTOR SET LAYOUT");
+                Log::check(VK_SUCCESS == vkCreateDescriptorSetLayout(vulkan_component->device.logical, &descriptorLayout, nullptr, &rt_data->graphics.descriptor_set_layout), "CREATE DESCRIPTOR SET LAYOUT");
 
                 VkPipelineLayoutCreateInfo pPipelineLayoutCreateInfo =
                     vks::initializers::pipelineLayoutCreateInfo(
-                        &raytracing_component->graphics.descriptor_set_layout,
+                        &rt_data->graphics.descriptor_set_layout,
                         1);
 
-                Log::check(VK_SUCCESS == vkCreatePipelineLayout(vulkan_component->device.logical, &pPipelineLayoutCreateInfo, nullptr, &raytracing_component->graphics.pipeline_layout), "CREATE PIPELINE LAYOUT");
+                Log::check(VK_SUCCESS == vkCreatePipelineLayout(vulkan_component->device.logical, &pPipelineLayoutCreateInfo, nullptr, &rt_data->graphics.pipeline_layout), "CREATE PIPELINE LAYOUT");
             }
             void Raytracer::create_command_buffers(float swap_ratio, int32_t offset_width, int32_t offset_heigiht)
             {
@@ -658,8 +676,8 @@ namespace Axiom{
                     VkRect2D scissor = vks::initializers::rect2D(swapChainExtent.width, swapChainExtent.height, 0, 0);
                     vkCmdSetScissor(commandBuffers[i], 0, 1, &scissor);
 
-                    vkCmdBindDescriptorSets(commandBuffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, raytracing_component->graphics.pipeline_layout, 0, 1, &raytracing_component->graphics.descriptor_set, 0, NULL);
-                    vkCmdBindPipeline(commandBuffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, raytracing_component->graphics.pipeline);
+                    vkCmdBindDescriptorSets(commandBuffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, rt_data->graphics.pipeline_layout, 0, 1, &rt_data->graphics.descriptor_set, 0, NULL);
+                    vkCmdBindPipeline(commandBuffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, rt_data->graphics.pipeline);
                     vkCmdDraw(commandBuffers[i], 3, 1, 0, 0);
                     vkCmdEndRenderPass(commandBuffers[i]);
 
@@ -669,28 +687,28 @@ namespace Axiom{
             void Raytracer::create_compute_command_buffers()
             {
                 VkCommandBufferBeginInfo cmdBufInfo = vks::initializers::commandBufferBeginInfo();
-                Log::check(VK_SUCCESS == vkBeginCommandBuffer(raytracing_component->compute.command_buffer, &cmdBufInfo), "CREATE COMPUTE COMMAND BUFFER");
-                vkCmdBindPipeline(raytracing_component->compute.command_buffer, VK_PIPELINE_BIND_POINT_COMPUTE, raytracing_component->compute.pipeline);
-                vkCmdBindDescriptorSets(raytracing_component->compute.command_buffer, VK_PIPELINE_BIND_POINT_COMPUTE, raytracing_component->compute.pipeline_layout, 0, 1, &raytracing_component->compute.descriptor_set, 0, 0);
-                vkCmdDispatch(raytracing_component->compute.command_buffer, compute_texture_.width / 16, compute_texture_.height / 16, 1);
-                vkEndCommandBuffer(raytracing_component->compute.command_buffer);
+                Log::check(VK_SUCCESS == vkBeginCommandBuffer(rt_data->compute.command_buffer, &cmdBufInfo), "CREATE COMPUTE COMMAND BUFFER");
+                vkCmdBindPipeline(rt_data->compute.command_buffer, VK_PIPELINE_BIND_POINT_COMPUTE, rt_data->compute.pipeline);
+                vkCmdBindDescriptorSets(rt_data->compute.command_buffer, VK_PIPELINE_BIND_POINT_COMPUTE, rt_data->compute.pipeline_layout, 0, 1, &rt_data->compute.descriptor_set, 0, 0);
+                vkCmdDispatch(rt_data->compute.command_buffer, compute_texture_.width / 16, compute_texture_.height / 16, 1);
+                vkEndCommandBuffer(rt_data->compute.command_buffer);
             }
             void Raytracer::create_uniform_buffers()
             {
-                raytracing_component->compute.uniform_buffer.Initialize(vulkan_component->device, 1,
+                c_data->uniform_buffer.Initialize(vulkan_component->device, 1,
                 VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT,
                 VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);
-                raytracing_component->compute.uniform_buffer.ApplyChanges(vulkan_component->device, raytracing_component->compute.ubo);
+                c_data->uniform_buffer.ApplyChanges(vulkan_component->device, c_data->ubo);
             }
             void Raytracer::prepare_storage_buffers()
             {
-                compute_component->shader_data.materials.reserve(MAX_MATERIALS);
+                c_data->shader_data.materials.reserve(MAX_MATERIALS);
                 lights_.reserve(MAX_LIGHTS);
 
                 //these are changable 
-                compute_component->storage_buffers.primitives.InitStorageBufferCustomSize(vulkan_component->device, primitives_, primitives_.size(), MAX_OBJS);
-                compute_component->storage_buffers.materials.InitStorageBufferCustomSize(vulkan_component->device, materials_, compute_component->shader_data.materials.size(), MAX_MATERIALS);
-                compute_component->storage_buffers.lights.InitStorageBufferCustomSize(vulkan_component->device, lights_, lights_.size(), MAX_LIGHTS);
+                c_data->storage_buffers.primitives.InitStorageBufferCustomSize(vulkan_component->device, primitives_, primitives_.size(), MAX_OBJS);
+                c_data->storage_buffers.materials.InitStorageBufferCustomSize(vulkan_component->device, materials_, c_data->shader_data.materials.size(), MAX_MATERIALS);
+                c_data->storage_buffers.lights.InitStorageBufferCustomSize(vulkan_component->device, lights_, lights_.size(), MAX_LIGHTS);
 
                 //create 1 gui main global kind of gui for like title/menu screen etc...
                 GUIComponent* guiComp = (GUIComponent*)world->getSingleton()->getComponent<GUIComponent>();
@@ -700,8 +718,8 @@ namespace Axiom{
                 //Give the component a reference to it and initialize
                 guiComp->ref = guis_.size();
                 guis_.push_back(gui);
-                compute_component->storage_buffers.guis.InitStorageBufferCustomSize(vulkan_component->device, guis_, guis_.size(), MAX_GUIS);
-                compute_component->storage_buffers.bvh.InitStorageBufferCustomSize(vulkan_component->device, bvh_, bvh_.size(), MAX_NODES);
+                c_data->storage_buffers.guis.InitStorageBufferCustomSize(vulkan_component->device, guis_, guis_.size(), MAX_GUIS);
+                c_data->storage_buffers.bvh.InitStorageBufferCustomSize(vulkan_component->device, bvh_, bvh_.size(), MAX_NODES);
             }
             void Raytracer::prepare_texture_target(Texture *tex, uint32_t width, uint32_t height, VkFormat format)
             {
@@ -793,7 +811,7 @@ namespace Axiom{
                 queueCreateInfo.pNext = NULL;
                 queueCreateInfo.queueFamilyIndex = vulkan_component->device.qFams.computeFamily;
                 queueCreateInfo.queueCount = 1;
-                vkGetDeviceQueue(vulkan_component->device.logical, vulkan_component->device.qFams.computeFamily, 0, &raytracing_component->compute.queue);
+                vkGetDeviceQueue(vulkan_component->device.logical, vulkan_component->device.qFams.computeFamily, 0, &rt_data->compute.queue);
 
                 std::vector<VkDescriptorSetLayoutBinding> setLayoutBindings = {
                     // Binding 0: Storage image (raytraced output)
@@ -863,22 +881,22 @@ namespace Axiom{
                         setLayoutBindings.data(),
                         setLayoutBindings.size());
 
-                Log::check(VK_SUCCESS == vkCreateDescriptorSetLayout(vulkan_component->device.logical, &descriptorLayout, nullptr, &raytracing_component->compute.descriptor_set_layout), "CREATE COMPUTE DSL");
+                Log::check(VK_SUCCESS == vkCreateDescriptorSetLayout(vulkan_component->device.logical, &descriptorLayout, nullptr, &rt_data->compute.descriptor_set_layout), "CREATE COMPUTE DSL");
 
                 VkPipelineLayoutCreateInfo pPipelineLayoutCreateInfo =
                     vks::initializers::pipelineLayoutCreateInfo(
-                        &raytracing_component->compute.descriptor_set_layout,
+                        &rt_data->compute.descriptor_set_layout,
                         1);
 
-                Log::check(VK_SUCCESS == vkCreatePipelineLayout(vulkan_component->device.logical, &pPipelineLayoutCreateInfo, nullptr, &raytracing_component->compute.pipeline_layout), "CREATECOMPUTE PIEPLINEEEE");
+                Log::check(VK_SUCCESS == vkCreatePipelineLayout(vulkan_component->device.logical, &pPipelineLayoutCreateInfo, nullptr, &rt_data->compute.pipeline_layout), "CREATECOMPUTE PIEPLINEEEE");
 
                 VkDescriptorSetAllocateInfo allocInfo =
                     vks::initializers::descriptorSetAllocateInfo(
                         descriptor_pool_,
-                        &raytracing_component->compute.descriptor_set_layout,
+                        &rt_data->compute.descriptor_set_layout,
                         1);
 
-                Log::check(VK_SUCCESS == vkAllocateDescriptorSets(vulkan_component->device.logical, &allocInfo, &raytracing_component->compute.descriptor_set), "ALLOCATE DOMPUTE DSET");
+                Log::check(VK_SUCCESS == vkAllocateDescriptorSets(vulkan_component->device.logical, &allocInfo, &rt_data->compute.descriptor_set), "ALLOCATE DOMPUTE DSET");
 
                 VkDescriptorImageInfo textureimageinfos[MAX_TEXTURES] = {
                     gui_textures_[0].descriptor,
@@ -891,73 +909,73 @@ namespace Axiom{
                 {
                     // Binding 0: Output storage image
                     vks::initializers::writeDescriptorSet(
-                        raytracing_component->compute.descriptor_set,
+                        rt_data->compute.descriptor_set,
                         VK_DESCRIPTOR_TYPE_STORAGE_IMAGE,
                         0,
                         &compute_texture_.descriptor),
                     // Binding 1: Uniform buffer block
                     vks::initializers::writeDescriptorSet(
-                        raytracing_component->compute.descriptor_set,
+                        rt_data->compute.descriptor_set,
                         VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
                         1,
-                        &raytracing_component->compute.uniform_buffer.bufferInfo),
+                        &c_data->uniform_buffer.bufferInfo),
                     // Binding 2: Shader storage buffer for the verts
                     vks::initializers::writeDescriptorSet(
-                        raytracing_component->compute.descriptor_set,
+                        rt_data->compute.descriptor_set,
                         VK_DESCRIPTOR_TYPE_STORAGE_BUFFER,
                         2,
-                        &compute_component->storage_buffers.verts.bufferInfo),
+                        &c_data->storage_buffers.verts.bufferInfo),
                     // Binding 3: Shader storage buffer for the indices
                     vks::initializers::writeDescriptorSet(
-                        raytracing_component->compute.descriptor_set,
+                        rt_data->compute.descriptor_set,
                         VK_DESCRIPTOR_TYPE_STORAGE_BUFFER,
                         3,
-                        &compute_component->storage_buffers.faces.bufferInfo),
+                        &c_data->storage_buffers.faces.bufferInfo),
                     // Binding 4: for blas
                     vks::initializers::writeDescriptorSet(
-                        raytracing_component->compute.descriptor_set,
+                        rt_data->compute.descriptor_set,
                         VK_DESCRIPTOR_TYPE_STORAGE_BUFFER,
                         4,
-                        &compute_component->storage_buffers.blas.bufferInfo),
+                        &c_data->storage_buffers.blas.bufferInfo),
                     //Binding 5: for shapes
                     vks::initializers::writeDescriptorSet(
-                        raytracing_component->compute.descriptor_set,
+                        rt_data->compute.descriptor_set,
                         VK_DESCRIPTOR_TYPE_STORAGE_BUFFER,
                         5,
-                        &compute_component->storage_buffers.shapes.bufferInfo),
+                        &c_data->storage_buffers.shapes.bufferInfo),
                     // Binding 6: for objectss
                     vks::initializers::writeDescriptorSet(
-                        raytracing_component->compute.descriptor_set,
+                        rt_data->compute.descriptor_set,
                         VK_DESCRIPTOR_TYPE_STORAGE_BUFFER,
                         6,
-                        &compute_component->storage_buffers.primitives.bufferInfo),
+                        &c_data->storage_buffers.primitives.bufferInfo),
                     //Binding 8 for materials
                     vks::initializers::writeDescriptorSet(
-                        raytracing_component->compute.descriptor_set,
+                        rt_data->compute.descriptor_set,
                         VK_DESCRIPTOR_TYPE_STORAGE_BUFFER,
                         7,
-                        &compute_component->storage_buffers.materials.bufferInfo),
+                        &c_data->storage_buffers.materials.bufferInfo),
                     //Binding 9 for lights
                     vks::initializers::writeDescriptorSet(
-                        raytracing_component->compute.descriptor_set,
+                        rt_data->compute.descriptor_set,
                         VK_DESCRIPTOR_TYPE_STORAGE_BUFFER,
                         8,
-                        &compute_component->storage_buffers.lights.bufferInfo),
+                        &c_data->storage_buffers.lights.bufferInfo),
                     //Binding 10 for guis_
                     vks::initializers::writeDescriptorSet(
-                        raytracing_component->compute.descriptor_set,
+                        rt_data->compute.descriptor_set,
                         VK_DESCRIPTOR_TYPE_STORAGE_BUFFER,
                         9,
-                        &compute_component->storage_buffers.guis.bufferInfo),
+                        &c_data->storage_buffers.guis.bufferInfo),
                     //Binding 11 for bvhs
                     vks::initializers::writeDescriptorSet(
-                        raytracing_component->compute.descriptor_set,
+                        rt_data->compute.descriptor_set,
                         VK_DESCRIPTOR_TYPE_STORAGE_BUFFER,
                         10,
-                        &compute_component->storage_buffers.bvh.bufferInfo),
+                        &c_data->storage_buffers.bvh.bufferInfo),
                     //bINDING 12 FOR TEXTURES
                     vks::initializers::writeDescriptorSet(
-                        raytracing_component->compute.descriptor_set,
+                        rt_data->compute.descriptor_set,
                         VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
                         11,
                         textureimageinfos, MAX_TEXTURES)
@@ -968,31 +986,31 @@ namespace Axiom{
                 // Create compute shader pipelines
                 VkComputePipelineCreateInfo computePipelineCreateInfo =
                     vks::initializers::computePipelineCreateInfo(
-                        raytracing_component->compute.pipeline_layout,
+                        rt_data->compute.pipeline_layout,
                         0);
 
                 computePipelineCreateInfo.stage = vulkan_component->device.createShader("../Assets/Shaders/raytracing.comp.spv", VK_SHADER_STAGE_COMPUTE_BIT);
-                Log::check(VK_SUCCESS == vkCreateComputePipelines(vulkan_component->device.logical, pipelineCache, 1, &computePipelineCreateInfo, nullptr, &raytracing_component->compute.pipeline), "CREATE COMPUTE PIPELINE");
+                Log::check(VK_SUCCESS == vkCreateComputePipelines(vulkan_component->device.logical, pipelineCache, 1, &computePipelineCreateInfo, nullptr, &rt_data->compute.pipeline), "CREATE COMPUTE PIPELINE");
 
                 // Separate command pool as queue family for compute may be different than graphics
                 VkCommandPoolCreateInfo cmdPoolInfo = {};
                 cmdPoolInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
                 cmdPoolInfo.queueFamilyIndex = vulkan_component->device.qFams.computeFamily;
                 cmdPoolInfo.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
-                Log::check(VK_SUCCESS == vkCreateCommandPool(vulkan_component->device.logical, &cmdPoolInfo, nullptr, &raytracing_component->compute.command_pool), "CREATE COMMAND POOL");
+                Log::check(VK_SUCCESS == vkCreateCommandPool(vulkan_component->device.logical, &cmdPoolInfo, nullptr, &rt_data->compute.command_pool), "CREATE COMMAND POOL");
 
                 // Create a command buffer for compute operations
                 VkCommandBufferAllocateInfo cmdBufAllocateInfo =
                     vks::initializers::commandBufferAllocateInfo(
-                        raytracing_component->compute.command_pool,
+                        rt_data->compute.command_pool,
                         VK_COMMAND_BUFFER_LEVEL_PRIMARY,
                         1);
 
-                Log::check(VK_SUCCESS == vkAllocateCommandBuffers(vulkan_component->device.logical, &cmdBufAllocateInfo, &raytracing_component->compute.command_buffer), "ALLOCATE COMMAND BUFFERS");
+                Log::check(VK_SUCCESS == vkAllocateCommandBuffers(vulkan_component->device.logical, &cmdBufAllocateInfo, &rt_data->compute.command_buffer), "ALLOCATE COMMAND BUFFERS");
 
                 // Fence for compute CB sync
                 VkFenceCreateInfo fenceCreateInfo = vks::initializers::fenceCreateInfo(VK_FENCE_CREATE_SIGNALED_BIT);
-                Log::check(VK_SUCCESS == vkCreateFence(vulkan_component->device.logical, &fenceCreateInfo, nullptr, &raytracing_component->compute.fence), "CREATE FENCE");
+                Log::check(VK_SUCCESS == vkCreateFence(vulkan_component->device.logical, &fenceCreateInfo, nullptr, &rt_data->compute.fence), "CREATE FENCE");
 
                 // Build a single command buffer containing the compute dispatch commands
                 CreateComputeCommandBuffer();
@@ -1000,27 +1018,27 @@ namespace Axiom{
             }
             void Raytracer::destroy_compute()
             {
-                raytracing_component->compute.uniform_buffer.Destroy(vulkan_component->device);
-                compute_component->storage_buffers.verts.Destroy(vulkan_component->device);
-                compute_component->storage_buffers.faces.Destroy(vulkan_component->device);
-                compute_component->storage_buffers.blas.Destroy(vulkan_component->device);
-                compute_component->storage_buffers.shapes.Destroy(vulkan_component->device);
-                compute_component->storage_buffers.primitives.Destroy(vulkan_component->device);
-                compute_component->storage_buffers.materials.Destroy(vulkan_component->device);
-                compute_component->storage_buffers.lights.Destroy(vulkan_component->device);
-                compute_component->storage_buffers.guis.Destroy(vulkan_component->device);
-                compute_component->storage_buffers.bvh.Destroy(vulkan_component->device);
+                c_data->uniform_buffer.Destroy(vulkan_component->device);
+                c_data->storage_buffers.verts.Destroy(vulkan_component->device);
+                c_data->storage_buffers.faces.Destroy(vulkan_component->device);
+                c_data->storage_buffers.blas.Destroy(vulkan_component->device);
+                c_data->storage_buffers.shapes.Destroy(vulkan_component->device);
+                c_data->storage_buffers.primitives.Destroy(vulkan_component->device);
+                c_data->storage_buffers.materials.Destroy(vulkan_component->device);
+                c_data->storage_buffers.lights.Destroy(vulkan_component->device);
+                c_data->storage_buffers.guis.Destroy(vulkan_component->device);
+                c_data->storage_buffers.bvh.Destroy(vulkan_component->device);
 
-                raytracing_component->compute_texture.destroy(vulkan_component->device.logical);
+                rt_data->compute_texture.destroy(vulkan_component->device.logical);
                 for (int i = 0; i < MAX_TEXTURES; ++i)
                     gui_textures_[i].destroy(vulkan_component->device.logical);
 
                 vkDestroyPipelineCache(vulkan_component->device.logical, pipelineCache, nullptr);
-                vkDestroyPipeline(vulkan_component->device.logical, raytracing_component->compute.pipeline, nullptr);
-                vkDestroyPipelineLayout(vulkan_component->device.logical, raytracing_component->compute.pipeline_layout, nullptr);
-                vkDestroyDescriptorSetLayout(vulkan_component->device.logical, raytracing_component->compute.descriptor_set_layout, nullptr);
-                vkDestroyFence(vulkan_component->device.logical, raytracing_component->compute.fence, nullptr);
-                vkDestroyCommandPool(vulkan_component->device.logical, raytracing_component->compute.command_pool, nullptr);
+                vkDestroyPipeline(vulkan_component->device.logical, rt_data->compute.pipeline, nullptr);
+                vkDestroyPipelineLayout(vulkan_component->device.logical, rt_data->compute.pipeline_layout, nullptr);
+                vkDestroyDescriptorSetLayout(vulkan_component->device.logical, rt_data->compute.descriptor_set_layout, nullptr);
+                vkDestroyFence(vulkan_component->device.logical, rt_data->compute.fence, nullptr);
+                vkDestroyCommandPool(vulkan_component->device.logical, rt_data->compute.command_pool, nullptr);
             }
             #pragma endregion
         }

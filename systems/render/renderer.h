@@ -33,6 +33,28 @@ namespace Axiom
             virtual void toggle_playmode(bool b) = 0;
 
             void update_deviceinfo();
+
+            enum RendererUpdateFlags{
+                kUpdateBox = 0x01,
+                kUpdateSphere = 0x02,
+                kUpdatePlane = 0x04,
+                kUpdateCylinder = 0x08,
+                kUpdateCone = 0x10,
+                kUpdateMesh = 0x20,
+                kUpdateMaterial = 0x40,
+                kUpdateNone = 0x80,
+                kUpdateObject = 0x100,
+                kUpdateLight = 0x200,
+                kUpdateGui = 0x400,
+                kUpdateBvh = 0x800,
+            };
+            int32_t update_flags;
+            inline void update_renderer(RendererUpdateFlags flag){
+                update_flags |= flag;
+                if(update_flags & kUpdateNone)
+                    update_flags &= ~kUpdateNone;
+            }
+
         };
     }
 }

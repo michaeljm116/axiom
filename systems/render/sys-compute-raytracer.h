@@ -17,8 +17,8 @@ namespace Axiom
                     Raytracer(Cmp_Vulkan* vk, Cmp_ComputeRaytracer* cr, Cmp_ComputeData* cd);
                     ~Raytracer();
 
-                    Cmp_ComputeData* compute_component;
-                    Cmp_ComputeRaytracer* raytracing_component; 
+                    Cmp_ComputeData* c_data;
+                    Cmp_ComputeRaytracer* rt_data; 
                     
                     void start_up() override;
                     void initialize() override;
@@ -39,6 +39,8 @@ namespace Axiom
                     void update_material(int id) override;
 		            void update_camera(Cmp_Camera* c) override;
                     void update_descriptors() override;
+                    void update_gui(Cmp_GUI* gc);
+                    void update_guinumber(Cmp_GUINumber* gnc);
                     void update_buffers();
                     void update_uniform_buffer();
                     void load_resources();

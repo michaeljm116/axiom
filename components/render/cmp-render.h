@@ -44,13 +44,13 @@ namespace Axiom
 		{
 			glm::mat4 world; //64bytes
 			glm::vec3 extents; //12bytes
-			glm::vec3 aabbExtents; //12bytes
-			int numChildren = 0; //4bytes;
+			glm::vec3 aabb_extents; //12bytes
+			int num_children = 0; //4bytes;
 			
 			int id; //4bytes
 			int matId; //4bytes
-			int startIndex = 0; //4bytes
-			int endIndex = 0; //4bytes
+			int start_index = 0; //4bytes
+			int end_index = 0; //4bytes
 
 			//total = 108bytes
 
@@ -59,7 +59,7 @@ namespace Axiom
 
 		struct Cmp_Sphere {
 			float radius;
-			int sphereIndex;
+			int index;
 
 			Cmp_Sphere() {};
 			Cmp_Sphere(float r) { radius = r; };
@@ -68,7 +68,7 @@ namespace Axiom
 		struct Cmp_Box {
 			glm::vec3 center;
 			glm::vec3 extents;
-			int boxIndex;
+			int index;
 
 			Cmp_Box() {};
 			Cmp_Box(glm::vec3 c, glm::vec3 e) : center(c), extents(e) {};
@@ -78,7 +78,7 @@ namespace Axiom
 			glm::vec3 top;
 			glm::vec3 bottom; 
 			float radius;
-			int cylinderIndex;
+			int index;
 
 			Cmp_Cylinder() {};
 			Cmp_Cylinder(glm::vec3 t, glm::vec3 b, float r) : top(t), bottom(b), radius(r) {};
@@ -87,30 +87,30 @@ namespace Axiom
 		struct Cmp_Plane {
 			glm::vec3 normal;
 			float distance;
-			int planeIndex;
+			int index;
 
 			Cmp_Plane() {};
 			Cmp_Plane(glm::vec3 n, float d) :normal(n), distance(d) {};
 		};
 
 		struct Cmp_Mesh {
-			int meshIndex;
-			int meshModelID;
-			int meshResourceIndex;
-			int uniqueID;
+			int index;
+			int model_id;
+			int resource_index;
+			int unique_id;
 
 			Cmp_Mesh() {};
-			Cmp_Mesh(int si) { meshIndex = si; };
-			Cmp_Mesh(int id, int ri) : meshModelID(id), meshResourceIndex(ri) {};
+			Cmp_Mesh(int si) { index = si; };
+			Cmp_Mesh(int id, int ri) : model_id(id), resource_index(ri) {};
 		};
 
 		struct Cmp_Model {
-			int modelIndex;
-			int modelUniqueID;
+			int index;
+			int unique_id;
 
 			Cmp_Model() {};
-			Cmp_Model(int n) { modelUniqueID = n; };
-			Cmp_Model(int n, int id) { modelIndex = n; modelUniqueID = id; };
+			Cmp_Model(int n) { unique_id = n; };
+			Cmp_Model(int n, int id) { index = n; unique_id = id; };
 		};
 
 		enum class SelectableState {
@@ -128,8 +128,8 @@ namespace Axiom
 		struct Cmp_GUI {
 			glm::vec2 min;
 			glm::vec2 extents;
-			glm::vec2 alignMin;
-			glm::vec2 alignExt;
+			glm::vec2 align_min;
+			glm::vec2 align_ext;
 			int layer;
 			int id;
 			int ref;
@@ -138,15 +138,15 @@ namespace Axiom
 			//bool visible;
 			Cmp_GUI() {};
 			Cmp_GUI(glm::vec2 m, glm::vec2 e, glm::vec2 amin, glm::vec2 ae, int l, int i, float a) :
-				min(m), extents(e), alignMin(amin), alignExt(ae), layer(l), id(i), alpha(a) {};
+				min(m), extents(e), align_min(amin), align_ext(ae), layer(l), id(i), alpha(a) {};
 		};
 		struct Cmp_GUINumber : Cmp_GUI {
 			int number = 0;
 			int highest_active_digit_index = 0;
 			std::vector<int> shaderReferences;
 			Cmp_GUINumber() {};
-			Cmp_GUINumber(glm::vec2 m, glm::vec2 e, int n) { min = m; extents = e; number = n; alignMin = glm::vec2(0.0f, 0.0f); alignExt = glm::vec2(0.1f, 1.f); layer = 0; id = 0; };
-			Cmp_GUINumber(glm::vec2 m, glm::vec2 e, int n, float a) { min = m; extents = e; number = n; alignMin = glm::vec2(0.0f, 0.0f); alignExt = glm::vec2(0.1f, 1.f); layer = 0; id = 0; alpha = a; };
+			Cmp_GUINumber(glm::vec2 m, glm::vec2 e, int n) { min = m; extents = e; number = n; align_min = glm::vec2(0.0f, 0.0f); align_ext = glm::vec2(0.1f, 1.f); layer = 0; id = 0; };
+			Cmp_GUINumber(glm::vec2 m, glm::vec2 e, int n, float a) { min = m; extents = e; number = n; align_min = glm::vec2(0.0f, 0.0f); align_ext = glm::vec2(0.1f, 1.f); layer = 0; id = 0; alpha = a; };
 		};
 
 	};
