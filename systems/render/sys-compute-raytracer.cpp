@@ -2,8 +2,10 @@
 #include "sys-compute-raytracer.h"
 #include "core/sys-log.h"
 #include "core/sys-timer.h"
+#include "scene/sys-resource.h"
 #include "../components/scene/cmp-transform.h"
 #include "../components/render/cmp-material.h"
+#include "render/sys-window.h"
 
 namespace Axiom{
     namespace Render{
@@ -32,23 +34,79 @@ namespace Axiom{
             }
             void Raytracer::start_up()
             {
-                this->world = world;
                 initVulkan();
                 set_stuff_up();
-                std::vector<rMaterial> copy = RESOURCEMANAGER.getMaterials();
-                for (std::vector<rMaterial>::iterator itr = copy.begin(); itr != copy.end(); ++itr) {
-                    c_data->shader_data.materials.push_back(ssMaterial(itr->diffuse, itr->reflective, itr->roughness, itr->transparency, itr->refractiveIndex, itr->textureID));
-                    itr->renderedMat = &c_data->shader_data.materials.back();// c_data->shader_data.materials.end();
-                }
-                LoadResources();
+
+                //LOAD MATERIALS
+                g_world.each([&](flecs::entity e, Cmp_ResMaterial mat){
+                    Resource::Material m = mat.data;
+                    c_data->shader_data.materials.push_back(Shader::Material(m.diffuse, m.reflective, m.roughness, m.transparency, m.refractiveIndex, m.textureID));
+                    //TODO RENDEREDMAT FOR SOME REASON
+                });
+
+                //LOAD GPU RESOURCES
+                std::vector<Shader::Vert> verts;
+                std::vector<Shader::Index> faces;
+                std::vector<Shader::Shape> shapes;
+                std::vector<Shader::BVHNode> blas;
+
+                g_world.each([&](flecs::entity e, Cmp_ResModel r_mod){
+                    Resource::Model mod = r_mod.data;
+                    for(size_t i = 0; i < mod.meshes.size(); ++i){
+                        
+                        //map that connects the model with its index
+                        Resource::Mesh r_mesh = mod.meshes[i];
+
+                        //toss in the vertices data
+                        int prev_vert_size = verts.size();
+                        int prev_face_size = faces.size();
+                        int prev_blas_size = blas.size();
+
+                        verts.reserve(prev_vert_size + r_mesh.verts.size());
+                        for (auto v : r_mesh.verts) 
+                            verts.emplace_back(Shader::Vert(v.pos / r_mesh.extents, v.norm, v.uv.x, v.uv.y));
+                        
+                        faces.reserve(prev_face_size + r_mesh.faces.size());
+                        for(auto f : r_mesh.faces)
+                            faces.emplace_back(Shader::Index(f + prev_vert_size));
+
+                        blas.reserve(prev_blas_size + r_mesh.bvh.size());
+                        for(auto b : r_mesh.bvh){
+                            b.numChildren > 0 ? b.offset += prev_face_size : b.offset += prev_blas_size;
+                            blas.emplace_back(Shader::BVHNode(b.upper, b.lower, b.offset, b.numChildren));
+                        }
+                        
+                        // i forget why i need this tbh
+                        c_data->mesh_assigner[mod.uniqueID + i] = std::pair<int, int>(prev_face_size, faces.size());
+                    }
+                });
+
+                //make sure there's atleast 1 shape in the scene
+                if(shapes.size() == 0)
+                shapes.push_back(Shader::Shape(glm::vec3(0.f), glm::vec3(1.f), 1));
+
+                c_data->storage_buffers.verts.InitStorageBufferWithStaging(vulkan_component->device, verts, verts.size());
+                c_data->storage_buffers.faces.InitStorageBufferWithStaging(vulkan_component->device, faces, faces.size());
+                c_data->storage_buffers.blas.InitStorageBufferWithStaging(vulkan_component->device, blas, blas.size());
+                c_data->storage_buffers.shapes.InitStorageBufferWithStaging(vulkan_component->device, shapes, shapes.size());
+                
+                rt_data->gui_textures[0].path = "../Assets/Levels/Test/Textures/numbers.png";
+                rt_data->gui_textures[0].CreateTexture(vulkan_component->device);
+                rt_data->gui_textures[1].path = "../Assets/Levels/Test/Textures/title.png";
+                rt_data->gui_textures[1].CreateTexture(vulkan_component->device);
+                rt_data->gui_textures[2].path = "../Assets/Levels/Test/Textures/jabby_bird_stuff_4k.png";
+                rt_data->gui_textures[2].CreateTexture(vulkan_component->device);
+                rt_data->gui_textures[3].path = "../Assets/Levels/Test/Textures/skybox.png";
+                rt_data->gui_textures[3].CreateTexture(vulkan_component->device);
+                rt_data->gui_textures[4].path = "../Assets/Levels/Test/Textures/pebbles.png";
+                rt_data->gui_textures[4].CreateTexture(vulkan_component->device);
             }
             void Raytracer::initialize()
             {
-                mapper_ = render_mapper;
                 //renderMapper.init(*world);
                 prepare_storage_buffers();
                 create_uniform_buffers();
-                prepare_texture_target(&compute_texture_, 1280, 720, VK_FORMAT_R8G8B8A8_UNORM);
+                prepare_texture_target(&rt_data->compute_texture, 1280, 720, VK_FORMAT_R8G8B8A8_UNORM);
                 create_descriptor_set_layout();
                 create_graphics_pipeline();
                 create_descriptor_pool();
@@ -63,7 +121,7 @@ namespace Axiom{
                 update_descriptors();
 
                 //setupUI();
-                prepared_ = true;
+                rt_data->prepared = true;
 
             }
             void Raytracer::start_frame(uint32_t &image_index)
@@ -272,9 +330,9 @@ namespace Axiom{
             {
                 update_buffers();
                 update_descriptors();
-                if (glfwWindowShouldClose(WINDOW.getWindow())) {
-                    world->setShutdown();
-                    vulkan_component->deviceWaitIdle(vulkan_component->device.logical); //so it can destroy properly
+                if (glfwWindowShouldClose(g_world.get<Cmp_Window>()->window)) {
+                    g_world.quit();
+                    vkDeviceWaitIdle(vulkan_component->device.logical); //so it can destroy properly
                 }
             }
             void Raytracer::clean_up_swapchain()
@@ -292,7 +350,7 @@ namespace Axiom{
                 create_descriptor_set_layout();
                 create_graphics_pipeline();
                 //editor ?
-                create_command_buffers(0.7333333333f, (int32_t)(WINDOW.getWidth() * 0.16666666666f), 36);
+                create_command_buffers(0.7333333333f, (int32_t)(g_world.get<Cmp_Window>()->width * 0.16666666666f), 36);
                 //	create_command_buffers(0.6666666666666f, 0, 0);
                 vulkan_component->swapchain.frame_buffers;
                 //return vulkan_component->swapchain.frame_buffers;
@@ -301,8 +359,9 @@ namespace Axiom{
             }
             void Raytracer::toggle_playmode(bool b)
             {
-                if (play_mode) {
+                /*if (play_mode) {
                     WINDOW.resize();
+                    Window::resize()
                     RenderBase::recreate_swapchain();
                     create_descriptor_set_layout();
                     create_graphics_pipeline();
@@ -317,18 +376,19 @@ namespace Axiom{
                 }
                 else {
                     recreate_swapchain();
-                }
+                }*/
             }
             void Raytracer::add_material(glm::vec3 diff, float rfl, float rough, float trans, float ri)
             {
-                ssMaterial mat = ssMaterial(diff, rfl, rough, trans, ri, 0);
+                Shader::Material mat = Shader::Material(diff, rfl, rough, trans, ri, 0);
                 c_data->shader_data.materials.push_back(mat);
-                c_data->storage_buffers.materials.UpdateAndExpandBuffers(vulkan_component->device, materials_, c_data->shader_data.materials.size());
+                c_data->storage_buffers.materials.UpdateAndExpandBuffers(vulkan_component->device, c_data->shader_data.materials, c_data->shader_data.materials.size());
                 update_descriptors();
             }
             void Raytracer::update_material(int id)
             {
                 rMaterial* m = &RESOURCEMANAGER.getMaterial(id);
+                Resource::Material m = g_world.
                 materials_[id].diffuse = m->diffuse;
                 materials_[id].reflective = m->reflective;
                 materials_[id].roughness = m->roughness;
@@ -339,11 +399,11 @@ namespace Axiom{
                 c_data->storage_buffers.materials.UpdateBuffers(vulkan_component->device, materials_);
             }
             void Raytracer::update_camera(Cmp_Camera* c){
-                compute_.ubo.aspect_ratio = c->aspectRatio;
-                compute_.ubo.fov = glm::tan(c->fov * 0.03490658503);
-                compute_.ubo.rotM = c->rotM;
-                compute_.ubo.rand = random_int();
-                compute_.uniform_buffer.ApplyChanges(vkDevice, compute_.ubo);          
+                c_data->ubo.aspect_ratio = c->aspect_ratio;
+                c_data->ubo.fov = glm::tan(c->fov * 0.03490658503);
+                c_data->ubo.rotM = c->rot_m;
+                c_data->ubo.rand = 1;//random_int();
+                c_data->uniform_buffer.ApplyChanges(vulkan_component->device, c_data->ubo);          
             }
             void Raytracer::update_descriptors()
             {
@@ -393,34 +453,34 @@ namespace Axiom{
             }
             void Raytracer::update_buffers()
             {
-                vkWaitForFences(vkDevice.logicalDevice, 1, &compute_.fence, VK_TRUE, UINT64_MAX);
-                if (update_flags_ & kUpdateNone)
+                vkWaitForFences(vulkan_component->device.logical, 1, &rt_data->compute.fence, VK_TRUE, UINT64_MAX);
+                if (update_flags & kUpdateNone)
                     return;
-                if (update_flags_ & kUpdateObject) {
-                    //compute_.storage_buffers.primitives.UpdateBuffers(vkDevice, primitives);
-                    update_flags_ &= ~kUpdateObject;
+                if (update_flags & kUpdateObject) {
+                    //c_data->storage_buffers.primitives.UpdateBuffers(vkDevice, primitives);
+                    update_flags &= ~kUpdateObject;
                 }
-                if (update_flags_ & kUpdateMaterial) {
-                    update_flags_ &= ~kUpdateMaterial;
+                if (update_flags & kUpdateMaterial) {
+                    update_flags &= ~kUpdateMaterial;
                 }
-                if (update_flags_ & kUpdateLight) {
-                    compute_.storage_buffers.lights.UpdateBuffers(vkDevice, lights_);
-                    update_flags_ &= ~kUpdateLight;
+                if (update_flags & kUpdateLight) {
+                    c_data->storage_buffers.lights.UpdateBuffers(vulkan_component->device, lights_);
+                    update_flags &= ~kUpdateLight;
                 }
-                if (update_flags_ & kUpdateGui) {
-                    compute_.storage_buffers.guis.UpdateBuffers(vkDevice, guis_);
-                    update_flags_ &= ~kUpdateGui;
-                }
-
-                if (update_flags_ & kUpdateBvh) {
-                    compute_.storage_buffers.primitives.UpdateAndExpandBuffers(vkDevice, primitives_, primitives_.size());
-                    compute_.storage_buffers.bvh.UpdateAndExpandBuffers(vkDevice, bvh_, bvh_.size());
-                    update_flags_ &= ~kUpdateBvh;
+                if (update_flags & kUpdateGui) {
+                    c_data->storage_buffers.guis.UpdateBuffers(vulkan_component->device, guis_);
+                    update_flags &= ~kUpdateGui;
                 }
 
-                update_flags_ |= kUpdateNone;
-                //compute_.storage_buffers.objects.UpdateAndExpandBuffers(vkDevice, objects, objects.size());
-                //compute_.storage_buffers.bvh.UpdateAndExpandBuffers(vkDevice, bvh, bvh.size());
+                if (update_flags & kUpdateBvh) {
+                    c_data->storage_buffers.primitives.UpdateAndExpandBuffers(vulkan_component->device, primitives_, primitives_.size());
+                    c_data->storage_buffers.bvh.UpdateAndExpandBuffers(vulkan_component->device, bvh_, bvh_.size());
+                    update_flags &= ~kUpdateBvh;
+                }
+
+                update_flags |= kUpdateNone;
+                //c_data->storage_buffers.objects.UpdateAndExpandBuffers(vkDevice, objects, objects.size());
+                //c_data->storage_buffers.bvh.UpdateAndExpandBuffers(vkDevice, bvh, bvh.size());
                 update_descriptors();
             }
             void Raytracer::update_uniform_buffer(){
@@ -899,11 +959,11 @@ namespace Axiom{
                 Log::check(VK_SUCCESS == vkAllocateDescriptorSets(vulkan_component->device.logical, &allocInfo, &rt_data->compute.descriptor_set), "ALLOCATE DOMPUTE DSET");
 
                 VkDescriptorImageInfo textureimageinfos[MAX_TEXTURES] = {
-                    gui_textures_[0].descriptor,
-                    gui_textures_[1].descriptor,
-                    gui_textures_[2].descriptor,
-                    gui_textures_[3].descriptor,
-                    gui_textures_[4].descriptor
+                    rt_data->gui_textures[0].descriptor,
+                    rt_data->gui_textures[1].descriptor,
+                    rt_data->gui_textures[2].descriptor,
+                    rt_data->gui_textures[3].descriptor,
+                    rt_data->gui_textures[4].descriptor
                 };
                 compute_write_descriptor_sets_ =
                 {
@@ -1031,7 +1091,7 @@ namespace Axiom{
 
                 rt_data->compute_texture.destroy(vulkan_component->device.logical);
                 for (int i = 0; i < MAX_TEXTURES; ++i)
-                    gui_textures_[i].destroy(vulkan_component->device.logical);
+                    rt_data->gui_textures[i].destroy(vulkan_component->device.logical);
 
                 vkDestroyPipelineCache(vulkan_component->device.logical, pipelineCache, nullptr);
                 vkDestroyPipeline(vulkan_component->device.logical, rt_data->compute.pipeline, nullptr);

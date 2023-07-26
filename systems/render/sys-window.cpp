@@ -71,7 +71,6 @@ namespace Axiom {
       }
     }
 
-
     void resize(flecs::entity e, Cmp_Window& cmp_wind, Cmp_Window_Change& cmp_change) {
       if(cmp_change.setting == Window::Setting::FullScreen){
         glfwMaximizeWindow(cmp_wind.window);

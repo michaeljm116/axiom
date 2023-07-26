@@ -1,3 +1,12 @@
+7/25/2023
+* so you've reached this moment where... you dont know if you want to produce or if you want to learn
+* or both and if both, how to do both
+* Should THIS engine be a learning engine or a production engine?
+* You started this due to chatgpt and oriely but now... where are you?
+* if you can just get this to render, you can turn this engine into a learning engine
+* Transforming your own engine would be the best way to learn since you have that frame of ref
+* SO GET IT WORKING NGAYON
+
 7/12/2023
 * Soooo back to the drawing board as it relates to the renderer....
 * There's some important things to think about and consider with errthang

@@ -107,6 +107,9 @@ namespace Axiom
 				int offset;
 				glm::vec3 lower;
 				int numChildren;
+
+				BVHNode(){};
+				BVHNode(glm::vec3 u, glm::vec3 l, int o, int n) : upper(u), lower(l), offset(o), numChildren(n){};
 			};
 		}
 
