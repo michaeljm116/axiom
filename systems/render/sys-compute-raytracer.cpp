@@ -7,6 +7,16 @@
 #include "../components/render/cmp-material.h"
 #include "render/sys-window.h"
 
+static int curr_id = 0;	// Id used to identify objects by the ray tracing shader
+static const int MAX_MATERIALS = 256;
+static const int MAX_MESHES = 2048;
+static const int MAX_VERTS = 32768;
+static const int MAX_INDS = 16384;
+static const int MAX_OBJS = 4096;
+static const int MAX_LIGHTS = 32;
+static const int MAX_GUIS = 96;
+static const int MAX_NODES = 2048;
+
 namespace Axiom{
     namespace Render{
         namespace Compute{
@@ -18,8 +28,10 @@ namespace Axiom{
                 raytracer.start_up();*/
                 Raytracer rt;
                 rt.vulkan_component = g_world.get_ref<Axiom::Render::Cmp_Vulkan>().get();
-                //rt.c_data = g_world.get_ref<Axiom::Render::Cmp_ComputeData>().get();
-                //rt.rt_data = g_world.get_ref<Axiom::Render::Cmp_ComputeRaytracer>().get();
+                rt.c_data = g_world.get_ref<Axiom::Render::Cmp_ComputeData>().get();
+                rt.rt_data = g_world.get_ref<Axiom::Render::Cmp_ComputeRaytracer>().get();
+                rt.start_up();
+                rt.initialize();
             }
 
             Raytracer::Raytracer()
@@ -127,7 +139,7 @@ namespace Axiom{
             void Raytracer::start_frame(uint32_t &image_index)
             {
                 //render_time_.Start();
-                VkResult result = vkAcquireNextImageKHR(vulkan_component->device.logical, vulkan_component->swapchain.get, std::numeric_limits<uint64_t>::max(), imageAvailableSemaphore, VK_NULL_HANDLE, &image_index);
+                VkResult result = vkAcquireNextImageKHR(vulkan_component->device.logical, vulkan_component->swapchain.get, std::numeric_limits<uint64_t>::max(), vulkan_component->semaphores.image_available, VK_NULL_HANDLE, &image_index);
 
                 if (result == VK_ERROR_OUT_OF_DATE_KHR) {
                     recreate_swapchain();
@@ -143,7 +155,7 @@ namespace Axiom{
 
                 VkPipelineStageFlags waitStages[] = { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT };
                 vulkan_component->submit_info.waitSemaphoreCount = 1;
-                vulkan_component->submit_info.pWaitSemaphores = &imageAvailableSemaphore;// waitSemaphores;
+                vulkan_component->submit_info.pWaitSemaphores = &vulkan_component->semaphores.image_available;// waitSemaphores;
                 vulkan_component->submit_info.pWaitDstStageMask = waitStages;
 
                 vulkan_component->submit_info.signalSemaphoreCount = 1;
@@ -355,7 +367,7 @@ namespace Axiom{
                 vulkan_component->swapchain.frame_buffers;
                 //return vulkan_component->swapchain.frame_buffers;
                 //ui->visible = false;
-                //ui->resize(swapChainExtent.width, swapChainExtent.height, vulkan_component->swapchain.frame_buffers);
+                //ui->resize(vulkan_component->swapchain.extent.width, vulkan_component->swapchain.extent.height, vulkan_component->swapchain.frame_buffers);
             }
             void Raytracer::toggle_playmode(bool b)
             {
@@ -372,7 +384,7 @@ namespace Axiom{
         //			create_command_buffers(1.f, 0, 0);
         //#endif // UIIZON
 
-                    //ui->resize(swapChainExtent.width, swapChainExtent.height, vulkan_component->swapchain.frame_buffers);
+                    //ui->resize(vulkan_component->swapchain.extent.width, vulkan_component->swapchain.extent.height, vulkan_component->swapchain.frame_buffers);
                 }
                 else {
                     recreate_swapchain();
@@ -385,18 +397,21 @@ namespace Axiom{
                 c_data->storage_buffers.materials.UpdateAndExpandBuffers(vulkan_component->device, c_data->shader_data.materials, c_data->shader_data.materials.size());
                 update_descriptors();
             }
-            void Raytracer::update_material(int id)
+            void Raytracer::update_material(std::string name)
             {
-                rMaterial* m = &RESOURCEMANAGER.getMaterial(id);
-                Resource::Material m = g_world.
-                materials_[id].diffuse = m->diffuse;
-                materials_[id].reflective = m->reflective;
-                materials_[id].roughness = m->roughness;
-                materials_[id].transparency = m->transparency;
-                materials_[id].refractiveIndex = m->refractiveIndex;
-                materials_[id].textureID = m->textureID;
 
-                c_data->storage_buffers.materials.UpdateBuffers(vulkan_component->device, materials_);
+                /* TODO TODOOOOOOOOOOOO
+                Resource::Material m = g_world.lookup(name.c_str()).get_mut<Cmp_ResMaterial>()->data;
+                
+                c_data->shader_data.materials[id].diffuse = m->diffuse;
+                c_data->shader_data.materials[id].reflective = m->reflective;
+                c_data->shader_data.materials[id].roughness = m->roughness;
+                c_data->shader_data.materials[id].transparency = m->transparency;
+                c_data->shader_data.materials[id].refractiveIndex = m->refractiveIndex;
+                c_data->shader_data.materials[id].textureID = m->textureID;
+
+                c_data->storage_buffers.materials.UpdateBuffers(vulkan_component->device, c_data->shader_data.materials);
+                */
             }
             void Raytracer::update_camera(Cmp_Camera* c){
                 c_data->ubo.aspect_ratio = c->aspect_ratio;
@@ -408,7 +423,7 @@ namespace Axiom{
             void Raytracer::update_descriptors()
             {
                 vkWaitForFences(vulkan_component->device.logical, 1, &rt_data->compute.fence, VK_TRUE, UINT64_MAX);
-                compute_write_descriptor_sets_ =
+                rt_data->compute_write_descriptor_sets =
                 {
                     // Binding 5: for objects
                     vks::initializers::writeDescriptorSet(
@@ -441,9 +456,9 @@ namespace Axiom{
                         10,
                         &c_data->storage_buffers.bvh.bufferInfo)
                 };
-                vkupdate_descriptorsets(vulkan_component->device.logical, compute_write_descriptor_sets_.size(), compute_write_descriptor_sets_.data(), 0, NULL);
-                //vkupdate_descriptorsets(vulkan_component->device.logical, compute_write_descriptor_sets_.size(), compute_write_descriptor_sets_.data(), 0, NULL);
-                CreateComputeCommandBuffer();
+                vkUpdateDescriptorSets(vulkan_component->device.logical, rt_data->compute_write_descriptor_sets.size(), rt_data->compute_write_descriptor_sets.data(), 0, NULL);
+                //vkupdate_descriptorsets(vulkan_component->device.logical, rt_data->compute_write_descriptor_sets.size(), rt_data->compute_write_descriptor_sets.data(), 0, NULL);
+                create_compute_command_buffer();
             }
             void Raytracer::update_gui(Cmp_GUI *gc)
             {
@@ -464,17 +479,17 @@ namespace Axiom{
                     update_flags &= ~kUpdateMaterial;
                 }
                 if (update_flags & kUpdateLight) {
-                    c_data->storage_buffers.lights.UpdateBuffers(vulkan_component->device, lights_);
+                    c_data->storage_buffers.lights.UpdateBuffers(vulkan_component->device, c_data->shader_data.lights);
                     update_flags &= ~kUpdateLight;
                 }
                 if (update_flags & kUpdateGui) {
-                    c_data->storage_buffers.guis.UpdateBuffers(vulkan_component->device, guis_);
+                    c_data->storage_buffers.guis.UpdateBuffers(vulkan_component->device, c_data->shader_data.guis);
                     update_flags &= ~kUpdateGui;
                 }
 
                 if (update_flags & kUpdateBvh) {
-                    c_data->storage_buffers.primitives.UpdateAndExpandBuffers(vulkan_component->device, primitives_, primitives_.size());
-                    c_data->storage_buffers.bvh.UpdateAndExpandBuffers(vulkan_component->device, bvh_, bvh_.size());
+                    c_data->storage_buffers.primitives.UpdateAndExpandBuffers(vulkan_component->device, c_data->shader_data.primitives, c_data->shader_data.primitives.size());
+                    c_data->storage_buffers.bvh.UpdateAndExpandBuffers(vulkan_component->device, c_data->shader_data.bvh, c_data->shader_data.bvh.size());
                     update_flags &= ~kUpdateBvh;
                 }
 
@@ -488,19 +503,10 @@ namespace Axiom{
             }
             void Raytracer::set_stuff_up()
             {
-                camera_.type = Camera::CameraType::lookat;
-                camera_.setPerspective(13.0f, 1280.f / 720.f, 0.1f, 1256.0f);
-                camera_.setRotation(glm::vec3(35.0f, 90.0f, 45.0f));
-                camera_.setTranslation(glm::vec3(0.0f, 0.0f, -4.0f));
-                camera_.rotationSpeed = 0.0f;
-                camera_.movementSpeed = 7.5f;
-
-                c_data->ubo.aspect_ratio = camera_.aspect;
-                //c_data->ubo.lookat = glm::vec3(1.f, 1.f, 1.f);// testScript.vData[6];// camera_.rotation;
-                //c_data->ubo.pos = camera_.position * -1.0f;
-                c_data->ubo.fov = glm::tan(camera_.fov * 0.03490658503); //0.03490658503 = pi / 180 / 2
+                c_data->ubo.aspect_ratio = 1280.f / 720.f;
+                c_data->ubo.fov = glm::tan(13.0f * 0.03490658503); //0.03490658503 = pi / 180 / 2
                 c_data->ubo.rotM = glm::mat4();
-                c_data->ubo.rand = random_int();
+                c_data->ubo.rand = 1;//random_int();
             }
 
             #pragma region BoilerPlate
@@ -552,8 +558,25 @@ namespace Axiom{
                         dynamicStateEnables.data(),
                         dynamicStateEnables.size(),
                         0);
-                auto vertShaderCode = readFile("../Assets/Shaders/texture.vert.spv");
-                auto fragShaderCode = readFile("../Assets/Shaders/texture.frag.spv");
+
+                auto read_file = [](std::string filename){
+                    std::ifstream file(filename, std::ios::ate | std::ios::binary);
+                    if (!file.is_open()) {
+                        throw std::runtime_error("failed to open file: " + filename);
+                    }
+
+                    size_t fileSize = (size_t)file.tellg();
+                    std::vector<char> buffer(fileSize);
+
+                    file.seekg(0);
+                    file.read(buffer.data(), fileSize);
+
+                    file.close();
+
+                    return buffer;
+                };
+                auto vertShaderCode = read_file("../Assets/Shaders/texture.vert.spv");
+                auto fragShaderCode = read_file("../Assets/Shaders/texture.frag.spv");
 
                 VkShaderModule vertShaderModule;
                 VkShaderModule fragShaderModule;
@@ -579,7 +602,7 @@ namespace Axiom{
                 VkGraphicsPipelineCreateInfo pipelineCreateInfo =
                     vks::initializers::pipelineCreateInfo(
                         rt_data->graphics.pipeline_layout,
-                        renderPass,
+                        vulkan_component->pipeline.render_pass,
                         0);
 
                 VkPipelineVertexInputStateCreateInfo emptyInputState{};
@@ -599,9 +622,9 @@ namespace Axiom{
                 pipelineCreateInfo.pDynamicState = &dynamicState;
                 pipelineCreateInfo.stageCount = shaderStages.size();
                 pipelineCreateInfo.pStages = shaderStages.data();
-                pipelineCreateInfo.renderPass = renderPass;
+                pipelineCreateInfo.renderPass = vulkan_component->pipeline.render_pass;
 
-                Log::check(VK_SUCCESS == vkCreateGraphicsPipelines(vulkan_component->device.logical, pipelineCache, 1, &pipelineCreateInfo, nullptr, &rt_data->graphics.pipeline), "CREATE GRAPHICS PIPELINE");
+                Log::check(VK_SUCCESS == vkCreateGraphicsPipelines(vulkan_component->device.logical, vulkan_component->pipeline.cache, 1, &pipelineCreateInfo, nullptr, &rt_data->graphics.pipeline), "CREATE GRAPHICS PIPELINE");
 
                 //must be destroyed at the end of the object
                 vkDestroyShaderModule(vulkan_component->device.logical, fragShaderModule, nullptr);
@@ -624,13 +647,13 @@ namespace Axiom{
                         poolSizes.data(),
                         3);
 
-                Log::check(VK_SUCCESS == vkCreateDescriptorPool(vulkan_component->device.logical, &descriptorPoolInfo, nullptr, &descriptor_pool_), "CREATE DESCRIPTOR POOL");
+                Log::check(VK_SUCCESS == vkCreateDescriptorPool(vulkan_component->device.logical, &descriptorPoolInfo, nullptr, &rt_data->descriptor_pool), "CREATE DESCRIPTOR POOL");
             }
             void Raytracer::create_descriptor_sets()
             {
                 VkDescriptorSetAllocateInfo allocInfo =
                 vks::initializers::descriptorSetAllocateInfo(
-                    descriptor_pool_,
+                    rt_data->descriptor_pool,
                     &rt_data->graphics.descriptor_set_layout,
                     1);
 
@@ -643,7 +666,7 @@ namespace Axiom{
                         rt_data->graphics.descriptor_set,
                         VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
                         0,
-                        &compute_texture_.descriptor)
+                        &rt_data->compute_texture.descriptor)
                 };
 
                 vkUpdateDescriptorSets(vulkan_component->device.logical, writeDescriptorSets.size(), writeDescriptorSets.data(), 0, NULL);
@@ -673,40 +696,43 @@ namespace Axiom{
 
                 Log::check(VK_SUCCESS == vkCreatePipelineLayout(vulkan_component->device.logical, &pPipelineLayoutCreateInfo, nullptr, &rt_data->graphics.pipeline_layout), "CREATE PIPELINE LAYOUT");
             }
-            void Raytracer::create_command_buffers(float swap_ratio, int32_t offset_width, int32_t offset_heigiht)
+            void Raytracer::create_command_buffers(float swap_ratio, int32_t offset_width, int32_t offset_height)
             {
-                commandBuffers.resize(vulkan_component->swapchain.frame_buffers.size());
-                UpdateSwapScale(swap_ratio);
+                vulkan_component->command.buffers.resize(vulkan_component->swapchain.frame_buffers.size());
+                
+                vulkan_component->swapchain.scaled.height = vulkan_component->swapchain.extent.height * swap_ratio;
+                vulkan_component->swapchain.scaled.width = vulkan_component->swapchain.extent.width * swap_ratio;
+                
                 VkCommandBufferAllocateInfo allocInfo = {};
                 allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
-                allocInfo.commandPool = commandPool;
+                allocInfo.commandPool = vulkan_component->command.pool;
                 allocInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY; //specifies if its a primary or secondary buffer
-                allocInfo.commandBufferCount = (uint32_t)commandBuffers.size();
+                allocInfo.commandBufferCount = (uint32_t)vulkan_component->command.buffers.size();
 
                 //@COMPUTEHERE be sure to have compute-specific command buffers too
-                if (vkAllocateCommandBuffers(vulkan_component->device.logical, &allocInfo, commandBuffers.data()) != VK_SUCCESS) {
+                if (vkAllocateCommandBuffers(vulkan_component->device.logical, &allocInfo, vulkan_component->command.buffers.data()) != VK_SUCCESS) {
                     throw std::runtime_error("failed to allocate command buffers!");
                 }
 
 
-                for (size_t i = 0; i < commandBuffers.size(); i++) {
+                for (size_t i = 0; i < vulkan_component->command.buffers.size(); i++) {
                     VkCommandBufferBeginInfo beginInfo = {};
                     beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
                     beginInfo.flags = VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT; //The cmdbuf will be rerecorded right after executing it 1s
                     beginInfo.pInheritanceInfo = nullptr; // Optional //only for secondary buffers
 
-                    vkBeginCommandBuffer(commandBuffers[i], &beginInfo);
+                    vkBeginCommandBuffer(vulkan_component->command.buffers[i], &beginInfo);
                     // Image memory barrier to make sure that compute shader writes are finished before sampling from the texture
                     VkImageMemoryBarrier imageMemoryBarrier = {};
                     imageMemoryBarrier.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
                     imageMemoryBarrier.oldLayout = VK_IMAGE_LAYOUT_GENERAL;
                     imageMemoryBarrier.newLayout = VK_IMAGE_LAYOUT_GENERAL;
-                    imageMemoryBarrier.image = compute_texture_.image;
+                    imageMemoryBarrier.image = rt_data->compute_texture.image;
                     imageMemoryBarrier.subresourceRange = { VK_IMAGE_ASPECT_COLOR_BIT, 0, 1, 0, 1 };
                     imageMemoryBarrier.srcAccessMask = VK_ACCESS_SHADER_WRITE_BIT;
                     imageMemoryBarrier.dstAccessMask = VK_ACCESS_SHADER_READ_BIT;
                     vkCmdPipelineBarrier(
-                        commandBuffers[i],
+                        vulkan_component->command.buffers[i],
                         VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT,
                         VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT,
                         0,
@@ -716,10 +742,10 @@ namespace Axiom{
 
                     VkRenderPassBeginInfo renderPassInfo = {};
                     renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
-                    renderPassInfo.renderPass = renderPass;
+                    renderPassInfo.renderPass = vulkan_component->pipeline.render_pass;
                     renderPassInfo.framebuffer = vulkan_component->swapchain.frame_buffers[i];
                     renderPassInfo.renderArea.offset = { offset_width, offset_height }; //size of render area, should match size of attachments
-                    renderPassInfo.renderArea.extent = scaled_swap_;// swapChainExtent; //scaledSwap;//
+                    renderPassInfo.renderArea.extent = vulkan_component->swapchain.scaled;// vulkan_component->swapchain.extent; //scaledSwap;//
 
                     std::array<VkClearValue, 2> clearValues = {};
                     clearValues[0].color = { 0.0f, 0.0f, 0.0f, 1.0f }; //derp
@@ -728,29 +754,29 @@ namespace Axiom{
                     renderPassInfo.clearValueCount = static_cast<uint32_t>(clearValues.size()); //cuz
                     renderPassInfo.pClearValues = clearValues.data(); //duh
 
-                    vkCmdBeginRenderPass(commandBuffers[i], &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
+                    vkCmdBeginRenderPass(vulkan_component->command.buffers[i], &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
 
-                    VkViewport viewport = vks::initializers::viewport(swapChainExtent.width, swapChainExtent.height, 0.0f, 1.0f);
-                    vkCmdSetViewport(commandBuffers[i], 0, 1, &viewport);
+                    VkViewport viewport = vks::initializers::viewport(vulkan_component->swapchain.extent.width, vulkan_component->swapchain.extent.height, 0.0f, 1.0f);
+                    vkCmdSetViewport(vulkan_component->command.buffers[i], 0, 1, &viewport);
 
-                    VkRect2D scissor = vks::initializers::rect2D(swapChainExtent.width, swapChainExtent.height, 0, 0);
-                    vkCmdSetScissor(commandBuffers[i], 0, 1, &scissor);
+                    VkRect2D scissor = vks::initializers::rect2D(vulkan_component->swapchain.extent.width, vulkan_component->swapchain.extent.height, 0, 0);
+                    vkCmdSetScissor(vulkan_component->command.buffers[i], 0, 1, &scissor);
 
-                    vkCmdBindDescriptorSets(commandBuffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, rt_data->graphics.pipeline_layout, 0, 1, &rt_data->graphics.descriptor_set, 0, NULL);
-                    vkCmdBindPipeline(commandBuffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, rt_data->graphics.pipeline);
-                    vkCmdDraw(commandBuffers[i], 3, 1, 0, 0);
-                    vkCmdEndRenderPass(commandBuffers[i]);
+                    vkCmdBindDescriptorSets(vulkan_component->command.buffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, rt_data->graphics.pipeline_layout, 0, 1, &rt_data->graphics.descriptor_set, 0, NULL);
+                    vkCmdBindPipeline(vulkan_component->command.buffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, rt_data->graphics.pipeline);
+                    vkCmdDraw(vulkan_component->command.buffers[i], 3, 1, 0, 0);
+                    vkCmdEndRenderPass(vulkan_component->command.buffers[i]);
 
-                    Log::check(VK_SUCCESS == vkEndCommandBuffer(commandBuffers[i]), "END COMMAND BUFFER");
+                    Log::check(VK_SUCCESS == vkEndCommandBuffer(vulkan_component->command.buffers[i]), "END COMMAND BUFFER");
                 }
             }
-            void Raytracer::create_compute_command_buffers()
+            void Raytracer::create_compute_command_buffer()
             {
                 VkCommandBufferBeginInfo cmdBufInfo = vks::initializers::commandBufferBeginInfo();
                 Log::check(VK_SUCCESS == vkBeginCommandBuffer(rt_data->compute.command_buffer, &cmdBufInfo), "CREATE COMPUTE COMMAND BUFFER");
                 vkCmdBindPipeline(rt_data->compute.command_buffer, VK_PIPELINE_BIND_POINT_COMPUTE, rt_data->compute.pipeline);
                 vkCmdBindDescriptorSets(rt_data->compute.command_buffer, VK_PIPELINE_BIND_POINT_COMPUTE, rt_data->compute.pipeline_layout, 0, 1, &rt_data->compute.descriptor_set, 0, 0);
-                vkCmdDispatch(rt_data->compute.command_buffer, compute_texture_.width / 16, compute_texture_.height / 16, 1);
+                vkCmdDispatch(rt_data->compute.command_buffer, rt_data->compute_texture.width / 16, rt_data->compute_texture.height / 16, 1);
                 vkEndCommandBuffer(rt_data->compute.command_buffer);
             }
             void Raytracer::create_uniform_buffers()
@@ -763,23 +789,24 @@ namespace Axiom{
             void Raytracer::prepare_storage_buffers()
             {
                 c_data->shader_data.materials.reserve(MAX_MATERIALS);
-                lights_.reserve(MAX_LIGHTS);
+                c_data->shader_data.lights.reserve(MAX_LIGHTS);
 
                 //these are changable 
-                c_data->storage_buffers.primitives.InitStorageBufferCustomSize(vulkan_component->device, primitives_, primitives_.size(), MAX_OBJS);
-                c_data->storage_buffers.materials.InitStorageBufferCustomSize(vulkan_component->device, materials_, c_data->shader_data.materials.size(), MAX_MATERIALS);
-                c_data->storage_buffers.lights.InitStorageBufferCustomSize(vulkan_component->device, lights_, lights_.size(), MAX_LIGHTS);
+                c_data->storage_buffers.primitives.InitStorageBufferCustomSize(vulkan_component->device, c_data->shader_data.primitives, c_data->shader_data.primitives.size(), MAX_OBJS);
+                c_data->storage_buffers.materials.InitStorageBufferCustomSize(vulkan_component->device, c_data->shader_data.materials, c_data->shader_data.materials.size(), MAX_MATERIALS);
+                c_data->storage_buffers.lights.InitStorageBufferCustomSize(vulkan_component->device, c_data->shader_data.lights, c_data->shader_data.lights.size(), MAX_LIGHTS);
 
                 //create 1 gui main global kind of gui for like title/menu screen etc...
-                GUIComponent* guiComp = (GUIComponent*)world->getSingleton()->getComponent<GUIComponent>();
-                ssGUI gui = ssGUI(guiComp->min, guiComp->extents, guiComp->alignMin, guiComp->alignExt, guiComp->layer, guiComp->id);
-                gui.alpha = guiComp->alpha;
+                
+                auto gc = g_world.get_mut<Cmp_GUI>();
+                Shader::GUI gui = Shader::GUI(gc->min, gc->extents, gc->align_min, gc->align_ext, gc->layer, gc->id);
+                gui.alpha = gc->alpha;
 
                 //Give the component a reference to it and initialize
-                guiComp->ref = guis_.size();
-                guis_.push_back(gui);
-                c_data->storage_buffers.guis.InitStorageBufferCustomSize(vulkan_component->device, guis_, guis_.size(), MAX_GUIS);
-                c_data->storage_buffers.bvh.InitStorageBufferCustomSize(vulkan_component->device, bvh_, bvh_.size(), MAX_NODES);
+                gc->ref = c_data->shader_data.guis.size();
+                c_data->shader_data.guis.push_back(gui);
+                c_data->storage_buffers.guis.InitStorageBufferCustomSize(vulkan_component->device, c_data->shader_data.guis, c_data->shader_data.guis.size(), MAX_GUIS);
+                c_data->storage_buffers.bvh.InitStorageBufferCustomSize(vulkan_component->device, c_data->shader_data.bvh, c_data->shader_data.bvh.size(), MAX_NODES);
             }
             void Raytracer::prepare_texture_target(Texture *tex, uint32_t width, uint32_t height, VkFormat format)
             {
@@ -919,7 +946,7 @@ namespace Axiom{
                         VK_DESCRIPTOR_TYPE_STORAGE_BUFFER,
                         VK_SHADER_STAGE_COMPUTE_BIT,
                         8),
-                    // binding 9: Shader storage buffer for the guis_
+                    // binding 9: Shader storage buffer for the c_data->shader_data.guis
                     vks::initializers::descriptorSetLayoutBinding(
                         VK_DESCRIPTOR_TYPE_STORAGE_BUFFER,
                         VK_SHADER_STAGE_COMPUTE_BIT,
@@ -952,7 +979,7 @@ namespace Axiom{
 
                 VkDescriptorSetAllocateInfo allocInfo =
                     vks::initializers::descriptorSetAllocateInfo(
-                        descriptor_pool_,
+                        rt_data->descriptor_pool,
                         &rt_data->compute.descriptor_set_layout,
                         1);
 
@@ -965,14 +992,15 @@ namespace Axiom{
                     rt_data->gui_textures[3].descriptor,
                     rt_data->gui_textures[4].descriptor
                 };
-                compute_write_descriptor_sets_ =
+                
+                rt_data->compute_write_descriptor_sets =
                 {
                     // Binding 0: Output storage image
                     vks::initializers::writeDescriptorSet(
                         rt_data->compute.descriptor_set,
                         VK_DESCRIPTOR_TYPE_STORAGE_IMAGE,
                         0,
-                        &compute_texture_.descriptor),
+                        &rt_data->compute_texture.descriptor),
                     // Binding 1: Uniform buffer block
                     vks::initializers::writeDescriptorSet(
                         rt_data->compute.descriptor_set,
@@ -1021,7 +1049,7 @@ namespace Axiom{
                         VK_DESCRIPTOR_TYPE_STORAGE_BUFFER,
                         8,
                         &c_data->storage_buffers.lights.bufferInfo),
-                    //Binding 10 for guis_
+                    //Binding 10 for c_data->shader_data.guis
                     vks::initializers::writeDescriptorSet(
                         rt_data->compute.descriptor_set,
                         VK_DESCRIPTOR_TYPE_STORAGE_BUFFER,
@@ -1041,7 +1069,7 @@ namespace Axiom{
                         textureimageinfos, MAX_TEXTURES)
                 };
 
-                vkUpdateDescriptorSets(vulkan_component->device.logical, compute_write_descriptor_sets_.size(), compute_write_descriptor_sets_.data(), 0, NULL);
+                vkUpdateDescriptorSets(vulkan_component->device.logical, rt_data->compute_write_descriptor_sets.size(), rt_data->compute_write_descriptor_sets.data(), 0, NULL);
 
                 // Create compute shader pipelines
                 VkComputePipelineCreateInfo computePipelineCreateInfo =
@@ -1050,7 +1078,7 @@ namespace Axiom{
                         0);
 
                 computePipelineCreateInfo.stage = vulkan_component->device.createShader("../Assets/Shaders/raytracing.comp.spv", VK_SHADER_STAGE_COMPUTE_BIT);
-                Log::check(VK_SUCCESS == vkCreateComputePipelines(vulkan_component->device.logical, pipelineCache, 1, &computePipelineCreateInfo, nullptr, &rt_data->compute.pipeline), "CREATE COMPUTE PIPELINE");
+                Log::check(VK_SUCCESS == vkCreateComputePipelines(vulkan_component->device.logical, vulkan_component->pipeline.cache, 1, &computePipelineCreateInfo, nullptr, &rt_data->compute.pipeline), "CREATE COMPUTE PIPELINE");
 
                 // Separate command pool as queue family for compute may be different than graphics
                 VkCommandPoolCreateInfo cmdPoolInfo = {};
@@ -1073,7 +1101,7 @@ namespace Axiom{
                 Log::check(VK_SUCCESS == vkCreateFence(vulkan_component->device.logical, &fenceCreateInfo, nullptr, &rt_data->compute.fence), "CREATE FENCE");
 
                 // Build a single command buffer containing the compute dispatch commands
-                CreateComputeCommandBuffer();
+                create_compute_command_buffer();
                 vkDestroyShaderModule(vulkan_component->device.logical, computePipelineCreateInfo.stage.module, nullptr);
             }
             void Raytracer::destroy_compute()
@@ -1093,7 +1121,7 @@ namespace Axiom{
                 for (int i = 0; i < MAX_TEXTURES; ++i)
                     rt_data->gui_textures[i].destroy(vulkan_component->device.logical);
 
-                vkDestroyPipelineCache(vulkan_component->device.logical, pipelineCache, nullptr);
+                vkDestroyPipelineCache(vulkan_component->device.logical, vulkan_component->pipeline.cache, nullptr);
                 vkDestroyPipeline(vulkan_component->device.logical, rt_data->compute.pipeline, nullptr);
                 vkDestroyPipelineLayout(vulkan_component->device.logical, rt_data->compute.pipeline_layout, nullptr);
                 vkDestroyDescriptorSetLayout(vulkan_component->device.logical, rt_data->compute.descriptor_set_layout, nullptr);

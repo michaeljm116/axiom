@@ -25,6 +25,7 @@
 #define VOLK_IMPLEMENTATION
 #include <volk.h>
 #include "render-base.h"
+#include "sys-compute-raytracer.h"
 
 
 using namespace Axiom;
@@ -66,7 +67,11 @@ int main(){
 
 
 	g_world.add<Axiom::Render::Cmp_Vulkan>();
-	Axiom::Render::Base::InitializeVulkan();
+	g_world.add<Axiom::Render::Cmp_ComputeRaytracer>();
+	g_world.add<Axiom::Render::Cmp_ComputeData>();
+
+	//Axiom::Render::Base::InitializeVulkan();
+	Axiom::Render::Compute::initialize_raytracing();
 
 	g_world.add<Axiom::Cmp_CurrentTime>();
 	g_world.add<Axiom::Cmp_LogFile>();

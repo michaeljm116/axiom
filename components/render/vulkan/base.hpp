@@ -252,8 +252,8 @@ namespace Axiom {
 						moduleCreateInfo.codeSize = size;
 						moduleCreateInfo.pCode = (uint32_t*)shaderCode;
 
-						std::string bob = shaderCode;
-						bob.at(0);
+						//std::string bob = shaderCode;
+						//bob.at(0);
 
 						VK_CHECKRESULT(vkCreateShaderModule(logical, &moduleCreateInfo, NULL, &shaderModule), "CREATE SHADER MODULE");
 

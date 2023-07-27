@@ -84,7 +84,7 @@ namespace Axiom{
                             for (int i = start; i < end; ++i) {
                                 //PrimitiveComponent* pc = ptm->get(*bvh_comp->prims[i]);
                                 auto* pc = bvh_comp->prims[i]->get_mut<Render::Cmp_Primitive>();
-                                BVHBounds tempBounds = BVHBounds(pc->center(), pc->aabbExtents);
+                                BVHBounds tempBounds = BVHBounds(pc->center(), pc->aabb_extents);
                                 int b = numBuckets * centroid.Offset(pc->center(), axis);
                                 if (b == numBuckets) b--;
                                 buckets[b].count++;
@@ -163,8 +163,8 @@ namespace Axiom{
             glm::vec3 max(-FLT_MAX);
             for (int i = s; i < e; ++i) {
                 auto* pc = bvh_comp->prims[i]->get_mut<Render::Cmp_Primitive>();
-                min = minV(min, pc->center() - pc->aabbExtents);
-                max = maxV(max, pc->center() + pc->aabbExtents);
+                min = minV(min, pc->center() - pc->aabb_extents);
+                max = maxV(max, pc->center() + pc->aabb_extents);
             }
             glm::vec3 c = (max + min) * 0.5f;
             glm::vec3 ex = max - c;

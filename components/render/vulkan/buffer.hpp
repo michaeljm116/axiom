@@ -194,8 +194,8 @@ namespace Axiom {
 
 			void Destroy(Device& vkDevice)
 			{
-				vkDestroyBuffer(vkDevice.logicalDevice, buffer, nullptr);
-				vkFreeMemory(vkDevice.logicalDevice, bufferMemory, nullptr);
+				vkDestroyBuffer(vkDevice.logical, buffer, nullptr);
+				vkFreeMemory(vkDevice.logical, bufferMemory, nullptr);
 			}
 
 			void Initialize(Device& vkDevice)
@@ -233,9 +233,9 @@ namespace Axiom {
 				vkDevice.createBuffer(bufferSize, usage, properties, buffer, bufferMemory);
 
 				void* data;
-				vkMapMemory(vkDevice.logicalDevice, bufferMemory, 0, bufferSize, 0, &data);
+				vkMapMemory(vkDevice.logical, bufferMemory, 0, bufferSize, 0, &data);
 				memcpy(data, objects.data(), (size_t)bufferSize);
-				vkUnmapMemory(vkDevice.logicalDevice, bufferMemory);
+				vkUnmapMemory(vkDevice.logical, bufferMemory);
 
 				mInitialized = true;
 
@@ -252,9 +252,9 @@ namespace Axiom {
 				vkDevice.createBuffer(maxBufferSize, usage, properties, buffer, bufferMemory);
 
 				void* data;
-				vkMapMemory(vkDevice.logicalDevice, bufferMemory, 0, bufferSize, 0, &data);
+				vkMapMemory(vkDevice.logical, bufferMemory, 0, bufferSize, 0, &data);
 				memcpy(data, objects.data(), (size_t)bufferSize);
-				vkUnmapMemory(vkDevice.logicalDevice, bufferMemory);
+				vkUnmapMemory(vkDevice.logical, bufferMemory);
 
 				mInitialized = true;
 
@@ -274,14 +274,14 @@ namespace Axiom {
 					VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
 					stagingBuffer, stagingBufferMemory);
 
-				vkMapMemory(vkDevice.logicalDevice, stagingBufferMemory, 0, bufferSize, 0, &data);
+				vkMapMemory(vkDevice.logical, stagingBufferMemory, 0, bufferSize, 0, &data);
 				memcpy(data, objects.data(), (size_t)bufferSize);// (size_t)planes.size() * sizeof(Plane));
-				vkUnmapMemory(vkDevice.logicalDevice, stagingBufferMemory);
+				vkUnmapMemory(vkDevice.logical, stagingBufferMemory);
 
 				vkDevice.createBuffer(bufferSize, usage, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, buffer, bufferMemory);
 				vkDevice.copyBuffer(stagingBuffer, buffer, bufferSize);
-				vkDestroyBuffer(vkDevice.logicalDevice, stagingBuffer, nullptr);
-				vkFreeMemory(vkDevice.logicalDevice, stagingBufferMemory, nullptr);
+				vkDestroyBuffer(vkDevice.logical, stagingBuffer, nullptr);
+				vkFreeMemory(vkDevice.logical, stagingBufferMemory, nullptr);
 
 				mInitialized = true;
 
@@ -293,35 +293,35 @@ namespace Axiom {
 			void UpdateBuffers(Device& device, std::vector<T> object) {
 				if (mInitialized) {
 					void* data;
-					vkMapMemory(device.logicalDevice, bufferMemory, 0, (size_t)bufferInfo.range, 0, &data);
+					vkMapMemory(device.logical, bufferMemory, 0, (size_t)bufferInfo.range, 0, &data);
 					memcpy(data, object.data(), (size_t)bufferInfo.range);
-					vkUnmapMemory(device.logicalDevice, bufferMemory);
+					vkUnmapMemory(device.logical, bufferMemory);
 				}
 			}
 			void UpdateAndExpandBuffers(Device& device, std::vector<T> object, size_t size) {
 				bufferInfo.range = sizeof(Data) * size;
 				if (mInitialized) {
 					void* data;
-					vkMapMemory(device.logicalDevice, bufferMemory, 0, (size_t)bufferInfo.range, 0, &data);
+					vkMapMemory(device.logical, bufferMemory, 0, (size_t)bufferInfo.range, 0, &data);
 					memcpy(data, object.data(), (size_t)bufferInfo.range);
-					vkUnmapMemory(device.logicalDevice, bufferMemory);
+					vkUnmapMemory(device.logical, bufferMemory);
 				}
 			}
 			void ApplyChanges(Device& vkDevice)
 			{
 				if (mInitialized) {
 					void* data;
-					vkMapMemory(vkDevice.logicalDevice, bufferMemory, 0, sizeof(Data), 0, &data);
+					vkMapMemory(vkDevice.logical, bufferMemory, 0, sizeof(Data), 0, &data);
 					memcpy(data, &Data, sizeof(T));
-					vkUnmapMemory(vkDevice.logicalDevice, bufferMemory);
+					vkUnmapMemory(vkDevice.logical, bufferMemory);
 				}
 			}
 			void ApplyChanges(Device& vkDevice, T dat) {
 				if (mInitialized) {
 					void* data;
-					vkMapMemory(vkDevice.logicalDevice, bufferMemory, 0, sizeof(dat), 0, &data);
+					vkMapMemory(vkDevice.logical, bufferMemory, 0, sizeof(dat), 0, &data);
 					memcpy(data, &dat, sizeof(dat));
-					vkUnmapMemory(vkDevice.logicalDevice, bufferMemory);
+					vkUnmapMemory(vkDevice.logical, bufferMemory);
 				}
 			}
 

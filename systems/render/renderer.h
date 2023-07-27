@@ -28,7 +28,7 @@ namespace Axiom
 
             virtual void add_material(glm::vec3 diff, float rfl, float rough, float trans, float ri) = 0;
             virtual void update_descriptors() = 0;
-            virtual void update_material(int id) = 0;   
+            virtual void update_material(std::string name) = 0;   
             virtual void update_camera(Cmp_Camera* c) = 0;
             virtual void toggle_playmode(bool b) = 0;
 

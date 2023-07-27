@@ -36,7 +36,7 @@ namespace Axiom
                     void toggle_playmode(bool b) override;
 
                     void add_material(glm::vec3 diff, float rfl, float rough, float trans, float ri) override;
-                    void update_material(int id) override;
+                    void update_material(std::string name) override;
 		            void update_camera(Cmp_Camera* c) override;
                     void update_descriptors() override;
                     void update_gui(Cmp_GUI* gc);
@@ -53,7 +53,7 @@ namespace Axiom
                     void create_descriptor_set_layout();
                     void create_command_buffers(float swap_ratio,  int32_t offset_width, int32_t offset_heigiht);
                     
-                    void create_compute_command_buffers();
+                    void create_compute_command_buffer();
                     void create_uniform_buffers();
                     
                     void prepare_storage_buffers();

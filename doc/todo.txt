@@ -1,3 +1,12 @@
+7/26/2023
+* problem with your renderer is... its not ecs 
+* So like for update material. it assumes youre calling the system
+* Which is not allowed. instead maybe there should be a material system
+* and when you throw an update material component it updates it
+* maybe you should go over your whole thing and.... idk its like...
+* This is too much? 
+* okay how bout for now, ignore the like... public ish and figure out the boiler plate
+
 7/25/2023
 * so you've reached this moment where... you dont know if you want to produce or if you want to learn
 * or both and if both, how to do both
