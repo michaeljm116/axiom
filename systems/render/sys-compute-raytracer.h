@@ -1,6 +1,7 @@
 #pragma once
 #include "../components/render/cmp-compute-raytracer.h"
 #include "renderer.h"
+#include "../components/scene/cmp-bvh.h"
 
 namespace Axiom
 {
@@ -9,7 +10,6 @@ namespace Axiom
         namespace Compute
         {
             void initialize_raytracing();
-
             class Raytracer: public Renderer
             {
                 public:
@@ -17,7 +17,7 @@ namespace Axiom
                     Raytracer(Cmp_Vulkan* vk, Cmp_ComputeRaytracer* cr, Cmp_ComputeData* cd);
                     ~Raytracer();
 
-                    Cmp_ComputeData* c_data;
+                    Cmp_ComputeData c_data;
                     Cmp_ComputeRaytracer* rt_data; 
                     
                     void start_up() override;
@@ -43,6 +43,8 @@ namespace Axiom
                     void update_guinumber(Cmp_GUINumber* gnc);
                     void update_buffers();
                     void update_uniform_buffer();
+                    void update_bvh(std::vector<flecs::entity*>& ordered_prims, Bvh::BVHNode* root, int num_nodes);
+                    int flatten_bvh(Bvh::BVHNode* node, int* offset, std::vector<Shader::BVHNode>& bvh);
                     void load_resources();
 
                 private:
@@ -61,6 +63,7 @@ namespace Axiom
                     void prepare_compute();
                     void destroy_compute();
             };
+            extern Raytracer g_raytracer;
         }
     }
 }

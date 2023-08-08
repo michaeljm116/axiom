@@ -68,7 +68,7 @@ int main(){
 
 	g_world.add<Axiom::Render::Cmp_Vulkan>();
 	g_world.add<Axiom::Render::Cmp_ComputeRaytracer>();
-	g_world.add<Axiom::Render::Cmp_ComputeData>();
+	//g_world.add<Axiom::Render::Cmp_ComputeData>();
 
 	//Axiom::Render::Base::InitializeVulkan();
 	Axiom::Render::Compute::initialize_raytracing();

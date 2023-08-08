@@ -20,18 +20,31 @@ static const int MAX_NODES = 2048;
 namespace Axiom{
     namespace Render{
         namespace Compute{
+            Raytracer g_raytracer;
             void initialize_raytracing(){
-                /*auto vulkan_cmp = g_world.get_ref<Axiom::Render::Cmp_Vulkan>();
-                auto raytrc_cmp = g_world.get_ref<Axiom::Render::Cmp_ComputeRaytracer>();
-                auto compdt_cmp = g_world.get_ref<Axiom::Render::Cmp_ComputeData>();
-                Raytracer raytracer(vulkan_cmp.get(), raytrc_cmp.get(), compdt_cmp.get());
-                raytracer.start_up();*/
-                Raytracer rt;
-                rt.vulkan_component = g_world.get_ref<Axiom::Render::Cmp_Vulkan>().get();
-                rt.c_data = g_world.get_ref<Axiom::Render::Cmp_ComputeData>().get();
-                rt.rt_data = g_world.get_ref<Axiom::Render::Cmp_ComputeRaytracer>().get();
-                rt.start_up();
-                rt.initialize();
+                g_raytracer.vulkan_component = g_world.get_ref<Axiom::Render::Cmp_Vulkan>().get();
+                g_raytracer.rt_data = g_world.get_ref<Axiom::Render::Cmp_ComputeRaytracer>().get();
+                g_raytracer.start_up();
+                g_raytracer.initialize();
+
+                g_world.observer<Cmp_Render>("add entity")
+                .event(flecs::OnAdd)
+                .each([](flecs::entity e, Cmp_Render& r){
+                    g_raytracer.add_entity(e);
+                });
+
+                g_world.observer<Cmp_Render>("remove entity")
+                .event(flecs::OnRemove)
+                .each([](flecs::entity e, Cmp_Render& r){
+                    g_raytracer.remove_entity(e);
+                });
+
+                g_world.observer<Cmp_Render>("process entity")
+                .event(flecs::OnUpdate)
+                .each([](flecs::entity e, Cmp_Render& r){
+                    g_raytracer.process_entity(e);
+                });
+                
             }
 
             Raytracer::Raytracer()
@@ -42,7 +55,7 @@ namespace Axiom{
             {
                 vulkan_component = vk;
                 rt_data = cr;
-                c_data = cd;
+                //c_data = cd;
             }
             void Raytracer::start_up()
             {
@@ -52,7 +65,7 @@ namespace Axiom{
                 //LOAD MATERIALS
                 g_world.each([&](flecs::entity e, Cmp_ResMaterial mat){
                     Resource::Material m = mat.data;
-                    c_data->shader_data.materials.push_back(Shader::Material(m.diffuse, m.reflective, m.roughness, m.transparency, m.refractiveIndex, m.textureID));
+                    c_data.shader_data.materials.push_back(Shader::Material(m.diffuse, m.reflective, m.roughness, m.transparency, m.refractiveIndex, m.textureID));
                     //TODO RENDEREDMAT FOR SOME REASON
                 });
 
@@ -89,7 +102,7 @@ namespace Axiom{
                         }
                         
                         // i forget why i need this tbh
-                        c_data->mesh_assigner[mod.uniqueID + i] = std::pair<int, int>(prev_face_size, faces.size());
+                        c_data.mesh_assigner[mod.uniqueID + i] = std::pair<int, int>(prev_face_size, faces.size());
                     }
                 });
 
@@ -97,10 +110,10 @@ namespace Axiom{
                 if(shapes.size() == 0)
                 shapes.push_back(Shader::Shape(glm::vec3(0.f), glm::vec3(1.f), 1));
 
-                c_data->storage_buffers.verts.InitStorageBufferWithStaging(vulkan_component->device, verts, verts.size());
-                c_data->storage_buffers.faces.InitStorageBufferWithStaging(vulkan_component->device, faces, faces.size());
-                c_data->storage_buffers.blas.InitStorageBufferWithStaging(vulkan_component->device, blas, blas.size());
-                c_data->storage_buffers.shapes.InitStorageBufferWithStaging(vulkan_component->device, shapes, shapes.size());
+                c_data.storage_buffers.verts.InitStorageBufferWithStaging(vulkan_component->device, verts, verts.size());
+                c_data.storage_buffers.faces.InitStorageBufferWithStaging(vulkan_component->device, faces, faces.size());
+                c_data.storage_buffers.blas.InitStorageBufferWithStaging(vulkan_component->device, blas, blas.size());
+                c_data.storage_buffers.shapes.InitStorageBufferWithStaging(vulkan_component->device, shapes, shapes.size());
                 
                 rt_data->gui_textures[0].path = "../Assets/Levels/Test/Textures/numbers.png";
                 rt_data->gui_textures[0].CreateTexture(vulkan_component->device);
@@ -216,7 +229,7 @@ namespace Axiom{
                     primitive_component->world = transform_component->world;
                     primitive_component->extents = transform_component->local.sca;
                     if (primitive_component->id > 0) {
-                        std::pair<int, int> temp = c_data->mesh_assigner[primitive_component->id];
+                        std::pair<int, int> temp = c_data.mesh_assigner[primitive_component->id];
                         primitive_component->start_index = temp.first;
                         primitive_component->end_index = temp.second;
                     }
@@ -232,21 +245,21 @@ namespace Axiom{
                     light_shader.intensity = light_component->intensity;
                     light_shader.id = e.id();// getUniqueId();// lightComp->id;
                     light_component->id = light_shader.id;
-                    c_data->shader_data.lights.push_back(light_shader);
-                    c_data->light_comps.push_back(light_component);
+                    c_data.shader_data.lights.push_back(light_shader);
+                    c_data.light_comps.push_back(light_component);
                     //NodeComponent* node = (NodeComponent*)e.getComponent<NodeComponent>();
                     //addNode(node);
 
-                    c_data->storage_buffers.lights.UpdateAndExpandBuffers(vulkan_component->device, 
-                    c_data->shader_data.lights, c_data->shader_data.lights.size());
+                    c_data.storage_buffers.lights.UpdateAndExpandBuffers(vulkan_component->device, 
+                    c_data.shader_data.lights, c_data.shader_data.lights.size());
                     //update_descriptors();
                 }
                 if (t == RENDER_GUI) {
                     Cmp_GUI* gc = e.get_mut<Cmp_GUI>();
                     Shader::GUI gui = Shader::GUI(gc->min, gc->extents, gc->align_min, gc->align_ext, gc->layer, gc->id);
-                    gc->ref = c_data->shader_data.guis.size();
+                    gc->ref = c_data.shader_data.guis.size();
                     gui.alpha = gc->alpha;
-                    c_data->shader_data.guis.push_back(gui);
+                    c_data.shader_data.guis.push_back(gui);
                     update_renderer(kUpdateGui);
                 }
                 if (t == RENDER_GUINUM) {
@@ -273,9 +286,9 @@ namespace Axiom{
                     std::vector<int> nums = intToArrayOfInts(gnc->number);
                     for (int i = 0; i < nums.size(); ++i) {
                         Shader::GUI gui = Shader::GUI(gnc->min, gnc->extents, glm::vec2(0.1f * nums[i], 0.f), glm::vec2(0.1f, 1.f), 0, 0);
-                        gnc->shaderReferences.push_back(c_data->shader_data.guis.size());
+                        gnc->shaderReferences.push_back(c_data.shader_data.guis.size());
                         gui.alpha = gnc->alpha;
-                        c_data->shader_data.guis.push_back(gui);
+                        c_data.shader_data.guis.push_back(gui);
                     }
                     gnc->ref = gnc->shaderReferences[0];
                     update_renderer(kUpdateGui);
@@ -284,9 +297,9 @@ namespace Axiom{
                     Cmp_Camera* cc = e.get_mut<Cmp_Camera>();
                     Cmp_Transform* tc = e.get_mut<Cmp_Transform>();
                     
-                    c_data->ubo.aspect_ratio = cc->aspect_ratio;
-                    c_data->ubo.rotM = tc->world;
-                    c_data->ubo.fov = cc->fov;
+                    c_data.ubo.aspect_ratio = cc->aspect_ratio;
+                    c_data.ubo.rotM = tc->world;
+                    c_data.ubo.fov = cc->fov;
                 }
             }
             void Raytracer::remove_entity(flecs::entity &e)
@@ -294,15 +307,15 @@ namespace Axiom{
                 RenderType t = e.get_mut<Cmp_Render>()->type;// renderMapper.get(e)->type;
 
                 if (t == RENDER_LIGHT) {
-                    if (c_data->shader_data.lights.size() == 1) {
-                        c_data->shader_data.lights.clear();
-                        c_data->light_comps.clear();
+                    if (c_data.shader_data.lights.size() == 1) {
+                        c_data.shader_data.lights.clear();
+                        c_data.light_comps.clear();
                     }
                     else {
                         auto* lc = e.get_mut<Cmp_Light>();
-                        for (auto it = c_data->shader_data.lights.begin(); it != c_data->shader_data.lights.end(); ++it) {
+                        for (auto it = c_data.shader_data.lights.begin(); it != c_data.shader_data.lights.end(); ++it) {
                             if (lc->id == it->id)
-                                c_data->shader_data.lights.erase(it);
+                                c_data.shader_data.lights.erase(it);
                         }
                     }
                 }
@@ -393,8 +406,8 @@ namespace Axiom{
             void Raytracer::add_material(glm::vec3 diff, float rfl, float rough, float trans, float ri)
             {
                 Shader::Material mat = Shader::Material(diff, rfl, rough, trans, ri, 0);
-                c_data->shader_data.materials.push_back(mat);
-                c_data->storage_buffers.materials.UpdateAndExpandBuffers(vulkan_component->device, c_data->shader_data.materials, c_data->shader_data.materials.size());
+                c_data.shader_data.materials.push_back(mat);
+                c_data.storage_buffers.materials.UpdateAndExpandBuffers(vulkan_component->device, c_data.shader_data.materials, c_data.shader_data.materials.size());
                 update_descriptors();
             }
             void Raytracer::update_material(std::string name)
@@ -403,22 +416,22 @@ namespace Axiom{
                 /* TODO TODOOOOOOOOOOOO
                 Resource::Material m = g_world.lookup(name.c_str()).get_mut<Cmp_ResMaterial>()->data;
                 
-                c_data->shader_data.materials[id].diffuse = m->diffuse;
-                c_data->shader_data.materials[id].reflective = m->reflective;
-                c_data->shader_data.materials[id].roughness = m->roughness;
-                c_data->shader_data.materials[id].transparency = m->transparency;
-                c_data->shader_data.materials[id].refractiveIndex = m->refractiveIndex;
-                c_data->shader_data.materials[id].textureID = m->textureID;
+                c_data.shader_data.materials[id].diffuse = m->diffuse;
+                c_data.shader_data.materials[id].reflective = m->reflective;
+                c_data.shader_data.materials[id].roughness = m->roughness;
+                c_data.shader_data.materials[id].transparency = m->transparency;
+                c_data.shader_data.materials[id].refractiveIndex = m->refractiveIndex;
+                c_data.shader_data.materials[id].textureID = m->textureID;
 
-                c_data->storage_buffers.materials.UpdateBuffers(vulkan_component->device, c_data->shader_data.materials);
+                c_data.storage_buffers.materials.UpdateBuffers(vulkan_component->device, c_data.shader_data.materials);
                 */
             }
             void Raytracer::update_camera(Cmp_Camera* c){
-                c_data->ubo.aspect_ratio = c->aspect_ratio;
-                c_data->ubo.fov = glm::tan(c->fov * 0.03490658503);
-                c_data->ubo.rotM = c->rot_m;
-                c_data->ubo.rand = 1;//random_int();
-                c_data->uniform_buffer.ApplyChanges(vulkan_component->device, c_data->ubo);          
+                c_data.ubo.aspect_ratio = c->aspect_ratio;
+                c_data.ubo.fov = glm::tan(c->fov * 0.03490658503);
+                c_data.ubo.rotM = c->rot_m;
+                c_data.ubo.rand = 1;//random_int();
+                c_data.uniform_buffer.ApplyChanges(vulkan_component->device, c_data.ubo);          
             }
             void Raytracer::update_descriptors()
             {
@@ -430,31 +443,31 @@ namespace Axiom{
                         rt_data->compute.descriptor_set,
                         VK_DESCRIPTOR_TYPE_STORAGE_BUFFER,
                         6,
-                        &c_data->storage_buffers.primitives.bufferInfo),
+                        &c_data.storage_buffers.primitives.bufferInfo),
                     //Binding 6 for materials
                     vks::initializers::writeDescriptorSet(
                         rt_data->compute.descriptor_set,
                         VK_DESCRIPTOR_TYPE_STORAGE_BUFFER,
                         7,
-                        &c_data->storage_buffers.materials.bufferInfo),
+                        &c_data.storage_buffers.materials.bufferInfo),
                     //Binding 7 for lights
                     vks::initializers::writeDescriptorSet(
                         rt_data->compute.descriptor_set,
                         VK_DESCRIPTOR_TYPE_STORAGE_BUFFER,
                         8,
-                        &c_data->storage_buffers.lights.bufferInfo),
+                        &c_data.storage_buffers.lights.bufferInfo),
                     //Binding 8 for gui
                     vks::initializers::writeDescriptorSet(
                         rt_data->compute.descriptor_set,
                         VK_DESCRIPTOR_TYPE_STORAGE_BUFFER,
                         9,
-                        &c_data->storage_buffers.guis.bufferInfo),
+                        &c_data.storage_buffers.guis.bufferInfo),
                     //Binding 10 for bvhnodes
                     vks::initializers::writeDescriptorSet(
                         rt_data->compute.descriptor_set,
                         VK_DESCRIPTOR_TYPE_STORAGE_BUFFER,
                         10,
-                        &c_data->storage_buffers.bvh.bufferInfo)
+                        &c_data.storage_buffers.bvh.bufferInfo)
                 };
                 vkUpdateDescriptorSets(vulkan_component->device.logical, rt_data->compute_write_descriptor_sets.size(), rt_data->compute_write_descriptor_sets.data(), 0, NULL);
                 //vkupdate_descriptorsets(vulkan_component->device.logical, rt_data->compute_write_descriptor_sets.size(), rt_data->compute_write_descriptor_sets.data(), 0, NULL);
@@ -472,41 +485,68 @@ namespace Axiom{
                 if (update_flags & kUpdateNone)
                     return;
                 if (update_flags & kUpdateObject) {
-                    //c_data->storage_buffers.primitives.UpdateBuffers(vkDevice, primitives);
+                    //c_data.storage_buffers.primitives.UpdateBuffers(vkDevice, primitives);
                     update_flags &= ~kUpdateObject;
                 }
                 if (update_flags & kUpdateMaterial) {
                     update_flags &= ~kUpdateMaterial;
                 }
                 if (update_flags & kUpdateLight) {
-                    c_data->storage_buffers.lights.UpdateBuffers(vulkan_component->device, c_data->shader_data.lights);
+                    c_data.storage_buffers.lights.UpdateBuffers(vulkan_component->device, c_data.shader_data.lights);
                     update_flags &= ~kUpdateLight;
                 }
                 if (update_flags & kUpdateGui) {
-                    c_data->storage_buffers.guis.UpdateBuffers(vulkan_component->device, c_data->shader_data.guis);
+                    c_data.storage_buffers.guis.UpdateBuffers(vulkan_component->device, c_data.shader_data.guis);
                     update_flags &= ~kUpdateGui;
                 }
 
                 if (update_flags & kUpdateBvh) {
-                    c_data->storage_buffers.primitives.UpdateAndExpandBuffers(vulkan_component->device, c_data->shader_data.primitives, c_data->shader_data.primitives.size());
-                    c_data->storage_buffers.bvh.UpdateAndExpandBuffers(vulkan_component->device, c_data->shader_data.bvh, c_data->shader_data.bvh.size());
+                    c_data.storage_buffers.primitives.UpdateAndExpandBuffers(vulkan_component->device, c_data.shader_data.primitives, c_data.shader_data.primitives.size());
+                    c_data.storage_buffers.bvh.UpdateAndExpandBuffers(vulkan_component->device, c_data.shader_data.bvh, c_data.shader_data.bvh.size());
                     update_flags &= ~kUpdateBvh;
                 }
 
                 update_flags |= kUpdateNone;
-                //c_data->storage_buffers.objects.UpdateAndExpandBuffers(vkDevice, objects, objects.size());
-                //c_data->storage_buffers.bvh.UpdateAndExpandBuffers(vkDevice, bvh, bvh.size());
+                //c_data.storage_buffers.objects.UpdateAndExpandBuffers(vkDevice, objects, objects.size());
+                //c_data.storage_buffers.bvh.UpdateAndExpandBuffers(vkDevice, bvh, bvh.size());
                 update_descriptors();
             }
             void Raytracer::update_uniform_buffer(){
-                c_data->uniform_buffer.ApplyChanges(vulkan_component->device, c_data->ubo);
+                c_data.uniform_buffer.ApplyChanges(vulkan_component->device, c_data.ubo);
+            }
+            void Raytracer::update_bvh(std::vector<flecs::entity *> &ordered_prims, Bvh::BVHNode *root, int num_nodes)
+            {
+                
+                size_t num_prims = ordered_prims.size();
+                if (num_prims == 0)return;
+                c_data.shader_data.primitives.clear();
+                c_data.shader_data.primitives.reserve(num_prims);
+
+                //fill in the new objects array;
+                for (size_t i = 0; i < num_prims; ++i) {
+                    auto* pc = ordered_prims[i]->get_mut<Cmp_Primitive>();
+                    if (pc) {
+                        c_data.shader_data.primitives.emplace_back(Shader::Primitive(pc));
+                    }
+                }
+
+                //now that the objs are ordered relative to the BVH, you can flatten the BVH;
+                int offset = 0;
+                c_data.shader_data.bvh.resize(num_nodes);
+                flatten_bvh(root, &offset, c_data.shader_data.bvh);
+                update_renderer(kUpdateBvh);
+                
+            }
+            int Raytracer::flatten_bvh(Bvh::BVHNode *node, int *offset, std::vector<Shader::BVHNode> &bvh)
+            {
+                return 0;
             }
             void Raytracer::set_stuff_up()
             {
-                c_data->ubo.aspect_ratio = 1280.f / 720.f;
-                c_data->ubo.fov = glm::tan(13.0f * 0.03490658503); //0.03490658503 = pi / 180 / 2
-                c_data->ubo.rotM = glm::mat4();
-                c_data->ubo.rand = 1;//random_int();
+                c_data.ubo.aspect_ratio = 1280.f / 720.f;
+                c_data.ubo.fov = glm::tan(13.0f * 0.03490658503); //0.03490658503 = pi / 180 / 2
+                c_data.ubo.rotM = glm::mat4();
+                c_data.ubo.rand = 1;//random_int();
             }
 
             #pragma region BoilerPlate
@@ -781,20 +821,20 @@ namespace Axiom{
             }
             void Raytracer::create_uniform_buffers()
             {
-                c_data->uniform_buffer.Initialize(vulkan_component->device, 1,
+                c_data.uniform_buffer.Initialize(vulkan_component->device, 1,
                 VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT,
                 VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);
-                c_data->uniform_buffer.ApplyChanges(vulkan_component->device, c_data->ubo);
+                c_data.uniform_buffer.ApplyChanges(vulkan_component->device, c_data.ubo);
             }
             void Raytracer::prepare_storage_buffers()
             {
-                c_data->shader_data.materials.reserve(MAX_MATERIALS);
-                c_data->shader_data.lights.reserve(MAX_LIGHTS);
+                c_data.shader_data.materials.reserve(MAX_MATERIALS);
+                c_data.shader_data.lights.reserve(MAX_LIGHTS);
 
                 //these are changable 
-                c_data->storage_buffers.primitives.InitStorageBufferCustomSize(vulkan_component->device, c_data->shader_data.primitives, c_data->shader_data.primitives.size(), MAX_OBJS);
-                c_data->storage_buffers.materials.InitStorageBufferCustomSize(vulkan_component->device, c_data->shader_data.materials, c_data->shader_data.materials.size(), MAX_MATERIALS);
-                c_data->storage_buffers.lights.InitStorageBufferCustomSize(vulkan_component->device, c_data->shader_data.lights, c_data->shader_data.lights.size(), MAX_LIGHTS);
+                c_data.storage_buffers.primitives.InitStorageBufferCustomSize(vulkan_component->device, c_data.shader_data.primitives, c_data.shader_data.primitives.size(), MAX_OBJS);
+                c_data.storage_buffers.materials.InitStorageBufferCustomSize(vulkan_component->device, c_data.shader_data.materials, c_data.shader_data.materials.size(), MAX_MATERIALS);
+                c_data.storage_buffers.lights.InitStorageBufferCustomSize(vulkan_component->device, c_data.shader_data.lights, c_data.shader_data.lights.size(), MAX_LIGHTS);
 
                 //create 1 gui main global kind of gui for like title/menu screen etc...
                 
@@ -803,10 +843,10 @@ namespace Axiom{
                 gui.alpha = gc->alpha;
 
                 //Give the component a reference to it and initialize
-                gc->ref = c_data->shader_data.guis.size();
-                c_data->shader_data.guis.push_back(gui);
-                c_data->storage_buffers.guis.InitStorageBufferCustomSize(vulkan_component->device, c_data->shader_data.guis, c_data->shader_data.guis.size(), MAX_GUIS);
-                c_data->storage_buffers.bvh.InitStorageBufferCustomSize(vulkan_component->device, c_data->shader_data.bvh, c_data->shader_data.bvh.size(), MAX_NODES);
+                gc->ref = c_data.shader_data.guis.size();
+                c_data.shader_data.guis.push_back(gui);
+                c_data.storage_buffers.guis.InitStorageBufferCustomSize(vulkan_component->device, c_data.shader_data.guis, c_data.shader_data.guis.size(), MAX_GUIS);
+                c_data.storage_buffers.bvh.InitStorageBufferCustomSize(vulkan_component->device, c_data.shader_data.bvh, c_data.shader_data.bvh.size(), MAX_NODES);
             }
             void Raytracer::prepare_texture_target(Texture *tex, uint32_t width, uint32_t height, VkFormat format)
             {
@@ -946,7 +986,7 @@ namespace Axiom{
                         VK_DESCRIPTOR_TYPE_STORAGE_BUFFER,
                         VK_SHADER_STAGE_COMPUTE_BIT,
                         8),
-                    // binding 9: Shader storage buffer for the c_data->shader_data.guis
+                    // binding 9: Shader storage buffer for the c_data.shader_data.guis
                     vks::initializers::descriptorSetLayoutBinding(
                         VK_DESCRIPTOR_TYPE_STORAGE_BUFFER,
                         VK_SHADER_STAGE_COMPUTE_BIT,
@@ -1006,61 +1046,61 @@ namespace Axiom{
                         rt_data->compute.descriptor_set,
                         VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
                         1,
-                        &c_data->uniform_buffer.bufferInfo),
+                        &c_data.uniform_buffer.bufferInfo),
                     // Binding 2: Shader storage buffer for the verts
                     vks::initializers::writeDescriptorSet(
                         rt_data->compute.descriptor_set,
                         VK_DESCRIPTOR_TYPE_STORAGE_BUFFER,
                         2,
-                        &c_data->storage_buffers.verts.bufferInfo),
+                        &c_data.storage_buffers.verts.bufferInfo),
                     // Binding 3: Shader storage buffer for the indices
                     vks::initializers::writeDescriptorSet(
                         rt_data->compute.descriptor_set,
                         VK_DESCRIPTOR_TYPE_STORAGE_BUFFER,
                         3,
-                        &c_data->storage_buffers.faces.bufferInfo),
+                        &c_data.storage_buffers.faces.bufferInfo),
                     // Binding 4: for blas
                     vks::initializers::writeDescriptorSet(
                         rt_data->compute.descriptor_set,
                         VK_DESCRIPTOR_TYPE_STORAGE_BUFFER,
                         4,
-                        &c_data->storage_buffers.blas.bufferInfo),
+                        &c_data.storage_buffers.blas.bufferInfo),
                     //Binding 5: for shapes
                     vks::initializers::writeDescriptorSet(
                         rt_data->compute.descriptor_set,
                         VK_DESCRIPTOR_TYPE_STORAGE_BUFFER,
                         5,
-                        &c_data->storage_buffers.shapes.bufferInfo),
+                        &c_data.storage_buffers.shapes.bufferInfo),
                     // Binding 6: for objectss
                     vks::initializers::writeDescriptorSet(
                         rt_data->compute.descriptor_set,
                         VK_DESCRIPTOR_TYPE_STORAGE_BUFFER,
                         6,
-                        &c_data->storage_buffers.primitives.bufferInfo),
+                        &c_data.storage_buffers.primitives.bufferInfo),
                     //Binding 8 for materials
                     vks::initializers::writeDescriptorSet(
                         rt_data->compute.descriptor_set,
                         VK_DESCRIPTOR_TYPE_STORAGE_BUFFER,
                         7,
-                        &c_data->storage_buffers.materials.bufferInfo),
+                        &c_data.storage_buffers.materials.bufferInfo),
                     //Binding 9 for lights
                     vks::initializers::writeDescriptorSet(
                         rt_data->compute.descriptor_set,
                         VK_DESCRIPTOR_TYPE_STORAGE_BUFFER,
                         8,
-                        &c_data->storage_buffers.lights.bufferInfo),
-                    //Binding 10 for c_data->shader_data.guis
+                        &c_data.storage_buffers.lights.bufferInfo),
+                    //Binding 10 for c_data.shader_data.guis
                     vks::initializers::writeDescriptorSet(
                         rt_data->compute.descriptor_set,
                         VK_DESCRIPTOR_TYPE_STORAGE_BUFFER,
                         9,
-                        &c_data->storage_buffers.guis.bufferInfo),
+                        &c_data.storage_buffers.guis.bufferInfo),
                     //Binding 11 for bvhs
                     vks::initializers::writeDescriptorSet(
                         rt_data->compute.descriptor_set,
                         VK_DESCRIPTOR_TYPE_STORAGE_BUFFER,
                         10,
-                        &c_data->storage_buffers.bvh.bufferInfo),
+                        &c_data.storage_buffers.bvh.bufferInfo),
                     //bINDING 12 FOR TEXTURES
                     vks::initializers::writeDescriptorSet(
                         rt_data->compute.descriptor_set,
@@ -1106,16 +1146,16 @@ namespace Axiom{
             }
             void Raytracer::destroy_compute()
             {
-                c_data->uniform_buffer.Destroy(vulkan_component->device);
-                c_data->storage_buffers.verts.Destroy(vulkan_component->device);
-                c_data->storage_buffers.faces.Destroy(vulkan_component->device);
-                c_data->storage_buffers.blas.Destroy(vulkan_component->device);
-                c_data->storage_buffers.shapes.Destroy(vulkan_component->device);
-                c_data->storage_buffers.primitives.Destroy(vulkan_component->device);
-                c_data->storage_buffers.materials.Destroy(vulkan_component->device);
-                c_data->storage_buffers.lights.Destroy(vulkan_component->device);
-                c_data->storage_buffers.guis.Destroy(vulkan_component->device);
-                c_data->storage_buffers.bvh.Destroy(vulkan_component->device);
+                c_data.uniform_buffer.Destroy(vulkan_component->device);
+                c_data.storage_buffers.verts.Destroy(vulkan_component->device);
+                c_data.storage_buffers.faces.Destroy(vulkan_component->device);
+                c_data.storage_buffers.blas.Destroy(vulkan_component->device);
+                c_data.storage_buffers.shapes.Destroy(vulkan_component->device);
+                c_data.storage_buffers.primitives.Destroy(vulkan_component->device);
+                c_data.storage_buffers.materials.Destroy(vulkan_component->device);
+                c_data.storage_buffers.lights.Destroy(vulkan_component->device);
+                c_data.storage_buffers.guis.Destroy(vulkan_component->device);
+                c_data.storage_buffers.bvh.Destroy(vulkan_component->device);
 
                 rt_data->compute_texture.destroy(vulkan_component->device.logical);
                 for (int i = 0; i < MAX_TEXTURES; ++i)

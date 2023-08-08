@@ -1,3 +1,24 @@
+8/8/2023
+* idk whats happening...
+* I guess its time to fire-up the renderer but like... what do?
+* 1. Get it working asap no matter the const
+* just be sloppy for now and reorg later
+* look at all teh get it working stuff you see below... just do it!
+* So to get it working... you need to first...
+* 1. Start up and initialize
+* 2. Somehow connect it with resource management to be able to load all RESOURCES
+* * * it should already be there in the start up... just make sure the start up is post-resource
+* 3. Somehow connect with BVH to be able to finish 
+* * * this will probably be a HUGE problem... its completely not set up yet
+* 4. Also make sure there's a Camera
+* 5. Also make sure its connected properly to a window
+* 6. Then have some while loop that updates every frame
+* *
+* YOu can focus on ECS stuff after
+* * or maybe not at all just start becomign a graphics programmer again
+* * let this be a test bed for you to master vulkan n stuff
+
+
 7/26/2023
 * problem with your renderer is... its not ecs 
 * So like for update material. it assumes youre calling the system
