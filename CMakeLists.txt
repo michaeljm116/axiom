@@ -50,9 +50,9 @@ include_directories(
 include_directories(
     lib/glm 
     lib/glfw/include
-    lib/stb
     lib/imgui
     lib/volk
+    lib/stb
     lib/taskflow
     lib/tinyxml2
     lib/xxHash
@@ -61,6 +61,7 @@ include_directories(
 # Add source files and header files
 file(GLOB SYSTEMS_SOURCE
     start/flecs-world.cpp
+    start/helpers.cpp
     systems/*.cpp
     systems/core/*.cpp
     systems/render/*.cpp
@@ -68,6 +69,7 @@ file(GLOB SYSTEMS_SOURCE
 )
 file(GLOB SYSTEMS_HEADERS
     start/flecs-world.h
+    start/helpers.h
     systems/*.h 
     systems/core/*.h 
     systems/render/*.h

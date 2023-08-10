@@ -57,6 +57,9 @@ namespace Axiom{
                 rt_data = cr;
                 //c_data = cd;
             }
+            Raytracer::~Raytracer(){
+                
+            }
             void Raytracer::start_up()
             {
                 initVulkan();
@@ -360,6 +363,18 @@ namespace Axiom{
                     vkDeviceWaitIdle(vulkan_component->device.logical); //so it can destroy properly
                 }
             }
+            void Raytracer::clean_up(){
+                vkDeviceWaitIdle(vulkan_component->device.logical);
+                clean_up_swapchain();
+                destroy_compute();
+                vkDestroyDescriptorPool(vulkan_component->device.logical,rt_data->descriptor_pool, nullptr);
+                vkDestroyDescriptorSetLayout(vulkan_component->device.logical, rt_data->graphics.descriptor_set_layout, nullptr);
+
+                vkDestroyCommandPool(vulkan_component->device.logical, vulkan_component->command.pool, nullptr);
+                //vkDestroyCommandPool(vkDevice.logicalDevice, compute_.commandPool, nullptr);
+
+                RenderBase::clean_up();
+            }
             void Raytracer::clean_up_swapchain()
             {
                 vkDestroyPipeline(vulkan_component->device.logical, rt_data->graphics.pipeline, nullptr);
@@ -377,7 +392,7 @@ namespace Axiom{
                 //editor ?
                 create_command_buffers(0.7333333333f, (int32_t)(g_world.get<Cmp_Window>()->width * 0.16666666666f), 36);
                 //	create_command_buffers(0.6666666666666f, 0, 0);
-                vulkan_component->swapchain.frame_buffers;
+                //vulkan_component->swapchain.frame_buffers;
                 //return vulkan_component->swapchain.frame_buffers;
                 //ui->visible = false;
                 //ui->resize(vulkan_component->swapchain.extent.width, vulkan_component->swapchain.extent.height, vulkan_component->swapchain.frame_buffers);

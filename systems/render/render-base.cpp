@@ -425,8 +425,11 @@ namespace Axiom
                         return format;
                     else if (tiling == VK_IMAGE_TILING_OPTIMAL && (props.optimalTilingFeatures & features) == features)
                         return format;
-                    throw std::runtime_error("failed to find supported format!");
+                    else{
+                        throw std::runtime_error("failed to find supported format!");
+                    }
                 }
+                return VkFormat();
             }
 
             //Make sure you pick a suitable device

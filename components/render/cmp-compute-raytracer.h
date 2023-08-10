@@ -14,6 +14,7 @@
  #include "cmp-shader.h"
  #include "vulkan/buffer.hpp"
  #include "texture.h"
+ #include "../../systems/render/texture.h"
  #include <unordered_map>
 
 
@@ -46,8 +47,8 @@
 
             bool prepared = false;
 
-            Texture compute_texture;
-            Texture gui_textures[MAX_TEXTURES];
+            Axiom::Render::Texture compute_texture;
+            Axiom::Render::Texture gui_textures[MAX_TEXTURES];
 
             VkDescriptorSetLayoutBinding DescriptorSetLayoutBinding(uint32_t binding, VkDescriptorType descriptorType, uint32_t descriptorCount, VkShaderStageFlags flags);
             std::vector<VkWriteDescriptorSet> compute_write_descriptor_sets;

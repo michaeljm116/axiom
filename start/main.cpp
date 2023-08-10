@@ -24,6 +24,7 @@
 #endif
 #define VOLK_IMPLEMENTATION
 #include <volk.h>
+#include "texture.h"
 #include "render-base.h"
 #include "sys-compute-raytracer.h"
 

@@ -7,15 +7,17 @@ nvm turns out i still use it
 //#include "RenderHelplers.h"
 #include "vulkan/base.hpp"
 #include <assert.h>
-#include <stb_image.h>
+#include "cmp-vulkan.h"
 
-namespace Axiom {
-	namespace Render{
+namespace Axiom 
+{
+	namespace Render
+	{
 		struct Texture
 		{
 		public:
 			Texture();
-			Texture(std::string p) : path(p) {};
+			Texture(std::string p);
 			~Texture();
 
 			VkImage image;
@@ -53,20 +55,7 @@ namespace Axiom {
 			PrImage(std::string txtr_file) {
 				LoadPrImageFromTexture(txtr_file);
 			}
-			void LoadPrImageFromTexture(std::string txtr_file) {
-				stbi_uc* pixels = stbi_load(txtr_file.c_str(), &width, &height, &channels,0);
-				data = std::vector(width, std::vector<PrPixel>(height));
-				unsigned int i, j, k;
-				for (k = 0; k < channels; ++k) {
-					for (j = 0; j < height; ++j) {
-						for (i = 0; i < width; ++i) {
-							unsigned int index = k + channels * i + channels * width * j;
-							data[i][j][k] = pixels[index];
-						}
-					}
-				}
-				stbi_image_free(pixels);
-			}
+			void LoadPrImageFromTexture(std::string txtr_file);
 		};
 	}
 }

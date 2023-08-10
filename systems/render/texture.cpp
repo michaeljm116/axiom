@@ -1,7 +1,7 @@
-#include "texture.h"
+#include "texture.h" 
 #ifndef STB_IMAGE_IMPLEMENTATION
 #define STB_IMAGE_IMPLEMENTATION
-#include <stb/stb_image.h>
+#include <stb_image.h>
 #endif
 
 namespace Axiom {
@@ -11,8 +11,11 @@ namespace Axiom {
 			descriptor = {};
 		}
 
+        Texture::Texture(std::string p) : path(p)
+        {
+        }
 
-		Texture::~Texture()
+        Texture::~Texture()
 		{
 			//destroy(device->logicalDevice);
 		}
@@ -25,7 +28,7 @@ namespace Axiom {
 			vkFreeMemory(device, memory, nullptr);
 		}
 
-		VkResult Texture::CreateTexture(VulkanDevice & device)
+		VkResult Texture::CreateTexture(Vulkan::Device& device)
 		{
 			//////////////CREATE TEXTURE IMAGE/////////////////
 			//this->device = &device;
@@ -43,9 +46,9 @@ namespace Axiom {
 				stagingBuffer, stagingBufferMemory);
 
 			void* data;
-			vkMapMemory(device.logicalDevice, stagingBufferMemory, 0, imageSize, 0, &data);
+			vkMapMemory(device.logical, stagingBufferMemory, 0, imageSize, 0, &data);
 			memcpy(data, pixels, static_cast<size_t>(imageSize));
-			vkUnmapMemory(device.logicalDevice, stagingBufferMemory);
+			vkUnmapMemory(device.logical, stagingBufferMemory);
 			stbi_image_free(pixels);
 
 			device.createImage(texWidth, texHeight, VK_FORMAT_R8G8B8A8_UNORM, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, image, memory);
@@ -54,8 +57,8 @@ namespace Axiom {
 			device.copyBufferToImage(stagingBuffer, image, width, height);
 			device.transitionImageLayout(image, VK_FORMAT_R8G8B8A8_UNORM, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
 
-			vkDestroyBuffer(device.logicalDevice, stagingBuffer, nullptr);
-			vkFreeMemory(device.logicalDevice, stagingBufferMemory, nullptr);
+			vkDestroyBuffer(device.logical, stagingBuffer, nullptr);
+			vkFreeMemory(device.logical, stagingBufferMemory, nullptr);
 			/////////////////////////////////////////////////////
 			////////////CREATE TEXUTRE IMAGE VIEW////////////////
 			view = device.createImageView(image, VK_FORMAT_R8G8B8A8_UNORM, VK_IMAGE_ASPECT_COLOR_BIT);
@@ -82,8 +85,10 @@ namespace Axiom {
 			samplerInfo.mipLodBias = 0.0f;
 			samplerInfo.minLod = 0.0f;
 			samplerInfo.maxLod = 0.0f;
-			VK_CHECKRESULT(vkCreateSampler(device.logicalDevice, &samplerInfo, nullptr, &sampler), "create texture sampler!");
 
+			
+			//VK_CHECKRESULT(vkCreateSampler(device.logical, &samplerInfo, nullptr, &sampler), "create texture sampler!");
+			vkCreateSampler(device.logical, &samplerInfo, nullptr, &sampler);
 
 			imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
 			updateDescriptor();
@@ -96,6 +101,22 @@ namespace Axiom {
 			descriptor.sampler = sampler;
 			descriptor.imageView = view;
 			descriptor.imageLayout = imageLayout;
+		}
+
+		void PrImage::LoadPrImageFromTexture(std::string txtr_file)
+		{
+			stbi_uc* pixels = stbi_load(txtr_file.c_str(), &width, &height, &channels,0);
+			data = std::vector(width, std::vector<PrPixel>(height));
+			unsigned int i, j, k;
+			for (k = 0; k < channels; ++k) {
+				for (j = 0; j < height; ++j) {
+					for (i = 0; i < width; ++i) {
+						unsigned int index = k + channels * i + channels * width * j;
+						data[i][j][k] = pixels[index];
+					}
+				}
+			}
+			stbi_image_free(pixels);
 		}
 	}
 }

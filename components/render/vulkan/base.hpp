@@ -112,6 +112,7 @@ namespace Axiom {
 					qFams = device.qFams;
 					queue = device.queue;
 					commandPool = device.commandPool; 
+					return *this;
 				};
 
 				//Validation Layers
