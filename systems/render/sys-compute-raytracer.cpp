@@ -118,15 +118,15 @@ namespace Axiom{
                 c_data.storage_buffers.blas.InitStorageBufferWithStaging(vulkan_component->device, blas, blas.size());
                 c_data.storage_buffers.shapes.InitStorageBufferWithStaging(vulkan_component->device, shapes, shapes.size());
                 
-                rt_data->gui_textures[0].path = "../Assets/Levels/Test/Textures/numbers.png";
+                rt_data->gui_textures[0].path = "../../assets/Textures/numbers.png";
                 rt_data->gui_textures[0].CreateTexture(vulkan_component->device);
-                rt_data->gui_textures[1].path = "../Assets/Levels/Test/Textures/title.png";
+                rt_data->gui_textures[1].path = "../../assets/Textures/title.png";
                 rt_data->gui_textures[1].CreateTexture(vulkan_component->device);
-                rt_data->gui_textures[2].path = "../Assets/Levels/Test/Textures/jabby_bird_stuff_4k.png";
+                rt_data->gui_textures[2].path = "../../assets/Textures/jabby_bird_stuff_4k.png";
                 rt_data->gui_textures[2].CreateTexture(vulkan_component->device);
-                rt_data->gui_textures[3].path = "../Assets/Levels/Test/Textures/skybox.png";
+                rt_data->gui_textures[3].path = "../../assets/Textures/skybox.png";
                 rt_data->gui_textures[3].CreateTexture(vulkan_component->device);
-                rt_data->gui_textures[4].path = "../Assets/Levels/Test/Textures/pebbles.png";
+                rt_data->gui_textures[4].path = "../../assets/Textures/pebbles.png";
                 rt_data->gui_textures[4].CreateTexture(vulkan_component->device);
             }
             void Raytracer::initialize()
@@ -630,8 +630,8 @@ namespace Axiom{
 
                     return buffer;
                 };
-                auto vertShaderCode = read_file("../Assets/Shaders/texture.vert.spv");
-                auto fragShaderCode = read_file("../Assets/Shaders/texture.frag.spv");
+                auto vertShaderCode = read_file("../../assets/Shaders/texture.vert.spv");
+                auto fragShaderCode = read_file("../../assets/Shaders/texture.frag.spv");
 
                 VkShaderModule vertShaderModule;
                 VkShaderModule fragShaderModule;

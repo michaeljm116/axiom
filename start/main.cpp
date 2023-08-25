@@ -67,22 +67,17 @@ int main(){
 	Axiom::Window::init("Axiom Engine", 1280, 720);
 
 
-	g_world.add<Axiom::Render::Cmp_Vulkan>();
-	g_world.add<Axiom::Render::Cmp_ComputeRaytracer>();
-	//g_world.add<Axiom::Render::Cmp_ComputeData>();
-
-	//Axiom::Render::Base::InitializeVulkan();
-	Axiom::Render::Compute::initialize_raytracing();
 
 	g_world.add<Axiom::Cmp_CurrentTime>();
 	g_world.add<Axiom::Cmp_LogFile>();
 	g_world.add<Axiom::Cmp_Timer>();
 	
+	
 	Log::check(r == VK_SUCCESS, "Initializing Volk");
 
 
 
-	std::string assets_folder = "../../assets/";
+	const std::string assets_folder = "../../assets/";
 	auto t = g_world.entity("Models Timer");
 	auto at = g_world.entity("Animations TImer");
 
@@ -99,6 +94,11 @@ int main(){
 
 	//Load Materials
 	Axiom::Resource::load_materials(assets_folder + "Materials.xml");
+
+
+	g_world.add<Axiom::Render::Cmp_Vulkan>();
+	g_world.add<Axiom::Render::Cmp_ComputeRaytracer>();
+	Axiom::Render::Compute::initialize_raytracing();
 
 
 	auto e = g_world.lookup("A_Primitive_Helix_01.pm");

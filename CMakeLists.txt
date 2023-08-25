@@ -35,6 +35,7 @@ set(XXHASH_BUILD_ENABLE_INLINE_API ON) #optional
 set(XXHASH_BUILD_XXHSUM OFF) #optional
 add_subdirectory(lib/xxHash/cmake_unofficial EXCLUDE_FROM_ALL)
 
+
 # Include the submodules' header files
 include_directories(
     start
