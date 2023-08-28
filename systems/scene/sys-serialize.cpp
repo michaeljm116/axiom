@@ -68,6 +68,10 @@ namespace Axiom
                 e.add<Cmp_Transform>();
                 e.set<Cmp_Transform>({pos, rot, sca});
             }
+
+            if(engine_flags & COMPONENT_PRIMITIVE){
+                
+            }
             
             //Do the same with the children
             if(has_children){

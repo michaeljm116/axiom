@@ -100,6 +100,7 @@ int main(){
 	g_world.add<Axiom::Render::Cmp_ComputeRaytracer>();
 	Axiom::Render::Compute::initialize_raytracing();
 
+	
 
 	auto e = g_world.lookup("A_Primitive_Helix_01.pm");
 	auto m = e.get<Axiom::Cmp_ResModel>();
@@ -139,7 +140,7 @@ int main(){
 	auto prnt = afro.parent();
 	auto prnt_cmp = prnt.get<Axiom::Cmp_ResModel>();
 
-	//auto* twindow = g_world.get<Cmp_Window>()->window;
+	auto* twindow = g_world.get<Cmp_Window>()->window;
 
 	Axiom::Transform::initialize();
 
@@ -188,11 +189,8 @@ int main(){
 		Axiom::Log::send(Axiom::Log::Level::DEBUG, ssl.str());
 	});
 
-	//while(!glfwWindowShouldClose(twindow)){
-		g_world.progress();
-		
-
-		
-	//}
-	//Axiom::Window::Destruct();
+	while(!glfwWindowShouldClose(twindow)){
+		g_world.progress();		
+	}
+	Axiom::Window::destruct();
 };

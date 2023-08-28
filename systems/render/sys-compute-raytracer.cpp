@@ -44,6 +44,12 @@ namespace Axiom{
                 .each([](flecs::entity e, Cmp_Render& r){
                     g_raytracer.process_entity(e);
                 });
+
+                // g_world.system<Cmp_Render>("Update Renderer")
+                // .kind(flecs::OnUpdate)
+                // .each([](flecs::entity e, Cmp_Render& r){
+                //     g_raytracer.process_entity(e);
+                // });
                 
             }
 
@@ -1132,7 +1138,7 @@ namespace Axiom{
                         rt_data->compute.pipeline_layout,
                         0);
 
-                computePipelineCreateInfo.stage = vulkan_component->device.createShader("../Assets/Shaders/raytracing.comp.spv", VK_SHADER_STAGE_COMPUTE_BIT);
+                computePipelineCreateInfo.stage = vulkan_component->device.createShader("../../assets/Shaders/raytracing.comp.spv", VK_SHADER_STAGE_COMPUTE_BIT);
                 Log::check(VK_SUCCESS == vkCreateComputePipelines(vulkan_component->device.logical, vulkan_component->pipeline.cache, 1, &computePipelineCreateInfo, nullptr, &rt_data->compute.pipeline), "CREATE COMPUTE PIPELINE");
 
                 // Separate command pool as queue family for compute may be different than graphics

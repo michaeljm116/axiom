@@ -66,7 +66,7 @@ namespace Axiom {
     }
 
     void update(flecs::entity e, Cmp_Window& cmp_wind) {
-      while (!glfwWindowShouldClose(cmp_wind.window)) {
+      if (!glfwWindowShouldClose(cmp_wind.window)) {
         glfwPollEvents();
       }
     }
