@@ -34,6 +34,7 @@
 #Build folder
 build/
 .vscode/
+.vs/
 checks.json
 doc/logs.txt
 doc/validationlayer.txt
