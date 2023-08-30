@@ -33,12 +33,21 @@ namespace Axiom
 			kHardwareRasterizer
 		};
 
-		struct Cmp_Light
-		{
-			glm::vec3 color;
-			float intensity;
-			int id = 0;
-		};
+        struct Cmp_Light{
+            glm::vec3 color;
+            float intensity;
+            int id = 0;
+            Cmp_Light(){};
+            Cmp_Light(glm::vec3 c, float i, int id) : color(c), intensity(i), id(id) {};
+        };
+
+		struct Cmp_Camera{
+            float aspect_ratio;
+            float fov;
+            glm::mat4 rot_m;
+            Cmp_Camera(){};
+            Cmp_Camera(float ar, float f) : aspect_ratio(ar), fov(f){rot_m = glm::mat4();};
+        };
 
 		struct Cmp_Primitive
 		{
@@ -55,6 +64,8 @@ namespace Axiom
 			//total = 108bytes
 
 			inline glm::vec3 center() { return glm::vec3(world[3].x, world[3].y, world[3].z); };  
+			Cmp_Primitive() {};
+			Cmp_Primitive(int id) : id(id){};
 		};
 
 		struct Cmp_Sphere {

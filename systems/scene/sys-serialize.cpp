@@ -1,6 +1,9 @@
 #include "pch.h"
 #include "sys-serialize.h"
 #include "flecs-world.h"
+#include "../components/render/cmp-material.h"
+#include "../components/render/cmp-render.h"
+
 namespace Axiom
 {
     namespace Serialize
@@ -69,9 +72,99 @@ namespace Axiom
                 e.set<Cmp_Transform>({pos, rot, sca});
             }
 
-            if(engine_flags & COMPONENT_PRIMITIVE){
-                
+            // if (engine_flags & COMPONENT_MATERIAL) {
+            //     int matID;
+
+            //     XMLElement* material = node->FirstChildElement("Material");
+            //     material->QueryIntAttribute("ID", &matID);
+
+            //     e.add<Render::Cmp_Material>(matID);
+            //     e->addComponent(new MaterialComponent(RESOURCEMANAGER.getMaterialIndexU(matID), matID));
+            // }
+            if (engine_flags & COMPONENT_LIGHT) {
+
+                XMLElement* color = node->FirstChildElement("Color");
+                XMLElement* intensity = node->FirstChildElement("Intensity");
+                XMLElement* id = node->FirstChildElement("ID");
+
+                glm::vec3 c;
+                float i;
+                int idyo;
+
+                color->QueryFloatAttribute("r", &c.r);
+                color->QueryFloatAttribute("g", &c.g);
+                color->QueryFloatAttribute("b", &c.b);
+
+                intensity->QueryFloatAttribute("i", &i);
+                id->QueryIntAttribute("id", &idyo);
+
+                e.add<Render::Cmp_Light>();
+                e.set<Render::Cmp_Light>({c,i,idyo});
+
+                e.add<Cmp_Render>();
+                e.set<Cmp_Render>({Render::RenderType::RENDER_LIGHT});
+
+                // NodeComponent* nc = (NodeComponent*) e->getComponent<NodeComponent>();
+                // nc->isParent = true;
             }
+            if (engine_flags & COMPONENT_CAMERA) {
+                XMLElement* ratio = node->FirstChildElement("AspectRatio");
+                XMLElement* fov = node->FirstChildElement("FOV");
+
+                float r;
+                float f;
+
+                ratio->QueryFloatAttribute("ratio", &r);
+                fov->QueryFloatAttribute("fov", &f);
+
+                e.add<Render::Cmp_Camera>();
+                e.set<Render::Cmp_Camera>({r,f});
+
+                e.add<Cmp_Render>();
+                e.set<Cmp_Render>({Render::RenderType::RENDER_CAMERA});
+                // NodeComponent* nc = (NodeComponent*) e->getComponent<NodeComponent>();
+                // nc->isParent = true;
+            }
+            // if (engine_flags & COMPONENT_MODEL) {
+            //     NodeComponent* nc = (NodeComponent*) e->getComponent<NodeComponent>();
+            //     nc->isParent = true;
+            //     int a = 4;
+            // }
+            //if (engine_flags & COMPONENT_MODEL) {
+            //	XMLElement* Model = node->FirstChildElement("Model");
+            //	int id;
+            //	Model->QueryIntAttribute("ID", &id);
+            //	 e->addComponent(new ModelComponent(id));
+            //}
+            //if (engine_flags & COMPONENT_MESH) {
+            //	XMLElement* Mesh = node->FirstChildElement("Mesh");
+            //	int id, ri;
+            //	Mesh->QueryIntAttribute("ID", &id);
+            //	Mesh->QueryIntAttribute("ResourceIndex", &ri);
+            //	 e->addComponent(new MeshComponent(id, ri));
+            //}
+            if (engine_flags & COMPONENT_PRIMITIVE) {
+                XMLElement* Object = node->FirstChildElement("Object");
+                int id;
+                Object->QueryIntAttribute("ID", &id);
+                e.add<Render::Cmp_Primitive>();
+                e.set<Render::Cmp_Primitive>({id});
+
+                e.add<Cmp_Render>();
+                e.set<Cmp_Render>({Render::RenderType::RENDER_PRIMITIVE});
+            }
+            if (engine_flags & COMPONENT_AABB) {
+                // e->addComponent(new AABBComponent());
+            }
+            if (engine_flags & COMPONENT_RIGIDBODY) {
+                //insertRigidBody(n);
+            }
+            // if (engine_flags & COMPONENT_PREFAB) {
+            //     XMLElement* prefab = node->FirstChildElement("Prefab");
+            //     std::string name;
+            //     std::string dir;
+            //     bool save; bool load; bool can_serialize;
+            // }
             
             //Do the same with the children
             if(has_children){

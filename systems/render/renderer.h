@@ -1,7 +1,6 @@
 #pragma once
 #include "render-base.h"
-#include "../../components/render/cmp-shader.h"
-#include "../../components/render/cmp-camera.h"
+#include "../../components/render/cmp-render.h"
 namespace Axiom
 {
     namespace Render

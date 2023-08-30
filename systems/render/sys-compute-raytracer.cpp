@@ -45,11 +45,11 @@ namespace Axiom{
                     g_raytracer.process_entity(e);
                 });
 
-                // g_world.system<Cmp_Render>("Update Renderer")
-                // .kind(flecs::OnUpdate)
-                // .each([](flecs::entity e, Cmp_Render& r){
-                //     g_raytracer.process_entity(e);
-                // });
+                g_world.system<Cmp_Render>("Update Renderer")
+                .kind(flecs::OnUpdate)
+                .each([](flecs::entity e, Cmp_Render& r){
+                    g_raytracer.process_entity(e);
+                });
                 
             }
 
