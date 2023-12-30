@@ -6,6 +6,7 @@
 #include "../components/scene/cmp-transform.h"
 #include "../components/render/cmp-material.h"
 #include "render/sys-window.h"
+#include "../components/scene/cmp-bvh.h"
 
 static int curr_id = 0;	// Id used to identify objects by the ray tracing shader
 static const int MAX_MATERIALS = 256;
@@ -45,12 +46,19 @@ namespace Axiom{
                     g_raytracer.process_entity(e);
                 });
 
+                g_world.system<Cmp_ComputeRaytracer>("Update BVH")
+                .kind(0)
+                .each([](flecs::entity e, Cmp_ComputeRaytracer& r){
+                    auto* bvh = g_world.get<Cmp_Bvh>();
+                    //g_raytracer.update_bvh(bvh->prims, bvh->root, bvh->num_nodes);
+                });
+
                 g_world.system<Cmp_Render>("Update Renderer")
                 .kind(flecs::OnUpdate)
                 .each([](flecs::entity e, Cmp_Render& r){
                     g_raytracer.process_entity(e);
                 });
-                
+                g_world.system<Cmp_Render>("Update Renderer").run()
             }
 
             Raytracer::Raytracer()
