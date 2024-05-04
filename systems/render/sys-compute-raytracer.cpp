@@ -58,7 +58,7 @@ namespace Axiom{
                 .each([](flecs::entity e, Cmp_Render& r){
                     g_raytracer.process_entity(e);
                 });
-                g_world.system<Cmp_Render>("Update Renderer").run()
+                //g_world.system<Cmp_Render>("Update Renderer").run();
             }
 
             Raytracer::Raytracer()

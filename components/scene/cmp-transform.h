@@ -17,6 +17,11 @@
 #ifndef GLM_FORCE_SSE2 
 #define GLM_FORCE_SSE2 
 #endif
+
+#ifndef GLM_ENABLE_EXPERIMENTAL
+#define GLM_ENABLE_EXPERIMENTAL
+#endif
+
 #include <flecs.h>
 #include <glm/glm.hpp>
 #include <glm/gtx/transform.hpp>

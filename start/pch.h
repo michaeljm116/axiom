@@ -19,6 +19,13 @@
 #include <map>
 #include <algorithm>
 #include <flecs.h>
+
+
+#ifndef GLM_ENABLE_EXPERIMENTAL
+#define GLM_ENABLE_EXPERIMENTAL
+#endif
+
+
 #include <glm/glm.hpp>
 //#include "core/util/log.h"
 //#include "core/util/timer.h"

@@ -14,12 +14,13 @@
 
 namespace Axiom{
     namespace Window{
-    enum class Setting{
-        Resize,
-        Windowed,
-        FullScreen,
-        WindowedFullScreen
-    };};
+        enum class Setting{
+            Resize,
+            Windowed,
+            FullScreen,
+            WindowedFullScreen
+        };
+    };
 
     struct Cmp_Window{
         int width = 1280;

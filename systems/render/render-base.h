@@ -10,6 +10,13 @@ namespace Axiom
 {
     namespace Render
     {
+        enum Type{
+            Rasterizer,
+            HybridRaytracer,
+            ComputeRaytracer
+        };
+
+        
         namespace Base
         {
             struct SwapChainSupportDetails {

@@ -35,6 +35,8 @@ set(XXHASH_BUILD_ENABLE_INLINE_API ON) #optional
 set(XXHASH_BUILD_XXHSUM OFF) #optional
 add_subdirectory(lib/xxHash/cmake_unofficial EXCLUDE_FROM_ALL)
 
+add_subdirectory(lib/glslang)
+
 
 # Include the submodules' header files
 include_directories(
@@ -95,10 +97,16 @@ target_link_libraries(AxiomEngineLib ${OPENGL_LIBRARIES})
 #target_link_libraries(AxiomEngineLib etc2comp)
 target_link_libraries(AxiomEngineLib tinyxml2)
 target_link_libraries(AxiomEngineLib xxhash)
+target_link_libraries(AxiomEngineLib glslang SPIRV)
 
 # Link the include libs
 target_include_directories(AxiomEngineLib PRIVATE lib/taskflow)
 target_include_directories(AxiomEngineLib PRIVATE lib/volk)
+
+
+target_compile_options(flecs PRIVATE -w)  # -w suppresses all warnings in GCC/Clang
+
+
 
 # Define DEBUG_MODE for debug configuration
 target_compile_definitions(AxiomEngineLib PRIVATE $<$<CONFIG:Debug>:DEBUG_MODE>)

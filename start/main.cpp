@@ -76,8 +76,13 @@ int main(){
 	Axiom::Resource::load_materials(assets_folder + "Materials.xml");
 
 	g_world.add<Axiom::Render::Cmp_Vulkan>();
-	g_world.add<Axiom::Render::Cmp_ComputeRaytracer>();
-	Axiom::Render::Compute::initialize_raytracing();
+
+	auto render_type = Axiom::Render::RendererType::kHardwareRasterizer;
+
+	if(render_type == Axiom::Render::RendererType::kComputeRaytracer){
+		g_world.add<Axiom::Render::Cmp_ComputeRaytracer>();
+		Axiom::Render::Compute::initialize_raytracing();
+	}
 
 	auto* twindow = g_world.get<Cmp_Window>()->window;
 	Axiom::Transform::initialize();
@@ -89,14 +94,17 @@ int main(){
 	g_world.progress();
 
 	while(!glfwWindowShouldClose(twindow)){
-		Axiom::Bvh::Build();
-		auto bvh = Axiom::Bvh::bvh_comp;
+		if(render_type == Axiom::Render::RendererType::kComputeRaytracer){
+			Axiom::Bvh::Build();
+			auto bvh = Axiom::Bvh::bvh_comp;
 
-		Axiom::Render::Compute::g_raytracer.update_bvh(bvh->prims, bvh->root, bvh->num_nodes);
-		uint32_t ii;
-		Render::Compute::g_raytracer.start_frame(ii);
-		g_world.lookup("Update Renderer");		
-		Render::Compute::g_raytracer.end_frame(ii);
+			Axiom::Render::Compute::g_raytracer.update_bvh(bvh->prims, bvh->root, bvh->num_nodes);
+			uint32_t ii;
+			Render::Compute::g_raytracer.start_frame(ii);
+			g_world.lookup("Update Renderer");		
+			Render::Compute::g_raytracer.end_frame(ii);
+		}
+
 	}
 	g_world.progress();
 	Axiom::Window::destruct();
