@@ -104,8 +104,7 @@ int main(){
 			g_world.lookup("Update Renderer");		
 			Render::Compute::g_raytracer.end_frame(ii);
 		}
-
+		g_world.progress();
 	}
-	g_world.progress();
 	Axiom::Window::destruct();
 };

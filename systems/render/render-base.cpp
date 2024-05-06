@@ -78,7 +78,8 @@ namespace Axiom
                 appInfo.applicationVersion = VK_MAKE_VERSION(1, 0, 0);
                 appInfo.pEngineName = "Axiom Engine";
                 appInfo.engineVersion = VK_MAKE_VERSION(1, 0, 0);
-                appInfo.apiVersion = VK_API_VERSION_1_0;
+                appInfo.apiVersion = VK_API_VERSION_1_3;
+
 
                 //Required struct to tell driver which extentions/validation layers to use
                 //*Pointer to Struct with creation Info

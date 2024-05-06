@@ -54,6 +54,8 @@ namespace Axiom
                     update_flags &= ~kUpdateNone;
             }
 
+            //inline void compile_shader(glslang)
+
         };
     }
 }

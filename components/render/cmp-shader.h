@@ -11,6 +11,7 @@
 #pragma once
 #include <glm/glm.hpp>
 #include "cmp-render.h"
+#include "volk.h"
 
 namespace Axiom
 {
@@ -18,6 +19,21 @@ namespace Axiom
 	{
 		namespace Shader
 		{
+			struct Module{
+				std::vector<unsigned int> spriv;
+				VkShaderModule shader_module;
+			};
+
+			enum Type{
+				eVertex,
+				eFragment,
+				eGeometry,
+				eTesselation,
+				eCompute,
+				eHull,
+				eMesh
+			};
+
 			struct GUI {
 				glm::vec2 min;
 				glm::vec2 extents;

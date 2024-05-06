@@ -97,7 +97,10 @@
         "xutility": "cpp",
         "codecvt": "cpp",
         "coroutine": "cpp",
-        "resumable": "cpp"
+        "resumable": "cpp",
+        "cinttypes": "cpp",
+        "expected": "cpp",
+        "tensor": "cpp"
     },
     "editor.acceptSuggestionOnCommitCharacter": true,
 

@@ -217,6 +217,17 @@ namespace Axiom {
 					return shaderModule;
 				}
 
+				VkShaderModule createShaderModule(const std::vector<uint32_t>& code) {
+					VkShaderModuleCreateInfo createInfo = {};
+					createInfo.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
+					createInfo.codeSize = code.size();
+					createInfo.pCode = code.data(); //reinterpret_cast<const uint32_t*>(code.data());
+
+					VkShaderModule shaderModule;
+					VK_CHECKRESULT(vkCreateShaderModule(logical, &createInfo, nullptr, &shaderModule), "create Shader Module");
+					return shaderModule;
+				}
+
 				VkPipelineShaderStageCreateInfo createShader(std::string fileName, VkShaderStageFlagBits stage)
 				{
 					VkPipelineShaderStageCreateInfo shaderStage = {};

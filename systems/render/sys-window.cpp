@@ -60,7 +60,8 @@ namespace Axiom {
       g_world.system<Cmp_Window>()
       .kind(flecs::OnUpdate)
       .each([](flecs::entity e, Cmp_Window& cmp_wind){
-        glfwPollEvents();
+        //glfwPollEvents();
+        update(e, cmp_wind);
       });
 
     }
