@@ -41,6 +41,7 @@ namespace Axiom
             void RenderBase::clean_up() {
                 vkDestroySemaphore(vulkan_component->device.logical, vulkan_component->semaphores.render_finished, nullptr);
                 vkDestroySemaphore(vulkan_component->device.logical, vulkan_component->semaphores.image_available, nullptr);
+                vkDestroyFence(vulkan_component->device.logical, vulkan_component->semaphores.in_flight_fence, nullptr);
                 vkDestroySurfaceKHR(vulkan_component->device.instance, vulkan_component->swapchain.surface, nullptr);
 
                 vulkan_component->device.Destroy();
@@ -361,12 +362,12 @@ namespace Axiom
             }
 
             void RenderBase::createSemaphores() {
-                VkSemaphoreCreateInfo semaphoreInfo = {};
-                semaphoreInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
-
+                VkSemaphoreCreateInfo semaphoreInfo = {.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO};
+                VkFenceCreateInfo fence_info{.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO};
+                
                 Vulkan::VK_CHECKRESULT(vkCreateSemaphore(vulkan_component->device.logical, &semaphoreInfo, nullptr, &vulkan_component->semaphores.image_available), " FAILED TO CREATE SEMAPHORE");
                 Vulkan::VK_CHECKRESULT(vkCreateSemaphore(vulkan_component->device.logical, &semaphoreInfo, nullptr, &vulkan_component->semaphores.render_finished), " FAILED TO CREATE SEMAPHORE");
-
+                Vulkan::VK_CHECKRESULT(vkCreateFence(vulkan_component->device.logical, &fence_info, nullptr, &vulkan_component->semaphores.in_flight_fence), "FAILED TO CREATE FENCE");
             }
 
             void RenderBase::recreate_swapchain() {

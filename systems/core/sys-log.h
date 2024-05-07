@@ -17,6 +17,6 @@ namespace Axiom {
         //This Creates/Opens the logfile
         void save(std::string message);
         void send(Axiom::Log::Level level, std::string message);
-        void check(bool b, std::string message);    
+        bool check(bool b, std::string message);    
     };
 }

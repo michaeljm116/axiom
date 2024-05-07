@@ -55,6 +55,7 @@ namespace Axiom
             struct Semaphores{
               VkSemaphore image_available;
               VkSemaphore render_finished;  
+              VkFence in_flight_fence;
             };
 
             /** @brief Vulkan Pipeline Info*/               

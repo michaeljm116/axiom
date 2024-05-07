@@ -41,12 +41,9 @@ namespace Axiom{
                     .module = frag_shader_module,
                     .pName = "main"
                 };
-
-
-            // Assuming vertShaderStageInfo and fragShaderStageInfo are already defined
+                
                 std::array<VkPipelineShaderStageCreateInfo, 2> shader_stages = { vert_shader_stage_info, frag_shader_stage_info };
 
-                // Initialize VkPipelineVertexInputStateCreateInfo using designated initializers
                 VkPipelineVertexInputStateCreateInfo empty_input_state = {
                     .sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO,
                     .vertexBindingDescriptionCount = 0,
@@ -54,9 +51,7 @@ namespace Axiom{
                     .vertexAttributeDescriptionCount = 0,
                     .pVertexAttributeDescriptions = nullptr
                 };
-
-                // Assuming inputAssemblyState, rasterizationState, colorBlendState, multisampleState,
-                // viewportState, depthStencilState, and dynamicState are already defined and initialized
+                
                 VkGraphicsPipelineCreateInfo pipelineCreateInfo = {
                     .sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO,
                     .stageCount = static_cast<uint32_t>(shader_stages.size()), // Cast size to uint32_t
@@ -75,23 +70,93 @@ namespace Axiom{
                     .basePipelineHandle = VK_NULL_HANDLE,
                     .basePipelineIndex = -1
                 };
-
-                // Creation of the graphics pipeline
+                
                 VkResult result = vkCreateGraphicsPipelines(
                     vulkan_component->device.logical,
                     vulkan_component->pipeline.cache,
-                    1, // Pipeline count
+                    1,
                     &pipelineCreateInfo,
-                    nullptr, // Allocator
+                    nullptr,
                     &graphics_pipeline.pipeline
                 );
 
-                // Using a helper function for logging the result
                 Log::check(result == VK_SUCCESS, "CREATE GRAPHICS PIPELINE");
 
-                
                 vkDestroyShaderModule(vulkan_component->device.logical, frag_shader_module, nullptr);
                 vkDestroyShaderModule(vulkan_component->device.logical, vert_shader_module, nullptr);
+            }
+
+            void Raster::create_descriptor_pool()
+            {
+            }
+
+            void Raster::create_descriptor_sets()
+            {
+            }
+
+            void Raster::create_descriptor_set_layout()
+            {
+            }
+
+            void Raster::create_command_buffers(float swap_ratio, int32_t offset_width, int32_t offset_height)
+            {
+                vulkan_component->command.buffers.resize(vulkan_component->swapchain.frame_buffers.size());
+                
+                vulkan_component->swapchain.scaled.height = vulkan_component->swapchain.extent.height * swap_ratio;
+                vulkan_component->swapchain.scaled.width = vulkan_component->swapchain.extent.width * swap_ratio;
+                
+                VkCommandBufferAllocateInfo allocInfo = {
+                    .sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO,
+                    .commandPool = vulkan_component->command.pool,
+                    .level = VK_COMMAND_BUFFER_LEVEL_PRIMARY,
+                    .commandBufferCount = (uint32_t)vulkan_component->command.buffers.size()
+                };
+
+                //@COMPUTEHERE be sure to have compute-specific command buffers too
+                if (vkAllocateCommandBuffers(vulkan_component->device.logical, &allocInfo, vulkan_component->command.buffers.data()) != VK_SUCCESS) {
+                    Log::send(Log::Level::ERROR, "failed to allocate command buffers!");
+                    throw std::runtime_error("failed to allocate command buffers!");
+                }
+
+
+                for (size_t i = 0; i < vulkan_component->command.buffers.size(); i++) {
+                    VkCommandBufferBeginInfo beginInfo = {};
+                    beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+                    beginInfo.flags = VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT; //The cmdbuf will be rerecorded right after executing it 1s
+                    beginInfo.pInheritanceInfo = nullptr; // Optional //only for secondary buffers
+
+                    vkBeginCommandBuffer(vulkan_component->command.buffers[i], &beginInfo);
+
+                    VkRenderPassBeginInfo renderPassInfo = {
+                        .sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO,
+                        .renderPass = vulkan_component->pipeline.render_pass,
+                        .framebuffer = vulkan_component->swapchain.frame_buffers[i],
+                        .renderArea.offset = { offset_width, offset_height }, //size of render area, should match size of attachments
+                        .renderArea.extent = vulkan_component->swapchain.scaled// vulkan_component->swapchain.extent; //scaledSwap;//
+                    };
+                    
+                    std::array<VkClearValue, 2> clearValues = {};
+                    clearValues[0].color = { 0.0f, 0.0f, 0.0f, 1.0f }; //derp
+                    clearValues[1].depthStencil = { 1.0f, 0 }; //1.0 = farplane, 0.0 = nearplane HELP
+
+                    renderPassInfo.clearValueCount = static_cast<uint32_t>(clearValues.size()); //cuz
+                    renderPassInfo.pClearValues = clearValues.data(); //duh
+
+                    vkCmdBeginRenderPass(vulkan_component->command.buffers[i], &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
+
+                    VkViewport viewport = vks::initializers::viewport(vulkan_component->swapchain.extent.width, vulkan_component->swapchain.extent.height, 0.0f, 1.0f);
+                    vkCmdSetViewport(vulkan_component->command.buffers[i], 0, 1, &viewport);
+
+                    VkRect2D scissor = vks::initializers::rect2D(vulkan_component->swapchain.extent.width, vulkan_component->swapchain.extent.height, 0, 0);
+                    vkCmdSetScissor(vulkan_component->command.buffers[i], 0, 1, &scissor);
+
+                    vkCmdBindDescriptorSets(vulkan_component->command.buffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, graphics_pipeline.pipeline_layout, 0, 1, &graphics_pipeline.descriptor_set, 0, NULL);
+                    vkCmdBindPipeline(vulkan_component->command.buffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS,graphics_pipeline.pipeline);
+                    vkCmdDraw(vulkan_component->command.buffers[i], 3, 1, 0, 0);
+                    vkCmdEndRenderPass(vulkan_component->command.buffers[i]);
+
+                    Log::check(VK_SUCCESS == vkEndCommandBuffer(vulkan_component->command.buffers[i]), "END COMMAND BUFFER");
+                }
             }
 
             void Raster::clean_up()
@@ -100,6 +165,15 @@ namespace Axiom{
                 vkDestroyRenderPass(vulkan_component->device.logical, vulkan_component->pipeline.render_pass, nullptr);
             }
 
+            void Raster::start_frame(uint32_t &image_index)
+            {
+                auto result = vkAcquireNextImageKHR(vulkan_component->device.logical, vulkan_component->swapchain.get, std::numeric_limits<uint64_t>::max(),
+                vulkan_component->semaphores.image_available, VK_NULL_HANDLE, &image_index);
+            }
+
+            void Raster::end_frame(const uint32_t &image_index)
+            {
+            }
         }
     }
 }

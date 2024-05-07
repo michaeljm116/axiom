@@ -49,9 +49,11 @@ namespace Axiom
                     void update_descriptors() override;
 
                 private:
-                    void create_graphics_pipeline();    
-                
-            
+                    void create_graphics_pipeline();
+                    void create_descriptor_pool();
+                    void create_descriptor_sets();
+                    void create_descriptor_set_layout();
+                    void create_command_buffers(float swap_ratio,  int32_t offset_width, int32_t offset_heigiht);    
             };
 
             extern Raster g_raster;
