@@ -18,6 +18,8 @@
 
  namespace Axiom{
     namespace Render{
-        
+      struct Cmp_HardwareRaster{
+         
+        };
     }
  }

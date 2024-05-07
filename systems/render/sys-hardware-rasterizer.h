@@ -23,9 +23,11 @@ namespace Axiom
             {
                 public: 
                     Raster();
-                    //Raster(Cmp_Vulkan* vk)
+                    Raster(Cmp_Vulkan* vk, Cmp_GraphicsPipeline* gp);
                     ~Raster();
 
+                    Cmp_GraphicsPipeline graphics_pipeline;
+                    
                     void start_up() override;
                     void initialize() override;
                     void start_frame(uint32_t& image_index) override;
@@ -47,7 +49,7 @@ namespace Axiom
                     void update_descriptors() override;
 
                 private:
-                    void createGraphicsPipeline();    
+                    void create_graphics_pipeline();    
                 
             
             };

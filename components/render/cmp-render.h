@@ -12,6 +12,18 @@
 #include <glm/glm.hpp>
 #include <vector>
 
+
+#if defined(_WIN32)
+#   define VK_USE_PLATFORM_WIN32_KHR
+#elif defined(__linux__) || defined(__unix__)
+#   define VK_USE_PLATFORM_XLIB_KHR
+#elif defined(__APPLE__)
+#   define VK_USE_PLATFORM_MACOS_MVK
+#else
+#   error "Platform not supported by this example."
+#endif
+#include <volk.h>
+
 namespace Axiom
 {
 	namespace Render
@@ -167,5 +179,13 @@ namespace Axiom
 		Render::RendererType renderer = Render::kComputeRaytracer;
 		Cmp_Render() {};
 		Cmp_Render(Render::RenderType t) : type(t) {};
+	};
+
+	struct Cmp_GraphicsPipeline{
+		VkDescriptorPool descriptor_pool;
+		VkDescriptorSetLayout descriptor_set_layout;
+		VkDescriptorSet descriptor_set;
+		VkPipelineLayout pipeline_layout;
+		VkPipeline pipeline;
 	};
 } // namespace axio
