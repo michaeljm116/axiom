@@ -2,6 +2,7 @@
 #include "sys-shader.h"
 #include "sys-log.h"
 #include <array>
+#include "cmp-resource.h"
 
 
 namespace Axiom{
@@ -21,10 +22,12 @@ namespace Axiom{
             }
             void Raster::start_up()
             {
+                initVulkan();
             }
 
             void Raster::initialize()
             {
+
                 create_graphics_pipeline();
                 
                 create_command_buffers(1.f, 0, 0);
@@ -65,6 +68,8 @@ namespace Axiom{
                     .pResults = nullptr
                 };
 
+                vkQueueWaitIdle(vulkan_component->queues.present);
+
                 VkResult result = vkQueuePresentKHR(vulkan_component->queues.present, &present_info);
                 if(result == VK_ERROR_OUT_OF_DATE_KHR){recreate_swapchain(); return;}
                 else if(!Log::check(result != VK_SUCCESS && result != VK_SUBOPTIMAL_KHR, "failed to aquire swap chain image!")){
@@ -101,10 +106,14 @@ namespace Axiom{
                 VkPipelineDynamicStateCreateInfo dynamic_state = vks::initializers::pipelineDynamicStateCreateInfo( dynamic_state_enables.data(), dynamic_state_enables.size(), 0);
 
                 Shader::init();
-                const auto vert_shader_code = Shader::compile_glsl("../Assets/Shaders/glsl/triangle_vert.glsl", Shader::Type::eVertex);
-                const auto frag_shader_code = Shader::compile_glsl("../Assets/Shaders/glsl/triangle_frag.glsl", Shader::Type::eFragment);
-                Shader::finalize();
-                
+                auto assets_folder = g_world.get<Resource::Cmp_Directory>()->assets;
+                const auto vert_shader_code = Shader::compile_glsl(assets_folder + "Shaders/glsl/triangle_vert.glsl", Shader::Type::eVertex);
+                const auto frag_shader_code = Shader::compile_glsl(assets_folder + "Shaders/glsl/triangle_frag.glsl", Shader::Type::eFragment);
+                Shader::finalize();    
+
+                if(!Log::check(vert_shader_code.has_value(), "Compiling Vertex Shader")) throw std::runtime_error("failed to compile vertex shader");
+                if(!Log::check(frag_shader_code.has_value(), "Compiling Fragment Shader")) throw std::runtime_error("Failed to compile fragment shader");
+            
                 auto vert_shader_module = vulkan_component->device.createShaderModule(vert_shader_code.value());
                 auto frag_shader_module = vulkan_component->device.createShaderModule(frag_shader_code.value());
 

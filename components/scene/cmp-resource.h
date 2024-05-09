@@ -17,6 +17,10 @@
 
 namespace Axiom{
 	namespace Resource{
+		struct Cmp_Directory{
+			std::string assets;
+		};
+
 		struct Controller {
 			std::array<int, 16> buttons;
 			std::array<float, 6> axis;

@@ -221,7 +221,7 @@ namespace Axiom {
 					VkShaderModuleCreateInfo createInfo = {};
 					createInfo.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
 					createInfo.codeSize = code.size();
-					createInfo.pCode = code.data(); //reinterpret_cast<const uint32_t*>(code.data());
+					createInfo.pCode = reinterpret_cast<const uint32_t*>(code.data());
 
 					VkShaderModule shaderModule;
 					VK_CHECKRESULT(vkCreateShaderModule(logical, &createInfo, nullptr, &shaderModule), "create Shader Module");

@@ -70,7 +70,11 @@ int main(){
 	g_world.add<Axiom::Cmp_LogFile>();
 	g_world.add<Axiom::Cmp_Timer>();
 
-	const std::string assets_folder = "../../assets/";
+	//const std::string assets_folder = "../../assets/";
+	g_world.add<Axiom::Resource::Cmp_Directory>();
+	auto& assets_folder = g_world.get_ref<Axiom::Resource::Cmp_Directory>().get()->assets;
+	assets_folder = "../../assets/";
+
 	Axiom::Resource::load_directory(assets_folder + "Models");
 	Axiom::Resource::load_directory(assets_folder + "Animations");
 	Axiom::Resource::load_materials(assets_folder + "Materials.xml");
@@ -87,6 +91,7 @@ int main(){
 		break;
 	case Axiom::Render::RendererType::kHardwareRasterizer:
 		g_world.add<Axiom::Render::Cmp_HardwareRaster>();
+		g_world.add<Axiom::Render::Cmp_GraphicsPipeline>();
 		Axiom::Render::Hardware::initialize_raster();
 		break;
 	default:
@@ -118,6 +123,7 @@ int main(){
 
 			uint32_t ii;
 			Render::Hardware::g_raster.start_frame(ii);
+			Render::Hardware::g_raster.end_frame(ii);
 		}
 		g_world.progress();
 	}
