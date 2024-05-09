@@ -28,7 +28,7 @@
 #include "texture.h"
 #include "render-base.h"
 #include "sys-compute-raytracer.h"
-
+#include "sys-hardware-rasterizer.h"
 
 using namespace Axiom;
 
@@ -79,10 +79,20 @@ int main(){
 
 	auto render_type = Axiom::Render::RendererType::kHardwareRasterizer;
 
-	if(render_type == Axiom::Render::RendererType::kComputeRaytracer){
+	switch (render_type)
+	{
+	case Axiom::Render::RendererType::kComputeRaytracer:
 		g_world.add<Axiom::Render::Cmp_ComputeRaytracer>();
 		Axiom::Render::Compute::initialize_raytracing();
+		break;
+	case Axiom::Render::RendererType::kHardwareRasterizer:
+		g_world.add<Axiom::Render::Cmp_HardwareRaster>();
+		Axiom::Render::Hardware::initialize_raster();
+		break;
+	default:
+		break;
 	}
+	
 
 	auto* twindow = g_world.get<Cmp_Window>()->window;
 	Axiom::Transform::initialize();
@@ -103,6 +113,11 @@ int main(){
 			Render::Compute::g_raytracer.start_frame(ii);
 			g_world.lookup("Update Renderer");		
 			Render::Compute::g_raytracer.end_frame(ii);
+		}
+		else{
+
+			uint32_t ii;
+			Render::Hardware::g_raster.start_frame(ii);
 		}
 		g_world.progress();
 	}

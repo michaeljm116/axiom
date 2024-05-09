@@ -59,6 +59,7 @@ include_directories(
     lib/taskflow
     lib/tinyxml2
     lib/xxHash
+    lib/glslang
 )
 
 # Add source files and header files

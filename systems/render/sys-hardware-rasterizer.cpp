@@ -7,6 +7,86 @@
 namespace Axiom{
     namespace Render{
         namespace Hardware{
+            Raster::Raster(){
+
+            }
+            Raster::~Raster(){}
+
+            Raster g_raster;
+            void initialize_raster(){
+                g_raster.vulkan_component = g_world.get_ref<Axiom::Render::Cmp_Vulkan>().get();
+                g_raster.graphics_pipeline = *g_world.get<Axiom::Render::Cmp_GraphicsPipeline>();
+                g_raster.start_up();
+                g_raster.initialize();
+            }
+            void Raster::start_up()
+            {
+            }
+
+            void Raster::initialize()
+            {
+                create_graphics_pipeline();
+                
+                create_command_buffers(1.f, 0, 0);
+            }
+            
+            void Raster::start_frame(uint32_t &image_index)
+            {
+                auto result = vkAcquireNextImageKHR(vulkan_component->device.logical, vulkan_component->swapchain.get,
+                                                    std::numeric_limits<uint64_t>::max(), 
+                                                    vulkan_component->semaphores.image_available, VK_NULL_HANDLE, &image_index);
+                if(result == VK_ERROR_OUT_OF_DATE_KHR){recreate_swapchain(); return;}
+                else if(!Log::check(result != VK_SUCCESS && result != VK_SUBOPTIMAL_KHR, "failed to aquire swap chain image!")){
+                    throw std::runtime_error("failed to aquire swap chain image!");
+                }
+                VkPipelineStageFlags wait_stages[] = {VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT};
+                vulkan_component->submit_info = {
+                    .sType = VK_STRUCTURE_TYPE_SUBMIT_INFO,
+                    .waitSemaphoreCount = 1,
+                    .pWaitSemaphores = &vulkan_component->semaphores.image_available,
+                    .pWaitDstStageMask = wait_stages,
+                    .commandBufferCount = 1,
+                    .pCommandBuffers = &vulkan_component->command.buffers[image_index],
+                    .signalSemaphoreCount = 1,
+                    .pSignalSemaphores = &vulkan_component->semaphores.render_finished
+                };
+                Log::check(VK_SUCCESS == vkQueueSubmit(vulkan_component->queues.graphics, 1, &vulkan_component->submit_info, VK_NULL_HANDLE), "GRAPHICS QUEUE SUBMIT");
+            }
+
+            void Raster::end_frame(const uint32_t &image_index)
+            {
+                VkPresentInfoKHR present_info = {
+                    .sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR,
+                    .waitSemaphoreCount = vulkan_component->submit_info.signalSemaphoreCount,
+                    .pWaitSemaphores = vulkan_component->submit_info.pSignalSemaphores,
+                    .swapchainCount = 1,
+                    .pSwapchains = &vulkan_component->swapchain.get,
+                    .pImageIndices = &image_index,
+                    .pResults = nullptr
+                };
+
+                VkResult result = vkQueuePresentKHR(vulkan_component->queues.present, &present_info);
+                if(result == VK_ERROR_OUT_OF_DATE_KHR){recreate_swapchain(); return;}
+                else if(!Log::check(result != VK_SUCCESS && result != VK_SUBOPTIMAL_KHR, "failed to aquire swap chain image!")){
+                    throw std::runtime_error("failed to aquire swap chain image!");
+                }
+            }
+
+            void Raster::add_entity(flecs::entity &e)
+            {
+            }
+
+            void Raster::remove_entity(flecs::entity &e)
+            {
+            }
+
+            void Raster::process_entity(flecs::entity &e)
+            {
+            }
+
+            void Raster::end_update()
+            {
+            }
 
             void Raster::create_graphics_pipeline()
             {
@@ -126,13 +206,16 @@ namespace Axiom{
                     beginInfo.pInheritanceInfo = nullptr; // Optional //only for secondary buffers
 
                     vkBeginCommandBuffer(vulkan_component->command.buffers[i], &beginInfo);
+                    VkRect2D render_area = {
+                            .offset = { offset_width, offset_height }, 
+                            .extent = vulkan_component->swapchain.scaled
+                    };
 
                     VkRenderPassBeginInfo renderPassInfo = {
                         .sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO,
                         .renderPass = vulkan_component->pipeline.render_pass,
                         .framebuffer = vulkan_component->swapchain.frame_buffers[i],
-                        .renderArea.offset = { offset_width, offset_height }, //size of render area, should match size of attachments
-                        .renderArea.extent = vulkan_component->swapchain.scaled// vulkan_component->swapchain.extent; //scaledSwap;//
+                        .renderArea = render_area                        
                     };
                     
                     std::array<VkClearValue, 2> clearValues = {};
@@ -165,13 +248,25 @@ namespace Axiom{
                 vkDestroyRenderPass(vulkan_component->device.logical, vulkan_component->pipeline.render_pass, nullptr);
             }
 
-            void Raster::start_frame(uint32_t &image_index)
+            void Raster::clean_up_swapchain()
             {
-                auto result = vkAcquireNextImageKHR(vulkan_component->device.logical, vulkan_component->swapchain.get, std::numeric_limits<uint64_t>::max(),
-                vulkan_component->semaphores.image_available, VK_NULL_HANDLE, &image_index);
             }
-
-            void Raster::end_frame(const uint32_t &image_index)
+            void Raster::recreate_swapchain()
+            {
+            }
+            void Raster::toggle_playmode(bool b)
+            {
+            }
+            void Raster::add_material(glm::vec3 diff, float rfl, float rough, float trans, float ri)
+            {
+            }
+            void Raster::update_material(std::string name)
+            {
+            }
+            void Raster::update_camera(Cmp_Camera *c)
+            {
+            }
+            void Raster::update_descriptors()
             {
             }
         }

@@ -171,6 +171,13 @@ namespace Axiom
 			Cmp_GUINumber(glm::vec2 m, glm::vec2 e, int n) { min = m; extents = e; number = n; align_min = glm::vec2(0.0f, 0.0f); align_ext = glm::vec2(0.1f, 1.f); layer = 0; id = 0; };
 			Cmp_GUINumber(glm::vec2 m, glm::vec2 e, int n, float a) { min = m; extents = e; number = n; align_min = glm::vec2(0.0f, 0.0f); align_ext = glm::vec2(0.1f, 1.f); layer = 0; id = 0; alpha = a; };
 		};
+		struct Cmp_GraphicsPipeline{
+			VkDescriptorPool descriptor_pool;
+			VkDescriptorSetLayout descriptor_set_layout;
+			VkDescriptorSet descriptor_set;
+			VkPipelineLayout pipeline_layout;
+			VkPipeline pipeline;
+		};
 
 	};
 
@@ -181,11 +188,4 @@ namespace Axiom
 		Cmp_Render(Render::RenderType t) : type(t) {};
 	};
 
-	struct Cmp_GraphicsPipeline{
-		VkDescriptorPool descriptor_pool;
-		VkDescriptorSetLayout descriptor_set_layout;
-		VkDescriptorSet descriptor_set;
-		VkPipelineLayout pipeline_layout;
-		VkPipeline pipeline;
-	};
 } // namespace axio
