@@ -17,8 +17,8 @@ namespace Axiom
                     Raytracer(Cmp_Vulkan* vk, Cmp_ComputeRaytracer* cr, Cmp_ComputeData* cd);
                     ~Raytracer();
 
-                    Cmp_ComputeData c_data;
-                    Cmp_ComputeRaytracer* rt_data; 
+                    Cmp_ComputeData c_data = {};
+                    Cmp_ComputeRaytracer* rt_data = {};
                     
                     void start_up() override;
                     void initialize() override;

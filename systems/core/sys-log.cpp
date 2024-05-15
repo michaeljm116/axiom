@@ -78,5 +78,9 @@ namespace Axiom{
             else send(Log::Level::INFO , message + " was a success!");
             return b;
         }
+        bool check_error(bool b, std::string message){
+            if(!b) send(Log::Level::ERROR ,"Failed When " + message);
+            return b;
+        }
     }
 }

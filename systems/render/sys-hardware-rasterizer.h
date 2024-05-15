@@ -26,7 +26,7 @@ namespace Axiom
                     Raster(Cmp_Vulkan* vk, Cmp_GraphicsPipeline* gp);
                     ~Raster();
 
-                    Cmp_GraphicsPipeline graphics_pipeline;
+                    Cmp_GraphicsPipeline* graphics_pipeline;
                     
                     void start_up() override;
                     void initialize() override;

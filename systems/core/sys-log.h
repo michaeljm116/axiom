@@ -18,5 +18,6 @@ namespace Axiom {
         void save(std::string message);
         void send(Axiom::Log::Level level, std::string message);
         bool check(bool b, std::string message);    
+        bool check_error(bool b, std::string message);
     };
 }

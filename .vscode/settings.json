@@ -100,7 +100,10 @@
         "resumable": "cpp",
         "cinttypes": "cpp",
         "expected": "cpp",
-        "tensor": "cpp"
+        "tensor": "cpp",
+        "core": "cpp",
+        "fft": "cpp",
+        "nonlinearoptimization": "cpp"
     },
     "editor.acceptSuggestionOnCommitCharacter": true,
 
