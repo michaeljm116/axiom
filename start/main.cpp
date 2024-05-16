@@ -34,6 +34,16 @@ using namespace Axiom;
 
 int main(){	
 	Axiom::Log::initialize();
+
+	Axiom::Timer::initialize();
+	Axiom::Resource::initialize();
+	Axiom::Window::init("Axiom Engine", 1280, 720);
+
+
+	g_world.add<Axiom::Cmp_CurrentTime>();
+	g_world.add<Axiom::Cmp_LogFile>();
+	g_world.add<Axiom::Cmp_Timer>();
+
 #pragma region Volk Init
 	VkResult r;
 	uint32_t version;
@@ -61,14 +71,6 @@ int main(){
 #pragma endregion Initializing volk
 
 
-	Axiom::Timer::initialize();
-	Axiom::Resource::initialize();
-	Axiom::Window::init("Axiom Engine", 1280, 720);
-
-
-	g_world.add<Axiom::Cmp_CurrentTime>();
-	g_world.add<Axiom::Cmp_LogFile>();
-	g_world.add<Axiom::Cmp_Timer>();
 
 	//const std::string assets_folder = "../../assets/";
 	g_world.add<Axiom::Resource::Cmp_Directory>();
@@ -101,6 +103,7 @@ int main(){
 
 	auto* twindow = g_world.get<Cmp_Window>()->window;
 	Axiom::Transform::initialize();
+	g_world.add<Axiom::Cmp_Serialize>();
 	scene::initialize();	
 	g_world.set<Axiom::Cmp_Scene>({assets_folder + "Scenes/", "TestEntrance.xml", 0});
 

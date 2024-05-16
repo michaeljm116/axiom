@@ -180,7 +180,7 @@ namespace Axiom {
 
 			T Data;
 
-			VkBuffer* Buffer()const
+			VkBuffer Buffer()const
 			{
 				return buffer;
 			}

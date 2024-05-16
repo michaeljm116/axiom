@@ -34,9 +34,10 @@ namespace Axiom
             int64_t game_flags;
             node->QueryInt64Attribute("eFlags", &engine_flags);
             node->QueryInt64Attribute("gFlags", &game_flags);
-            auto s = e.get_mut<Cmp_Serialize>();
-            s->engine_flags = engine_flags;
-            s->game_flags = game_flags;
+            auto s = Cmp_Serialize();
+            s.engine_flags = engine_flags;
+            s.game_flags = game_flags;
+            e.set<Cmp_Serialize>(s);
 
             //Query for static or dynamic
             bool dynamic;
