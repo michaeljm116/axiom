@@ -167,12 +167,15 @@ namespace Axiom{
                 
                 std::array<VkPipelineShaderStageCreateInfo, 2> shader_stages = { vert_shader_stage_info, frag_shader_stage_info };
 
+                auto binding = Shader::V32::get_binding();
+                auto attribute = Shader::V32::get_attribute();
+
                 VkPipelineVertexInputStateCreateInfo empty_input_state = {
                     .sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO,
-                    .vertexBindingDescriptionCount = 0,
-                    .pVertexBindingDescriptions = nullptr,
-                    .vertexAttributeDescriptionCount = 0,
-                    .pVertexAttributeDescriptions = nullptr
+                    .vertexBindingDescriptionCount = 1,
+                    .pVertexBindingDescriptions = &binding,// nullptr,
+                    .vertexAttributeDescriptionCount = static_cast<uint32_t>(attribute.size()),
+                    .pVertexAttributeDescriptions = attribute.data()
                 };
                 
                 VkGraphicsPipelineCreateInfo pipelineCreateInfo = {

@@ -12,6 +12,7 @@
 #include <glm/glm.hpp>
 #include "cmp-render.h"
 #include "volk.h"
+#include <array>
 
 namespace Axiom
 {
@@ -74,6 +75,50 @@ namespace Axiom
 				Vert(const glm::vec3 &p, const glm::vec3 &n, const float &u, const float &v) : pos(p), norm(n), u(u), v(v) { };
 			};
 
+			struct V32{
+				glm::vec3 p = glm::vec3();
+				float u = 0.f;
+				glm::vec3 n = glm::vec3();
+				float v = 0.f;
+				V32() = default;
+				V32(const glm::vec3 & p, const float &u, const glm::vec3& n, const float &v) : p(p), u(u), n(n), v(v){};
+				static constexpr VkVertexInputBindingDescription get_binding() {
+					return VkVertexInputBindingDescription{.binding = 0, .stride = sizeof(V32), .inputRate = VK_VERTEX_INPUT_RATE_VERTEX};
+				}
+				static constexpr std::array<VkVertexInputAttributeDescription, 4> get_attribute() {
+					return {{
+						{.location = 0, .binding = 0, .format = VK_FORMAT_R32G32B32_SFLOAT, .offset = offsetof(V32, p)},
+						{.location = 1, .binding = 0, .format = VK_FORMAT_R32_SFLOAT, .offset = offsetof(V32, u)},
+						{.location = 2, .binding = 0, .format = VK_FORMAT_R32G32B32_SFLOAT, .offset = offsetof(V32, n)},
+						{.location = 3, .binding = 0, .format = VK_FORMAT_R32_SFLOAT, .offset = offsetof(V32, v)}
+					}};
+				}
+			};
+			struct V48{
+				glm::vec3 p = glm::vec3();
+				float u = 0.f;
+				glm::vec3 n = glm::vec3();
+				float v = 0.f;
+				glm::vec3 t = glm::vec3();
+				int pad = 0;
+				V48() = default;
+				V48(const glm::vec3 & p, const float &u, const glm::vec3& n, const float &v) : p(p), u(u), n(n), v(v){};
+				V48(const glm::vec3 & p, const float &u, const glm::vec3& n, const float &v, const glm::vec3& t) : p(p), u(u), n(n), v(v), t(t){};
+				static constexpr VkVertexInputBindingDescription get_binding() {
+					return VkVertexInputBindingDescription{.binding = 0, .stride = sizeof(V48), .inputRate = VK_VERTEX_INPUT_RATE_VERTEX};
+				}
+				static constexpr std::array<VkVertexInputAttributeDescription, 6> get_attribute() {
+					return {{
+						{.location = 0, .binding = 0, .format = VK_FORMAT_R32G32B32_SFLOAT, .offset = offsetof(V48, p)},
+						{.location = 1, .binding = 0, .format = VK_FORMAT_R32_SFLOAT, .offset = offsetof(V48, u)},
+						{.location = 2, .binding = 0, .format = VK_FORMAT_R32G32B32_SFLOAT, .offset = offsetof(V48, n)},
+						{.location = 3, .binding = 0, .format = VK_FORMAT_R32_SFLOAT, .offset = offsetof(V48, v)},
+						{.location = 4, .binding = 0, .format = VK_FORMAT_R32G32B32_SFLOAT, .offset = offsetof(V48, t)},
+						{.location = 5, .binding = 0, .format = VK_FORMAT_R32_SFLOAT, .offset = offsetof(V48, pad)}
+					}};
+				}
+			};
+
 			struct TriangleIndex {
 				glm::ivec3 v = glm::ivec3();	//12bytes
 				int id = 0;			//4bytes
@@ -127,120 +172,120 @@ namespace Axiom
 				BVHNode(){};
 				BVHNode(glm::vec3 u, glm::vec3 l, int o, int n) : upper(u), lower(l), offset(o), numChildren(n){};
 			};
-		}
 
-		/*
-		static VkVertexInputBindingDescription getVertexBindingDescription() {
-			//vertex info binding
-			VkVertexInputBindingDescription vibd{};
-			vibd.binding = 0;
-			vibd.stride = sizeof(Vert);
-			vibd.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
+			/*
+			static VkVertexInputBindingDescription getVertexBindingDescription() {
+				//vertex info binding
+				VkVertexInputBindingDescription vibd{};
+				vibd.binding = 0;
+				vibd.stride = sizeof(Vert);
+				vibd.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
 
-			return vibd;
-		}
-		static std::array<VkVertexInputAttributeDescription, 4> getVertexAttributeDescriptions() {
-			std::array<VkVertexInputAttributeDescription, 4> viad{};
-			viad[0].binding = 0;
-			viad[0].location = 0;
-			viad[0].format = VK_FORMAT_R32G32B32_SFLOAT;
-			viad[0].offset = offsetof(Vert, Vert::pos);
-
-			viad[1].binding = 0;
-			viad[1].location = 1;
-			viad[1].format = VK_FORMAT_R32_SFLOAT;
-			viad[1].offset = offsetof(Vert, Vert::u);
-
-			viad[2].binding = 0;
-			viad[2].location = 2;
-			viad[2].format = VK_FORMAT_R32G32B32_SFLOAT;
-			viad[2].offset = offsetof(Vert, Vert::norm);
-
-			viad[3].binding = 0;
-			viad[3].location = 3;
-			viad[3].format = VK_FORMAT_R32_SFLOAT;
-			viad[3].offset = offsetof(Vert, Vert::v);
-
-			return viad;
-		}*/
-
-		/*static std::array<VkVertexInputBindingDescription, 2> getPrimitiveBindingDescriptions() 
-		{
-			std::array<VkVertexInputBindingDescription, 2> vibd{};
-
-			//vertex info binding
-			vibd[0].binding = 0;
-			vibd[0].stride = sizeof(Vert);
-			vibd[0].inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
-
-			//vertex info binding
-			vibd[1].binding = 1;
-			vibd[1].stride = sizeof(Primitive);
-			vibd[1].inputRate = VK_VERTEX_INPUT_RATE_INSTANCE;
-
-			return vibd;
-		};
-
-		static std::array<VkVertexInputAttributeDescription, 11> getPrimitiveAttributeDescriptions() {
-			std::array<VkVertexInputAttributeDescription, 11> viad{};
-
-			viad[0].binding = 0;
-			viad[0].location = 0;
-			viad[0].format = VK_FORMAT_R32G32B32_SFLOAT;
-			viad[0].offset = offsetof(Vert, Vert::pos);
-
-			viad[1].binding = 0;
-			viad[1].location = 1;
-			viad[1].format = VK_FORMAT_R32_SFLOAT;
-			viad[1].offset = offsetof(Vert, Vert::u);
-
-			viad[2].binding = 0;
-			viad[2].location = 2;
-			viad[2].format = VK_FORMAT_R32G32B32_SFLOAT;
-			viad[2].offset = offsetof(Vert, Vert::norm);
-
-			viad[3].binding = 0;
-			viad[3].location = 3;
-			viad[3].format = VK_FORMAT_R32_SFLOAT;
-			viad[3].offset = offsetof(Vert, Vert::v);
-
-			viad[4].binding = 1;
-			viad[4].location = 4;
-			viad[4].format = VK_FORMAT_ASTC_4x4_SFLOAT_BLOCK_EXT;
-			viad[4].offset = offsetof(Primitive, Primitive::world);
-
-			viad[5].binding = 1;
-			viad[5].location = 5;
-			viad[5].format = VK_FORMAT_R32G32B32_SFLOAT;
-			viad[5].offset = offsetof(Primitive, Primitive::extents);
+				return vibd;
+			}
 			
-			viad[6].binding = 1;
-			viad[6].location = 6;
-			viad[6].format = VK_FORMAT_R32_SINT;
-			viad[6].offset = offsetof(Primitive, Primitive::numChildren);
+			static std::array<VkVertexInputAttributeDescription, 4> getVertexAttributeDescriptions() {
+				std::array<VkVertexInputAttributeDescription, 4> viad{};
+				viad[0].binding = 0;
+				viad[0].location = 0;
+				viad[0].format = VK_FORMAT_R32G32B32_SFLOAT;
+				viad[0].offset = offsetof(Vert, Vert::pos);
 
-			viad[7].binding = 1;
-			viad[7].location = 7;
-			viad[7].format = VK_FORMAT_R32_SINT;
-			viad[7].offset = offsetof(Primitive, Primitive::id);
+				viad[1].binding = 0;
+				viad[1].location = 1;
+				viad[1].format = VK_FORMAT_R32_SFLOAT;
+				viad[1].offset = offsetof(Vert, Vert::u);
 
-			viad[8].binding = 1;
-			viad[8].location = 8;
-			viad[8].format = VK_FORMAT_R32_SINT;
-			viad[8].offset = offsetof(Primitive, Primitive::matId);
+				viad[2].binding = 0;
+				viad[2].location = 2;
+				viad[2].format = VK_FORMAT_R32G32B32_SFLOAT;
+				viad[2].offset = offsetof(Vert, Vert::norm);
 
-			viad[9].binding = 1;
-			viad[9].location = 9;
-			viad[9].format = VK_FORMAT_R32_SINT;
-			viad[9].offset = offsetof(Primitive, Primitive::startIndex);
+				viad[3].binding = 0;
+				viad[3].location = 3;
+				viad[3].format = VK_FORMAT_R32_SFLOAT;
+				viad[3].offset = offsetof(Vert, Vert::v);
 
-			viad[10].binding = 1;
-			viad[10].location = 10;
-			viad[10].format = VK_FORMAT_R32_SINT;
-			viad[10].offset = offsetof(Primitive, Primitive::endIndex);
+				return viad;
+			}
 
-			return viad;
-		};*/
-		
+			static std::array<VkVertexInputBindingDescription, 2> getPrimitiveBindingDescriptions() 
+			{
+				std::array<VkVertexInputBindingDescription, 2> vibd{};
+
+				//vertex info binding
+				vibd[0].binding = 0;
+				vibd[0].stride = sizeof(Vert);
+				vibd[0].inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
+
+				//vertex info binding
+				vibd[1].binding = 1;
+				vibd[1].stride = sizeof(Primitive);
+				vibd[1].inputRate = VK_VERTEX_INPUT_RATE_INSTANCE;
+
+				return vibd;
+			};
+
+			static std::array<VkVertexInputAttributeDescription, 11> getPrimitiveAttributeDescriptions() {
+				std::array<VkVertexInputAttributeDescription, 11> viad{};
+
+				viad[0].binding = 0;
+				viad[0].location = 0;
+				viad[0].format = VK_FORMAT_R32G32B32_SFLOAT;
+				viad[0].offset = offsetof(Vert, Vert::pos);
+
+				viad[1].binding = 0;
+				viad[1].location = 1;
+				viad[1].format = VK_FORMAT_R32_SFLOAT;
+				viad[1].offset = offsetof(Vert, Vert::u);
+
+				viad[2].binding = 0;
+				viad[2].location = 2;
+				viad[2].format = VK_FORMAT_R32G32B32_SFLOAT;
+				viad[2].offset = offsetof(Vert, Vert::norm);
+
+				viad[3].binding = 0;
+				viad[3].location = 3;
+				viad[3].format = VK_FORMAT_R32_SFLOAT;
+				viad[3].offset = offsetof(Vert, Vert::v);
+
+				viad[4].binding = 1;
+				viad[4].location = 4;
+				viad[4].format = VK_FORMAT_ASTC_4x4_SFLOAT_BLOCK_EXT;
+				viad[4].offset = offsetof(Primitive, Primitive::world);
+
+				viad[5].binding = 1;
+				viad[5].location = 5;
+				viad[5].format = VK_FORMAT_R32G32B32_SFLOAT;
+				viad[5].offset = offsetof(Primitive, Primitive::extents);
+				
+				viad[6].binding = 1;
+				viad[6].location = 6;
+				viad[6].format = VK_FORMAT_R32_SINT;
+				viad[6].offset = offsetof(Primitive, Primitive::numChildren);
+
+				viad[7].binding = 1;
+				viad[7].location = 7;
+				viad[7].format = VK_FORMAT_R32_SINT;
+				viad[7].offset = offsetof(Primitive, Primitive::id);
+
+				viad[8].binding = 1;
+				viad[8].location = 8;
+				viad[8].format = VK_FORMAT_R32_SINT;
+				viad[8].offset = offsetof(Primitive, Primitive::matId);
+
+				viad[9].binding = 1;
+				viad[9].location = 9;
+				viad[9].format = VK_FORMAT_R32_SINT;
+				viad[9].offset = offsetof(Primitive, Primitive::startIndex);
+
+				viad[10].binding = 1;
+				viad[10].location = 10;
+				viad[10].format = VK_FORMAT_R32_SINT;
+				viad[10].offset = offsetof(Primitive, Primitive::endIndex);
+
+				return viad;
+			};*/
+		}
 	}
 }
