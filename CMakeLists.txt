@@ -36,7 +36,7 @@ set(XXHASH_BUILD_XXHSUM OFF) #optional
 add_subdirectory(lib/xxHash/cmake_unofficial EXCLUDE_FROM_ALL)
 
 add_subdirectory(lib/glslang)
-
+add_subdirectory(lib/assimp)
 
 # Include the submodules' header files
 include_directories(
@@ -60,6 +60,7 @@ include_directories(
     lib/tinyxml2
     lib/xxHash
     lib/glslang
+    lib/assimp/include
 )
 
 # Add source files and header files
@@ -99,6 +100,7 @@ target_link_libraries(AxiomEngineLib ${OPENGL_LIBRARIES})
 target_link_libraries(AxiomEngineLib tinyxml2)
 target_link_libraries(AxiomEngineLib xxhash)
 target_link_libraries(AxiomEngineLib glslang SPIRV)
+target_link_libraries(AxiomEngineLib assimp)
 
 # Link the include libs
 target_include_directories(AxiomEngineLib PRIVATE lib/taskflow)

@@ -298,6 +298,10 @@ namespace Axiom{
             }
             void Raster::recreate_swapchain()
             {
+                RenderBase::recreate_swapchain();    
+                create_descriptor_set_layout();
+                create_graphics_pipeline();
+                create_command_buffers(1.f, 0, 0);  
             }
             void Raster::toggle_playmode(bool b)
             {

@@ -232,9 +232,8 @@ namespace Axiom
                 //createInfo.oldSwapchain = VK_NULL_HANDLE;
 
 
-                if (vkCreateSwapchainKHR(vulkan_component->device.logical, &createInfo, nullptr, &vulkan_component->swapchain.get) != VK_SUCCESS) {
+                if(!Log::check_error(vkCreateSwapchainKHR(vulkan_component->device.logical, &createInfo, nullptr, &vulkan_component->swapchain.get) == VK_SUCCESS, "Creating SwapChain"))
                     throw std::runtime_error("failed to create swapchain!");
-                }
 
                 vkGetSwapchainImagesKHR(vulkan_component->device.logical, vulkan_component->swapchain.get, &imageCount, nullptr);
                 vulkan_component->swapchain.images.resize(imageCount);
