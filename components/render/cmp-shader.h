@@ -35,12 +35,12 @@ namespace Axiom
 			};
 
 			struct GUI {
-				glm::vec2 min;
-				glm::vec2 extents;
-				glm::vec2 align_min;
-				glm::vec2 align_ext;
-				int layer;
-				int id;
+				glm::vec2 min = glm::vec2(0.f, 0.f);
+				glm::vec2 extents = glm::vec2(0.f, 0.f);
+				glm::vec2 align_min = glm::vec2(0.f, 0.f);
+				glm::vec2 align_ext = glm::vec2(0.f, 0.f);
+				int layer = 0;
+				int id = 0;
 				int pad = 0;
 				float alpha = 1.f;
 
@@ -49,12 +49,12 @@ namespace Axiom
 			};
 			//
 			struct Primitive {
-				glm::mat4 world; //64bytes
-				glm::vec3 extents; //12bytes
+				glm::mat4 world = glm::mat4(); //64bytes
+				glm::vec3 extents = glm::vec3(); //12bytes
 				int num_children = 0; //4bytes;
 
-				int id; //4bytes
-				int matId; //4bytes
+				int id = 0; //4bytes
+				int matId = 0; //4bytes
 				int start_index = 0;
 				int end_index = 0;
 
@@ -66,63 +66,63 @@ namespace Axiom
 			};//Total = 96bytes
 
 			struct Vert {
-				glm::vec3 pos;
-				float u;
-				glm::vec3 norm;
-				float v;
+				glm::vec3 pos = glm::vec3();
+				float u = 0.f;
+				glm::vec3 norm = glm::vec3();
+				float v = 0.f;
 				Vert() {};
 				Vert(const glm::vec3 &p, const glm::vec3 &n, const float &u, const float &v) : pos(p), norm(n), u(u), v(v) { };
 			};
 
 			struct TriangleIndex {
-				glm::ivec3 v;	//12bytes
-				int id;			//4bytes
+				glm::ivec3 v = glm::ivec3();	//12bytes
+				int id = 0;			//4bytes
 				TriangleIndex() {};
 				TriangleIndex(glm::ivec3 v, int id) : v(v), id(id) {};
 				TriangleIndex(int v0, int v1, int v2, int id) : id(id) { v[0] = v0; v[1] = v1; v[2] = v2; };
 			}; //Total = 16 bytes
 
 			struct Index {
-				glm::ivec4 v; //16bytes
+				glm::ivec4 v = glm::ivec4(); //16bytes
 				Index() {};
 				Index(const glm::ivec4 &face) : v(face) {};
 			};
 
 			struct Shape {
-				glm::vec3 center;
+				glm::vec3 center = glm::vec3();
 				int matID = 0;
-				glm::vec3 extents;
-				int type;
+				glm::vec3 extents = glm::vec3();
+				int type = 0;
 				Shape() {};
 				Shape(const glm::vec3& c, const glm::vec3 e, int t) : center(c), extents(e), type(t) {};
 			}; //Total = 16bytes
 
 			struct Material {
-				glm::vec3 diffuse;
-				float reflective;
+				glm::vec3 diffuse = glm::vec3();
+				float reflective = 0.f;
 
-				float roughness;
-				float transparency;
-				float refractive_index;
-				int	  texture_id;
+				float roughness = 0.f;
+				float transparency = 0.f;
+				float refractive_index = 0.f;
+				int	  texture_id = 0;
 				Material() {};
 				//ssMaterial(glm::vec3 d, float m, float r) { diffuse = d, metallic = m; roughness = r; };
-				Material(glm::vec3 d, float rfl, float ruf, float trn, float rfr, int ti) { diffuse = d; reflective = rfl; roughness = ruf; transparency = trn; refractive_index = rfr; texture_id = ti; };
+				Material(glm::vec3 d, float rfl, float ruf, float trn, float rfr, int ti) : diffuse(d), reflective(rfl), roughness(ruf), transparency(trn), refractive_index(rfr), texture_id(ti) {};
 				//ssMaterial(glm::vec3 d, float m, float r, bool t, int id) { diffuse = d; metallic = m; roughness = r; hasTexture = b; textureID = id; };
 			};	//32 bytes
 
 			struct Light {
-				glm::vec3 pos;
-				float intensity;
-				glm::vec3 color;
-				int id;
+				glm::vec3 pos = glm::vec3();
+				float intensity = 0.f;
+				glm::vec3 color = glm::vec3();
+				int id = 0;
 			};
 
 			struct BVHNode {
-				glm::vec3 upper;
-				int offset;
-				glm::vec3 lower;
-				int numChildren;
+				glm::vec3 upper = glm::vec3();
+				int offset = 0;
+				glm::vec3 lower = glm::vec3();
+				int numChildren = 0;
 
 				BVHNode(){};
 				BVHNode(glm::vec3 u, glm::vec3 l, int o, int n) : upper(u), lower(l), offset(o), numChildren(n){};

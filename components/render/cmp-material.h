@@ -6,12 +6,12 @@ namespace Axiom
     {
         struct Cmp_Material
         {
-            int id;
-            int unique_id;
+            int id = 0;
+            int unique_id = 0;
 
             Cmp_Material(){};
-            Cmp_Material(int i) {id = i;};
-            Cmp_Material(int i, int ui) { id = i; unique_id = ui;}
+            Cmp_Material(int i) : id(i) {};
+            Cmp_Material(int i, int ui) : id(i), unique_id(ui){};
         };
     }
     

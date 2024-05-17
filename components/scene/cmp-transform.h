@@ -33,7 +33,6 @@
 #include "cmp-resource.h"
 
 namespace Axiom{
-
     struct sqt{
         glm::quat rot = glm::quat();
         glm::vec4 pos = glm::vec4(0);
@@ -44,18 +43,18 @@ namespace Axiom{
 		uint_fast8_t r = (a.rot == b.rot) << 1;
 		uint_fast8_t s = (a.sca == b.sca) << 2;
 		uint_fast8_t ret = p | r | s;
-		return (ret == 7);
+		return (ret == 0B111);
 	};
 
     struct Cmp_Transform{
-        glm::mat4 world;
-        glm::mat4 trm;
-        sqt local;
-        sqt global;
-        glm::vec3 euler_rot;
+        glm::mat4 world = glm::mat4();
+        glm::mat4 trm = glm::mat4();
+        sqt local = sqt();
+        sqt global = sqt();
+        glm::vec3 euler_rot = glm::vec3(0.f);
 
         Cmp_Transform(){}
-        Cmp_Transform(glm::vec3 center, glm::vec3 extents){
+        Cmp_Transform(glm::vec3 center, glm::vec3 extents)  {
         }
         Cmp_Transform(glm::vec3 pos, glm::vec3 rot, glm::vec3 sca) : euler_rot(rot){
             glm::mat4 rot_m;

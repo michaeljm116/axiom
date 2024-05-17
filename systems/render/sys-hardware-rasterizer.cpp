@@ -13,7 +13,7 @@ namespace Axiom{
             }
             Raster::~Raster(){}
 
-            Raster g_raster;
+            Raster g_raster = Raster();
             void initialize_raster(){
                 g_raster.vulkan_component = g_world.get_ref<Axiom::Render::Cmp_Vulkan>().get();
                 g_raster.graphics_pipeline = g_world.get_ref<Axiom::Render::Cmp_GraphicsPipeline>().get();

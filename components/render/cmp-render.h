@@ -46,30 +46,30 @@ namespace Axiom
 		};
 
         struct Cmp_Light{
-            glm::vec3 color;
-            float intensity;
+            glm::vec3 color = glm::vec3(1.0f, 1.0f, 1.0f);
+            float intensity = 0.0f;
             int id = 0;
             Cmp_Light(){};
             Cmp_Light(glm::vec3 c, float i, int id) : color(c), intensity(i), id(id) {};
         };
 
 		struct Cmp_Camera{
-            float aspect_ratio;
-            float fov;
-            glm::mat4 rot_m;
+            float aspect_ratio = 0.0f; 
+            float fov = 0.0f;
+            glm::mat4 rot_m = glm::mat4();
             Cmp_Camera(){};
             Cmp_Camera(float ar, float f) : aspect_ratio(ar), fov(f){rot_m = glm::mat4();};
         };
 
 		struct Cmp_Primitive
 		{
-			glm::mat4 world; //64bytes
-			glm::vec3 extents; //12bytes
-			glm::vec3 aabb_extents; //12bytes
+			glm::mat4 world = glm::mat4(); //64bytes
+			glm::vec3 extents = glm::vec3(); //12bytes
+			glm::vec3 aabb_extents = glm::vec3(); //12bytes
 			int num_children = 0; //4bytes;
 			
-			int id; //4bytes
-			int matId; //4bytes
+			int id = 0; //4bytes
+			int matId = 0; //4bytes
 			int start_index = 0; //4bytes
 			int end_index = 0; //4bytes
 
@@ -81,59 +81,59 @@ namespace Axiom
 		};
 
 		struct Cmp_Sphere {
-			float radius;
-			int index;
+			float radius = 0.0f;
+			int index = 0;
 
 			Cmp_Sphere() {};
-			Cmp_Sphere(float r) { radius = r; };
+			Cmp_Sphere(float r) : radius(r) {};
 		};
 
 		struct Cmp_Box {
-			glm::vec3 center;
-			glm::vec3 extents;
-			int index;
+			glm::vec3 center = glm::vec3();
+			glm::vec3 extents = glm::vec3();
+			int index = 0;
 
 			Cmp_Box() {};
 			Cmp_Box(glm::vec3 c, glm::vec3 e) : center(c), extents(e) {};
 		};
 
 		struct Cmp_Cylinder {
-			glm::vec3 top;
-			glm::vec3 bottom; 
-			float radius;
-			int index;
+			glm::vec3 top = glm::vec3();
+			glm::vec3 bottom = glm::vec3(); 
+			float radius = 0.0f;
+			int index = 0;
 
 			Cmp_Cylinder() {};
 			Cmp_Cylinder(glm::vec3 t, glm::vec3 b, float r) : top(t), bottom(b), radius(r) {};
 		};
 
 		struct Cmp_Plane {
-			glm::vec3 normal;
-			float distance;
-			int index;
+			glm::vec3 normal = glm::vec3();
+			float distance = 0.0f;
+			int index = 0;
 
 			Cmp_Plane() {};
 			Cmp_Plane(glm::vec3 n, float d) :normal(n), distance(d) {};
 		};
 
 		struct Cmp_Mesh {
-			int index;
-			int model_id;
-			int resource_index;
-			int unique_id;
+			int index = 0;
+			int model_id = 0;
+			int resource_index = 0;
+			int unique_id = 0;
 
 			Cmp_Mesh() {};
-			Cmp_Mesh(int si) { index = si; };
+			Cmp_Mesh(int si): index(si) {};
 			Cmp_Mesh(int id, int ri) : model_id(id), resource_index(ri) {};
 		};
 
 		struct Cmp_Model {
-			int index;
-			int unique_id;
+			int index = 0;
+			int unique_id = 0;
 
 			Cmp_Model() {};
-			Cmp_Model(int n) { unique_id = n; };
-			Cmp_Model(int n, int id) { index = n; unique_id = id; };
+			Cmp_Model(int n) : unique_id(n) {};
+			Cmp_Model(int n, int id) : index(n), unique_id(id) {};
 		};
 
 		enum class SelectableState {
@@ -143,19 +143,19 @@ namespace Axiom
 			Pressed
 		};
 		struct Cmp_Selectable {
-			SelectableState state;
+			SelectableState state = SelectableState::Unselected;
 			bool active = false;
 			bool reset = false;
 		};
 
 		struct Cmp_GUI {
-			glm::vec2 min;
-			glm::vec2 extents;
-			glm::vec2 align_min;
-			glm::vec2 align_ext;
-			int layer;
-			int id;
-			int ref;
+			glm::vec2 min = glm::vec2();
+			glm::vec2 extents = glm::vec2();
+			glm::vec2 align_min = glm::vec2();
+			glm::vec2 align_ext = glm::vec2();
+			int layer = 0;
+			int id = 0;
+			int ref = 0;
 			float alpha = 0.f;
 			bool update = true;
 			//bool visible;
@@ -166,25 +166,25 @@ namespace Axiom
 		struct Cmp_GUINumber : Cmp_GUI {
 			int number = 0;
 			int highest_active_digit_index = 0;
-			std::vector<int> shaderReferences;
+			std::vector<int> shaderReferences = {};
 			Cmp_GUINumber() {};
-			Cmp_GUINumber(glm::vec2 m, glm::vec2 e, int n) { min = m; extents = e; number = n; align_min = glm::vec2(0.0f, 0.0f); align_ext = glm::vec2(0.1f, 1.f); layer = 0; id = 0; };
-			Cmp_GUINumber(glm::vec2 m, glm::vec2 e, int n, float a) { min = m; extents = e; number = n; align_min = glm::vec2(0.0f, 0.0f); align_ext = glm::vec2(0.1f, 1.f); layer = 0; id = 0; alpha = a; };
+			Cmp_GUINumber(glm::vec2 m, glm::vec2 e, int n) : number(n) { min = m; extents = e; align_min = glm::vec2(0.0f, 0.0f); align_ext = glm::vec2(0.1f, 1.f); layer = 0; id = 0; };
+			Cmp_GUINumber(glm::vec2 m, glm::vec2 e, int n, float a) : number(n) { min = m; extents = e; align_min = glm::vec2(0.0f, 0.0f); align_ext = glm::vec2(0.1f, 1.f); layer = 0; id = 0; alpha = a; };
 		};
 		struct Cmp_GraphicsPipeline{
-			VkDescriptorPool descriptor_pool;
-			VkDescriptorSetLayout descriptor_set_layout;
-			VkDescriptorSet descriptor_set;
-			VkPipelineLayout pipeline_layout;
-			VkPipeline pipeline;
+			VkDescriptorPool descriptor_pool = VK_NULL_HANDLE;
+			VkDescriptorSetLayout descriptor_set_layout = VK_NULL_HANDLE;
+			VkDescriptorSet descriptor_set = VK_NULL_HANDLE;
+			VkPipelineLayout pipeline_layout = VK_NULL_HANDLE;
+			VkPipeline pipeline = VK_NULL_HANDLE;
 		};
 
 	};
 
 	struct Cmp_Render {
-		Render::RenderType type;
+		Render::RenderType type = Render::RENDER_NONE;
 		Render::RendererType renderer = Render::kComputeRaytracer;
-		Cmp_Render() {};
+		Cmp_Render() :type(Render::RENDER_NONE), renderer(Render::kHardwareRasterizer) {};
 		Cmp_Render(Render::RenderType t) : type(t) {};
 	};
 

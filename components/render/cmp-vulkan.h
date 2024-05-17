@@ -10,17 +10,17 @@ namespace Axiom
         {
             /** @brief Device Queues */
             struct Queues{
-                VkQueue graphics;
-                VkQueue present;
-                VkQueue compute;
-                VkQueue copy;
+                VkQueue graphics = VK_NULL_HANDLE;
+                VkQueue present = VK_NULL_HANDLE;
+                VkQueue compute = VK_NULL_HANDLE;
+                VkQueue copy = VK_NULL_HANDLE;
             };
 
             struct Depth{
-                VkImage image;
-                VkDeviceMemory image_memory;
-                VkImageView image_view;
-                VkFormat format = VK_FORMAT_R8G8B8A8_UNORM;
+                VkImage image = VK_NULL_HANDLE;
+                VkDeviceMemory image_memory = VK_NULL_HANDLE;
+                VkImageView image_view = VK_NULL_HANDLE;
+                VkFormat format = VK_FORMAT_UNDEFINED;
             };
 
              /** @brief Swapchain*/
@@ -31,37 +31,37 @@ namespace Axiom
                     std::vector<VkSurfaceFormatKHR> formats;
                     std::vector<VkPresentModeKHR> present_modes;   
                 } details;*/
-                VkSurfaceKHR surface;
-                VkSwapchainKHR get;
-                VkFormat image_format;
-                VkFormat color_format; //TODO THIS IS PROBABLY WORTHLESS TBH
-                VkExtent2D extent;
-                VkExtent2D scaled;
+                VkSurfaceKHR surface = VK_NULL_HANDLE;
+                VkSwapchainKHR get = VK_NULL_HANDLE;
+                VkFormat image_format = VkFormat::VK_FORMAT_UNDEFINED;
+                VkFormat color_format = VkFormat::VK_FORMAT_UNDEFINED; //TODO THIS IS PROBABLY WORTHLESS TBH
+                VkExtent2D extent = VkExtent2D(0,0);
+                VkExtent2D scaled = VkExtent2D(0,0);
                 
-                std::vector<VkImage> images;
-                std::vector<VkImageView> image_views;
-                std::vector<VkFramebuffer> frame_buffers;
-                uint32_t width;
-                uint32_t height;
+                std::vector<VkImage> images = {};
+                std::vector<VkImageView> image_views = {};
+                std::vector<VkFramebuffer> frame_buffers = {};
+                uint32_t width = 1920;
+                uint32_t height = 1080;
             };
 
             /** @brief Command Buffers and pool*/
             struct Command{
-                std::vector<VkCommandBuffer> buffers;
-                VkCommandPool pool;
+                std::vector<VkCommandBuffer> buffers = {};
+                VkCommandPool pool = VK_NULL_HANDLE;
             };
 
             /** @brief Semaphores*/
             struct Semaphores{
-              VkSemaphore image_available;
-              VkSemaphore render_finished;  
-              VkFence in_flight_fence;
+              VkSemaphore image_available = VK_NULL_HANDLE;
+              VkSemaphore render_finished = VK_NULL_HANDLE;  
+              VkFence in_flight_fence = VK_NULL_HANDLE;
             };
 
             /** @brief Vulkan Pipeline Info*/               
             struct Pipeline{
-                VkPipelineCache cache;
-                VkRenderPass render_pass;
+                VkPipelineCache cache = VK_NULL_HANDLE;
+                VkRenderPass render_pass = VK_NULL_HANDLE;
             };
 
             /** @brief Vulkan Submit info*/
@@ -72,14 +72,14 @@ namespace Axiom
 
         struct Cmp_Vulkan
         {
-            Vulkan::Device device;
-            Vulkan::Semaphores semaphores;
-            Vulkan::Command command;
-            Vulkan::SwapChain swapchain;
-            Vulkan::Depth depth;
-            Vulkan::Queues queues;
-            Vulkan::Pipeline pipeline;
-            VkSubmitInfo submit_info;
+            Vulkan::Device device = Vulkan::Device();
+            Vulkan::Semaphores semaphores = Vulkan::Semaphores();
+            Vulkan::Command command = Vulkan::Command();
+            Vulkan::SwapChain swapchain = Vulkan::SwapChain();
+            Vulkan::Depth depth = Vulkan::Depth();
+            Vulkan::Queues queues = Vulkan::Queues();
+            Vulkan::Pipeline pipeline = Vulkan::Pipeline();
+            VkSubmitInfo submit_info = VkSubmitInfo();
         };
     }
 }

@@ -25,30 +25,30 @@
     static const int MAX_TEXTURES = 5;
         struct Cmp_ComputeRaytracer{
             bool editor = true;
-            VkDescriptorPool descriptor_pool;
+            VkDescriptorPool descriptor_pool = VK_NULL_HANDLE;
             struct {
-                VkDescriptorSetLayout descriptor_set_layout;
-                VkDescriptorSet descriptor_set;
-                VkPipelineLayout pipeline_layout;
-                VkPipeline pipeline;
+                VkDescriptorSetLayout descriptor_set_layout = VK_NULL_HANDLE;
+                VkDescriptorSet descriptor_set = VK_NULL_HANDLE;
+                VkPipelineLayout pipeline_layout = VK_NULL_HANDLE;
+                VkPipeline pipeline = VK_NULL_HANDLE;
             }graphics;
 
             struct
             {
-                VkQueue queue;								    // Separate queue for compute commands (queue family may differ from the one used for graphics)
-                VkCommandPool command_pool;					    // Use a separate command pool (queue family may differ from the one used for graphics)
-                VkCommandBuffer command_buffer;				    // Command buffer storing the dispatch commands and barriers
-                VkFence fence;								    // Synchronization fence to avoid rewriting compute CB if still in use
-                VkDescriptorSetLayout descriptor_set_layout;	// Compute shader binding layout
-                VkDescriptorSet descriptor_set;				    // Compute shader bindings
-                VkPipelineLayout pipeline_layout;			    // Layout of the compute pipeline
-                VkPipeline pipeline;						    // Compute raytracing pipeline
+                VkQueue queue = VK_NULL_HANDLE;								    // Separate queue for compute commands (queue family may differ from the one used for graphics)
+                VkCommandPool command_pool =VK_NULL_HANDLE;				    // Use a separate command pool (queue family may differ from the one used for graphics)
+                VkCommandBuffer command_buffer = VK_NULL_HANDLE;				    // Command buffer storing the dispatch commands and barriers
+                VkFence fence = VK_NULL_HANDLE;								    // Synchronization fence to avoid rewriting compute CB if still in use
+                VkDescriptorSetLayout descriptor_set_layout = VK_NULL_HANDLE;		// Compute shader binding layout
+                VkDescriptorSet descriptor_set = VK_NULL_HANDLE;				    // Compute shader bindings
+                VkPipelineLayout pipeline_layout = VK_NULL_HANDLE;			    // Layout of the compute pipeline
+                VkPipeline pipeline = VK_NULL_HANDLE;						    // Compute raytracing pipeline
             }compute;
 
             bool prepared = false;
 
-            Axiom::Render::Texture compute_texture;
-            Axiom::Render::Texture gui_textures[MAX_TEXTURES];
+            Axiom::Render::Texture compute_texture = Axiom::Render::Texture();
+            Axiom::Render::Texture gui_textures[MAX_TEXTURES] ;
 
             VkDescriptorSetLayoutBinding DescriptorSetLayoutBinding(uint32_t binding, VkDescriptorType descriptorType, uint32_t descriptorCount, VkShaderStageFlags flags);
             std::vector<VkWriteDescriptorSet> compute_write_descriptor_sets;

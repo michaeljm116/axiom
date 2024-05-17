@@ -52,30 +52,25 @@ namespace Axiom{
 
 		struct  Material
 		{
-			glm::vec3 diffuse;
-			float reflective;
-			float roughness;
-			float transparency;
-			float refractiveIndex;
+			glm::vec3 diffuse = glm::vec3(0.0f);
+			float reflective = 0.f;
+			float roughness = 0.f;
+			float transparency = 0.f;
+			float refractiveIndex = 0.f;
 			int textureID = -1;
 			int uniqueID = 0;
-			std::string Texture;
-			std::string name;
+			std::string Texture = "";
+			std::string name = "";
 			//ssMaterial* renderedMat;
 
 			Material() {};
-			Material(std::string n, glm::vec3 d, float rfl, float rgh, float trns, float rfr, int ti) {
-
-				name = n;			diffuse = d;
-				reflective = rfl;	refractiveIndex = rfr;
-				roughness = rgh;	transparency = trns;
-				textureID = ti;
-
+			Material(std::string n, glm::vec3 d, float rfl, float rgh, float trns, float rfr, int ti) :
+				name(n), diffuse(d), reflective(rfl), roughness(rgh), transparency(trns), refractiveIndex(rfr), textureID(ti) {
 				uniqueID = name[0];
 				for (size_t i = 1; i < name.size(); ++i) {
 					uniqueID *= name[i] + name[i - 1];
 				}
-			}
+			};
 		};
 		struct Vertex {
 			glm::vec3 pos;
