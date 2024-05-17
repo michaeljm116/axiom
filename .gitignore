@@ -35,6 +35,7 @@
 build/
 .vscode/
 .vs/
+.lib/
 checks.json
 doc/logs.txt
 doc/validationlayer.txt
