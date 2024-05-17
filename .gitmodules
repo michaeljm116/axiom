@@ -43,3 +43,6 @@
 [submodule "lib/glslang"]
 	path = lib/glslang
 	url = https://github.com/KhronosGroup/glslang.git
+[submodule "lib/assimp"]
+	path = lib/assimp
+	url = https://github.com/assimp/assimp.git
