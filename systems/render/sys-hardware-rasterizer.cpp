@@ -288,7 +288,8 @@ namespace Axiom{
                     VkBuffer vertexBuffers[] = {vertex_buffer.buffer};
                     VkDeviceSize offsets[] = {0};
                     vkCmdBindVertexBuffers(vulkan_component->command.buffers[i], 0, 1, vertexBuffers, offsets);
-                    vkCmdDraw(vulkan_component->command.buffers[i], static_cast<uint32_t>(vertices.size()), 1, 0, 0);
+                    vkCmdBindIndexBuffer(vulkan_component->command.buffers[i], index_buffer.buffer, 0, VK_INDEX_TYPE_UINT32);
+                    vkCmdDrawIndexed(vulkan_component->command.buffers[i], static_cast<uint32_t>(indices.size()), 1, 0, 0, 0);
                     vkCmdEndRenderPass(vulkan_component->command.buffers[i]);
 
                     Log::check(VK_SUCCESS == vkEndCommandBuffer(vulkan_component->command.buffers[i]), "END COMMAND BUFFER");
@@ -298,6 +299,7 @@ namespace Axiom{
             void Raster::prepare_buffers()
             {
                 vertex_buffer.InitStorageBufferCustomSize(vulkan_component->device, vertices, vertices.size(), vertices.size());
+                index_buffer.InitStorageBufferCustomSize(vulkan_component->device, indices, indices.size(), indices.size());
             }
 
             void Raster::clean_up()

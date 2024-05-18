@@ -56,14 +56,15 @@ namespace Axiom
                     void create_command_buffers(float swap_ratio,  int32_t offset_width, int32_t offset_heigiht);  
 
                     Vulkan::VBuffer<Shader::V32> vertex_buffer;
+                    Vulkan::VBuffer<uint32_t> index_buffer;
                     const std::vector<Shader::V32> vertices = {
-                        {{0.0f, -0.5f, 0.0f}, {0}, {1.0f, 0.0f, 0.0f}, {0}},
+                        {{-0.5f, -0.5f, 0.0f}, {0}, {1.0f, 0.0f, 0.0f}, {0}},
                         {{0.5f, -0.5f, 0.0f}, {0}, {0.0f, 1.0f, 0.0f}, {0}},
                         {{0.5f, 0.5f, 0.0f}, {0}, {0.0f, 0.0f, 1.0f}, {0}},
-                        {{0.5f, 0.5f, 0.0f}, {0}, {0.0f, 0.0f, 1.0f}, {0}},
-                        {{0.0f, 0.5f, 0.0f}, {0}, {1.0f, 1.0f, 1.0f}, {0}},
-                        {{0.0f, -0.5f, 0.0f}, {0}, {1.0f, 0.0f, 0.0f}, {0}}
+                        {{-0.5f, 0.5f, 0.0f}, {0}, {1.0f, 1.0f, 1.0f}, {0}}
                     };
+                    const std::vector<uint32_t> indices = {0,1,2,2,3,0};
+
                     void prepare_buffers();
             };
 
