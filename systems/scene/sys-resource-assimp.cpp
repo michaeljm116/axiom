@@ -8,10 +8,10 @@ namespace Axiom{
         bool load_assimp_model(flecs::entity e, Cmp_Resource& res, Cmp_ResModel& cmp_mod)
         {
             Assimp::Importer importer; 
-            const auto scene = std::make_unique<aiScene>(importer.ReadFile(res.file_path,
+            const auto* scene = importer.ReadFile(res.file_path,
                 aiProcess_Triangulate |
                 aiProcess_FlipUVs |
-                aiProcess_CalcTangentSpace));
+                aiProcess_CalcTangentSpace);
 
             return false;
         }

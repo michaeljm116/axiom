@@ -27,6 +27,7 @@ namespace Axiom{
 
             void Raster::initialize()
             {
+                prepare_buffers();
 
                 create_graphics_pipeline();
                 
@@ -145,8 +146,8 @@ namespace Axiom{
 
                     return buffer;
                 };
-                auto vert_shader_code = read_file(assets_folder + "Shaders/triangle_vert.spv");
-                auto frag_shader_code = read_file(assets_folder + "Shaders/triangle_frag.spv");
+                auto vert_shader_code = read_file(assets_folder + "Shaders/basic_vert.spv");
+                auto frag_shader_code = read_file(assets_folder + "Shaders/basic_frag.spv");
                 auto vert_shader_module = vulkan_component->device.createShaderModule(vert_shader_code);
                 auto frag_shader_module = vulkan_component->device.createShaderModule(frag_shader_code);
 
@@ -283,11 +284,20 @@ namespace Axiom{
 
                     //vkCmdBindDescriptorSets(vulkan_component->command.buffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, graphics_pipeline.pipeline_layout, 0, 1, &graphics_pipeline.descriptor_set, 0, NULL);
                     vkCmdBindPipeline(vulkan_component->command.buffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS,graphics_pipeline->pipeline);
-                    vkCmdDraw(vulkan_component->command.buffers[i], 3, 1, 0, 0);
+                    
+                    VkBuffer vertexBuffers[] = {vertex_buffer.buffer};
+                    VkDeviceSize offsets[] = {0};
+                    vkCmdBindVertexBuffers(vulkan_component->command.buffers[i], 0, 1, vertexBuffers, offsets);
+                    vkCmdDraw(vulkan_component->command.buffers[i], static_cast<uint32_t>(vertices.size()), 1, 0, 0);
                     vkCmdEndRenderPass(vulkan_component->command.buffers[i]);
 
                     Log::check(VK_SUCCESS == vkEndCommandBuffer(vulkan_component->command.buffers[i]), "END COMMAND BUFFER");
                 }
+            }
+
+            void Raster::prepare_buffers()
+            {
+                vertex_buffer.InitStorageBufferCustomSize(vulkan_component->device, vertices, vertices.size(), vertices.size());
             }
 
             void Raster::clean_up()
@@ -298,6 +308,9 @@ namespace Axiom{
 
             void Raster::clean_up_swapchain()
             {
+                vertex_buffer.Destroy(vulkan_component->device);
+                RenderBase::clean_up_swapchain();
+
             }
             void Raster::recreate_swapchain()
             {
