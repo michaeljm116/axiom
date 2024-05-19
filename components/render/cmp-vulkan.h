@@ -1,11 +1,13 @@
 #pragma once
 #include <volk.h>
 #include <vector>
+#include <array>
 #include "vulkan/base.hpp"
 namespace Axiom
 {
     namespace Render
     {
+        static constexpr int MAX_FRAMES_IN_FLIGHT = 3;
         namespace Vulkan
         {
             /** @brief Device Queues */
@@ -56,6 +58,10 @@ namespace Axiom
               VkSemaphore image_available = VK_NULL_HANDLE;
               VkSemaphore render_finished = VK_NULL_HANDLE;  
               VkFence in_flight_fence = VK_NULL_HANDLE;
+
+              std::array<VkSemaphore, MAX_FRAMES_IN_FLIGHT> render_ready = {};
+              std::array<VkSemaphore, MAX_FRAMES_IN_FLIGHT> frame_presented = {};
+              std::array<VkFence, MAX_FRAMES_IN_FLIGHT> presentation_fence = {};
             };
 
             /** @brief Vulkan Pipeline Info*/               

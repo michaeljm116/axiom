@@ -119,6 +119,12 @@ namespace Axiom
 				}
 			};
 
+			struct UBO{                              // Compute shader uniform block object
+				glm::mat4 model;
+				glm::mat4 view;
+				glm::mat4 proj;
+			};
+
 			struct TriangleIndex {
 				glm::ivec3 v = glm::ivec3();	//12bytes
 				int id = 0;			//4bytes

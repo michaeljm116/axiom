@@ -3,7 +3,7 @@
 #include "sys-log.h"
 #include <array>
 #include "cmp-resource.h"
-
+#include <glm/glm.hpp>
 
 namespace Axiom{
     namespace Render{
@@ -15,7 +15,7 @@ namespace Axiom{
 
             Raster g_raster = Raster();
             void initialize_raster(){
-                g_raster.vulkan_component = g_world.get_ref<Axiom::Render::Cmp_Vulkan>().get();
+                g_raster.c_vulkan = g_world.get_ref<Axiom::Render::Cmp_Vulkan>().get();
                 g_raster.graphics_pipeline = g_world.get_ref<Axiom::Render::Cmp_GraphicsPipeline>().get();
                 g_raster.start_up();
                 g_raster.initialize();
@@ -32,56 +32,62 @@ namespace Axiom{
                 create_graphics_pipeline();
                 
                 create_command_buffers(1.f, 0, 0);
+
+                //create_descriptor_pool();
+                //create_descriptor_sets();
             }
             
-            void Raster::start_frame(uint32_t &image_index)
-            {
-                auto result = vkAcquireNextImageKHR(vulkan_component->device.logical, vulkan_component->swapchain.get,
-                                                    std::numeric_limits<uint64_t>::max(), 
-                                                    vulkan_component->semaphores.image_available, VK_NULL_HANDLE, &image_index);
-                if(!Log::check_error(result == VK_SUCCESS, "creating swapchain image!")){                
-                    if(result == VK_ERROR_OUT_OF_DATE_KHR){recreate_swapchain(); return;}
-                    else if(Log::check_error(result != VK_SUBOPTIMAL_KHR, "suboptimal!")){
-                        throw std::runtime_error("failed to aquire swap chain image!");
-                        ///TOOOO DOOOO idk what this means anymore
+            auto handle_aquire = [](VkResult result){
+                if(!Log::check_error(result == VK_SUCCESS, "creating swapchain image")){
+                    if(result == VK_ERROR_OUT_OF_DATE_KHR) 
+                        g_raster.recreate_swapchain();
+                    else if (Log::check_error(result != VK_SUBOPTIMAL_KHR, "suboptimal!")){
+                        throw std::runtime_error("failed to aquire swapchain image!");
                     }
                 }
+            };
+
+            void Raster::start_frame(uint32_t &image_index)
+            {
+                update_uniform_buffer();
+
+                auto result = vkAcquireNextImageKHR(c_vulkan->device.logical, c_vulkan->swapchain.get,
+                                                    std::numeric_limits<uint64_t>::max(), 
+                                                    c_vulkan->semaphores.image_available, VK_NULL_HANDLE, &image_index);
+                handle_aquire(result);
+
                 VkPipelineStageFlags wait_stages[] = {VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT};
-                vulkan_component->submit_info = {
+                c_vulkan->submit_info = {
                     .sType = VK_STRUCTURE_TYPE_SUBMIT_INFO,
                     .waitSemaphoreCount = 1,
-                    .pWaitSemaphores = &vulkan_component->semaphores.image_available,
+                    .pWaitSemaphores = &c_vulkan->semaphores.image_available,
                     .pWaitDstStageMask = wait_stages,
                     .commandBufferCount = 1,
-                    .pCommandBuffers = &vulkan_component->command.buffers[image_index],
+                    .pCommandBuffers = &c_vulkan->command.buffers[image_index],
                     .signalSemaphoreCount = 1,
-                    .pSignalSemaphores = &vulkan_component->semaphores.render_finished
+                    .pSignalSemaphores = &c_vulkan->semaphores.render_finished
                 };
-                Log::check_error(VK_SUCCESS == vkQueueSubmit(vulkan_component->queues.graphics, 1, &vulkan_component->submit_info, VK_NULL_HANDLE), "GRAPHICS QUEUE SUBMIT");
+                Log::check_error(VK_SUCCESS == vkQueueSubmit(c_vulkan->queues.graphics, 1, &c_vulkan->submit_info, VK_NULL_HANDLE), "GRAPHICS QUEUE SUBMIT");
             }
 
             void Raster::end_frame(const uint32_t &image_index)
             {
                 VkPresentInfoKHR present_info = {
                     .sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR,
-                    .waitSemaphoreCount = vulkan_component->submit_info.signalSemaphoreCount,
-                    .pWaitSemaphores = vulkan_component->submit_info.pSignalSemaphores,
+                    .waitSemaphoreCount = c_vulkan->submit_info.signalSemaphoreCount,
+                    .pWaitSemaphores = c_vulkan->submit_info.pSignalSemaphores,
                     .swapchainCount = 1,
-                    .pSwapchains = &vulkan_component->swapchain.get,
+                    .pSwapchains = &c_vulkan->swapchain.get,
                     .pImageIndices = &image_index,
                     .pResults = nullptr
                 };
 
-                vkQueueWaitIdle(vulkan_component->queues.present);
+                vkQueueWaitIdle(c_vulkan->queues.present);
 
-                VkResult result = vkQueuePresentKHR(vulkan_component->queues.present, &present_info);
-                if(!Log::check_error(result == VK_SUCCESS, "creating swapchain image!")){                
-                    if(result == VK_ERROR_OUT_OF_DATE_KHR){recreate_swapchain(); return;}
-                    else if(Log::check_error(result != VK_SUBOPTIMAL_KHR, "suboptimal!")){
-                        throw std::runtime_error("failed to aquire swap chain image!");
-                        ///TOOOO DOOOO idk what this means anymore
-                    }
-                }
+                VkResult result = vkQueuePresentKHR(c_vulkan->queues.present, &present_info);
+                handle_aquire(result);
+
+                current_frame = (current_frame + 1) % MAX_FRAMES_IN_FLIGHT;
             }
 
             void Raster::add_entity(flecs::entity &e)
@@ -112,7 +118,7 @@ namespace Axiom{
                 std::vector<VkDynamicState> dynamic_state_enables = {VK_DYNAMIC_STATE_VIEWPORT,VK_DYNAMIC_STATE_SCISSOR};
                 VkPipelineDynamicStateCreateInfo dynamic_state = vks::initializers::pipelineDynamicStateCreateInfo( dynamic_state_enables.data(), dynamic_state_enables.size(), 0);
                 VkPipelineLayoutCreateInfo pipeline_layout = vks::initializers::pipelineLayoutCreateInfo(0, 0);
-                if(!Log::check(vkCreatePipelineLayout(vulkan_component->device.logical, &pipeline_layout, nullptr, &graphics_pipeline->pipeline_layout) == VK_SUCCESS, "Creating pipeline layout")){
+                if(!Log::check(vkCreatePipelineLayout(c_vulkan->device.logical, &pipeline_layout, nullptr, &graphics_pipeline->pipeline_layout) == VK_SUCCESS, "Creating pipeline layout")){
                     throw std::runtime_error("Failed creating pipeline layout");
                 }
 
@@ -126,8 +132,8 @@ namespace Axiom{
                 if(!Log::check(vert_shader_code.has_value(), "Compiling Vertex Shader")) throw std::runtime_error("failed to compile vertex shader");
                 if(!Log::check(frag_shader_code.has_value(), "Compiling Fragment Shader")) throw std::runtime_error("Failed to compile fragment shader");
                 
-                auto vert_shader_module = vulkan_component->device.createShaderModule(vert_shader_code.value());
-                auto frag_shader_module = vulkan_component->device.createShaderModule(frag_shader_code.value());
+                auto vert_shader_module = c_vulkan->device.createShaderModule(vert_shader_code.value());
+                auto frag_shader_module = c_vulkan->device.createShaderModule(frag_shader_code.value());
                 
                 */
                 auto read_file = [](std::string filename){
@@ -148,8 +154,8 @@ namespace Axiom{
                 };
                 auto vert_shader_code = read_file(assets_folder + "Shaders/basic_vert.spv");
                 auto frag_shader_code = read_file(assets_folder + "Shaders/basic_frag.spv");
-                auto vert_shader_module = vulkan_component->device.createShaderModule(vert_shader_code);
-                auto frag_shader_module = vulkan_component->device.createShaderModule(frag_shader_code);
+                auto vert_shader_module = c_vulkan->device.createShaderModule(vert_shader_code);
+                auto frag_shader_module = c_vulkan->device.createShaderModule(frag_shader_code);
 
                 
                 VkPipelineShaderStageCreateInfo vert_shader_stage_info = {
@@ -192,15 +198,15 @@ namespace Axiom{
                     .pColorBlendState = &color_blend_state,
                     .pDynamicState = &dynamic_state,
                     .layout = graphics_pipeline->pipeline_layout,
-                    .renderPass = vulkan_component->pipeline.render_pass,
+                    .renderPass = c_vulkan->pipeline.render_pass,
                     .subpass = 0,
                     .basePipelineHandle = VK_NULL_HANDLE,
                     .basePipelineIndex = -1
                 };
                 
                 VkResult result = vkCreateGraphicsPipelines(
-                    vulkan_component->device.logical,
-                    vulkan_component->pipeline.cache,
+                    c_vulkan->device.logical,
+                    c_vulkan->pipeline.cache,
                     1,
                     &pipelineCreateInfo,
                     nullptr,
@@ -211,59 +217,78 @@ namespace Axiom{
                     throw std::runtime_error("Failed to create Graphics piepline");
                 }
 
-                vkDestroyShaderModule(vulkan_component->device.logical, frag_shader_module, nullptr);
-                vkDestroyShaderModule(vulkan_component->device.logical, vert_shader_module, nullptr);
+                vkDestroyShaderModule(c_vulkan->device.logical, frag_shader_module, nullptr);
+                vkDestroyShaderModule(c_vulkan->device.logical, vert_shader_module, nullptr);
             }
 
             void Raster::create_descriptor_pool()
             {
+                auto pool_size = vks::initializers::descriptorPoolSize(VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 1);
+                auto create_info = vks::initializers::descriptorPoolCreateInfo( 1, &pool_size, MAX_FRAMES_IN_FLIGHT);
+                Log::check_error(vkCreateDescriptorPool(c_vulkan->device.logical, & create_info, nullptr, &graphics_pipeline->descriptor_pool) == VK_SUCCESS, "creating descriptor pool");
             }
 
             void Raster::create_descriptor_sets()
             {
+                auto alloc_info = vks::initializers::descriptorSetAllocateInfo(graphics_pipeline->descriptor_pool, &graphics_pipeline->descriptor_set_layout, MAX_FRAMES_IN_FLIGHT);
+                Log::check_error(vkAllocateDescriptorSets(c_vulkan->device.logical, &alloc_info, &graphics_pipeline->descriptor_set) == VK_SUCCESS, "ALLOCATING descriptor set");
             }
 
             void Raster::create_descriptor_set_layout()
             {
+                VkDescriptorSetLayoutBinding ubo_layout_binding = {
+                    .binding = 0, .descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, .descriptorCount = 1,
+                    .stageFlags = VK_SHADER_STAGE_VERTEX_BIT, .pImmutableSamplers = nullptr
+                };
+                VkDescriptorSetLayoutCreateInfo ds_info = {
+                    .sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO,
+                    .pNext = nullptr, .bindingCount = 1, .pBindings = &ubo_layout_binding
+                };
+                if(!Log::check_error(vkCreateDescriptorSetLayout(c_vulkan->device.logical, &ds_info, nullptr, &graphics_pipeline->descriptor_set_layout) == VK_SUCCESS, "Create descriptor set layout!"))
+                    throw std::runtime_error("failed to create descriptor set layout!");
+                VkPipelineLayoutCreateInfo pl_info = {.sType = VK_STRUCTURE_TYPE_PIPELINE_CREATION_FEEDBACK_CREATE_INFO,
+                                                      .setLayoutCount = 1, .pSetLayouts = &graphics_pipeline->descriptor_set_layout};
+                if(!Log::check_error(vkCreatePipelineLayout(c_vulkan->device.logical, &pl_info, nullptr, &graphics_pipeline->pipeline_layout) == VK_SUCCESS, "CREATE PIPELINE LAYOUT"))
+                    throw std::runtime_error("failed to create pipeline layout!");
             }
 
             void Raster::create_command_buffers(float swap_ratio, int32_t offset_width, int32_t offset_height)
             {
-                vulkan_component->command.buffers.resize(vulkan_component->swapchain.frame_buffers.size());
+                c_vulkan->command.buffers.resize(MAX_FRAMES_IN_FLIGHT);
                 
-                vulkan_component->swapchain.scaled.height = vulkan_component->swapchain.extent.height * swap_ratio;
-                vulkan_component->swapchain.scaled.width = vulkan_component->swapchain.extent.width * swap_ratio;
+                c_vulkan->swapchain.scaled.height = c_vulkan->swapchain.extent.height * swap_ratio;
+                c_vulkan->swapchain.scaled.width = c_vulkan->swapchain.extent.width * swap_ratio;
                 
                 VkCommandBufferAllocateInfo allocInfo = {
                     .sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO,
-                    .commandPool = vulkan_component->command.pool,
+                    .commandPool = c_vulkan->command.pool,
                     .level = VK_COMMAND_BUFFER_LEVEL_PRIMARY,
-                    .commandBufferCount = (uint32_t)vulkan_component->command.buffers.size()
+                    .commandBufferCount = (uint32_t)c_vulkan->command.buffers.size()
                 };
 
                 //@COMPUTEHERE be sure to have compute-specific command buffers too
-                if (vkAllocateCommandBuffers(vulkan_component->device.logical, &allocInfo, vulkan_component->command.buffers.data()) != VK_SUCCESS) {
+                if (vkAllocateCommandBuffers(c_vulkan->device.logical, &allocInfo, c_vulkan->command.buffers.data()) != VK_SUCCESS) {
                     Log::send(Log::Level::ERROR, "failed to allocate command buffers!");
                     throw std::runtime_error("failed to allocate command buffers!");
                 }
 
 
-                for (size_t i = 0; i < vulkan_component->command.buffers.size(); i++) {
+                for (size_t i = 0; i < c_vulkan->command.buffers.size(); i++) {
                     VkCommandBufferBeginInfo beginInfo = {};
                     beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
                     beginInfo.flags = VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT; //The cmdbuf will be rerecorded right after executing it 1s
                     beginInfo.pInheritanceInfo = nullptr; // Optional //only for secondary buffers
 
-                    vkBeginCommandBuffer(vulkan_component->command.buffers[i], &beginInfo);
+                    vkBeginCommandBuffer(c_vulkan->command.buffers[i], &beginInfo);
                     VkRect2D render_area = {
                             .offset = { offset_width, offset_height }, 
-                            .extent = vulkan_component->swapchain.scaled
+                            .extent = c_vulkan->swapchain.scaled
                     };
 
                     VkRenderPassBeginInfo renderPassInfo = {
                         .sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO,
-                        .renderPass = vulkan_component->pipeline.render_pass,
-                        .framebuffer = vulkan_component->swapchain.frame_buffers[i],
+                        .renderPass = c_vulkan->pipeline.render_pass,
+                        .framebuffer = c_vulkan->swapchain.frame_buffers[i],
                         .renderArea = render_area                        
                     };
                     
@@ -274,43 +299,62 @@ namespace Axiom{
                     renderPassInfo.clearValueCount = static_cast<uint32_t>(clearValues.size()); //cuz
                     renderPassInfo.pClearValues = clearValues.data(); //duh
 
-                    vkCmdBeginRenderPass(vulkan_component->command.buffers[i], &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
+                    vkCmdBeginRenderPass(c_vulkan->command.buffers[i], &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
 
-                    VkViewport viewport = vks::initializers::viewport(vulkan_component->swapchain.extent.width, vulkan_component->swapchain.extent.height, 0.0f, 1.0f);
-                    vkCmdSetViewport(vulkan_component->command.buffers[i], 0, 1, &viewport);
+                    VkViewport viewport = vks::initializers::viewport(c_vulkan->swapchain.extent.width, c_vulkan->swapchain.extent.height, 0.0f, 1.0f);
+                    vkCmdSetViewport(c_vulkan->command.buffers[i], 0, 1, &viewport);
 
-                    VkRect2D scissor = vks::initializers::rect2D(vulkan_component->swapchain.extent.width, vulkan_component->swapchain.extent.height, 0, 0);
-                    vkCmdSetScissor(vulkan_component->command.buffers[i], 0, 1, &scissor);
+                    VkRect2D scissor = vks::initializers::rect2D(c_vulkan->swapchain.extent.width, c_vulkan->swapchain.extent.height, 0, 0);
+                    vkCmdSetScissor(c_vulkan->command.buffers[i], 0, 1, &scissor);
 
-                    //vkCmdBindDescriptorSets(vulkan_component->command.buffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, graphics_pipeline.pipeline_layout, 0, 1, &graphics_pipeline.descriptor_set, 0, NULL);
-                    vkCmdBindPipeline(vulkan_component->command.buffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS,graphics_pipeline->pipeline);
+                    //vkCmdBindDescriptorSets(c_vulkan->command.buffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, graphics_pipeline.pipeline_layout, 0, 1, &graphics_pipeline.descriptor_set, 0, NULL);
+                    vkCmdBindPipeline(c_vulkan->command.buffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS,graphics_pipeline->pipeline);
                     
                     VkBuffer vertexBuffers[] = {vertex_buffer.buffer};
                     VkDeviceSize offsets[] = {0};
-                    vkCmdBindVertexBuffers(vulkan_component->command.buffers[i], 0, 1, vertexBuffers, offsets);
-                    vkCmdBindIndexBuffer(vulkan_component->command.buffers[i], index_buffer.buffer, 0, VK_INDEX_TYPE_UINT32);
-                    vkCmdDrawIndexed(vulkan_component->command.buffers[i], static_cast<uint32_t>(indices.size()), 1, 0, 0, 0);
-                    vkCmdEndRenderPass(vulkan_component->command.buffers[i]);
+                    vkCmdBindVertexBuffers(c_vulkan->command.buffers[i], 0, 1, vertexBuffers, offsets);
+                    vkCmdBindIndexBuffer(c_vulkan->command.buffers[i], index_buffer.buffer, 0, VK_INDEX_TYPE_UINT32);
+                    vkCmdDrawIndexed(c_vulkan->command.buffers[i], static_cast<uint32_t>(indices.size()), 1, 0, 0, 0);
+                    vkCmdEndRenderPass(c_vulkan->command.buffers[i]);
 
-                    Log::check(VK_SUCCESS == vkEndCommandBuffer(vulkan_component->command.buffers[i]), "END COMMAND BUFFER");
+                    Log::check(VK_SUCCESS == vkEndCommandBuffer(c_vulkan->command.buffers[i]), "END COMMAND BUFFER");
                 }
+            }
+
+            void Raster::update_uniform_buffer()
+            {
+                static auto start_time = std::chrono::high_resolution_clock::now();
+                auto curr_time = std::chrono::high_resolution_clock::now();
+                float time = std::chrono::duration<float, std::chrono::seconds::period>(
+                    curr_time - start_time).count();
+                
+                ubo.model = glm::rotate(glm::mat4(1.f), time * glm::radians(90.f), glm::vec3(0.f, 0.f, 1.f));
+                ubo.view = glm::lookAt(glm::vec3(2.f, 2.f, 2.f), glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.f, 0.f, 1.f));
+                ubo.proj = glm::perspective(glm::radians(45.f), c_vulkan->swapchain.extent.width / (float) c_vulkan->swapchain.extent.height, 0.1f, 10.0f);
+                ubo.proj[1][1] *= -1;
+
+                uniform_buffer.ApplyChanges(c_vulkan->device, ubo);
+
             }
 
             void Raster::prepare_buffers()
             {
-                vertex_buffer.InitStorageBufferCustomSize(vulkan_component->device, vertices, vertices.size(), vertices.size());
-                index_buffer.InitStorageBufferCustomSize(vulkan_component->device, indices, indices.size(), indices.size());
+                vertex_buffer.InitStorageBufferCustomSize(c_vulkan->device, vertices, vertices.size(), vertices.size());
+                index_buffer.InitStorageBufferCustomSize(c_vulkan->device, indices, indices.size(), indices.size());
+                uniform_buffer.InitUniformBuffer(c_vulkan->device, ubo);
             }
 
             void Raster::clean_up()
             {
-                vkDestroyPipelineLayout(vulkan_component->device.logical, graphics_pipeline->pipeline_layout, nullptr);
-                vkDestroyRenderPass(vulkan_component->device.logical, vulkan_component->pipeline.render_pass, nullptr);
+                vkDestroyPipelineLayout(c_vulkan->device.logical, graphics_pipeline->pipeline_layout, nullptr);
+                vkDestroyRenderPass(c_vulkan->device.logical, c_vulkan->pipeline.render_pass, nullptr);
             }
 
             void Raster::clean_up_swapchain()
             {
-                vertex_buffer.Destroy(vulkan_component->device);
+                vertex_buffer.Destroy(c_vulkan->device);
+                vkDestroyPipeline(c_vulkan->device.logical, graphics_pipeline->pipeline, nullptr);
+                vkDestroyDescriptorSetLayout(c_vulkan->device.logical, graphics_pipeline->descriptor_set_layout, nullptr);
                 RenderBase::clean_up_swapchain();
 
             }

@@ -15,7 +15,6 @@ namespace Axiom
             HybridRaytracer,
             ComputeRaytracer
         };
-
         
         namespace Base
         {
@@ -57,8 +56,8 @@ namespace Axiom
                     RenderBase* app = reinterpret_cast<RenderBase*>(glfwGetWindowUserPointer(window));
                     app->recreate_swapchain();
                 }
-
-                Cmp_Vulkan* vulkan_component;
+                
+                Cmp_Vulkan* c_vulkan;
                /* Vulkan::Device vkDevice;
             public:
                 VkSurfaceKHR surface;

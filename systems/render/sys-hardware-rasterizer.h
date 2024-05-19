@@ -54,7 +54,7 @@ namespace Axiom
                     void create_descriptor_sets();
                     void create_descriptor_set_layout();
                     void create_command_buffers(float swap_ratio,  int32_t offset_width, int32_t offset_heigiht);  
-
+                    void update_uniform_buffer();
                     Vulkan::VBuffer<Shader::V32> vertex_buffer;
                     Vulkan::VBuffer<uint32_t> index_buffer;
                     const std::vector<Shader::V32> vertices = {
@@ -64,6 +64,11 @@ namespace Axiom
                         {{-0.5f, 0.5f, 0.0f}, {0}, {1.0f, 1.0f, 1.0f}, {0}}
                     };
                     const std::vector<uint32_t> indices = {0,1,2,2,3,0};
+
+                    Shader::UBO ubo;
+                    Vulkan::VBuffer<Shader::UBO> uniform_buffer;     // Uniform buffer object containing scene data
+
+                    uint32_t current_frame = 0;
 
                     void prepare_buffers();
             };

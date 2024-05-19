@@ -1,4 +1,5 @@
 #include "sys-resource-assimp.h"
+#include "sys-log.h"
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
@@ -11,8 +12,15 @@ namespace Axiom{
             const auto* scene = importer.ReadFile(res.file_path,
                 aiProcess_Triangulate |
                 aiProcess_FlipUVs |
-                aiProcess_CalcTangentSpace);
-
+                aiProcess_CalcTangentSpace |
+                aiProcess_JoinIdenticalVertices |
+                aiProcess_SortByPType);
+            
+            if(!Log::check_error(scene != nullptr, "Importing " + res.file_path + res.file_name)){
+                Log::send(Log::Level::ERROR, importer.GetErrorString());
+                return false;
+            }
+            
             return false;
         }
     }
