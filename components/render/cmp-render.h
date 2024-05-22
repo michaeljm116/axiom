@@ -174,7 +174,8 @@ namespace Axiom
 		struct Cmp_GraphicsPipeline{
 			VkDescriptorPool descriptor_pool = VK_NULL_HANDLE;
 			VkDescriptorSetLayout descriptor_set_layout = VK_NULL_HANDLE;
-			VkDescriptorSet descriptor_set = VK_NULL_HANDLE;
+			//VkDescriptorSet descriptor_set = VK_NULL_HANDLE;
+			std::vector<VkDescriptorSet> descriptor_sets = {};
 			VkPipelineLayout pipeline_layout = VK_NULL_HANDLE;
 			VkPipeline pipeline = VK_NULL_HANDLE;
 		};

@@ -28,13 +28,13 @@ namespace Axiom{
             void Raster::initialize()
             {
                 prepare_buffers();
-
+                create_descriptor_set_layout();
                 create_graphics_pipeline();
                 
+                create_descriptor_pool();
+                create_descriptor_sets();
                 create_command_buffers(1.f, 0, 0);
 
-                //create_descriptor_pool();
-                //create_descriptor_sets();
             }
             
             auto handle_aquire = [](VkResult result){
@@ -45,11 +45,68 @@ namespace Axiom{
                         throw std::runtime_error("failed to aquire swapchain image!");
                     }
                 }
+                /*if (result == VK_ERROR_OUT_OF_DATE_KHR || result == VK_SUBOPTIMAL_KHR || framebufferResized) {
+                    framebufferResized = false;
+                    recreateSwapChain();
+                } else if (result != VK_SUCCESS) {
+                    throw std::runtime_error("failed to present swap chain image!");
+                }*/
             };
+            void Raster::draw_frame() {
+                vkWaitForFences(c_vulkan->device.logical, 1, &c_vulkan->semaphores.presentation_fence[current_frame], VK_TRUE, UINT64_MAX);
 
+                uint32_t imageIndex;
+                VkResult result = vkAcquireNextImageKHR(c_vulkan->device.logical, c_vulkan->swapchain.get, UINT64_MAX, c_vulkan->semaphores.render_ready[current_frame], VK_NULL_HANDLE, &imageIndex);
+                handle_aquire(result);
+                
+                update_uniform_buffer(current_frame);
+
+                vkResetFences(c_vulkan->device.logical, 1, & c_vulkan->semaphores.presentation_fence[current_frame]);
+                vkResetCommandBuffer(c_vulkan->command.buffers[current_frame], 0 );
+                
+                
+                update_command_buffer(c_vulkan->command.buffers[current_frame], imageIndex);
+
+                VkSubmitInfo submitInfo{};
+                submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+
+                VkSemaphore waitSemaphores[] = {c_vulkan->semaphores.render_ready[current_frame]};
+                VkPipelineStageFlags waitStages[] = {VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT};
+                submitInfo.waitSemaphoreCount = 1;
+                submitInfo.pWaitSemaphores = waitSemaphores;
+                submitInfo.pWaitDstStageMask = waitStages;
+
+                submitInfo.commandBufferCount = 1;
+                submitInfo.pCommandBuffers = &c_vulkan->command.buffers[current_frame];
+
+                VkSemaphore signalSemaphores[] = {c_vulkan->semaphores.frame_presented[current_frame]};
+                submitInfo.signalSemaphoreCount = 1;
+                submitInfo.pSignalSemaphores = signalSemaphores;
+
+                if (vkQueueSubmit(c_vulkan->queues.graphics, 1, &submitInfo, c_vulkan->semaphores.presentation_fence[current_frame]) != VK_SUCCESS) {
+                    throw std::runtime_error("failed to submit draw command buffer!");
+                }
+
+                VkPresentInfoKHR presentInfo{};
+                presentInfo.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
+
+                presentInfo.waitSemaphoreCount = 1;
+                presentInfo.pWaitSemaphores = signalSemaphores;
+
+                VkSwapchainKHR swapChains[] = {c_vulkan->swapchain.get};
+                presentInfo.swapchainCount = 1;
+                presentInfo.pSwapchains = swapChains;
+
+                presentInfo.pImageIndices = &imageIndex;
+
+                result = vkQueuePresentKHR(c_vulkan->queues.present, &presentInfo);
+                handle_aquire(result);
+
+                current_frame = (current_frame + 1) % MAX_FRAMES_IN_FLIGHT;
+            }
             void Raster::start_frame(uint32_t &image_index)
             {
-                update_uniform_buffer();
+                //update_uniform_buffer();
 
                 auto result = vkAcquireNextImageKHR(c_vulkan->device.logical, c_vulkan->swapchain.get,
                                                     std::numeric_limits<uint64_t>::max(), 
@@ -223,15 +280,37 @@ namespace Axiom{
 
             void Raster::create_descriptor_pool()
             {
-                auto pool_size = vks::initializers::descriptorPoolSize(VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 1);
-                auto create_info = vks::initializers::descriptorPoolCreateInfo( 1, &pool_size, MAX_FRAMES_IN_FLIGHT);
-                Log::check_error(vkCreateDescriptorPool(c_vulkan->device.logical, & create_info, nullptr, &graphics_pipeline->descriptor_pool) == VK_SUCCESS, "creating descriptor pool");
+                std::array<VkDescriptorPoolSize, 1> pool_sizes = {vks::initializers::descriptorPoolSize(VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, MAX_FRAMES_IN_FLIGHT)};
+                auto create_info = vks::initializers::descriptorPoolCreateInfo(pool_sizes.size(), pool_sizes.data(), MAX_FRAMES_IN_FLIGHT);
+                if(!Log::check_error(vkCreateDescriptorPool(c_vulkan->device.logical, & create_info, nullptr, &graphics_pipeline->descriptor_pool) == VK_SUCCESS, "creating descriptor pool"))
+                    throw std::runtime_error("Error creating descriptor pool");
             }
 
             void Raster::create_descriptor_sets()
             {
-                auto alloc_info = vks::initializers::descriptorSetAllocateInfo(graphics_pipeline->descriptor_pool, &graphics_pipeline->descriptor_set_layout, MAX_FRAMES_IN_FLIGHT);
-                Log::check_error(vkAllocateDescriptorSets(c_vulkan->device.logical, &alloc_info, &graphics_pipeline->descriptor_set) == VK_SUCCESS, "ALLOCATING descriptor set");
+                std::vector<VkDescriptorSetLayout> layouts(MAX_FRAMES_IN_FLIGHT, graphics_pipeline->descriptor_set_layout);
+                graphics_pipeline->descriptor_sets.resize(MAX_FRAMES_IN_FLIGHT);
+                auto alloc_info = vks::initializers::descriptorSetAllocateInfo(graphics_pipeline->descriptor_pool, layouts.data(), MAX_FRAMES_IN_FLIGHT);// MAX_FRAMES_IN_FLIGHT);
+                
+                if(!Log::check_error(vkAllocateDescriptorSets(c_vulkan->device.logical, &alloc_info, graphics_pipeline->descriptor_sets.data()) == VK_SUCCESS, "ALLOCATING descriptor sets"))
+                    throw std::runtime_error("Error allocating descriptorset");
+                
+                for(int i = 0; i < MAX_FRAMES_IN_FLIGHT; ++i){
+                    auto ds_info = VkDescriptorBufferInfo{
+                        .buffer = uniform_buffers[i].buffer,
+                        .offset = 0,
+                        .range = sizeof(ubo)
+                    };
+
+                    auto write_ds = vks::initializers::writeDescriptorSet(
+                        graphics_pipeline->descriptor_sets[i], 
+                        VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
+                        0, &ds_info, 1
+                    );
+
+                    vkUpdateDescriptorSets(c_vulkan->device.logical, 1, &write_ds, 0, nullptr);
+                }
+
             }
 
             void Raster::create_descriptor_set_layout()
@@ -273,7 +352,8 @@ namespace Axiom{
                 }
 
 
-                for (size_t i = 0; i < c_vulkan->command.buffers.size(); i++) {
+                for (size_t i = 0; i < c_vulkan->command.buffers.size(); i++) 
+                {
                     VkCommandBufferBeginInfo beginInfo = {};
                     beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
                     beginInfo.flags = VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT; //The cmdbuf will be rerecorded right after executing it 1s
@@ -307,13 +387,13 @@ namespace Axiom{
                     VkRect2D scissor = vks::initializers::rect2D(c_vulkan->swapchain.extent.width, c_vulkan->swapchain.extent.height, 0, 0);
                     vkCmdSetScissor(c_vulkan->command.buffers[i], 0, 1, &scissor);
 
-                    //vkCmdBindDescriptorSets(c_vulkan->command.buffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, graphics_pipeline.pipeline_layout, 0, 1, &graphics_pipeline.descriptor_set, 0, NULL);
-                    vkCmdBindPipeline(c_vulkan->command.buffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS,graphics_pipeline->pipeline);
                     
                     VkBuffer vertexBuffers[] = {vertex_buffer.buffer};
                     VkDeviceSize offsets[] = {0};
                     vkCmdBindVertexBuffers(c_vulkan->command.buffers[i], 0, 1, vertexBuffers, offsets);
                     vkCmdBindIndexBuffer(c_vulkan->command.buffers[i], index_buffer.buffer, 0, VK_INDEX_TYPE_UINT32);
+                    vkCmdBindDescriptorSets(c_vulkan->command.buffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, graphics_pipeline->pipeline_layout, 0, 1, &graphics_pipeline->descriptor_sets[current_frame], 0, nullptr);
+                    //vkCmdBindPipeline(c_vulkan->command.buffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS,graphics_pipeline->pipeline);
                     vkCmdDrawIndexed(c_vulkan->command.buffers[i], static_cast<uint32_t>(indices.size()), 1, 0, 0, 0);
                     vkCmdEndRenderPass(c_vulkan->command.buffers[i]);
 
@@ -321,7 +401,55 @@ namespace Axiom{
                 }
             }
 
-            void Raster::update_uniform_buffer()
+            void Raster::update_command_buffer(VkCommandBuffer command_buffer, uint32_t image_index)
+            {
+                    VkCommandBufferBeginInfo beginInfo = {};
+                    beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+                    beginInfo.flags = VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT; //The cmdbuf will be rerecorded right after executing it 1s
+                    beginInfo.pInheritanceInfo = nullptr; // Optional //only for secondary buffers
+
+                    vkBeginCommandBuffer(command_buffer, &beginInfo);
+                    VkRect2D render_area = {
+                            .offset = { 0, 0 }, 
+                            .extent = c_vulkan->swapchain.scaled
+                    };
+
+                    VkRenderPassBeginInfo renderPassInfo = {
+                        .sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO,
+                        .renderPass = c_vulkan->pipeline.render_pass,
+                        .framebuffer = c_vulkan->swapchain.frame_buffers[image_index],
+                        .renderArea = render_area                        
+                    };
+                    
+                    std::array<VkClearValue, 2> clearValues = {};
+                    clearValues[0].color = { 0.0f, 0.0f, 0.0f, 1.0f }; //derp
+                    clearValues[1].depthStencil = { 1.0f, 0 }; //1.0 = farplane, 0.0 = nearplane HELP
+
+                    renderPassInfo.clearValueCount = static_cast<uint32_t>(clearValues.size()); //cuz
+                    renderPassInfo.pClearValues = clearValues.data(); //duh
+
+                    vkCmdBeginRenderPass(command_buffer, &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
+
+                        VkViewport viewport = vks::initializers::viewport(c_vulkan->swapchain.extent.width, c_vulkan->swapchain.extent.height, 0.0f, 1.0f);
+                        vkCmdSetViewport(command_buffer, 0, 1, &viewport);
+
+                        VkRect2D scissor = vks::initializers::rect2D(c_vulkan->swapchain.extent.width, c_vulkan->swapchain.extent.height, 0, 0);
+                        vkCmdSetScissor(command_buffer, 0, 1, &scissor);
+
+                        
+                        VkBuffer vertexBuffers[] = {vertex_buffer.buffer};
+                        VkDeviceSize offsets[] = {0};
+                        vkCmdBindVertexBuffers(command_buffer, 0, 1, vertexBuffers, offsets);
+                        vkCmdBindIndexBuffer(command_buffer, index_buffer.buffer, 0, VK_INDEX_TYPE_UINT32);
+                        vkCmdBindDescriptorSets(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphics_pipeline->pipeline_layout, 0, 1, &graphics_pipeline->descriptor_sets[current_frame], 0, nullptr);
+                        //vkCmdBindPipeline(c_vulkan->command.buffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS,graphics_pipeline->pipeline);
+                        vkCmdDrawIndexed(command_buffer, static_cast<uint32_t>(indices.size()), 1, 0, 0, 0);
+                    vkCmdEndRenderPass(command_buffer);
+
+                    Log::check(VK_SUCCESS == vkEndCommandBuffer(command_buffer), "END COMMAND BUFFER");                
+            }
+
+            void Raster::update_uniform_buffer(uint32_t current_frame)
             {
                 static auto start_time = std::chrono::high_resolution_clock::now();
                 auto curr_time = std::chrono::high_resolution_clock::now();
@@ -333,7 +461,7 @@ namespace Axiom{
                 ubo.proj = glm::perspective(glm::radians(45.f), c_vulkan->swapchain.extent.width / (float) c_vulkan->swapchain.extent.height, 0.1f, 10.0f);
                 ubo.proj[1][1] *= -1;
 
-                uniform_buffer.ApplyChanges(c_vulkan->device, ubo);
+                uniform_buffers[current_frame].ApplyChanges(c_vulkan->device, ubo);
 
             }
 
@@ -341,7 +469,8 @@ namespace Axiom{
             {
                 vertex_buffer.InitStorageBufferCustomSize(c_vulkan->device, vertices, vertices.size(), vertices.size());
                 index_buffer.InitStorageBufferCustomSize(c_vulkan->device, indices, indices.size(), indices.size());
-                uniform_buffer.InitUniformBuffer(c_vulkan->device, ubo);
+                for(int i = 0; i < MAX_FRAMES_IN_FLIGHT; ++i)
+                uniform_buffers[i].InitUniformBuffer(c_vulkan->device, ubo);
             }
 
             void Raster::clean_up()
@@ -353,6 +482,11 @@ namespace Axiom{
             void Raster::clean_up_swapchain()
             {
                 vertex_buffer.Destroy(c_vulkan->device);
+                index_buffer.Destroy(c_vulkan->device);
+                for(int i = 0; i < MAX_FRAMES_IN_FLIGHT; ++i)
+                    uniform_buffers[i].Destroy(c_vulkan->device);
+                
+
                 vkDestroyPipeline(c_vulkan->device.logical, graphics_pipeline->pipeline, nullptr);
                 vkDestroyDescriptorSetLayout(c_vulkan->device.logical, graphics_pipeline->descriptor_set_layout, nullptr);
                 RenderBase::clean_up_swapchain();

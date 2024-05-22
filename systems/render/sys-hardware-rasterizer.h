@@ -30,6 +30,7 @@ namespace Axiom
 
                     void start_up() override;
                     void initialize() override;
+                    void draw_frame();
                     void start_frame(uint32_t& image_index) override;
                     void end_frame(const uint32_t& image_index) override;
 
@@ -54,7 +55,8 @@ namespace Axiom
                     void create_descriptor_sets();
                     void create_descriptor_set_layout();
                     void create_command_buffers(float swap_ratio,  int32_t offset_width, int32_t offset_heigiht);  
-                    void update_uniform_buffer();
+                    void update_command_buffer(VkCommandBuffer command_buffer, uint32_t image_index);
+                    void update_uniform_buffer(uint32_t current_frame);
                     Vulkan::VBuffer<Shader::V32> vertex_buffer;
                     Vulkan::VBuffer<uint32_t> index_buffer;
                     const std::vector<Shader::V32> vertices = {
@@ -66,7 +68,7 @@ namespace Axiom
                     const std::vector<uint32_t> indices = {0,1,2,2,3,0};
 
                     Shader::UBO ubo;
-                    Vulkan::VBuffer<Shader::UBO> uniform_buffer;     // Uniform buffer object containing scene data
+                    std::array<Vulkan::VBuffer<Shader::UBO>, MAX_FRAMES_IN_FLIGHT> uniform_buffers;     // Uniform buffer object containing scene data
 
                     uint32_t current_frame = 0;
 

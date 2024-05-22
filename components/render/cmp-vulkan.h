@@ -7,7 +7,7 @@ namespace Axiom
 {
     namespace Render
     {
-        static constexpr int MAX_FRAMES_IN_FLIGHT = 3;
+        static constexpr uint32_t MAX_FRAMES_IN_FLIGHT = 3;
         namespace Vulkan
         {
             /** @brief Device Queues */
