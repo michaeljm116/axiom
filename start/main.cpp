@@ -125,8 +125,9 @@ int main(){
 		else{
 
 			uint32_t ii = 0;
-			Render::Hardware::g_raster.start_frame(ii);
-			Render::Hardware::g_raster.end_frame(ii);
+			//Render::Hardware::g_raster.start_frame(ii);
+			//Render::Hardware::g_raster.end_frame(ii);
+			Render::Hardware::g_raster.draw_frame();
 		}
 		g_world.progress();
 	}

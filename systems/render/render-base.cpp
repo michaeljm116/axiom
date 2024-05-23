@@ -358,7 +358,7 @@ namespace Axiom
                 VkCommandPoolCreateInfo poolInfo = {};
                 poolInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
                 poolInfo.queueFamilyIndex = c_vulkan->device.qFams.graphicsFamily;
-                poolInfo.flags = 0; // Optional
+                poolInfo.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT; // Optional
 
                 if (vkCreateCommandPool(c_vulkan->device.logical, &poolInfo, nullptr, &c_vulkan->command.pool) != VK_SUCCESS) {
                     throw std::runtime_error("failed to create command pool!");

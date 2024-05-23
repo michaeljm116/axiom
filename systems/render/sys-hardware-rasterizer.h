@@ -11,6 +11,8 @@
 #pragma once
 #include "../components/render/cmp-hardware-rasterizer.h"
 #include "renderer.h"
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 namespace Axiom
 {
@@ -67,7 +69,11 @@ namespace Axiom
                     };
                     const std::vector<uint32_t> indices = {0,1,2,2,3,0};
 
-                    Shader::UBO ubo;
+                    Shader::UBO ubo = {
+                        .model = glm::rotate(glm::mat4(1.0f), glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f)),
+                        .view = glm::lookAt(glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f)),
+                        .proj = glm::perspective(glm::radians(45.0f), 1.7777777f , 0.1f, 10.0f)
+                    };
                     std::array<Vulkan::VBuffer<Shader::UBO>, MAX_FRAMES_IN_FLIGHT> uniform_buffers;     // Uniform buffer object containing scene data
 
                     uint32_t current_frame = 0;

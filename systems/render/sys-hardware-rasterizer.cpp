@@ -174,7 +174,7 @@ namespace Axiom{
                 VkPipelineMultisampleStateCreateInfo multisample_state = vks::initializers::pipelineMultisampleStateCreateInfo(VK_SAMPLE_COUNT_1_BIT,0);
                 std::vector<VkDynamicState> dynamic_state_enables = {VK_DYNAMIC_STATE_VIEWPORT,VK_DYNAMIC_STATE_SCISSOR};
                 VkPipelineDynamicStateCreateInfo dynamic_state = vks::initializers::pipelineDynamicStateCreateInfo( dynamic_state_enables.data(), dynamic_state_enables.size(), 0);
-                VkPipelineLayoutCreateInfo pipeline_layout = vks::initializers::pipelineLayoutCreateInfo(0, 0);
+                VkPipelineLayoutCreateInfo pipeline_layout = vks::initializers::pipelineLayoutCreateInfo(&graphics_pipeline->descriptor_set_layout, 1);
                 if(!Log::check(vkCreatePipelineLayout(c_vulkan->device.logical, &pipeline_layout, nullptr, &graphics_pipeline->pipeline_layout) == VK_SUCCESS, "Creating pipeline layout")){
                     throw std::runtime_error("Failed creating pipeline layout");
                 }
@@ -325,10 +325,6 @@ namespace Axiom{
                 };
                 if(!Log::check_error(vkCreateDescriptorSetLayout(c_vulkan->device.logical, &ds_info, nullptr, &graphics_pipeline->descriptor_set_layout) == VK_SUCCESS, "Create descriptor set layout!"))
                     throw std::runtime_error("failed to create descriptor set layout!");
-                VkPipelineLayoutCreateInfo pl_info = {.sType = VK_STRUCTURE_TYPE_PIPELINE_CREATION_FEEDBACK_CREATE_INFO,
-                                                      .setLayoutCount = 1, .pSetLayouts = &graphics_pipeline->descriptor_set_layout};
-                if(!Log::check_error(vkCreatePipelineLayout(c_vulkan->device.logical, &pl_info, nullptr, &graphics_pipeline->pipeline_layout) == VK_SUCCESS, "CREATE PIPELINE LAYOUT"))
-                    throw std::runtime_error("failed to create pipeline layout!");
             }
 
             void Raster::create_command_buffers(float swap_ratio, int32_t offset_width, int32_t offset_height)
@@ -350,8 +346,7 @@ namespace Axiom{
                     Log::send(Log::Level::ERROR, "failed to allocate command buffers!");
                     throw std::runtime_error("failed to allocate command buffers!");
                 }
-
-
+                /*
                 for (size_t i = 0; i < c_vulkan->command.buffers.size(); i++) 
                 {
                     VkCommandBufferBeginInfo beginInfo = {};
@@ -398,7 +393,7 @@ namespace Axiom{
                     vkCmdEndRenderPass(c_vulkan->command.buffers[i]);
 
                     Log::check(VK_SUCCESS == vkEndCommandBuffer(c_vulkan->command.buffers[i]), "END COMMAND BUFFER");
-                }
+                }*/
             }
 
             void Raster::update_command_buffer(VkCommandBuffer command_buffer, uint32_t image_index)
@@ -429,7 +424,8 @@ namespace Axiom{
                     renderPassInfo.pClearValues = clearValues.data(); //duh
 
                     vkCmdBeginRenderPass(command_buffer, &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
-
+                    {
+                        vkCmdBindPipeline(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphics_pipeline->pipeline);
                         VkViewport viewport = vks::initializers::viewport(c_vulkan->swapchain.extent.width, c_vulkan->swapchain.extent.height, 0.0f, 1.0f);
                         vkCmdSetViewport(command_buffer, 0, 1, &viewport);
 
@@ -442,24 +438,24 @@ namespace Axiom{
                         vkCmdBindVertexBuffers(command_buffer, 0, 1, vertexBuffers, offsets);
                         vkCmdBindIndexBuffer(command_buffer, index_buffer.buffer, 0, VK_INDEX_TYPE_UINT32);
                         vkCmdBindDescriptorSets(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphics_pipeline->pipeline_layout, 0, 1, &graphics_pipeline->descriptor_sets[current_frame], 0, nullptr);
-                        //vkCmdBindPipeline(c_vulkan->command.buffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS,graphics_pipeline->pipeline);
+                        
                         vkCmdDrawIndexed(command_buffer, static_cast<uint32_t>(indices.size()), 1, 0, 0, 0);
+                    }
                     vkCmdEndRenderPass(command_buffer);
 
-                    Log::check(VK_SUCCESS == vkEndCommandBuffer(command_buffer), "END COMMAND BUFFER");                
+                    Log::check_error(VK_SUCCESS == vkEndCommandBuffer(command_buffer), "END COMMAND BUFFER");                
             }
 
             void Raster::update_uniform_buffer(uint32_t current_frame)
             {
                 static auto start_time = std::chrono::high_resolution_clock::now();
                 auto curr_time = std::chrono::high_resolution_clock::now();
-                float time = std::chrono::duration<float, std::chrono::seconds::period>(
-                    curr_time - start_time).count();
+                float time = std::chrono::duration<float, std::chrono::seconds::period>(curr_time - start_time).count();
                 
                 ubo.model = glm::rotate(glm::mat4(1.f), time * glm::radians(90.f), glm::vec3(0.f, 0.f, 1.f));
                 ubo.view = glm::lookAt(glm::vec3(2.f, 2.f, 2.f), glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.f, 0.f, 1.f));
                 ubo.proj = glm::perspective(glm::radians(45.f), c_vulkan->swapchain.extent.width / (float) c_vulkan->swapchain.extent.height, 0.1f, 10.0f);
-                ubo.proj[1][1] *= -1;
+                //ubo.proj[1][1] *= -1;
 
                 uniform_buffers[current_frame].ApplyChanges(c_vulkan->device, ubo);
 
