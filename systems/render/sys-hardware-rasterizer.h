@@ -59,6 +59,8 @@ namespace Axiom
                     void create_command_buffers(float swap_ratio,  int32_t offset_width, int32_t offset_heigiht);  
                     void update_command_buffer(VkCommandBuffer command_buffer, uint32_t image_index);
                     void update_uniform_buffer(uint32_t current_frame);
+                    
+                    
                     Vulkan::VBuffer<Shader::V32> vertex_buffer;
                     Vulkan::VBuffer<uint32_t> index_buffer;
                     const std::vector<Shader::V32> vertices = {

@@ -77,17 +77,27 @@ int main(){
 	auto& assets_folder = g_world.get_ref<Axiom::Resource::Cmp_Directory>().get()->assets;
 	assets_folder = "../../assets/";
 
-	Axiom::Resource::load_directory(assets_folder + "Models");
+	Axiom::Resource::load_directory(assets_folder + "Models/PrincipiaModels");
 	Axiom::Resource::load_directory(assets_folder + "Animations");
 	Axiom::Resource::load_materials(assets_folder + "Materials.xml");
+
+
+	auto* twindow = g_world.get<Cmp_Window>()->window;
+	Axiom::Transform::initialize();
+	g_world.add<Axiom::Cmp_Serialize>();
+	scene::initialize();	
+	g_world.set<Axiom::Cmp_Scene>({assets_folder + "Scenes/", "TestEntrance.xml", 0});
+
 
 	g_world.add<Axiom::Render::Cmp_Vulkan>();
 
 	auto render_type = Axiom::Render::RendererType::kHardwareRasterizer;
+	//auto render_type = Axiom::Render::RendererType::kComputeRaytracer;
 
 	switch (render_type)
 	{
 	case Axiom::Render::RendererType::kComputeRaytracer:
+		Axiom::Bvh::Init();
 		g_world.add<Axiom::Render::Cmp_ComputeRaytracer>();
 		Axiom::Render::Compute::initialize_raytracing();
 		break;
@@ -101,13 +111,7 @@ int main(){
 	}
 	
 
-	auto* twindow = g_world.get<Cmp_Window>()->window;
-	Axiom::Transform::initialize();
-	g_world.add<Axiom::Cmp_Serialize>();
-	scene::initialize();	
-	g_world.set<Axiom::Cmp_Scene>({assets_folder + "Scenes/", "TestEntrance.xml", 0});
 
-	Axiom::Bvh::Init();
 
 	g_world.progress();
 
@@ -127,7 +131,7 @@ int main(){
 			uint32_t ii = 0;
 			//Render::Hardware::g_raster.start_frame(ii);
 			//Render::Hardware::g_raster.end_frame(ii);
-			Render::Hardware::g_raster.draw_frame();
+			//Render::Hardware::g_raster.draw_frame();
 		}
 		g_world.progress();
 	}

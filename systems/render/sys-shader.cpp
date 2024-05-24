@@ -220,7 +220,9 @@ namespace Axiom{
 
                 // Convert to SPIRV
                 std::vector<uint32_t> out_spirv;
-                glslang::SpvOptions ops;
+                glslang::SpvOptions ops = {
+                    .validate = true
+                };
                 glslang::GlslangToSpv(*program.getIntermediate(shader_type), out_spirv, &ops);
                 return out_spirv;
             }

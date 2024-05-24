@@ -12,14 +12,28 @@ namespace Axiom{
         {
 
             bvh_comp = g_world.get_mut<Cmp_Bvh>();
+            Build();
         }
         void Build()
         {
+            if(!bvh_comp->rebuild) 
+                arena_ptr = 0;
+
+            std::vector<flecs::entity*> ordered_prims;
+
+            auto count = g_world.query<Render::Cmp_Primitive>().count();
+            
+            bvh_comp->prims.reserve(count);
+            ordered_prims.reserve(count);
+
+            Build(TreeType::Recursive, ordered_prims);
+
+            bvh_comp->rebuild = false;
         }
         void Build(TreeType tt, std::vector<flecs::entity *> ops)
         {
             //Find the number of primitives
-            auto num_prims = flecs::query<Render::Cmp_Primitive>().count();
+            auto num_prims = g_world.query<Render::Cmp_Primitive>().count();
             
             //Prepare to build
             bvh_comp->num_nodes = 0;
@@ -163,6 +177,7 @@ namespace Axiom{
             glm::vec3 max(-FLT_MAX);
             for (int i = s; i < e; ++i) {
                 auto* pc = bvh_comp->prims[i]->get_mut<Render::Cmp_Primitive>();
+                //g_world.query<Render::Cmp_Primitive>(). bvh_comp->prims[i];
                 min = minV(min, pc->center() - pc->aabb_extents);
                 max = maxV(max, pc->center() + pc->aabb_extents);
             }

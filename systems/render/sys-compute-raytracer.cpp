@@ -25,6 +25,10 @@ namespace Axiom{
             void initialize_raytracing(){
                 g_raytracer.c_vulkan = g_world.get_ref<Axiom::Render::Cmp_Vulkan>().get();
                 g_raytracer.rt_data = g_world.get_ref<Axiom::Render::Cmp_ComputeRaytracer>().get();
+
+                auto* bvh = g_world.get_mut<Cmp_Bvh>();
+                g_raytracer.update_bvh(bvh->prims, bvh->root, bvh->num_nodes);
+
                 g_raytracer.start_up();
                 g_raytracer.initialize();
 
@@ -47,9 +51,8 @@ namespace Axiom{
                 });
 
                 g_world.system<Cmp_ComputeRaytracer>("Update BVH")
-                .kind(0)
+                .kind(flecs::OnUpdate)
                 .each([](flecs::entity e, Cmp_ComputeRaytracer& r){
-                    auto* bvh = g_world.get<Cmp_Bvh>();
                     //g_raytracer.update_bvh(bvh->prims, bvh->root, bvh->num_nodes);
                 });
 

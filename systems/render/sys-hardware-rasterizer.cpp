@@ -1,3 +1,4 @@
+#include "flecs-world.h"
 #include "sys-hardware-rasterizer.h"
 #include "sys-shader.h"
 #include "sys-log.h"
@@ -19,6 +20,11 @@ namespace Axiom{
                 g_raster.graphics_pipeline = g_world.get_ref<Axiom::Render::Cmp_GraphicsPipeline>().get();
                 g_raster.start_up();
                 g_raster.initialize();
+
+                g_world.system("Update Renderer")
+                .iter([](flecs::iter& it){
+                    g_raster.draw_frame();
+                });
             }
             void Raster::start_up()
             {
@@ -209,10 +215,16 @@ namespace Axiom{
 
                     return buffer;
                 };
-                auto vert_shader_code = read_file(assets_folder + "Shaders/basic_vert.spv");
-                auto frag_shader_code = read_file(assets_folder + "Shaders/basic_frag.spv");
-                auto vert_shader_module = c_vulkan->device.createShaderModule(vert_shader_code);
-                auto frag_shader_module = c_vulkan->device.createShaderModule(frag_shader_code);
+                //const auto vert_shader_code = read_file(assets_folder + "Shaders/basic_vert.spv");
+                //const auto frag_shader_code = read_file(assets_folder + "Shaders/basic_frag.spv");
+
+                Shader::init();
+                const auto vert_shader_code = Shader::compile_glsl(assets_folder + "Shaders/glsl/basic.vert", Shader::Type::eVertex);
+                const auto frag_shader_code = Shader::compile_glsl(assets_folder + "Shaders/glsl/basic.frag", Shader::Type::eFragment);
+                Shader::finalize();    
+
+                const auto vert_shader_module = c_vulkan->device.createShaderModule(vert_shader_code.value());
+                const auto frag_shader_module = c_vulkan->device.createShaderModule(frag_shader_code.value());
 
                 
                 VkPipelineShaderStageCreateInfo vert_shader_stage_info = {
@@ -346,54 +358,6 @@ namespace Axiom{
                     Log::send(Log::Level::ERROR, "failed to allocate command buffers!");
                     throw std::runtime_error("failed to allocate command buffers!");
                 }
-                /*
-                for (size_t i = 0; i < c_vulkan->command.buffers.size(); i++) 
-                {
-                    VkCommandBufferBeginInfo beginInfo = {};
-                    beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
-                    beginInfo.flags = VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT; //The cmdbuf will be rerecorded right after executing it 1s
-                    beginInfo.pInheritanceInfo = nullptr; // Optional //only for secondary buffers
-
-                    vkBeginCommandBuffer(c_vulkan->command.buffers[i], &beginInfo);
-                    VkRect2D render_area = {
-                            .offset = { offset_width, offset_height }, 
-                            .extent = c_vulkan->swapchain.scaled
-                    };
-
-                    VkRenderPassBeginInfo renderPassInfo = {
-                        .sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO,
-                        .renderPass = c_vulkan->pipeline.render_pass,
-                        .framebuffer = c_vulkan->swapchain.frame_buffers[i],
-                        .renderArea = render_area                        
-                    };
-                    
-                    std::array<VkClearValue, 2> clearValues = {};
-                    clearValues[0].color = { 0.0f, 0.0f, 0.0f, 1.0f }; //derp
-                    clearValues[1].depthStencil = { 1.0f, 0 }; //1.0 = farplane, 0.0 = nearplane HELP
-
-                    renderPassInfo.clearValueCount = static_cast<uint32_t>(clearValues.size()); //cuz
-                    renderPassInfo.pClearValues = clearValues.data(); //duh
-
-                    vkCmdBeginRenderPass(c_vulkan->command.buffers[i], &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
-
-                    VkViewport viewport = vks::initializers::viewport(c_vulkan->swapchain.extent.width, c_vulkan->swapchain.extent.height, 0.0f, 1.0f);
-                    vkCmdSetViewport(c_vulkan->command.buffers[i], 0, 1, &viewport);
-
-                    VkRect2D scissor = vks::initializers::rect2D(c_vulkan->swapchain.extent.width, c_vulkan->swapchain.extent.height, 0, 0);
-                    vkCmdSetScissor(c_vulkan->command.buffers[i], 0, 1, &scissor);
-
-                    
-                    VkBuffer vertexBuffers[] = {vertex_buffer.buffer};
-                    VkDeviceSize offsets[] = {0};
-                    vkCmdBindVertexBuffers(c_vulkan->command.buffers[i], 0, 1, vertexBuffers, offsets);
-                    vkCmdBindIndexBuffer(c_vulkan->command.buffers[i], index_buffer.buffer, 0, VK_INDEX_TYPE_UINT32);
-                    vkCmdBindDescriptorSets(c_vulkan->command.buffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, graphics_pipeline->pipeline_layout, 0, 1, &graphics_pipeline->descriptor_sets[current_frame], 0, nullptr);
-                    //vkCmdBindPipeline(c_vulkan->command.buffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS,graphics_pipeline->pipeline);
-                    vkCmdDrawIndexed(c_vulkan->command.buffers[i], static_cast<uint32_t>(indices.size()), 1, 0, 0, 0);
-                    vkCmdEndRenderPass(c_vulkan->command.buffers[i]);
-
-                    Log::check(VK_SUCCESS == vkEndCommandBuffer(c_vulkan->command.buffers[i]), "END COMMAND BUFFER");
-                }*/
             }
 
             void Raster::update_command_buffer(VkCommandBuffer command_buffer, uint32_t image_index)
