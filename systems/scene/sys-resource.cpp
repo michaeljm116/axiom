@@ -6,6 +6,7 @@
 #include <filesystem>
 #include <tinyxml2.h>
 #include <xxhash.h>
+#include "sys-resource-assimp.h"
 
 #include <taskflow/taskflow.hpp>
 
@@ -24,6 +25,11 @@ namespace Axiom{
 			.each([](flecs::entity e, Cmp_Resource& res, Cmp_ResAnimations& d){
 				load_pose(e, res, d);
 			});			
+			g_world.observer<Cmp_Resource, Cmp_AssimpModel>()
+            .event(flecs::OnSet)
+            .each([](flecs::entity e, Cmp_Resource& res, Cmp_AssimpModel& mod){
+                load_assimp_model(e, res, mod);
+            });
 		}
 
 		bool load_pmodel(flecs::entity e, Cmp_Resource& res, Cmp_ResModel& cmp_mod)

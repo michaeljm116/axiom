@@ -80,6 +80,35 @@ namespace Axiom{
 			Vertex() {};
 		};
 
+		struct Vertex64{
+			glm::vec3 pos = {};
+			glm::vec3 norm = {};
+			glm::vec3 tang = {};
+			glm::vec2 uv = {};
+
+			private: 
+			int _pad;
+			public:
+			Vertex64(){}
+			Vertex64(const glm::vec3 &p, const glm::vec3& n, const glm::vec3 &t, const glm::vec2& coord):
+			pos(p), norm(n), tang(t), uv(coord){};
+
+		};
+
+		struct Subset{
+			std::vector<Vertex64> verts;
+			std::vector<glm::ivec3> tris;
+			glm::vec3 center;
+			glm::vec3 extents;
+			glm::uint32 mat_id;
+			std::string name;
+		};
+
+		struct TriMesh{
+			std::vector<Subset> subsets;
+			
+		};
+
 		struct BVHNode {
 			glm::vec3 upper;
 			int offset;
@@ -167,5 +196,14 @@ namespace Axiom{
     {
         Resource::PoseList data;
     };
+
+	struct Cmp_AssimpModel
+	{
+		std::vector<Resource::Subset> subsets;
+		std::vector<Resource::Material> materials;
+		std::string name;
+		glm::vec3 center;
+		glm::vec3 extents;
+	};
 
 }

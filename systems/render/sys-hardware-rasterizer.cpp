@@ -155,6 +155,7 @@ namespace Axiom{
 
             void Raster::add_entity(flecs::entity &e)
             {
+                
             }
 
             void Raster::remove_entity(flecs::entity &e)

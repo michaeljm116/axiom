@@ -70,8 +70,6 @@ int main(){
 
 #pragma endregion Initializing volk
 
-
-
 	//const std::string assets_folder = "../../assets/";
 	g_world.add<Axiom::Resource::Cmp_Directory>();
 	auto& assets_folder = g_world.get_ref<Axiom::Resource::Cmp_Directory>().get()->assets;
@@ -87,8 +85,6 @@ int main(){
 	g_world.add<Axiom::Cmp_Serialize>();
 	scene::initialize();	
 	g_world.set<Axiom::Cmp_Scene>({assets_folder + "Scenes/", "TestEntrance.xml", 0});
-
-
 	g_world.add<Axiom::Render::Cmp_Vulkan>();
 
 	auto render_type = Axiom::Render::RendererType::kHardwareRasterizer;
@@ -110,9 +106,6 @@ int main(){
 		break;
 	}
 	
-
-
-
 	g_world.progress();
 
 	while(!glfwWindowShouldClose(twindow)){
