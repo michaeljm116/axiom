@@ -293,7 +293,10 @@ namespace Axiom{
 
             void Raster::create_descriptor_pool()
             {
-                std::array<VkDescriptorPoolSize, 1> pool_sizes = {vks::initializers::descriptorPoolSize(VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, MAX_FRAMES_IN_FLIGHT)};
+                std::array<VkDescriptorPoolSize, 2> pool_sizes = {
+                    vks::initializers::descriptorPoolSize(VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, MAX_FRAMES_IN_FLIGHT),
+                    vks::initializers::descriptorPoolSize(VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, MAX_FRAMES_IN_FLIGHT)
+                };
                 auto create_info = vks::initializers::descriptorPoolCreateInfo(pool_sizes.size(), pool_sizes.data(), MAX_FRAMES_IN_FLIGHT);
                 if(!Log::check_error(vkCreateDescriptorPool(c_vulkan->device.logical, & create_info, nullptr, &graphics_pipeline->descriptor_pool) == VK_SUCCESS, "creating descriptor pool"))
                     throw std::runtime_error("Error creating descriptor pool");
@@ -315,13 +318,23 @@ namespace Axiom{
                         .range = sizeof(ubo)
                     };
 
-                    auto write_ds = vks::initializers::writeDescriptorSet(
+                    auto u_write_ds = vks::initializers::writeDescriptorSet(
                         graphics_pipeline->descriptor_sets[i], 
                         VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
                         0, &ds_info, 1
                     );
 
-                    vkUpdateDescriptorSets(c_vulkan->device.logical, 1, &write_ds, 0, nullptr);
+                    auto i_write_ds = vks::initializers::writeDescriptorSet(
+                        graphics_pipeline->descriptor_sets[i],
+                        VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
+                        1, &texture.descriptor, 1
+                    );
+
+                    std::array<VkWriteDescriptorSet,2> write_ds = {u_write_ds, i_write_ds};
+                    
+
+                    vkUpdateDescriptorSets(c_vulkan->device.logical, 2, write_ds.data(), 0, nullptr);
+                
                 }
 
             }
@@ -332,9 +345,17 @@ namespace Axiom{
                     .binding = 0, .descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, .descriptorCount = 1,
                     .stageFlags = VK_SHADER_STAGE_VERTEX_BIT, .pImmutableSamplers = nullptr
                 };
+                VkDescriptorSetLayoutBinding sampler_layout_binding = {
+                    .binding = 1, .descriptorCount = 1, .descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
+                    .pImmutableSamplers = nullptr, .stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT
+                };
+
+                std::array<VkDescriptorSetLayoutBinding, 2> bindings = {ubo_layout_binding, sampler_layout_binding};
+
+
                 VkDescriptorSetLayoutCreateInfo ds_info = {
                     .sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO,
-                    .pNext = nullptr, .bindingCount = 1, .pBindings = &ubo_layout_binding
+                    .pNext = nullptr, .bindingCount = bindings.size(), .pBindings = bindings.data()
                 };
                 if(!Log::check_error(vkCreateDescriptorSetLayout(c_vulkan->device.logical, &ds_info, nullptr, &graphics_pipeline->descriptor_set_layout) == VK_SUCCESS, "Create descriptor set layout!"))
                     throw std::runtime_error("failed to create descriptor set layout!");
@@ -424,10 +445,13 @@ namespace Axiom{
 
                 uniform_buffers[current_frame].ApplyChanges(c_vulkan->device, ubo);
 
+                
             }
 
             void Raster::prepare_buffers()
             {
+                texture.path = g_world.get<Resource::Cmp_Directory>()->assets + "Textures/skybox.png";
+                texture.CreateTexture(c_vulkan->device);
                 vertex_buffer.InitStorageBufferCustomSize(c_vulkan->device, vertices, vertices.size(), vertices.size());
                 index_buffer.InitStorageBufferCustomSize(c_vulkan->device, indices, indices.size(), indices.size());
                 for(int i = 0; i < MAX_FRAMES_IN_FLIGHT; ++i)

@@ -44,6 +44,8 @@ int main(){
 	g_world.add<Axiom::Cmp_LogFile>();
 	g_world.add<Axiom::Cmp_Timer>();
 
+
+
 #pragma region Volk Init
 	VkResult r;
 	uint32_t version;
@@ -79,6 +81,15 @@ int main(){
 	Axiom::Resource::load_directory(assets_folder + "Animations");
 	Axiom::Resource::load_materials(assets_folder + "Materials.xml");
 
+
+	auto suzanne = g_world.entity("Suzanne");
+	auto sponza = g_world.entity("Sponza");
+	Cmp_Resource suzanne_res = {.file_path = assets_folder + "Models/GLTF/Suzanne/glTF", .file_name = "Suzanne.gltf"};
+	Cmp_Resource sponza_res = {.file_path = assets_folder + "Models/GLTF/Sponza/glTF", .file_name = "Sponza.gltf"};
+	suzanne.set(suzanne_res);
+	suzanne.set(Cmp_AssimpModel());
+	sponza.set(sponza_res);
+	sponza.set(Cmp_AssimpModel());
 
 	auto* twindow = g_world.get<Cmp_Window>()->window;
 	Axiom::Transform::initialize();

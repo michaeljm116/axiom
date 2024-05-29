@@ -64,10 +64,10 @@ namespace Axiom
                     Vulkan::VBuffer<Shader::V32> vertex_buffer;
                     Vulkan::VBuffer<uint32_t> index_buffer;
                     const std::vector<Shader::V32> vertices = {
-                        {{-0.5f, -0.5f, 0.0f}, {0}, {1.0f, 0.0f, 0.0f}, {0}},
+                        {{-0.5f, -0.5f, 0.0f}, {1.f}, {1.0f, 0.0f, 0.0f}, {0}},
                         {{0.5f, -0.5f, 0.0f}, {0}, {0.0f, 1.0f, 0.0f}, {0}},
-                        {{0.5f, 0.5f, 0.0f}, {0}, {0.0f, 0.0f, 1.0f}, {0}},
-                        {{-0.5f, 0.5f, 0.0f}, {0}, {1.0f, 1.0f, 1.0f}, {0}}
+                        {{0.5f, 0.5f, 0.0f}, {0}, {0.0f, 0.0f, 1.0f}, {1.f}},
+                        {{-0.5f, 0.5f, 0.0f}, {1.f}, {1.0f, 1.0f, 1.0f}, {1.f}}
                     };
                     const std::vector<uint32_t> indices = {0,1,2,2,3,0};
 
@@ -79,6 +79,7 @@ namespace Axiom
                     std::array<Vulkan::VBuffer<Shader::UBO>, MAX_FRAMES_IN_FLIGHT> uniform_buffers;     // Uniform buffer object containing scene data
 
                     uint32_t current_frame = 0;
+                    Texture texture;
 
                     void prepare_buffers();
             };
