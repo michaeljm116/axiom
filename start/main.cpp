@@ -9,6 +9,7 @@
 #include "sys-timer.h"
 #include "sys-resource.h"
 #include "sys-window.h"
+#include "sys-input.h"
 #include "sys-serialize.h"
 #include "sys-scene.h"
 #include "sys-bvh.h"
@@ -38,6 +39,7 @@ int main(){
 	Axiom::Timer::initialize();
 	Axiom::Resource::initialize();
 	Axiom::Window::init("Axiom Engine", 1280, 720);
+	Axiom::Input::initialize();
 
 
 	g_world.add<Axiom::Cmp_CurrentTime>();
@@ -84,12 +86,16 @@ int main(){
 
 	auto suzanne = g_world.entity("Suzanne");
 	auto sponza = g_world.entity("Sponza");
+	auto teapot = g_world.entity("Teapot");
 	Cmp_Resource suzanne_res = {.file_path = assets_folder + "Models/GLTF/Suzanne/glTF", .file_name = "Suzanne.gltf"};
 	Cmp_Resource sponza_res = {.file_path = assets_folder + "Models/GLTF/Sponza/glTF", .file_name = "Sponza.gltf"};
+	Cmp_Resource teapot_res = {.file_path = assets_folder + "Models/OBJ/teapot", .file_name = "teapot.obj"};
 	suzanne.set(suzanne_res);
 	suzanne.set(Cmp_AssimpModel());
 	sponza.set(sponza_res);
 	sponza.set(Cmp_AssimpModel());
+	teapot.set(teapot_res);
+	teapot.set(Cmp_AssimpModel());
 
 	auto* twindow = g_world.get<Cmp_Window>()->window;
 	Axiom::Transform::initialize();

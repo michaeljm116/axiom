@@ -25,6 +25,13 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #endif
 
+#ifndef GLM_FORCE_RADIANS
+#define GLM_FORCE_RADIANS
+#endif
+
+#ifndef GLM_FORCD_DEPTH_ZERO_TO_ONE
+#define GLM_FORCD_DEPTH_ZERO_TO_ONE
+#endif
 
 #include <glm/glm.hpp>
 //#include "core/util/log.h"

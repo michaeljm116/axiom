@@ -5,6 +5,7 @@
 #include <array>
 #include "cmp-resource.h"
 #include <glm/glm.hpp>
+#include "cmp-input.h"
 
 namespace Axiom{
     namespace Render{
@@ -346,8 +347,8 @@ namespace Axiom{
                     .stageFlags = VK_SHADER_STAGE_VERTEX_BIT, .pImmutableSamplers = nullptr
                 };
                 VkDescriptorSetLayoutBinding sampler_layout_binding = {
-                    .binding = 1, .descriptorCount = 1, .descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
-                    .pImmutableSamplers = nullptr, .stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT
+                    .binding = 1, .descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, .descriptorCount = 1,
+                    .stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT, .pImmutableSamplers = nullptr  
                 };
 
                 std::array<VkDescriptorSetLayoutBinding, 2> bindings = {ubo_layout_binding, sampler_layout_binding};
@@ -432,14 +433,30 @@ namespace Axiom{
                     Log::check_error(VK_SUCCESS == vkEndCommandBuffer(command_buffer), "END COMMAND BUFFER");                
             }
 
+            const auto key_is_down = [](int key){
+                return (key & 2) == 2;
+            };
+
             void Raster::update_uniform_buffer(uint32_t current_frame)
             {
                 static auto start_time = std::chrono::high_resolution_clock::now();
                 auto curr_time = std::chrono::high_resolution_clock::now();
                 float time = std::chrono::duration<float, std::chrono::seconds::period>(curr_time - start_time).count();
                 
+                auto kb = g_world.get<Cmp_Keyboard>();
+                static glm::vec3 velocity = glm::vec3(2.f, 2.f, 2.f);
+                float speed = 0.01f;
+
+                if(key_is_down(kb->keys[GLFW_KEY_A])) velocity.x -= speed;
+                if(key_is_down(kb->keys[GLFW_KEY_D])) velocity.x += speed;
+                if(key_is_down(kb->keys[GLFW_KEY_S])) velocity.y -= speed;
+                if(key_is_down(kb->keys[GLFW_KEY_W])) velocity.y += speed;
+                if(key_is_down(kb->keys[GLFW_KEY_LEFT_CONTROL])) velocity.z -= speed;
+                if(key_is_down(kb->keys[GLFW_KEY_SPACE])) velocity.z += speed;
+                
+
                 ubo.model = glm::rotate(glm::mat4(1.f), time * glm::radians(90.f), glm::vec3(0.f, 0.f, 1.f));
-                ubo.view = glm::lookAt(glm::vec3(2.f, 2.f, 2.f), glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.f, 0.f, 1.f));
+                ubo.view = glm::lookAt(velocity, glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.f, 0.f, 1.f));
                 ubo.proj = glm::perspective(glm::radians(45.f), c_vulkan->swapchain.extent.width / (float) c_vulkan->swapchain.extent.height, 0.1f, 10.0f);
                 //ubo.proj[1][1] *= -1;
 
@@ -450,8 +467,27 @@ namespace Axiom{
 
             void Raster::prepare_buffers()
             {
-                texture.path = g_world.get<Resource::Cmp_Directory>()->assets + "Textures/skybox.png";
+                texture.path = g_world.get<Resource::Cmp_Directory>()->assets + "Textures/ARROW.png";
                 texture.CreateTexture(c_vulkan->device);
+
+                auto s = g_world.entity("Teapot");
+                auto m = s.get<Cmp_AssimpModel>();
+
+                std::vector<Shader::V32> s_verts;
+                s_verts.reserve(m->subsets[0].verts.size());
+                for(auto v : m->subsets[0].verts){
+                    s_verts.emplace_back(Shader::V32(v.pos, v.uv.x, v.norm, v.uv.y));
+                }
+                std::vector<uint32_t> s_indices;
+                s_indices.reserve(m->subsets[0].tris.size() * 3);
+                for(auto t : m->subsets[0].tris){
+                    s_indices.emplace_back(t.x);
+                    s_indices.emplace_back(t.y);
+                    s_indices.emplace_back(t.z);
+                }
+                //vertex_buffer.InitStorageBufferCustomSize(c_vulkan->device, s_verts, s_verts.size(), s_verts.size());
+                //index_buffer.InitStorageBufferCustomSize(c_vulkan->device, s_indices, s_indices.size(), s_indices.size());
+
                 vertex_buffer.InitStorageBufferCustomSize(c_vulkan->device, vertices, vertices.size(), vertices.size());
                 index_buffer.InitStorageBufferCustomSize(c_vulkan->device, indices, indices.size(), indices.size());
                 for(int i = 0; i < MAX_FRAMES_IN_FLIGHT; ++i)
