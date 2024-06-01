@@ -455,10 +455,10 @@ namespace Axiom{
                 if(key_is_down(kb->keys[GLFW_KEY_SPACE])) velocity.z += speed;
                 
 
-                //ubo.model = glm::rotate(glm::mat4(1.f), time * glm::radians(90.f), glm::vec3(0.f, 0.f, 1.f));
-                ubo.model = glm::mat4(1.f);
+                ubo.model = glm::rotate(glm::mat4(1.f), time * glm::radians(90.f), glm::vec3(0.f, 0.f, 1.f));
+                //ubo.model = glm::mat4(1.f);
                 ubo.model = glm::translate(ubo.model, velocity);
-                ubo.view = glm::lookAt(glm::vec3(1.f, 1.f, 1.f), glm::vec3(0.f), glm::vec3(0.f, 0.f, 1.f));
+                ubo.view = glm::lookAt(glm::vec3(2.f, 2.f, 2.f), glm::vec3(0.f), glm::vec3(0.f, 0.f, 1.f));
                 ubo.proj = glm::perspective(glm::radians(45.f), c_vulkan->swapchain.extent.width / (float) c_vulkan->swapchain.extent.height, 0.1f, 10.0f);
                 //ubo.proj[1][1] *= -1;
 
@@ -487,11 +487,11 @@ namespace Axiom{
                     s_indices.emplace_back(t.y);
                     s_indices.emplace_back(t.z);
                 }
-                vertex_buffer.InitStorageBufferCustomSize(c_vulkan->device, s_verts, s_verts.size(), s_verts.size());
-                index_buffer.InitStorageBufferCustomSize(c_vulkan->device, s_indices, s_indices.size(), s_indices.size());
+                //vertex_buffer.InitStorageBufferCustomSize(c_vulkan->device, s_verts, s_verts.size(), s_verts.size());
+                //index_buffer.InitStorageBufferCustomSize(c_vulkan->device, s_indices, s_indices.size(), s_indices.size());
 
-                //vertex_buffer.InitStorageBufferCustomSize(c_vulkan->device, vertices, vertices.size(), vertices.size());
-                //index_buffer.InitStorageBufferCustomSize(c_vulkan->device, indices, indices.size(), indices.size());
+                vertex_buffer.InitStorageBufferCustomSize(c_vulkan->device, vertices, vertices.size(), vertices.size());
+                index_buffer.InitStorageBufferCustomSize(c_vulkan->device, indices, indices.size(), indices.size());
                 for(int i = 0; i < MAX_FRAMES_IN_FLIGHT; ++i)
                 uniform_buffers[i].InitUniformBuffer(c_vulkan->device, ubo);
             }

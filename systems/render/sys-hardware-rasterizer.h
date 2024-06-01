@@ -64,10 +64,10 @@ namespace Axiom
                     Vulkan::VBuffer<Shader::V32> vertex_buffer;
                     Vulkan::VBuffer<uint32_t> index_buffer;
                     const std::vector<Shader::V32> vertices = {
-                        {{-0.5f, -0.5f, 0.0f}, {1.f}, {1.0f, 0.0f, 0.0f}, {0}},
-                        {{0.5f, -0.5f, 0.0f}, {0}, {0.0f, 1.0f, 0.0f}, {0}},
-                        {{0.5f, 0.5f, 0.0f}, {0}, {0.0f, 0.0f, 1.0f}, {1.f}},
-                        {{-0.5f, 0.5f, 0.0f}, {1.f}, {1.0f, 1.0f, 1.0f}, {1.f}},
+                        {{-0.5f, -0.5f, 0.5f}, {1.f}, {1.0f, 0.0f, 0.0f}, {0}},
+                        {{0.5f, -0.5f, 0.5f}, {0}, {0.0f, 1.0f, 0.0f}, {0}},
+                        {{0.5f, 0.5f, 0.5f}, {0}, {0.0f, 0.0f, 1.0f}, {1.f}},
+                        {{-0.5f, 0.5f, 0.5f}, {1.f}, {1.0f, 1.0f, 1.0f}, {1.f}},
 
                         {{-0.5f, -0.5f, -.50f}, {1.f}, {1.0f, 0.0f, 0.0f}, {0}},
                         {{0.5f, -0.5f, -.50f}, {0}, {0.0f, 1.0f, 0.0f}, {0}},
@@ -76,9 +76,31 @@ namespace Axiom
 
                     };
                     const std::vector<uint32_t> indices = {
-                        0,1,2,2,3,0,
-                        4,5,6,6,7,4
+                        // Front face
+                        0, 1, 2,
+                        2, 3, 0,
+
+                        // Back face
+                        4, 5, 6,
+                        6, 7, 4,
+
+                        // Top face
+                        3, 2, 6,
+                        6, 7, 3,
+
+                        // Bottom face
+                        4, 5, 1,
+                        1, 0, 4,
+
+                        // Right face
+                        1, 5, 6,
+                        6, 2, 1,
+
+                        // Left face
+                        4, 0, 3,
+                        3, 7, 4
                     };
+
 
                     Shader::UBO ubo = {
                         .model = glm::rotate(glm::mat4(1.0f), glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f)),
