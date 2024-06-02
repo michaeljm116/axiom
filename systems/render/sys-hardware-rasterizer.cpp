@@ -174,10 +174,11 @@ namespace Axiom{
             void Raster::create_graphics_pipeline()
             {
                 VkPipelineInputAssemblyStateCreateInfo input_assembly_state = vks::initializers::pipelineInputAssemblyStateCreateInfo(VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST, 0, VK_FALSE);
-                VkPipelineRasterizationStateCreateInfo rasterization_state = vks::initializers::pipelineRasterizationStateCreateInfo(VK_POLYGON_MODE_FILL, VK_CULL_MODE_FRONT_BIT, VK_FRONT_FACE_COUNTER_CLOCKWISE,0);
+                VkPipelineRasterizationStateCreateInfo rasterization_state = vks::initializers::pipelineRasterizationStateCreateInfo(VK_POLYGON_MODE_FILL, VK_CULL_MODE_BACK_BIT, VK_FRONT_FACE_COUNTER_CLOCKWISE,0);
                 VkPipelineColorBlendAttachmentState blend_attachment_state = vks::initializers::pipelineColorBlendAttachmentState(0xf,VK_FALSE);
                 VkPipelineColorBlendStateCreateInfo color_blend_state = vks::initializers::pipelineColorBlendStateCreateInfo(1,&blend_attachment_state);
-                VkPipelineDepthStencilStateCreateInfo depth_stencil_state = vks::initializers::pipelineDepthStencilStateCreateInfo(VK_FALSE, VK_FALSE, VK_COMPARE_OP_LESS_OR_EQUAL);
+                //VkPipelineDepthStencilStateCreateInfo depth_stencil_state = vks::initializers::pipelineDepthStencilStateCreateInfo(VK_FALSE, VK_FALSE, VK_COMPARE_OP_LESS_OR_EQUAL);
+                VkPipelineDepthStencilStateCreateInfo depth_stencil_state = vks::initializers::pipelineDepthStencilStateCreateInfo(VK_TRUE, VK_TRUE, VK_COMPARE_OP_LESS_OR_EQUAL);
                 VkPipelineViewportStateCreateInfo viewport_state = vks::initializers::pipelineViewportStateCreateInfo(1, 1, 0);
                 VkPipelineMultisampleStateCreateInfo multisample_state = vks::initializers::pipelineMultisampleStateCreateInfo(VK_SAMPLE_COUNT_1_BIT,0);
                 std::vector<VkDynamicState> dynamic_state_enables = {VK_DYNAMIC_STATE_VIEWPORT,VK_DYNAMIC_STATE_SCISSOR};
@@ -426,7 +427,7 @@ namespace Axiom{
                         vkCmdBindIndexBuffer(command_buffer, index_buffer.buffer, 0, VK_INDEX_TYPE_UINT32);
                         vkCmdBindDescriptorSets(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphics_pipeline->pipeline_layout, 0, 1, &graphics_pipeline->descriptor_sets[current_frame], 0, nullptr);
                         
-                        vkCmdDrawIndexed(command_buffer, static_cast<uint32_t>(indices.size()), 1, 0, 0, 0);
+                        vkCmdDrawIndexed(command_buffer, static_cast<uint32_t>(s_indices.size()), 1, 0, 0, 0);
                     }
                     vkCmdEndRenderPass(command_buffer);
 
@@ -460,7 +461,7 @@ namespace Axiom{
                 ubo.model = glm::translate(ubo.model, velocity);
                 ubo.view = glm::lookAt(glm::vec3(2.f, 2.f, 2.f), glm::vec3(0.f), glm::vec3(0.f, 0.f, 1.f));
                 ubo.proj = glm::perspective(glm::radians(45.f), c_vulkan->swapchain.extent.width / (float) c_vulkan->swapchain.extent.height, 0.1f, 10.0f);
-                //ubo.proj[1][1] *= -1;
+                ubo.proj[1][1] *= -1;
 
                 uniform_buffers[current_frame].ApplyChanges(c_vulkan->device, ubo);
 
@@ -475,23 +476,23 @@ namespace Axiom{
                 auto s = g_world.entity("Suzanne");
                 auto m = s.get<Cmp_AssimpModel>();
 
-                std::vector<Shader::V32> s_verts;
+                //std::vector<Shader::V32> s_verts;
                 s_verts.reserve(m->subsets[0].verts.size());
                 for(auto v : m->subsets[0].verts){
                     s_verts.emplace_back(Shader::V32(v.pos, v.uv.x, v.norm, v.uv.y));
                 }
-                std::vector<uint32_t> s_indices;
+                //std::vector<uint32_t> s_indices;
                 s_indices.reserve(m->subsets[0].tris.size() * 3);
                 for(auto t : m->subsets[0].tris){
                     s_indices.emplace_back(t.x);
                     s_indices.emplace_back(t.y);
                     s_indices.emplace_back(t.z);
                 }
-                //vertex_buffer.InitStorageBufferCustomSize(c_vulkan->device, s_verts, s_verts.size(), s_verts.size());
-                //index_buffer.InitStorageBufferCustomSize(c_vulkan->device, s_indices, s_indices.size(), s_indices.size());
+                vertex_buffer.InitStorageBufferCustomSize(c_vulkan->device, s_verts, s_verts.size(), s_verts.size());
+                index_buffer.InitStorageBufferCustomSize(c_vulkan->device, s_indices, s_indices.size(), s_indices.size());
 
-                vertex_buffer.InitStorageBufferCustomSize(c_vulkan->device, vertices, vertices.size(), vertices.size());
-                index_buffer.InitStorageBufferCustomSize(c_vulkan->device, indices, indices.size(), indices.size());
+                //vertex_buffer.InitStorageBufferCustomSize(c_vulkan->device, vertices, vertices.size(), vertices.size());
+                //index_buffer.InitStorageBufferCustomSize(c_vulkan->device, indices, indices.size(), indices.size());
                 for(int i = 0; i < MAX_FRAMES_IN_FLIGHT; ++i)
                 uniform_buffers[i].InitUniformBuffer(c_vulkan->device, ubo);
             }

@@ -101,6 +101,9 @@ namespace Axiom
                         3, 7, 4
                     };
 
+                    std::vector<Shader::V32> s_verts;
+                    std::vector<uint32_t> s_indices;
+
 
                     Shader::UBO ubo = {
                         .model = glm::rotate(glm::mat4(1.0f), glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f)),
