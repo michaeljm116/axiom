@@ -465,7 +465,6 @@ namespace Axiom{
 
                 uniform_buffers[current_frame].ApplyChanges(c_vulkan->device, ubo);
 
-                
             }
 
             void Raster::prepare_buffers()

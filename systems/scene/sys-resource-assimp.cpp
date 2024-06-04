@@ -40,6 +40,10 @@ namespace Axiom{
             if(comp_vec.z > max_vec.z) max_vec.z = comp_vec.z;
         };
 
+        const auto get_assimp_texture_pbr = [](aiMaterial* mat, int index)
+        {
+            
+        };
         const auto get_assimp_textures = [](aiMaterial* material, int index){
             Resource::Material;
             aiString diffuse_path;
@@ -52,18 +56,22 @@ namespace Axiom{
             bool has_base_color = false;
             bool has_metalness = false;
             bool has_roughness = false;
-            if(material->GetTexture(aiTextureType_DIFFUSE, 0, &diffuse_path) == AI_SUCCESS)
+            if(material->GetTexture(aiTextureType_DIFFUSE, 0, &diffuse_path) == AI_SUCCESS){
                 has_diffuse = true;
-            if(material->GetTexture(aiTextureType_BASE_COLOR, 0, &base_color_path) == AI_SUCCESS)
+            }
+            if(material->GetTexture(aiTextureType_BASE_COLOR, 0, &base_color_path) == AI_SUCCESS){
                 has_base_color = true;
-            if(material->GetTexture(aiTextureType_METALNESS, 0, &metalness_path) == AI_SUCCESS)
+            }
+            if(material->GetTexture(aiTextureType_METALNESS, 0, &metalness_path) == AI_SUCCESS){
                 has_metalness = true;
-            if(material->GetTexture(aiTextureType_DIFFUSE_ROUGHNESS, 0, &diffuse_rougness_path) == AI_SUCCESS)
+            }
+            if(material->GetTexture(aiTextureType_DIFFUSE_ROUGHNESS, 0, &diffuse_rougness_path) == AI_SUCCESS){
                 has_roughness = true;
+            }
             auto name = material->GetName().C_Str();
-        
-            
         };
+
+
 
         bool load_assimp_model(flecs::entity e, Cmp_Resource& res, Cmp_AssimpModel& cmp_mod)
         {
@@ -131,8 +139,6 @@ namespace Axiom{
             cmp_mod.extents = (model_max - model_min) * .5f;
             cmp_mod.center = (model_min + cmp_mod.extents);
             cmp_mod.name = scene->mName.C_Str();
-            //For eaach material
-            //scene->mMaterials[0]->mProperties[0];
             
             auto num_materials = scene->mNumMaterials;
             std::vector<Resource::Material> mats; 
