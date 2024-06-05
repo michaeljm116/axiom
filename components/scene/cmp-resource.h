@@ -79,8 +79,6 @@ namespace Axiom{
             template<typename T>
             struct MaterialType{
                 T val;
-                uint32_t index = 0;
-                std::string name = "";
                 std::string file = "";
                 bool has_texture(){return file.size() > 0};
             };
@@ -88,7 +86,7 @@ namespace Axiom{
             struct Diffuse : MaterialType<glm::vec3> {Diffuse(){val = glm::vec3();}};
             struct Specular : MaterialType<glm::vec3> {Specular(){val = glm::vec3();}};
             struct Ambient : MaterialType<glm::vec3>{Ambient(){val = glm::vec3();}};
-            struct Normal : MaterialType<bool>{Normal(){val = true;}};  
+            struct Normal : MaterialType<bool>{Normal(){val = false;}};  
             struct Albedo : MaterialType<glm::vec4>{Albedo(){val = glm::vec4();}};
             struct Metalness : MaterialType<float>{Metalness(){val = 0.f;}};
             struct Roughness : MaterialType<float>{Roughness(){val = 0.f;}};
@@ -97,30 +95,33 @@ namespace Axiom{
 
             struct Phong
             {
-                Diffuse diffuse;
-                Specular specular;
-                Ambient ambient;
-                Normal normal;
                 Phong(){};
                 Phong(Diffuse d, Specular s, Ambient a) : diffuse(d), specular(s), ambient(a){};
                 Phong(Diffuse d, Specular s, Ambient a, Normal n) : diffuse(d), specular(s), ambient(a), normal(n){};
                 ~Phong(){};
+				
+                Diffuse diffuse;
+                Specular specular;
+                Ambient ambient;
+                Normal normal;
+				std::string name = "";
+				uint32_t index = 0;
             };
 
             struct PBR
             {
-                Albedo albedo;
-                Metalness metalness;
-                Roughness roughness;
-                Normal normal;
-
                 PBR(){};
                 PBR(Albedo a, Metalness m, Roughness r, Normal n) : albedo(a), metalness(m), roughness(r), normal(n){};
                 PBR(Albedo a, Metalness m) : albedo(a), metalness(m){roughness = Roughness(); normal = Normal();};
                 ~PBR(){}; 
+
+                Albedo albedo;
+                Metalness metalness;
+                Roughness roughness;
+                Normal normal;
+				std::string name = "";
+				uint32_t index = 0;
             };
-
-
         }
 
 		struct Vertex {
@@ -252,7 +253,7 @@ namespace Axiom{
 	struct Cmp_AssimpModel
 	{
 		std::vector<Resource::Subset> subsets;
-		std::map<std::string, std::vector<std::string>> materials;
+		std::vector<Resource::AxMaterial::PBR> materials;
 		std::string name;
 		glm::vec3 center;
 		glm::vec3 extents;

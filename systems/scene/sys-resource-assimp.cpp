@@ -40,53 +40,89 @@ namespace Axiom{
             if(comp_vec.z > max_vec.z) max_vec.z = comp_vec.z;
         };
 
-        const auto get_assimp_texture_pbr = [](aiMaterial* mat, int index)
+        const auto get_assimp_texture_pbr = [](aiMaterial* material, int index, std::string path)
         {
-            
-        };
-        const auto get_assimp_textures = [](aiMaterial* material, int index){
-            Resource::Material;
-            aiString diffuse_path;
-            aiString specular_path;
-            aiString normal_path;
-            aiString base_color_path;
-            aiString metalness_path;
-            aiString diffuse_rougness_path;
-            bool has_diffuse = false;
-            bool has_base_color = false;
-            bool has_metalness = false;
-            bool has_roughness = false;
-            if(material->GetTexture(aiTextureType_DIFFUSE, 0, &diffuse_path) == AI_SUCCESS){
-                has_diffuse = true;
+            Resource::AxMaterial::PBR pbr;
+            pbr.name = material->GetName().C_Str();
+            pbr.index = index;
+            aiString normal_path, base_color_path, metalness_path, diffuse_rougness_path;
+            aiColor4D base_color;            
+            float metallic, roughness;
+
+            if (material->GetTexture(aiTextureType_NORMALS, 0, &normal_path) == AI_SUCCESS){
+                pbr.normal.file = path + normal_path.C_Str();
+                pbr.normal.val = true;
             }
             if(material->GetTexture(aiTextureType_BASE_COLOR, 0, &base_color_path) == AI_SUCCESS){
-                has_base_color = true;
+                pbr.albedo.file = path + base_color_path.C_Str();
             }
             if(material->GetTexture(aiTextureType_METALNESS, 0, &metalness_path) == AI_SUCCESS){
-                has_metalness = true;
+                pbr.metalness.file = path + metalness_path.C_Str();
             }
             if(material->GetTexture(aiTextureType_DIFFUSE_ROUGHNESS, 0, &diffuse_rougness_path) == AI_SUCCESS){
-                has_roughness = true;
+                pbr.roughness.file = path + diffuse_rougness_path.C_Str();
             }
-            auto name = material->GetName().C_Str();
+            if (aiGetMaterialColor(material, AI_MATKEY_COLOR_DIFFUSE, &base_color) == AI_SUCCESS) {
+                pbr.albedo.val = glm::vec4(base_color.r, base_color.g, base_color.b, base_color.a);
+            }
+            if (aiGetMaterialFloat(material, AI_MATKEY_METALLIC_FACTOR, &metallic) == AI_SUCCESS) {
+                pbr.metalness.val = metallic;
+            }
+            if (aiGetMaterialFloat(material, AI_MATKEY_ROUGHNESS_FACTOR, &roughness) == AI_SUCCESS) {
+                pbr.roughness.val = roughness;
+            }
+            return pbr;
         };
+        const auto get_assimp_texture_phong = [](aiMaterial* material, int index, std::string path){
+            Resource::AxMaterial::Phong phong;
+            phong.name = material->GetName().C_Str();
+            phong.index = index;
+            aiString ambient_path, diffuse_path, specular_path, normal_path;
+            if(material->GetTexture(aiTextureType_DIFFUSE, 0, &diffuse_path) == AI_SUCCESS){
+                phong.diffuse.file = path + diffuse_path.C_Str();
+            }
+            if(material->GetTexture(aiTextureType_SPECULAR, 0, &specular_path) == AI_SUCCESS){
+                phong.specular.file = path + specular_path.C_Str();
+            }
+            if(material->GetTexture(aiTextureType_AMBIENT, 0, &ambient_path) == AI_SUCCESS){
+                phong.ambient.file = path + ambient_path.C_Str();
+            }
+            if(material->GetTexture(aiTextureType_NORMALS, 0, &normal_path) == AI_SUCCESS){
+                phong.normal.file = path + normal_path.C_Str();
+            }
 
+            // Colors
+            aiColor3D color;
+            if (material->Get(AI_MATKEY_COLOR_DIFFUSE, color) == AI_SUCCESS) {
+                phong.diffuse.val = glm::vec3(color.r, color.g, color.b);
+            }
+            if (material->Get(AI_MATKEY_COLOR_SPECULAR, color) == AI_SUCCESS) {
+                phong.specular.val = glm::vec3(color.r, color.g, color.b);
+            }
+            if (material->Get(AI_MATKEY_COLOR_AMBIENT, color) == AI_SUCCESS) {
+                phong.ambient.val = glm::vec3(color.r, color.g, color.b);
+            }
 
-
+            return phong;
+        };
+         
         bool load_assimp_model(flecs::entity e, Cmp_Resource& res, Cmp_AssimpModel& cmp_mod)
         {
+            // Load the file
             Assimp::Importer importer; 
-            const auto* scene = importer.ReadFile(res.file_path + "/" + res.file_name,
+            auto full_path = res.file_path + "/";
+            const auto* scene = importer.ReadFile(full_path + res.file_name,
                 aiProcess_Triangulate |
                 aiProcess_FlipUVs |
                 aiProcess_CalcTangentSpace |
                 aiProcess_JoinIdenticalVertices |
                 aiProcess_SortByPType);
-            
             if(!Log::check_error(scene != nullptr, "Importing " + res.file_path + res.file_name)){
                 Log::send(Log::Level::ERROR, importer.GetErrorString());
                 return false;
             }
+
+            // Load the Data into model
             auto num_meshes = scene->mNumMeshes;
             cmp_mod.subsets.reserve(num_meshes);
             for(int m = 0; m < num_meshes; ++m)
@@ -129,22 +165,22 @@ namespace Axiom{
                 cmp_mod.subsets.emplace_back(s); 
             }
 
+            // Define overall shape
             glm::vec3 model_max = glm::vec3(FLT_MIN);
             glm::vec3 model_min = glm::vec3(FLT_MAX);
             for(auto s : cmp_mod.subsets){
                 get_max_sub(model_max, s);
                 get_min_sub(model_min, s);
             }
-
             cmp_mod.extents = (model_max - model_min) * .5f;
             cmp_mod.center = (model_min + cmp_mod.extents);
             cmp_mod.name = scene->mName.C_Str();
             
-            auto num_materials = scene->mNumMaterials;
-            std::vector<Resource::Material> mats; 
-            mats.reserve(num_materials);
+            // Get Materials
+            auto num_materials = scene->mNumMaterials;            
+            cmp_mod.materials.reserve(num_materials);
             for(int m = 0; m < num_materials; ++m){
-                get_assimp_textures(scene->mMaterials[m], m);
+                cmp_mod.materials.emplace_back(get_assimp_texture_pbr(scene->mMaterials[m], m, full_path));
             }
             return false;
         }
