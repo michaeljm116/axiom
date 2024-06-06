@@ -1,3 +1,13 @@
+6/6/2024
+* Right now you're thinking about how to handle materials
+* Especially if a material can "own" a Shader
+* So you should have Models reference materials
+* and materials reference Shaders
+* and since its flecs, everything can be done through strings i think
+
+
+
+
 8/8/2023
 * idk whats happening...
 * I guess its time to fire-up the renderer but like... what do?
