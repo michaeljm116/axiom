@@ -26,6 +26,12 @@ namespace Axiom{
                 .iter([](flecs::iter& it){
                     g_raster.draw_frame();
                 });
+
+                /*g_world.observer<Cmp_Resource, Cmp_AssimpModel, Cmp_Render>()
+                .event(flecs::OnSet)
+                .each([](flecs::entity e, Cmp_Resource& res, Cmp_AssimpModel& mod, Cmp_Model render_mod){
+                    
+                });*/
             }
             void Raster::start_up()
             {
