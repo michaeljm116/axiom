@@ -9,7 +9,7 @@ namespace Axiom
 {
     namespace Render
     {
-        namespace Texture
+        namespace TextureManager
         {
             void initialize(){
                 g_world.observer<Cmp_Texture>()

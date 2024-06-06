@@ -1,3 +1,4 @@
+#pragma once
 #include "vulkan/base.hpp"
 #include "cmp-vulkan.h"
 

@@ -3,6 +3,15 @@
     "cmake.configureSettings": {
         "CMAKE_GENERATOR": "Ninja"
     },
+      "files.exclude": {
+        "**/out": true,
+        "**/lib": true,
+        "**/.git": true,
+        "**/.vscode": true,
+        "**/.vs": true,
+        "**/build": true
+    },
+    
     "files.associations": {
         "algorithm": "cpp",
         "cmath": "cpp",

@@ -7,7 +7,7 @@ namespace Axiom
 {
     namespace Render
     {
-        namespace Texture
+        namespace TextureManager
         {
             void initialize();
             void destroy(Cmp_Texture& t , Cmp_Vulkan& v);
