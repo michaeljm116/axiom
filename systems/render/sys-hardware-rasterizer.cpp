@@ -11,6 +11,7 @@
 namespace Axiom{
     namespace Render{
         namespace Hardware{
+            using V48 = Geometry::Vertex48;
             Raster::Raster(){
 
             }
@@ -480,33 +481,17 @@ namespace Axiom{
 
                 auto sponza = g_world.entity("Sponza");
                 auto sponza_res = sponza.get<Cmp_AssimpModel>();
-                Render::Geometry::Cmp_Model<Geometry::Vertex48> sponza_mod;
-                sponza_mod.name = sponza_res->name;
-                for(size_t i = 0; i < sponza_res->subsets.size(); ++i){
-                    Geometry::Subset<Geometry::Vertex48> subset;
-                    auto num_verts = sponza_res->subsets[i].verts.size();
-                    subset.verts.reserve(num_verts);
-                    for(auto v = 0; v < num_verts; ++v){
-                        Geometry::Vertex48 vert;
-                        vert.p = sponza_res->subsets[i].verts[v].pos;
-                        vert.n = sponza_res->subsets[i].verts[v].norm;
-                        vert.t = sponza_res->subsets[i].verts[v].tang;
-                        vert.u = sponza_res->subsets[i].verts[v].uv.x;
-                        vert.v = sponza_res->subsets[i].verts[v].uv.y;
-                        subset.verts.emplace_back(vert);
-                    }
-                    auto num_tris = sponza_res->subsets[i].tris.size();
-                    auto num_indices = num_tris * 3;
-                    subset.indices.reserve(num_indices);
-                    for(auto t = 0; t < num_tris; ++t){
-                        subset.indices.emplace_back(sponza_res->subsets[i].tris[t].x);
-                        subset.indices.emplace_back(sponza_res->subsets[i].tris[t].y);
-                        subset.indices.emplace_back(sponza_res->subsets[i].tris[t].z);
-                    }
-                    subset.vertex_buffer.InitStorageBufferCustomSize(c_vulkan->device, subset.verts, num_verts, num_verts);
-                    subset.index_buffer.InitStorageBufferCustomSize(c_vulkan->device, subset.indices, num_indices, num_indices);
-                    sponza_mod.subsets.push_back(subset);
+                auto sponza_mod = Geometry::Cmp_Model(sponza_res);
+
+                for(auto& m : sponza_mod.meshes){
+                    auto num_verts = m.verts.size();
+                    auto num_indxs = m.indices.size();
+                    m.vertex_buffer.InitStorageBufferCustomSize(c_vulkan->device, m.verts, num_verts, num_verts);
+                    m.index_buffer.InitStorageBufferCustomSize(c_vulkan->device, m.indices, num_indxs, num_indxs);
                 }
+
+                sponza.set(sponza_mod);
+                
 
                 auto s = g_world.entity("Suzanne");
                 auto m = s.get<Cmp_AssimpModel>();

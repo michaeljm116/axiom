@@ -15,6 +15,8 @@
 #include "volk.h"
 #include <array>
 #include <string>
+#include "cmp-resource.h"
+#include "cmp-vulkan.h"
 
 namespace Axiom
 {
@@ -42,6 +44,7 @@ namespace Axiom
 					}};
 				}
 			};
+
 			struct Vertex48
             {
 				glm::vec3 p = glm::vec3();
@@ -68,26 +71,114 @@ namespace Axiom
 				}
 			};
 
-            template<typename T>
-            struct Subset
+            struct Mesh48
             {
-                std::vector<T> verts;
+                std::vector<Vertex48> verts;
                 std::vector<glm::uint32> indices;
-                glm::vec3 center;
-                glm::vec3 extents;
+                glm::vec3 center = {};
+                glm::vec3 extents = {};
                 glm::uint32 mat_id;
+				std::string mat_name;
                 std::string name;
-
-                Vulkan::VBuffer<T>           vertex_buffer;
+                Vulkan::VBuffer<Vertex48> vertex_buffer;
                 Vulkan::VBuffer<glm::uint32> index_buffer;
+				Mesh48() = default;
+				~Mesh48() {};
+				Mesh48(const Mesh48& other)
+					: verts(other.verts),
+					indices(other.indices),
+					center(other.center),
+					extents(other.extents),
+					mat_id(other.mat_id),
+					mat_name(other.mat_name),
+					name(other.name)
+				{
+					// Assuming you have a way to clone Vulkan buffers correctly
+					//vertex_buffer = {};//other.vertex_buffer;
+					//index_buffer = {};// &other.index_buffer;
+				}
+            
+				Mesh48& operator=(const Mesh48& other) {
+					if (this != &other) {
+						verts = other.verts;
+						indices = other.indices;
+						center = other.center;
+						extents = other.extents;
+						mat_id = other.mat_id;
+						mat_name = other.mat_name;
+						name = other.name;
+						// Copy Vulkan buffers if needed in future
+						//vertex_buffer = Vulkan::cloneBuffer(other.vertex_buffer);
+						//index_buffer = Vulkan::cloneBuffer(other.index_buffer);
+					}
+					return *this;
+				}
+
+				
+				Mesh48(const Resource::Subset& rs){
+					auto num_verts = rs.verts.size();
+					auto num_tris = rs.tris.size();
+					auto num_indices = num_tris * 3;
+					verts.resize(num_verts);
+					indices.resize(num_indices);
+
+					for(auto v : rs.verts){
+						Vertex48 vert;
+						vert.p = v.pos;
+						vert.n = v.norm;
+						vert.t = v.tang;
+						vert.u = v.uv.x;
+						vert.v = v.uv.y;
+						verts.emplace_back(vert);
+					}
+
+					for(auto t : rs.tris){
+						indices.emplace_back(t.x);
+						indices.emplace_back(t.y);
+						indices.emplace_back(t.z);
+					}
+
+					name = rs.name;
+					mat_name = rs.mat_name;
+					//vertex_buffer.InitStorageBufferCustomSize(vulkan->device, verts, num_verts, num_verts);
+					//Index_buffer.InitStorageBufferCustomSize(vulkan->device, indices, num_indices, num_indices);
+				}
             };
 
-			// Vertex48 or Vertex32           
-            template<typename T>
-            struct Cmp_Model{
-                std::vector<Subset<T>> subsets;
-                std::string name;
-            };
+            struct Cmp_Model {
+				std::vector<Mesh48> meshes;
+				std::string name;
+
+				Cmp_Model() = default;  // Ensure a default constructor is available
+
+				Cmp_Model(const Cmp_Model& other) : name(other.name) {
+					for (const auto& mesh : other.meshes) {
+						meshes.emplace_back(mesh);  // Ensure deep copy for each Mesh48
+					}
+				}
+
+				Cmp_Model& operator=(const Cmp_Model& other) {
+					if (this != &other) {
+						name = other.name;
+						meshes.clear();
+						for (const auto& mesh : other.meshes) {
+							meshes.emplace_back(mesh);
+						}
+					}
+					return *this;
+				}
+
+				Cmp_Model(const Cmp_AssimpModel* am) {
+					if (am) {  // Always check for nullptr when dealing with pointers
+						auto num_meshes = am->subsets.size();
+						meshes.reserve(num_meshes);
+						for (auto& s : am->subsets) {
+							meshes.emplace_back(Mesh48(s));
+						}
+						name = am->name;
+					}
+				}
+			};
 		}
 	}
 }
