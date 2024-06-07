@@ -14,6 +14,8 @@
 * So in the resource maanager you create a resource with a particular name
 * * Then in the renderer you find all entities with a material resource
 * * And attach a renderer material to it
+* Finally, trying to figure out how to put everything together in the renderer code
+* * Specifically how to do it the ECS way
 
 
 6/6/2024

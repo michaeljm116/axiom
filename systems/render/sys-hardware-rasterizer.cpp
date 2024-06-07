@@ -6,6 +6,7 @@
 #include "cmp-resource.h"
 #include <glm/glm.hpp>
 #include "cmp-input.h"
+#include "cmp-geometry.h"
 
 namespace Axiom{
     namespace Render{
@@ -339,12 +340,8 @@ namespace Axiom{
                     );
 
                     std::array<VkWriteDescriptorSet,2> write_ds = {u_write_ds, i_write_ds};
-                    
-
                     vkUpdateDescriptorSets(c_vulkan->device.logical, 2, write_ds.data(), 0, nullptr);
-                
                 }
-
             }
 
             void Raster::create_descriptor_set_layout()
@@ -434,6 +431,9 @@ namespace Axiom{
                         vkCmdBindDescriptorSets(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphics_pipeline->pipeline_layout, 0, 1, &graphics_pipeline->descriptor_sets[current_frame], 0, nullptr);
                         
                         vkCmdDrawIndexed(command_buffer, static_cast<uint32_t>(s_indices.size()), 1, 0, 0, 0);
+
+                        auto sponza = g_world.entity("Sponza").get<Cmp_AssimpModel>();
+                        
                     }
                     vkCmdEndRenderPass(command_buffer);
 
@@ -477,6 +477,36 @@ namespace Axiom{
             {
                 texture.path = g_world.get<Resource::Cmp_Directory>()->assets + "Textures/debugger2.png";
                 texture.CreateTexture(c_vulkan->device);
+
+                auto sponza = g_world.entity("Sponza");
+                auto sponza_res = sponza.get<Cmp_AssimpModel>();
+                Render::Geometry::Cmp_Model<Geometry::Vertex48> sponza_mod;
+                sponza_mod.name = sponza_res->name;
+                for(size_t i = 0; i < sponza_res->subsets.size(); ++i){
+                    Geometry::Subset<Geometry::Vertex48> subset;
+                    auto num_verts = sponza_res->subsets[i].verts.size();
+                    subset.verts.reserve(num_verts);
+                    for(auto v = 0; v < num_verts; ++v){
+                        Geometry::Vertex48 vert;
+                        vert.p = sponza_res->subsets[i].verts[v].pos;
+                        vert.n = sponza_res->subsets[i].verts[v].norm;
+                        vert.t = sponza_res->subsets[i].verts[v].tang;
+                        vert.u = sponza_res->subsets[i].verts[v].uv.x;
+                        vert.v = sponza_res->subsets[i].verts[v].uv.y;
+                        subset.verts.emplace_back(vert);
+                    }
+                    auto num_tris = sponza_res->subsets[i].tris.size();
+                    auto num_indices = num_tris * 3;
+                    subset.indices.reserve(num_indices);
+                    for(auto t = 0; t < num_tris; ++t){
+                        subset.indices.emplace_back(sponza_res->subsets[i].tris[t].x);
+                        subset.indices.emplace_back(sponza_res->subsets[i].tris[t].y);
+                        subset.indices.emplace_back(sponza_res->subsets[i].tris[t].z);
+                    }
+                    subset.vertex_buffer.InitStorageBufferCustomSize(c_vulkan->device, subset.verts, num_verts, num_verts);
+                    subset.index_buffer.InitStorageBufferCustomSize(c_vulkan->device, subset.indices, num_indices, num_indices);
+                    sponza_mod.subsets.push_back(subset);
+                }
 
                 auto s = g_world.entity("Suzanne");
                 auto m = s.get<Cmp_AssimpModel>();

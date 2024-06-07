@@ -72,7 +72,7 @@ namespace Axiom
             struct Subset
             {
                 std::vector<T> verts;
-                std::vector<glm::ivec3> tris;
+                std::vector<glm::uint32> indices;
                 glm::vec3 center;
                 glm::vec3 extents;
                 glm::uint32 mat_id;
@@ -81,9 +81,10 @@ namespace Axiom
                 Vulkan::VBuffer<T>           vertex_buffer;
                 Vulkan::VBuffer<glm::uint32> index_buffer;
             };
-            
+
+			// Vertex48 or Vertex32           
             template<typename T>
-            struct Model{
+            struct Cmp_Model{
                 std::vector<Subset<T>> subsets;
                 std::string name;
             };
