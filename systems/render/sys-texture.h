@@ -1,6 +1,7 @@
 #include "vulkan/base.hpp"
 #include "cmp-texture.h"
-#include "cmp-material.h"
+#include "cmp-material.h" 
+#include "cmp-resource.h"
 #include "flecs-world.h"
 
 namespace Axiom

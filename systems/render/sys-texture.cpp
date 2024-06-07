@@ -27,6 +27,13 @@ namespace Axiom
                     destroy(t, *vk);
                 });
 
+                g_world.observer<Resource::AxMaterial::PBR>()
+                .event(flecs::OnSet)
+                .each([](flecs::entity e, Resource::AxMaterial::PBR m){
+                    e.set(Cmp_PBRMaterial(m.albedo.val, m.metalness.val, m.roughness.val,
+                        m.albedo.file, m.metalness.file, m.roughness.file, m.normal.file));
+                });
+
                 g_world.observer<Cmp_PBRMaterial>()
                 .event((flecs::OnSet))
                 .each([](flecs::entity e, Cmp_PBRMaterial m){
@@ -36,6 +43,7 @@ namespace Axiom
                     if(m.texture_roughness.path != "") create_texture(m.texture_roughness, *vk);
                     if(m.texture_normal.path != "") create_texture(m.texture_normal, *vk);
                 });
+                
             }
             void destroy(Cmp_Texture& t , Cmp_Vulkan& v){
                 vkDestroySampler(v.device.logical, t.sampler, nullptr);
