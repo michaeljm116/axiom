@@ -1,11 +1,27 @@
+
+6/8/2024
+* Still thinking about the Organization
+* * Why do you have a separation between:
+* * * Resource Datastructures
+* * * Renderingn Datastructures
+* * You do it for the sake of a decoupling of sysstems
+* * But this also kinda duplicates code 
+* * Ultimately, i think its worth it for now though
+* THUS there will be a db of Models, Materials, Shaders
+* What if there's a bunch of entites that have everything
+* And then you attach components to them as they go up the dependency chain
+* If you want a copy of something,...  figure that out later
+* So in the resource maanager you create a resource with a particular name
+* * Then in the renderer you find all entities with a material resource
+* * And attach a renderer material to it
+
+
 6/6/2024
 * Right now you're thinking about how to handle materials
 * Especially if a material can "own" a Shader
 * So you should have Models reference materials
 * and materials reference Shaders
 * and since its flecs, everything can be done through strings i think
-
-
 
 
 8/8/2023

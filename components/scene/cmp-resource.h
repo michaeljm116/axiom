@@ -153,6 +153,7 @@ namespace Axiom{
 			glm::vec3 center;
 			glm::vec3 extents;
 			glm::uint32 mat_id;
+			std::string mat_name;
 			std::string name;
 		};
 
@@ -253,7 +254,6 @@ namespace Axiom{
 	struct Cmp_AssimpModel
 	{
 		std::vector<Resource::Subset> subsets;
-		std::vector<Resource::AxMaterial::PBR> materials;
 		std::string name;
 		glm::vec3 center;
 		glm::vec3 extents;

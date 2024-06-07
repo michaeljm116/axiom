@@ -8,6 +8,7 @@
 namespace Axiom{
     namespace Resource{
 
+#pragma region helper lambdas
         const auto to_Vertex64 = [](const aiVector3D& p, const aiVector3D& n, const aiVector3D& t, const aiVector3D& uv){
             glm::vec3 pos = glm::vec3(p.x, p.y, p.z);
             glm::vec3 norm = glm::vec3(n.x, n.y, n.z);
@@ -40,11 +41,42 @@ namespace Axiom{
             if(comp_vec.z > max_vec.z) max_vec.z = comp_vec.z;
         };
 
-        const auto get_assimp_texture_pbr = [](aiMaterial* material, int index, std::string path)
+        const auto remove_file_stem = [](std::string file_name){
+            int index = file_name.size();
+            for(index; file_name[index] != '.'; index--)
+            {
+                if(index == 0) return std::string("");
+            }
+            return file_name.substr(0, index);
+        };
+
+        const auto set_material_name = [](aiMaterial* m, int index, Cmp_Resource res){
+            std::string name = m->GetName().C_Str();
+            if(name == "")
+            name = "mat_" + remove_file_stem(res.file_name) + "(" + std::to_string(index) + ")";
+            return name;
+        };
+        const auto set_mesh_name = [](aiMesh* m, int index, Cmp_Resource res){
+            std::string name = m->mName.C_Str();
+            if(name == "")
+            name = "mesh_" + remove_file_stem(res.file_name) + "(" + std::to_string(index) + ")";
+            return name;
+        }; 
+        const auto set_scene_name = [](const aiScene* s, Cmp_Resource res){
+            std::string name = s->mName.C_Str();
+            if(name == "")
+                name = "scene_" + remove_file_stem(res.file_name);
+            return name;
+        };        
+
+
+        const auto get_assimp_texture_pbr = [](aiMaterial* material, int index, Cmp_Resource res)
         {
             Resource::AxMaterial::PBR pbr;
-            pbr.name = material->GetName().C_Str();
+            std::string path = res.file_path + "/";
+            pbr.name = set_material_name(material, index, res);
             pbr.index = index;
+            
             aiString normal_path, base_color_path, metalness_path, diffuse_rougness_path;
             aiColor4D base_color;            
             float metallic, roughness;
@@ -73,9 +105,10 @@ namespace Axiom{
             }
             return pbr;
         };
-        const auto get_assimp_texture_phong = [](aiMaterial* material, int index, std::string path){
+        const auto get_assimp_texture_phong = [](aiMaterial* material, int index, Cmp_Resource res){
             Resource::AxMaterial::Phong phong;
-            phong.name = material->GetName().C_Str();
+            auto path = res.file_path + "/";
+            phong.name = set_material_name(material, index, res);
             phong.index = index;
             aiString ambient_path, diffuse_path, specular_path, normal_path;
             if(material->GetTexture(aiTextureType_DIFFUSE, 0, &diffuse_path) == AI_SUCCESS){
@@ -105,6 +138,7 @@ namespace Axiom{
 
             return phong;
         };
+        #pragma endregion helper lambdas
          
         bool load_assimp_model(flecs::entity e, Cmp_Resource& res, Cmp_AssimpModel& cmp_mod)
         {
@@ -120,6 +154,15 @@ namespace Axiom{
             if(!Log::check_error(scene != nullptr, "Importing " + res.file_path + res.file_name)){
                 Log::send(Log::Level::ERROR, importer.GetErrorString());
                 return false;
+            }
+            
+            // Get Materials
+		    std::vector<Resource::AxMaterial::PBR> materials;
+            auto num_materials = scene->mNumMaterials;            
+            materials.reserve(num_materials);
+            for(int m = 0; m < num_materials; ++m){
+                materials.emplace_back(get_assimp_texture_pbr(scene->mMaterials[m], m, res));
+                g_world.entity(materials[m].name.c_str()).set(materials[m]);
             }
 
             // Load the Data into model
@@ -160,7 +203,8 @@ namespace Axiom{
                     .center = center,
                     .extents = extents,
                     .mat_id = curr_mesh->mMaterialIndex,
-                    .name = curr_mesh->mName.C_Str()
+                    .mat_name = materials[curr_mesh->mMaterialIndex].name,
+                    .name = set_mesh_name(curr_mesh, m, res)
                 };
                 cmp_mod.subsets.emplace_back(s); 
             }
@@ -174,15 +218,9 @@ namespace Axiom{
             }
             cmp_mod.extents = (model_max - model_min) * .5f;
             cmp_mod.center = (model_min + cmp_mod.extents);
-            cmp_mod.name = scene->mName.C_Str();
+            cmp_mod.name = set_scene_name(scene, res);
             
-            // Get Materials
-            auto num_materials = scene->mNumMaterials;            
-            cmp_mod.materials.reserve(num_materials);
-            for(int m = 0; m < num_materials; ++m){
-                cmp_mod.materials.emplace_back(get_assimp_texture_pbr(scene->mMaterials[m], m, full_path));
-            }
-            return false;
+            return true;
         }
     }
 }
