@@ -9,7 +9,11 @@
         "**/.git": true,
         "**/.vscode": true,
         "**/.vs": true,
-        "**/build": true
+        "**/build": true,
+        ".gitignore":true,
+        ".gitmodules":true,
+        "checks.json":true,
+        "LICENSE":true
     },
     
     "files.associations": {

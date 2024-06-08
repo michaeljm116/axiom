@@ -22,7 +22,7 @@ namespace Axiom
 			glfwSetJoystickCallback(joystick_callback);
 
 			// Update Mouse
-			g_world.system<Cmp_Mouse>("MouseSystem")
+			g_world.system<Cmp_Mouse>("Update Mouse")
 			.kind(flecs::OnUpdate)
 			.each([](flecs::entity e, Cmp_Mouse& m){
 				auto* window = g_world.get<Cmp_Window>()->window;

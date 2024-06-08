@@ -46,12 +46,15 @@ namespace Axiom
 
 		static void cursor_position_callback(GLFWwindow* window, double xpos, double ypos) {
 			auto* mouse = g_world.get_mut<Cmp_Mouse>();
+			mouse->prev_x = mouse->x;
+			mouse->prev_y = mouse->y;
 			mouse->x = xpos;
 			mouse->y = ypos;
 		}
 		
 		static void scroll_callback(GLFWwindow* window, double xoffset, double yoffset) {
 			auto* mouse = g_world.get_mut<Cmp_Mouse>();
+			mouse->prev_scroll = mouse->scroll;
 			mouse->scroll += yoffset;
 		}
 		static void joystick_callback(int jid, int event) {

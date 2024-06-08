@@ -72,6 +72,6 @@ namespace Axiom{
         }
     };
 
-    struct Cmp_Dynamic{};
-    struct Cmp_Static{};
+    struct Cmp_Dynamic{bool active = true;};
+    struct Cmp_Static{bool active = true;};
 }

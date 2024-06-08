@@ -40,7 +40,10 @@ namespace Axiom {
     struct Cmp_Mouse{
 		double x;
 		double y;
+		double prev_x;
+		double prev_y;
 		double scroll;
+		double prev_scroll;
 		bool active;
 		std::array<uint8_t,12> buttons;
 	};

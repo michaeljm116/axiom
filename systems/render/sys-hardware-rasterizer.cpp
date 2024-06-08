@@ -6,6 +6,7 @@
 #include "cmp-resource.h"
 #include <glm/glm.hpp>
 #include "cmp-input.h"
+#include "cmp-transform.h"
 
 namespace Axiom{
     namespace Render{
@@ -458,8 +459,14 @@ namespace Axiom{
                 float time = std::chrono::duration<float, std::chrono::seconds::period>(curr_time - start_time).count();
                 
                 auto kb = g_world.get<Cmp_Keyboard>();
+                auto mouse = g_world.get<Cmp_Mouse>();
+                if((mouse->buttons[GLFW_MOUSE_BUTTON_LEFT] & 2) == 2)
+                {
+                    
+                }
+
                 static glm::vec3 velocity = glm::vec3(0.f);
-                float speed = 0.001f;
+                float speed = 1.001f;
 
                 if(key_is_down(kb->keys[GLFW_KEY_A])) velocity.x -= speed;
                 if(key_is_down(kb->keys[GLFW_KEY_D])) velocity.x += speed;
@@ -472,7 +479,10 @@ namespace Axiom{
                 ubo.model = glm::rotate(glm::mat4(1.f), time * glm::radians(90.f), glm::vec3(0.f, 0.f, 1.f));
                 //ubo.model = glm::mat4(1.f);
                 ubo.model = glm::translate(ubo.model, velocity);
-                ubo.view = glm::lookAt(glm::vec3(2.f, 2.f, 2.f), glm::vec3(0.f), glm::vec3(0.f, 0.f, 1.f));
+
+                ubo.view = g_world.entity("Camera").get<Cmp_Transform>()->world;
+
+                //ubo.view = glm::lookAt(glm::vec3(2.f, 2.f, 2.f), glm::vec3(0.f), glm::vec3(0.f, 0.f, 1.f));
                 ubo.proj = glm::perspective(glm::radians(45.f), c_vulkan->swapchain.extent.width / (float) c_vulkan->swapchain.extent.height, 0.1f, 10.0f);
                 ubo.proj[1][1] *= -1;
 

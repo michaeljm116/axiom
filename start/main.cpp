@@ -30,6 +30,7 @@
 #include "render-base.h"
 #include "sys-compute-raytracer.h"
 #include "sys-hardware-rasterizer.h"
+#include "sys-camera.h"
 
 using namespace Axiom;
 
@@ -99,6 +100,8 @@ int main(){
 
 	auto* twindow = g_world.get<Cmp_Window>()->window;
 	Axiom::Transform::initialize();
+	Axiom::Scene::Camera::initialize();
+
 	g_world.add<Axiom::Cmp_Serialize>();
 	scene::initialize();	
 	g_world.set<Axiom::Cmp_Scene>({assets_folder + "Scenes/", "TestEntrance.xml", 0});
