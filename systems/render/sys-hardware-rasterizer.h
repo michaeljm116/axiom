@@ -13,6 +13,7 @@
 #include "renderer.h"
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include "cmp-geometry.h"
 
 namespace Axiom
 {
@@ -116,6 +117,7 @@ namespace Axiom
                     Texture texture;
 
                     void prepare_buffers();
+                    Geometry::Cmp_Model sponza_mod;
             };
 
             extern Raster g_raster;

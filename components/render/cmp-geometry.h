@@ -119,8 +119,8 @@ namespace Axiom
 					auto num_verts = rs.verts.size();
 					auto num_tris = rs.tris.size();
 					auto num_indices = num_tris * 3;
-					verts.resize(num_verts);
-					indices.resize(num_indices);
+					verts.reserve(num_verts);
+					indices.reserve(num_indices);
 
 					for(auto v : rs.verts){
 						Vertex48 vert;

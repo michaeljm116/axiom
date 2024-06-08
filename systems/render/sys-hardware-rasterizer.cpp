@@ -6,12 +6,10 @@
 #include "cmp-resource.h"
 #include <glm/glm.hpp>
 #include "cmp-input.h"
-#include "cmp-geometry.h"
 
 namespace Axiom{
     namespace Render{
         namespace Hardware{
-            using V48 = Geometry::Vertex48;
             Raster::Raster(){
 
             }
@@ -254,8 +252,8 @@ namespace Axiom{
                 
                 std::array<VkPipelineShaderStageCreateInfo, 2> shader_stages = { vert_shader_stage_info, frag_shader_stage_info };
 
-                auto binding = Shader::V32::get_binding();
-                auto attribute = Shader::V32::get_attribute();
+                auto binding = Geometry::Vertex48::get_binding();
+                auto attribute = Geometry::Vertex48::get_attribute();
 
                 VkPipelineVertexInputStateCreateInfo empty_input_state = {
                     .sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO,
@@ -390,55 +388,63 @@ namespace Axiom{
 
             void Raster::update_command_buffer(VkCommandBuffer command_buffer, uint32_t image_index)
             {
-                    VkCommandBufferBeginInfo beginInfo = {};
-                    beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
-                    beginInfo.flags = VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT; //The cmdbuf will be rerecorded right after executing it 1s
-                    beginInfo.pInheritanceInfo = nullptr; // Optional //only for secondary buffers
+                VkCommandBufferBeginInfo beginInfo = {};
+                beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+                beginInfo.flags = VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT; //The cmdbuf will be rerecorded right after executing it 1s
+                beginInfo.pInheritanceInfo = nullptr; // Optional //only for secondary buffers
 
-                    vkBeginCommandBuffer(command_buffer, &beginInfo);
-                    VkRect2D render_area = {
-                            .offset = { 0, 0 }, 
-                            .extent = c_vulkan->swapchain.scaled
-                    };
+                vkBeginCommandBuffer(command_buffer, &beginInfo);
+                VkRect2D render_area = {
+                        .offset = { 0, 0 }, 
+                        .extent = c_vulkan->swapchain.scaled
+                };
 
-                    VkRenderPassBeginInfo renderPassInfo = {
-                        .sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO,
-                        .renderPass = c_vulkan->pipeline.render_pass,
-                        .framebuffer = c_vulkan->swapchain.frame_buffers[image_index],
-                        .renderArea = render_area                        
-                    };
+                VkRenderPassBeginInfo renderPassInfo = {
+                    .sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO,
+                    .renderPass = c_vulkan->pipeline.render_pass,
+                    .framebuffer = c_vulkan->swapchain.frame_buffers[image_index],
+                    .renderArea = render_area                        
+                };
+                
+                std::array<VkClearValue, 2> clearValues = {};
+                clearValues[0].color = { 0.0f, 0.0f, 0.0f, 1.0f }; //derp
+                clearValues[1].depthStencil = { 1.0f, 0 }; //1.0 = farplane, 0.0 = nearplane HELP
+
+                renderPassInfo.clearValueCount = static_cast<uint32_t>(clearValues.size()); //cuz
+                renderPassInfo.pClearValues = clearValues.data(); //duh
+
+                vkCmdBeginRenderPass(command_buffer, &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
+                {
+                    vkCmdBindPipeline(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphics_pipeline->pipeline);
+                    VkViewport viewport = vks::initializers::viewport(c_vulkan->swapchain.extent.width, c_vulkan->swapchain.extent.height, 0.0f, 1.0f);
+                    vkCmdSetViewport(command_buffer, 0, 1, &viewport);
+
+                    VkRect2D scissor = vks::initializers::rect2D(c_vulkan->swapchain.extent.width, c_vulkan->swapchain.extent.height, 0, 0);
+                    vkCmdSetScissor(command_buffer, 0, 1, &scissor);
+
                     
-                    std::array<VkClearValue, 2> clearValues = {};
-                    clearValues[0].color = { 0.0f, 0.0f, 0.0f, 1.0f }; //derp
-                    clearValues[1].depthStencil = { 1.0f, 0 }; //1.0 = farplane, 0.0 = nearplane HELP
+                    /*VkBuffer vertexBuffers[] = {vertex_buffer.buffer};
+                    VkDeviceSize offsets[] = {0};
+                    vkCmdBindVertexBuffers(command_buffer, 0, 1, vertexBuffers, offsets);
+                    vkCmdBindIndexBuffer(command_buffer, index_buffer.buffer, 0, VK_INDEX_TYPE_UINT32);
+                    vkCmdBindDescriptorSets(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphics_pipeline->pipeline_layout, 0, 1, &graphics_pipeline->descriptor_sets[current_frame], 0, nullptr);
+                    vkCmdDrawIndexed(command_buffer, static_cast<uint32_t>(s_indices.size()), 1, 0, 0, 0);
+                    */
+                    
 
-                    renderPassInfo.clearValueCount = static_cast<uint32_t>(clearValues.size()); //cuz
-                    renderPassInfo.pClearValues = clearValues.data(); //duh
-
-                    vkCmdBeginRenderPass(command_buffer, &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
-                    {
-                        vkCmdBindPipeline(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphics_pipeline->pipeline);
-                        VkViewport viewport = vks::initializers::viewport(c_vulkan->swapchain.extent.width, c_vulkan->swapchain.extent.height, 0.0f, 1.0f);
-                        vkCmdSetViewport(command_buffer, 0, 1, &viewport);
-
-                        VkRect2D scissor = vks::initializers::rect2D(c_vulkan->swapchain.extent.width, c_vulkan->swapchain.extent.height, 0, 0);
-                        vkCmdSetScissor(command_buffer, 0, 1, &scissor);
-
-                        
-                        VkBuffer vertexBuffers[] = {vertex_buffer.buffer};
+                    //auto sponza = g_world.entity("Sponza").get<Geometry::Cmp_Model>();
+                    for(auto& mesh : sponza_mod.meshes){
+                        VkBuffer vb[] = {mesh.vertex_buffer.buffer};
                         VkDeviceSize offsets[] = {0};
-                        vkCmdBindVertexBuffers(command_buffer, 0, 1, vertexBuffers, offsets);
-                        vkCmdBindIndexBuffer(command_buffer, index_buffer.buffer, 0, VK_INDEX_TYPE_UINT32);
+                        vkCmdBindVertexBuffers(command_buffer, 0, 1, vb, offsets);
+                        vkCmdBindIndexBuffer(command_buffer, mesh.index_buffer.buffer, 0, VK_INDEX_TYPE_UINT32);
                         vkCmdBindDescriptorSets(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphics_pipeline->pipeline_layout, 0, 1, &graphics_pipeline->descriptor_sets[current_frame], 0, nullptr);
-                        
-                        vkCmdDrawIndexed(command_buffer, static_cast<uint32_t>(s_indices.size()), 1, 0, 0, 0);
-
-                        auto sponza = g_world.entity("Sponza").get<Cmp_AssimpModel>();
-                        
+                        vkCmdDrawIndexed(command_buffer, static_cast<uint32_t>(mesh.indices.size()), 1, 0, 0, 0);
                     }
-                    vkCmdEndRenderPass(command_buffer);
+                }
+                vkCmdEndRenderPass(command_buffer);
 
-                    Log::check_error(VK_SUCCESS == vkEndCommandBuffer(command_buffer), "END COMMAND BUFFER");                
+                Log::check_error(VK_SUCCESS == vkEndCommandBuffer(command_buffer), "END COMMAND BUFFER");                
             }
 
             const auto key_is_down = [](int key){
@@ -481,7 +487,8 @@ namespace Axiom{
 
                 auto sponza = g_world.entity("Sponza");
                 auto sponza_res = sponza.get<Cmp_AssimpModel>();
-                auto sponza_mod = Geometry::Cmp_Model(sponza_res);
+                
+                sponza_mod = Geometry::Cmp_Model(sponza_res);
 
                 for(auto& m : sponza_mod.meshes){
                     auto num_verts = m.verts.size();
