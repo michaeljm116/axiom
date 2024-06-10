@@ -62,7 +62,7 @@ namespace Axiom
                     void update_uniform_buffer(uint32_t current_frame);
                     
                     
-                    Vulkan::VBuffer<Shader::V32> vertex_buffer;
+                    Vulkan::VBuffer<Geometry::Vertex48> vertex_buffer;
                     Vulkan::VBuffer<uint32_t> index_buffer;
                     const std::vector<Shader::V32> vertices = {
                         {{-0.5f, -0.5f, 0.5f}, {1.f}, {1.0f, 0.0f, 0.0f}, {0}},
@@ -102,7 +102,7 @@ namespace Axiom
                         3, 7, 4
                     };
 
-                    std::vector<Shader::V32> s_verts;
+                    std::vector<Geometry::Vertex48> s_verts;
                     std::vector<uint32_t> s_indices;
 
 

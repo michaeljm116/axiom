@@ -424,24 +424,24 @@ namespace Axiom{
                     vkCmdSetScissor(command_buffer, 0, 1, &scissor);
 
                     
-                    VkBuffer vertexBuffers[] = {vertex_buffer.buffer};
+                    /*VkBuffer vertexBuffers[] = {vertex_buffer.buffer};
                     VkDeviceSize offsets[] = {0};
                     vkCmdBindVertexBuffers(command_buffer, 0, 1, vertexBuffers, offsets);
                     vkCmdBindIndexBuffer(command_buffer, index_buffer.buffer, 0, VK_INDEX_TYPE_UINT32);
                     vkCmdBindDescriptorSets(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphics_pipeline->pipeline_layout, 0, 1, &graphics_pipeline->descriptor_sets[current_frame], 0, nullptr);
                     vkCmdDrawIndexed(command_buffer, static_cast<uint32_t>(s_indices.size()), 1, 0, 0, 0);
-                    
+                    */
                     
 
                     //auto sponza = g_world.entity("Sponza").get<Geometry::Cmp_Model>();
-                    /*for(auto& mesh : sponza_mod.meshes){
+                    for(auto& mesh : sponza_mod.meshes){
                         VkBuffer vb[] = {mesh.vertex_buffer.buffer};
                         VkDeviceSize offsets[] = {0};
                         vkCmdBindVertexBuffers(command_buffer, 0, 1, vb, offsets);
                         vkCmdBindIndexBuffer(command_buffer, mesh.index_buffer.buffer, 0, VK_INDEX_TYPE_UINT32);
                         vkCmdBindDescriptorSets(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphics_pipeline->pipeline_layout, 0, 1, &graphics_pipeline->descriptor_sets[current_frame], 0, nullptr);
                         vkCmdDrawIndexed(command_buffer, static_cast<uint32_t>(mesh.indices.size()), 1, 0, 0, 0);
-                    }*/
+                    }
                 }
                 vkCmdEndRenderPass(command_buffer);
 
@@ -466,7 +466,7 @@ namespace Axiom{
                 }
 
                 static glm::vec3 velocity = glm::vec3(0.f);
-                float speed = 1.001f;
+                float speed = .001f;
 
                 if(key_is_down(kb->keys[GLFW_KEY_A])) velocity.x -= speed;
                 if(key_is_down(kb->keys[GLFW_KEY_D])) velocity.x += speed;
@@ -476,14 +476,15 @@ namespace Axiom{
                 if(key_is_down(kb->keys[GLFW_KEY_SPACE])) velocity.z += speed;
                 
 
-                ubo.model = glm::rotate(glm::mat4(1.f), time * glm::radians(90.f), glm::vec3(0.f, 0.f, 1.f));
+                //ubo.model = glm::rotate(glm::mat4(1.f), time * glm::radians(90.f), glm::vec3(0.f, 0.f, 1.f));
                 //ubo.model = glm::mat4(1.f);
+                ubo.model = glm::mat4(1.f);
                 ubo.model = glm::translate(ubo.model, velocity);
 
                 ubo.view = g_world.entity("Camera").get<Cmp_Transform>()->world;
 
                 //ubo.view = glm::lookAt(glm::vec3(2.f, 2.f, 2.f), glm::vec3(0.f), glm::vec3(0.f, 0.f, 1.f));
-                ubo.proj = glm::perspective(glm::radians(45.f), c_vulkan->swapchain.extent.width / (float) c_vulkan->swapchain.extent.height, 0.1f, 10.0f);
+                ubo.proj = glm::perspective(glm::radians(45.f), c_vulkan->swapchain.extent.width / (float) c_vulkan->swapchain.extent.height, 0.1f, 10000.0f);
                 ubo.proj[1][1] *= -1;
 
                 uniform_buffers[current_frame].ApplyChanges(c_vulkan->device, ubo);
@@ -516,7 +517,7 @@ namespace Axiom{
                 //std::vector<Shader::V32> s_verts;
                 s_verts.reserve(m->subsets[0].verts.size());
                 for(auto v : m->subsets[0].verts){
-                    s_verts.emplace_back(Shader::V32(v.pos, v.uv.x, v.norm, v.uv.y));
+                    s_verts.emplace_back(Geometry::Vertex48(v.pos, v.uv.x, v.norm, v.uv.y, v.tang));
                 }
                 //std::vector<uint32_t> s_indices;
                 s_indices.reserve(m->subsets[0].tris.size() * 3);

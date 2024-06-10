@@ -9,8 +9,8 @@ namespace Axiom
             float near = 1.f; 
             float far = 1000.f;
 
-            float rotate_speed = 1.f;
-            float move_speed = 5.f;
+            float rotate_speed = .5f;
+            float move_speed = .5f;
         };
             
     }
