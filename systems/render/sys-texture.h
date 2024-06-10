@@ -6,11 +6,6 @@
 #include "cmp-resource.h"
 #include "flecs-world.h"
 
-#ifndef STB_IMAGE_IMPLEMENTATION
-#define STB_IMAGE_IMPLEMENTATION
-#include <stb_image.h>
-#endif
-
 namespace Axiom
 {
     namespace Render
