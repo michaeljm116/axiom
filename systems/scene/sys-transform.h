@@ -12,6 +12,7 @@ namespace Axiom
         void transform_entity(flecs::entity e); 
         glm::vec3 rotate_aabb( const glm::mat3& m);     
 
+        void force_transform(Cmp_Transform& t);
     };
 
 }

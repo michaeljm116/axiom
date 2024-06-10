@@ -36,7 +36,6 @@ namespace Axiom
             .term_at(1).parent()
             .event(flecs::OnSet)
             .event(flecs::OnAdd)
-            .event(flecs::OnUpdate)
             .iter([](flecs::iter& it, const Cmp_Transform * parent, Cmp_Transform* child){
                                 //build rotaiton matrix
                 glm::mat4 rot_m = glm::rotate(glm::radians(child->euler_rot.x), glm::vec3(1.f, 0.f, 0.f));
@@ -188,6 +187,25 @@ namespace Axiom
             }
 
             return vmax;
+        }
+        void force_transform(Cmp_Transform &t)
+        {
+            glm::mat4 rot_m = glm::rotate(glm::radians(t.euler_rot.x), glm::vec3(1.f, 0.f, 0.f));
+            rot_m = glm::rotate(rot_m, glm::radians(t.euler_rot.y), glm::vec3(0.f, 1.f, 0.f));
+            rot_m = glm::rotate(rot_m, glm::radians(t.euler_rot.z), glm::vec3(0.f, 0.f, 1.f));
+            t.local.rot = rot_m;
+            t.global.rot *= t.local.rot;
+
+            //build position and scale matrix.
+            glm::mat4 pos_m = glm::translate(glm::vec3(t.local.pos));
+            glm::mat4 sca_m = glm::scale(glm::vec3(t.local.sca));
+            glm::mat4 local = pos_m * rot_m;
+
+            t.global.sca = t.local.sca; 
+            t.trm = local;
+            local *= sca_m;
+            t.world = local;
+            
         }
     }
 }

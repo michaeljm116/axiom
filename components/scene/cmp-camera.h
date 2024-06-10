@@ -5,12 +5,12 @@ namespace Axiom
     {
         struct Cmp_Camera
         {
-            float fov = 1000.f;
+            float fov = 70.f;
             float near = 1.f; 
-            float far = 70.f;
+            float far = 1000.f;
 
-            float rotate_speed = 5.f;
-            float move_speed = 1.f;
+            float rotate_speed = 1.f;
+            float move_speed = 5.f;
         };
             
     }

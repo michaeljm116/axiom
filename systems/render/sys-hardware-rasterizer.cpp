@@ -424,24 +424,24 @@ namespace Axiom{
                     vkCmdSetScissor(command_buffer, 0, 1, &scissor);
 
                     
-                    /*VkBuffer vertexBuffers[] = {vertex_buffer.buffer};
+                    VkBuffer vertexBuffers[] = {vertex_buffer.buffer};
                     VkDeviceSize offsets[] = {0};
                     vkCmdBindVertexBuffers(command_buffer, 0, 1, vertexBuffers, offsets);
                     vkCmdBindIndexBuffer(command_buffer, index_buffer.buffer, 0, VK_INDEX_TYPE_UINT32);
                     vkCmdBindDescriptorSets(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphics_pipeline->pipeline_layout, 0, 1, &graphics_pipeline->descriptor_sets[current_frame], 0, nullptr);
                     vkCmdDrawIndexed(command_buffer, static_cast<uint32_t>(s_indices.size()), 1, 0, 0, 0);
-                    */
+                    
                     
 
                     //auto sponza = g_world.entity("Sponza").get<Geometry::Cmp_Model>();
-                    for(auto& mesh : sponza_mod.meshes){
+                    /*for(auto& mesh : sponza_mod.meshes){
                         VkBuffer vb[] = {mesh.vertex_buffer.buffer};
                         VkDeviceSize offsets[] = {0};
                         vkCmdBindVertexBuffers(command_buffer, 0, 1, vb, offsets);
                         vkCmdBindIndexBuffer(command_buffer, mesh.index_buffer.buffer, 0, VK_INDEX_TYPE_UINT32);
                         vkCmdBindDescriptorSets(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphics_pipeline->pipeline_layout, 0, 1, &graphics_pipeline->descriptor_sets[current_frame], 0, nullptr);
                         vkCmdDrawIndexed(command_buffer, static_cast<uint32_t>(mesh.indices.size()), 1, 0, 0, 0);
-                    }
+                    }*/
                 }
                 vkCmdEndRenderPass(command_buffer);
 

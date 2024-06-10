@@ -1,6 +1,7 @@
 #include "sys-camera.h"
 #include "flecs-world.h"
 #include "cmp-window.h"
+#include "sys-transform.h"
 
 namespace Axiom
 {
@@ -44,7 +45,10 @@ namespace Axiom
                     mouse->prev_scroll = mouse->scroll;
 
                     t.local.pos.z += diff_z * c.move_speed;
-                }          
+                }     
+                //Cmp_Static s = *e.get_mut<Cmp_Static>();
+                Transform::force_transform(t);
+                //e.set(t);     
             }
         }
     }
