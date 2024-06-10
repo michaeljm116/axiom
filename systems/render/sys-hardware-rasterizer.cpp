@@ -7,6 +7,7 @@
 #include <glm/glm.hpp>
 #include "cmp-input.h"
 #include "cmp-transform.h"
+#include "cmp-material.h"
 
 namespace Axiom{
     namespace Render{
@@ -344,6 +345,44 @@ namespace Axiom{
                 }
             }
 
+            void Raster::create_mesh_descriptor_sets(Geometry::Cmp_Model& model)
+            {
+                for (auto& mesh : model.meshes){
+                    auto  e = g_world.entity(mesh.mat_name.c_str());
+                    auto texture = e.get<Cmp_PBRMaterial>()->texture_albedo;
+
+                    std::vector<VkDescriptorSetLayout> layouts(MAX_FRAMES_IN_FLIGHT, graphics_pipeline->descriptor_set_layout);
+                    mesh.descriptor_sets.resize(MAX_FRAMES_IN_FLIGHT);
+                    auto alloc_info = vks::initializers::descriptorSetAllocateInfo(graphics_pipeline->descriptor_pool, layouts.data(), MAX_FRAMES_IN_FLIGHT);// MAX_FRAMES_IN_FLIGHT);
+                    
+                    if(!Log::check_error(vkAllocateDescriptorSets(c_vulkan->device.logical, &alloc_info, mesh.descriptor_sets.data()) == VK_SUCCESS, "ALLOCATING descriptor sets"))
+                        throw std::runtime_error("Error allocating descriptorset");
+                    
+                    for(int i = 0; i < MAX_FRAMES_IN_FLIGHT; ++i){
+                        auto ds_info = VkDescriptorBufferInfo{
+                            .buffer = uniform_buffers[i].buffer,
+                            .offset = 0,
+                            .range = sizeof(ubo)
+                        };
+
+                        auto u_write_ds = vks::initializers::writeDescriptorSet(
+                            mesh.descriptor_sets[i], 
+                            VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
+                            0, &ds_info, 1
+                        );
+
+                        auto i_write_ds = vks::initializers::writeDescriptorSet(
+                            mesh.descriptor_sets[i],
+                            VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
+                            1, &texture.descriptor, 1
+                        );
+
+                        std::array<VkWriteDescriptorSet,2> write_ds = {u_write_ds, i_write_ds};
+                        vkUpdateDescriptorSets(c_vulkan->device.logical, 2, write_ds.data(), 0, nullptr);
+                    }  
+                }         
+            }
+
             void Raster::create_descriptor_set_layout()
             {
                 VkDescriptorSetLayoutBinding ubo_layout_binding = {
@@ -439,7 +478,8 @@ namespace Axiom{
                         VkDeviceSize offsets[] = {0};
                         vkCmdBindVertexBuffers(command_buffer, 0, 1, vb, offsets);
                         vkCmdBindIndexBuffer(command_buffer, mesh.index_buffer.buffer, 0, VK_INDEX_TYPE_UINT32);
-                        vkCmdBindDescriptorSets(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphics_pipeline->pipeline_layout, 0, 1, &graphics_pipeline->descriptor_sets[current_frame], 0, nullptr);
+                        //vkCmdBindDescriptorSets(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphics_pipeline->pipeline_layout, 0, 1, &graphics_pipeline->descriptor_sets[current_frame], 0, nullptr);
+                        vkCmdBindDescriptorSets(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphics_pipeline->pipeline_layout, 0, 1, &mesh.descriptor_sets[current_frame], 0, nullptr);
                         vkCmdDrawIndexed(command_buffer, static_cast<uint32_t>(mesh.indices.size()), 1, 0, 0, 0);
                     }
                 }
@@ -493,7 +533,7 @@ namespace Axiom{
 
             void Raster::prepare_buffers()
             {
-                texture.path = g_world.get<Resource::Cmp_Directory>()->assets + "Textures/debugger2.png";
+                texture.path = g_world.get<Resource::Cmp_Directory>()->assets + "Textures/circuit.jpg";
                 texture.CreateTexture(c_vulkan->device);
 
                 auto sponza = g_world.entity("Sponza");
@@ -507,6 +547,7 @@ namespace Axiom{
                     m.vertex_buffer.InitStorageBufferCustomSize(c_vulkan->device, m.verts, num_verts, num_verts);
                     m.index_buffer.InitStorageBufferCustomSize(c_vulkan->device, m.indices, num_indxs, num_indxs);
                 }
+                create_mesh_descriptor_sets(sponza_mod);
 
                 sponza.set(sponza_mod);
                 

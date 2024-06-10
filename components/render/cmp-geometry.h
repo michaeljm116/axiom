@@ -82,6 +82,7 @@ namespace Axiom
                 std::string name;
                 Vulkan::VBuffer<Vertex48> vertex_buffer;
                 Vulkan::VBuffer<glm::uint32> index_buffer;
+				std::vector<VkDescriptorSet> descriptor_sets;
 				Mesh48() = default;
 				~Mesh48() {};
 				Mesh48(const Mesh48& other)

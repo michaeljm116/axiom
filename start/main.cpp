@@ -31,6 +31,7 @@
 #include "sys-compute-raytracer.h"
 #include "sys-hardware-rasterizer.h"
 #include "sys-camera.h"
+#include "sys-texture.h"
 
 using namespace Axiom;
 
@@ -84,6 +85,7 @@ int main(){
 	Axiom::Resource::load_directory(assets_folder + "Animations");
 	Axiom::Resource::load_materials(assets_folder + "Materials.xml");
 
+	Axiom::Render::TextureManager::initialize();
 
 	auto suzanne = g_world.entity("Suzanne");
 	auto sponza = g_world.entity("Sponza");

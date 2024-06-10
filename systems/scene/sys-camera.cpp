@@ -37,8 +37,8 @@ namespace Axiom
                     //t.local.rot.x += diff_x * c.rotate_speed;
                     //t.local.rot.y += diff_y * c.rotate_speed;
 
-                    t.euler_rot.x += diff_x * c.rotate_speed;
-                    t.euler_rot.y += diff_y * c.rotate_speed;
+                    t.euler_rot.x += diff_y * c.rotate_speed;
+                    t.euler_rot.y += diff_x * c.rotate_speed;
                 }  
                 if(mouse->prev_scroll != mouse->scroll){
                     auto diff_z = mouse->scroll - mouse->prev_scroll;

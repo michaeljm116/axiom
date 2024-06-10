@@ -11,3 +11,8 @@ TODO: Got sponza loading but its not loading in an ecs way cause of needing to p
 * Next would be to get it textured
 * Next would be to implement pbr shaders
 * Next... actually probably first would be a proper camera system...
+
+
+TODO: got camera working but its not working in an ecs way cause i just wanted to see sponza
+* Note: can now see sponza
+* Next: lets get it textured
