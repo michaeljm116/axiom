@@ -16,3 +16,9 @@ TODO: Got sponza loading but its not loading in an ecs way cause of needing to p
 TODO: got camera working but its not working in an ecs way cause i just wanted to see sponza
 * Note: can now see sponza
 * Next: lets get it textured
+
+TIL: or... relearned... 
+* ecs doesn't mix well with what im trying to do with buffers
+* I should not store buffers in components
+* But instead store references to buffers in components
+* And then Create teh actual buffers in teh renderer

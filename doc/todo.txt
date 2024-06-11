@@ -1,3 +1,13 @@
+6/11/2024
+* Thinking about organization again after realzing the ecs limitations
+* Ultimately i want all my buffers to be separted from my ecs bits
+* Which requires a lot of referencing etc... stuff i aint trinna finna do
+* So yeah, CMP material can be just a string and an id
+* * It could also hold the data but just not the buffers or descriptor sets
+* okay so how about having a texture manager and a material manager
+* Materials reference the material manager which reference the texture manager
+* Does thati mean the material manager just hold refs or the actual textures?
+
 
 6/8/2024
 * Still thinking about the Organization

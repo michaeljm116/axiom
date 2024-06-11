@@ -146,19 +146,19 @@ namespace Axiom
 				}
             };
 
-            struct Cmp_Model {
+            struct Model {
 				std::vector<Mesh48> meshes;
 				std::string name;
 
-				Cmp_Model() = default;  // Ensure a default constructor is available
+				Model() = default;  // Ensure a default constructor is available
 
-				Cmp_Model(const Cmp_Model& other) : name(other.name) {
+				Model(const Model& other) : name(other.name) {
 					for (const auto& mesh : other.meshes) {
 						meshes.emplace_back(mesh);  // Ensure deep copy for each Mesh48
 					}
 				}
 
-				Cmp_Model& operator=(const Cmp_Model& other) {
+				Model& operator=(const Model& other) {
 					if (this != &other) {
 						name = other.name;
 						meshes.clear();
@@ -169,7 +169,7 @@ namespace Axiom
 					return *this;
 				}
 
-				Cmp_Model(const Cmp_AssimpModel* am) {
+				Model(const Cmp_AssimpModel* am) {
 					if (am) {  // Always check for nullptr when dealing with pointers
 						auto num_meshes = am->subsets.size();
 						meshes.reserve(num_meshes);
