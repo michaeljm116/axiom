@@ -10,7 +10,7 @@ namespace Axiom{
     namespace Render
     {
         namespace Resources{
-            extern Memory::Manager<Texture> g_texture_manger;
+            extern Memory::Manager<Texture> g_texture_manager;
             extern Memory::Manager<Geometry::Model> g_model_manager;
             extern Memory::Manager<Material::PBRMaterial> g_material_manager;
 

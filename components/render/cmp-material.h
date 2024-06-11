@@ -22,6 +22,12 @@ namespace Axiom
             glm::vec4 albedo = glm::vec4(1.f, 1.f, 1.f, 1.f);
             float metallic = 0.f;
             float roughness = 0.f;
+
+            std::string albedo_texture;
+            std::string metallic_texture;
+            std::string roughness_texture;
+            std::string normal_texture;
+
         };
 
         namespace Material{

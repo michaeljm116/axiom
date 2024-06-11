@@ -15,14 +15,15 @@ namespace Axiom{
             std::vector<Resource> resources;
             std::unordered_map<std::string, size_t> resourceMap;
             std::queue<size_t> freeIndices;  // Queue to track free slots in the resources vector
-
+            size_t last_added;
         public:
             // Add a new resource or replace an existing one
-            size_t addResource(const Resource& resource, const std::string& name) {
+            size_t add_resource(const Resource& resource, const std::string& name) {
                 auto it = resourceMap.find(name);
                 if (it != resourceMap.end()) {
                     // Replace existing resource
                     resources[it->second] = resource;
+                    last_added = it->second;
                     return it->second;
                 }
 
@@ -36,11 +37,12 @@ namespace Axiom{
                     index = resources.size() - 1;
                 }
                 resourceMap[name] = index;
+                last_added = index;
                 return index;
             }
 
             // Retrieve a resource by name
-            Resource& getResource(const std::string& name) {
+            Resource& get_resource(const std::string& name) {
                 auto it = resourceMap.find(name);
                 if (it [[unlikely]] == resourceMap.end()) {
                     throw std::runtime_error("Resource not found.");
@@ -48,8 +50,16 @@ namespace Axiom{
                 return resources[it->second];
             }
 
+            inline Resource& get_resource(uint32_t index){
+                return resources[index];
+            }
+
+            inline Resource& get_last_added_resource(){
+                return resources[last_added];
+            }
+
             // Remove a resource
-            void removeResource(const std::string& name) {
+            void remove_resource(const std::string& name) {
                 auto it = resourceMap.find(name);
                 if (it [[likely]] != resourceMap.end()) {
                     size_t index = it->second;
@@ -59,7 +69,7 @@ namespace Axiom{
             }
 
             // Access all resources
-            std::span<Resource> getAllResources() {
+            std::span<Resource> get_all_resources() {
                 return std::span<Resource>(resources.data(), resources.size());
             }
 
