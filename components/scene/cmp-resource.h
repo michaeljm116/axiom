@@ -259,4 +259,9 @@ namespace Axiom{
 		glm::vec3 extents;
 	};
 
+	struct Cmp_Assmbled
+	{
+		bool is_assembled = true;
+	};
+
 }

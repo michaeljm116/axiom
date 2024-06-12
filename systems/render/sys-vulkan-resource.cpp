@@ -41,6 +41,20 @@ namespace Axiom{
                     auto& texture = g_texture_manager.get_last_added_resource();
                     texture.CreateTexture(vulkan->device);
                 });*/
+                g_world.observer<Cmp_AssimpModel, Cmp_Assmbled>()
+                .event(flecs::OnSet)
+                .each([](flecs::entity e, Cmp_AssimpModel& m){
+                    auto* vulkan = g_world.get_mut<Cmp_Vulkan>();
+                    auto index = g_model_manager.add_resource(Geometry::Model(&m), m.name);
+                    auto& model = g_model_manager.get_last_added_resource();
+
+                    for(auto& mesh : model.meshes){
+                        mesh.vertex_buffer.InitStorageBufferCustomSize(vulkan->device, mesh.verts, mesh.verts.size(), mesh.verts.size());
+                        mesh.index_buffer.InitStorageBufferCustomSize(vulkan->device, mesh.indices, mesh.indices.size(), mesh.indices.size());
+                    }
+                    e.set(Geometry::Cmp_Model_PBR(m.name, index));
+                    e.set(Cmp_Renderable());
+                });
 
                 g_world.observer<Resource::AxMaterial::PBR>()
                 .event(flecs::OnSet)
@@ -73,6 +87,9 @@ namespace Axiom{
                     // Once textures are created, create the descriptor set of material
                     e.set(Cmp_Renderable());                    
                 });             
+
+
+                
             }
         }
     }

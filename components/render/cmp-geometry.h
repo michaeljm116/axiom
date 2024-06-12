@@ -24,6 +24,13 @@ namespace Axiom
 	{
 		namespace Geometry
 		{
+			struct Cmp_Model_PBR
+			{
+				std::string name;
+				uint32_t index;
+				Cmp_Model_PBR(std::string n, uint32_t i) : name(n), index(i){};
+			};
+
 			struct Vertex32
             {
 				glm::vec3 p = glm::vec3();
@@ -82,7 +89,6 @@ namespace Axiom
                 std::string name;
                 Vulkan::VBuffer<Vertex48> vertex_buffer;
                 Vulkan::VBuffer<glm::uint32> index_buffer;
-				std::vector<VkDescriptorSet> descriptor_sets;
 				Mesh48() = default;
 				~Mesh48() {};
 				Mesh48(const Mesh48& other)
@@ -94,9 +100,6 @@ namespace Axiom
 					mat_name(other.mat_name),
 					name(other.name)
 				{
-					// Assuming you have a way to clone Vulkan buffers correctly
-					//vertex_buffer = {};//other.vertex_buffer;
-					//index_buffer = {};// &other.index_buffer;
 				}
             
 				Mesh48& operator=(const Mesh48& other) {
@@ -108,9 +111,6 @@ namespace Axiom
 						mat_id = other.mat_id;
 						mat_name = other.mat_name;
 						name = other.name;
-						// Copy Vulkan buffers if needed in future
-						//vertex_buffer = Vulkan::cloneBuffer(other.vertex_buffer);
-						//index_buffer = Vulkan::cloneBuffer(other.index_buffer);
 					}
 					return *this;
 				}
@@ -141,8 +141,6 @@ namespace Axiom
 
 					name = rs.name;
 					mat_name = rs.mat_name;
-					//vertex_buffer.InitStorageBufferCustomSize(vulkan->device, verts, num_verts, num_verts);
-					//Index_buffer.InitStorageBufferCustomSize(vulkan->device, indices, num_indices, num_indices);
 				}
             };
 

@@ -219,7 +219,7 @@ namespace Axiom{
             cmp_mod.extents = (model_max - model_min) * .5f;
             cmp_mod.center = (model_min + cmp_mod.extents);
             cmp_mod.name = set_scene_name(scene, res);
-            
+            e.set(Cmp_Assmbled());
             return true;
         }
     }

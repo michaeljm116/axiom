@@ -488,16 +488,19 @@ namespace Axiom{
                     vkCmdDrawIndexed(command_buffer, static_cast<uint32_t>(s_indices.size()), 1, 0, 0, 0);
                     */
                     
+                    auto sponza_cmp = g_world.entity("Sponza").get<Geometry::Cmp_Model_PBR>();
+                    auto sponza = Resources::g_model_manager.get_resource(sponza_cmp->index);
 
-                    //auto sponza = g_world.entity("Sponza").get<Geometry::Cmp_Model>();
-                    for(auto& mesh : sponza_mod.meshes){
+                    for(auto& mesh : sponza.meshes){
+                        auto& material = Resources::g_material_manager.get_resource(mesh.mat_name);
+
                         VkBuffer vb[] = {mesh.vertex_buffer.buffer};
                         VkDeviceSize offsets[] = {0};
                         vkCmdBindVertexBuffers(command_buffer, 0, 1, vb, offsets);
                         vkCmdBindIndexBuffer(command_buffer, mesh.index_buffer.buffer, 0, VK_INDEX_TYPE_UINT32);
                         //vkCmdBindDescriptorSets(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphics_pipeline->pipeline_layout, 0, 1, &graphics_pipeline->descriptor_sets[current_frame], 0, nullptr);
-                        vkCmdBindDescriptorSets(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphics_pipeline->pipeline_layout, 0, 1, &mesh.descriptor_sets[current_frame], 0, nullptr);
-                        vkCmdDrawIndexed(command_buffer, static_cast<uint32_t>(mesh.indices.size()), 1, 0, 0, 0);
+                        vkCmdBindDescriptorSets(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphics_pipeline->pipeline_layout, 0, 1, &material.descriptor_sets[current_frame], 0, nullptr);
+                        vkCmdDrawIndexed(command_buffer, static_cast<uint32_t>(mesh.indices.size()), 1, 0, 0, 0);    
                     }
                 }
                 vkCmdEndRenderPass(command_buffer);
@@ -559,6 +562,7 @@ namespace Axiom{
                 texture.path = g_world.get<Resource::Cmp_Directory>()->assets + "Textures/circuit.jpg";
                 texture.CreateTexture(c_vulkan->device);
 
+                /*
                 auto sponza = g_world.entity("Sponza");
                 auto sponza_res = sponza.get<Cmp_AssimpModel>();
                 
@@ -592,7 +596,7 @@ namespace Axiom{
                     s_indices.emplace_back(t.z);
                 }
                 vertex_buffer.InitStorageBufferCustomSize(c_vulkan->device, s_verts, s_verts.size(), s_verts.size());
-                index_buffer.InitStorageBufferCustomSize(c_vulkan->device, s_indices, s_indices.size(), s_indices.size());
+                index_buffer.InitStorageBufferCustomSize(c_vulkan->device, s_indices, s_indices.size(), s_indices.size());*/
 
                 //vertex_buffer.InitStorageBufferCustomSize(c_vulkan->device, vertices, vertices.size(), vertices.size());
                 //index_buffer.InitStorageBufferCustomSize(c_vulkan->device, indices, indices.size(), indices.size());
