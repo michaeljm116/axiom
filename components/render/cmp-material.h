@@ -18,13 +18,14 @@ namespace Axiom
 
         struct Cmp_Material_PBR
         {
-            int index = 0;
+            uint32_t index = 0;
             std::string name;
             glm::vec4 albedo = glm::vec4(1.f, 1.f, 1.f, 1.f);
             float metallic = 0.f;
             float roughness = 0.f;
-            
-
+            Cmp_Material_PBR(uint32_t i, std::string n, glm::vec4 a, float m, float r)
+            : index(i), name(n), albedo(a), metallic(m), roughness(r)
+            {}
         };
         struct Cmp_Material_Paths_PBR
         {
@@ -32,6 +33,9 @@ namespace Axiom
             std::string metallic_texture;
             std::string roughness_texture;
             std::string normal_texture;
+            Cmp_Material_Paths_PBR(std::string a, std::string m, std::string r, std::string n)
+             : albedo_texture(a), metallic_texture(m), roughness_texture(r), normal_texture(n)
+            {}
         };
 
         

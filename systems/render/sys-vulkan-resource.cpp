@@ -42,6 +42,14 @@ namespace Axiom{
                     texture.CreateTexture(vulkan->device);
                 });*/
 
+                g_world.observer<Resource::AxMaterial::PBR>()
+                .event(flecs::OnSet)
+                .each([](flecs::entity e, Resource::AxMaterial::PBR& m)
+                {
+                    e.set(Cmp_Material_PBR(m.index, m.name, m.albedo.val, m.metalness.val, m.roughness.val));
+                    e.set(Cmp_Material_Paths_PBR(m.albedo.file, m.metalness.file, m.roughness.file, m.normal.file));
+                });
+
                 g_world.observer<Cmp_Material_PBR>()
                 .event(flecs::OnSet)
                 .each([](flecs::entity e, Cmp_Material_PBR& m, Cmp_Material_Paths_PBR& mp){
