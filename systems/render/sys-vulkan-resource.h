@@ -12,7 +12,7 @@ namespace Axiom{
         namespace Resources{
             extern Memory::Manager<Texture> g_texture_manager;
             extern Memory::Manager<Geometry::Model> g_model_manager;
-            extern Memory::Manager<Material::PBRMaterial> g_material_manager;
+            extern Memory::Manager<Material_PBR> g_material_manager;
 
             void initialize();
         }

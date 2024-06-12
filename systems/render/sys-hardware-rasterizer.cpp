@@ -8,6 +8,7 @@
 #include "cmp-input.h"
 #include "cmp-transform.h"
 #include "cmp-material.h"
+#include "sys-vulkan-resource.h"
 
 namespace Axiom{
     namespace Render{
@@ -34,6 +35,8 @@ namespace Axiom{
                 .each([](flecs::entity e, Cmp_Resource& res, Cmp_AssimpModel& mod, Cmp_Model render_mod){
                     
                 });*/
+
+                
             }
             void Raster::start_up()
             {
@@ -344,45 +347,59 @@ namespace Axiom{
                     vkUpdateDescriptorSets(c_vulkan->device.logical, 2, write_ds.data(), 0, nullptr);
                 }
             }
-
-            void Raster::create_mesh_descriptor_sets(Geometry::Cmp_Model& model)
+            
+            void Raster::create_material_descriptor_sets(flecs::entity e, Cmp_Material_PBR &m)
             {
-                for (auto& mesh : model.meshes){
-                    auto  e = g_world.entity(mesh.mat_name.c_str());
-                    auto texture = e.get<Cmp_PBRMaterial>()->texture_albedo;
+                auto& material = Resources::g_material_manager.get_resource(m.index);
 
-                    std::vector<VkDescriptorSetLayout> layouts(MAX_FRAMES_IN_FLIGHT, graphics_pipeline->descriptor_set_layout);
-                    mesh.descriptor_sets.resize(MAX_FRAMES_IN_FLIGHT);
-                    auto alloc_info = vks::initializers::descriptorSetAllocateInfo(graphics_pipeline->descriptor_pool, layouts.data(), MAX_FRAMES_IN_FLIGHT);// MAX_FRAMES_IN_FLIGHT);
-                    
-                    if(!Log::check_error(vkAllocateDescriptorSets(c_vulkan->device.logical, &alloc_info, mesh.descriptor_sets.data()) == VK_SUCCESS, "ALLOCATING descriptor sets"))
-                        throw std::runtime_error("Error allocating descriptorset");
-                    
-                    for(int i = 0; i < MAX_FRAMES_IN_FLIGHT; ++i){
-                        auto ds_info = VkDescriptorBufferInfo{
-                            .buffer = uniform_buffers[i].buffer,
-                            .offset = 0,
-                            .range = sizeof(ubo)
-                        };
+                // descriptor set layout
+                VkDescriptorSetLayoutBinding ubo_layout_binding = {
+                    .binding = 0, .descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, .descriptorCount = 1,
+                    .stageFlags = VK_SHADER_STAGE_VERTEX_BIT, .pImmutableSamplers = nullptr
+                };
+                VkDescriptorSetLayoutBinding sampler_layout_binding = {
+                    .binding = 1, .descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, .descriptorCount = 1,
+                    .stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT, .pImmutableSamplers = nullptr  
+                };
+                std::array<VkDescriptorSetLayoutBinding, 2> bindings = {ubo_layout_binding, sampler_layout_binding};
+                VkDescriptorSetLayoutCreateInfo ds_info = {
+                    .sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO,
+                    .pNext = nullptr, .bindingCount = bindings.size(), .pBindings = bindings.data()
+                };
+                if(!Log::check_error(vkCreateDescriptorSetLayout(c_vulkan->device.logical, &ds_info, nullptr, &material.descriptor_set_layout) == VK_SUCCESS, "Create descriptor set layout! for: " + material.name))
+                    throw std::runtime_error("failed to create descriptor set layout! for: " + material.name);
 
-                        auto u_write_ds = vks::initializers::writeDescriptorSet(
-                            mesh.descriptor_sets[i], 
-                            VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
-                            0, &ds_info, 1
-                        );
+                // descriptor set
+                std::vector<VkDescriptorSetLayout> layouts(MAX_FRAMES_IN_FLIGHT, material.descriptor_set_layout);
+                material.descriptor_sets.resize(MAX_FRAMES_IN_FLIGHT);
+                auto alloc_info = vks::initializers::descriptorSetAllocateInfo(graphics_pipeline->descriptor_pool, layouts.data(), MAX_FRAMES_IN_FLIGHT);// MAX_FRAMES_IN_FLIGHT);
+                if(!Log::check_error(vkAllocateDescriptorSets(c_vulkan->device.logical, &alloc_info, material.descriptor_sets.data()) == VK_SUCCESS, "ALLOCATING descriptor sets"))
+                    throw std::runtime_error("Error allocating descriptorset");
+                
+                for(int i = 0; i < MAX_FRAMES_IN_FLIGHT; ++i){
+                    auto ds_info = VkDescriptorBufferInfo{
+                        .buffer = uniform_buffers[i].buffer,
+                        .offset = 0,
+                        .range = sizeof(ubo)
+                    };
 
-                        auto i_write_ds = vks::initializers::writeDescriptorSet(
-                            mesh.descriptor_sets[i],
-                            VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
-                            1, &texture.descriptor, 1
-                        );
+                    auto u_write_ds = vks::initializers::writeDescriptorSet(
+                        graphics_pipeline->descriptor_sets[i], 
+                        VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
+                        0, &ds_info, 1
+                    );
 
-                        std::array<VkWriteDescriptorSet,2> write_ds = {u_write_ds, i_write_ds};
-                        vkUpdateDescriptorSets(c_vulkan->device.logical, 2, write_ds.data(), 0, nullptr);
-                    }  
-                }         
+                    auto& albedo_texture = Resources::g_texture_manager.get_resource(material.texture_albedo.index);
+                    auto i_write_ds = vks::initializers::writeDescriptorSet(
+                        graphics_pipeline->descriptor_sets[i],
+                        VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
+                        1, &albedo_texture.descriptor, 1
+                    );
+
+                    std::array<VkWriteDescriptorSet,2> write_ds = {u_write_ds, i_write_ds};
+                    vkUpdateDescriptorSets(c_vulkan->device.logical, 2, write_ds.data(), 0, nullptr);
+                }
             }
-
             void Raster::create_descriptor_set_layout()
             {
                 VkDescriptorSetLayoutBinding ubo_layout_binding = {
@@ -533,6 +550,12 @@ namespace Axiom{
 
             void Raster::prepare_buffers()
             {
+                g_world.observer<Cmp_Material_PBR, Cmp_Renderable>()
+                .event(flecs::OnSet)
+                .each([this](flecs::entity e, Cmp_Material_PBR& m){
+                    create_material_descriptor_sets(e, m);
+                });
+
                 texture.path = g_world.get<Resource::Cmp_Directory>()->assets + "Textures/circuit.jpg";
                 texture.CreateTexture(c_vulkan->device);
 
@@ -547,6 +570,7 @@ namespace Axiom{
                     m.vertex_buffer.InitStorageBufferCustomSize(c_vulkan->device, m.verts, num_verts, num_verts);
                     m.index_buffer.InitStorageBufferCustomSize(c_vulkan->device, m.indices, num_indxs, num_indxs);
                 }
+                
                 create_mesh_descriptor_sets(sponza_mod);
 
                 sponza.set(sponza_mod);

@@ -10,8 +10,10 @@ namespace Axiom
         {
             std::string name;
 			uint32_t index;
-			std::string path;
-            Cmp_Texture(std::string p) : path(p){};
+            bool exists = false;
+            Cmp_Texture(std::string n, uint32_t i) : name(n), index(i){
+                if(!(name == "")) exists = true;
+            };
         };
     }
 }

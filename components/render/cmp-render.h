@@ -188,5 +188,8 @@ namespace Axiom
 		Cmp_Render() :type(Render::RENDER_NONE), renderer(Render::kHardwareRasterizer) {};
 		Cmp_Render(Render::RenderType t) : type(t) {};
 	};
+	struct Cmp_Renderable{
+		bool can_render = true;
+	};
 
 } // namespace axio
