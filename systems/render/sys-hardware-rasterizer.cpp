@@ -20,16 +20,28 @@ namespace Axiom{
 
             Raster g_raster = Raster();
             void initialize_raster(){
-                g_raster.c_vulkan = g_world.get_ref<Axiom::Render::Cmp_Vulkan>().get();
-                g_raster.graphics_pipeline = g_world.get_ref<Axiom::Render::Cmp_GraphicsPipeline>().get();
-                g_raster.start_up();
-                g_raster.initialize();
-
                 g_world.system("Update Renderer")
                 .iter([](flecs::iter& it){
                     g_raster.draw_frame();
                 });
+                g_world.observer<Cmp_Material_PBR, Cmp_Renderable>()
+                .event(flecs::OnSet)
+                .each([](flecs::entity e, Cmp_Material_PBR& m, Cmp_Renderable& r){
+                    g_raster.create_material_descriptor_sets(e, m);
+                });
 
+
+                g_raster.c_vulkan = g_world.get_ref<Axiom::Render::Cmp_Vulkan>().get();
+                g_raster.graphics_pipeline = g_world.get_ref<Axiom::Render::Cmp_GraphicsPipeline>().get();
+                g_raster.start_up();
+                
+	            
+
+
+
+                g_raster.initialize();
+
+                
                 /*g_world.observer<Cmp_Resource, Cmp_AssimpModel, Cmp_Render>()
                 .event(flecs::OnSet)
                 .each([](flecs::entity e, Cmp_Resource& res, Cmp_AssimpModel& mod, Cmp_Model render_mod){
@@ -45,12 +57,14 @@ namespace Axiom{
 
             void Raster::initialize()
             {
-                prepare_buffers();
                 create_descriptor_set_layout();
                 create_graphics_pipeline();
                 
                 create_descriptor_pool();
-                create_descriptor_sets();
+                //create_descriptor_sets();
+
+                prepare_buffers();
+
                 create_command_buffers(1.f, 0, 0);
 
             }
@@ -351,6 +365,8 @@ namespace Axiom{
             void Raster::create_material_descriptor_sets(flecs::entity e, Cmp_Material_PBR &m)
             {
                 auto& material = Resources::g_material_manager.get_resource(m.index);
+                if(material.name == "") return;
+                if(material.texture_albedo.exists == false) return;
 
                 // descriptor set layout
                 VkDescriptorSetLayoutBinding ubo_layout_binding = {
@@ -384,14 +400,14 @@ namespace Axiom{
                     };
 
                     auto u_write_ds = vks::initializers::writeDescriptorSet(
-                        graphics_pipeline->descriptor_sets[i], 
+                        material.descriptor_sets[i], 
                         VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
                         0, &ds_info, 1
                     );
 
                     auto& albedo_texture = Resources::g_texture_manager.get_resource(material.texture_albedo.index);
                     auto i_write_ds = vks::initializers::writeDescriptorSet(
-                        graphics_pipeline->descriptor_sets[i],
+                        material.descriptor_sets[i],
                         VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
                         1, &albedo_texture.descriptor, 1
                     );
@@ -553,11 +569,21 @@ namespace Axiom{
 
             void Raster::prepare_buffers()
             {
-                g_world.observer<Cmp_Material_PBR, Cmp_Renderable>()
-                .event(flecs::OnSet)
-                .each([this](flecs::entity e, Cmp_Material_PBR& m){
-                    create_material_descriptor_sets(e, m);
-                });
+                Axiom::Render::Resources::initialize();
+                auto& assets_folder = g_world.get_ref<Axiom::Resource::Cmp_Directory>().get()->assets;
+	            assets_folder = "../../assets/";
+                auto suzanne = g_world.entity("Suzanne");
+                auto sponza = g_world.entity("Sponza");
+                auto teapot = g_world.entity("Teapot");
+                Cmp_Resource suzanne_res = {.file_path = assets_folder + "Models/GLTF/Suzanne/glTF", .file_name = "Suzanne.gltf", .material_type = "PBR"};
+                Cmp_Resource sponza_res = {.file_path = assets_folder + "Models/GLTF/Sponza/glTF", .file_name = "Sponza.gltf", .material_type = "PBR"};
+                Cmp_Resource teapot_res = {.file_path = assets_folder + "Models/OBJ/teapot", .file_name = "teapot.obj", .material_type = "Phong"};
+                //suzanne.set(suzanne_res);
+                //suzanne.set(Cmp_AssimpModel());
+                sponza.set(sponza_res);
+                sponza.set(Cmp_AssimpModel());
+                //teapot.set(teapot_res);
+                //teapot.set(Cmp_AssimpModel());
 
                 texture.path = g_world.get<Resource::Cmp_Directory>()->assets + "Textures/circuit.jpg";
                 texture.CreateTexture(c_vulkan->device);

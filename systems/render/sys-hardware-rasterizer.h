@@ -53,11 +53,11 @@ namespace Axiom
 		            void update_camera(Cmp_Camera* c) override;
                     void update_descriptors() override;
 
+                    void create_material_descriptor_sets(flecs::entity e, Cmp_Material_PBR& m);
                 private:
                     void create_graphics_pipeline();
                     void create_descriptor_pool();
                     void create_descriptor_sets();
-                    void create_material_descriptor_sets(flecs::entity e, Cmp_Material_PBR& m);
                     void create_descriptor_set_layout();
                     void create_command_buffers(float swap_ratio,  int32_t offset_width, int32_t offset_heigiht);  
                     void update_command_buffer(VkCommandBuffer command_buffer, uint32_t image_index);

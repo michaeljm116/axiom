@@ -16,27 +16,60 @@ namespace Axiom
             Cmp_Material(int i, int ui) : id(i), unique_id(ui){};
         };
 
-        struct Cmp_Material_PBR
-        {
+        struct Cmp_Material_PBR {
             uint32_t index = 0;
             std::string name;
             glm::vec4 albedo = glm::vec4(1.f, 1.f, 1.f, 1.f);
             float metallic = 0.f;
             float roughness = 0.f;
+
+            // Default constructor
+            Cmp_Material_PBR() = default;
+
+            // Parameterized constructor
             Cmp_Material_PBR(uint32_t i, std::string n, glm::vec4 a, float m, float r)
-            : index(i), name(n), albedo(a), metallic(m), roughness(r)
-            {}
+            : index(i), name(std::move(n)), albedo(a), metallic(m), roughness(r) {}
+
+            // Copy constructor
+            Cmp_Material_PBR(const Cmp_Material_PBR& other) = default;
+
+            // Move constructor
+            Cmp_Material_PBR(Cmp_Material_PBR&& other) noexcept = default;
+
+            // Copy assignment
+            Cmp_Material_PBR& operator=(const Cmp_Material_PBR& other) = default;
+
+            // Move assignment
+            Cmp_Material_PBR& operator=(Cmp_Material_PBR&& other) noexcept = default;
         };
-        struct Cmp_Material_Paths_PBR
-        {
+
+        struct Cmp_Material_Paths_PBR {
             std::string albedo_texture;
             std::string metallic_texture;
             std::string roughness_texture;
             std::string normal_texture;
+
+            // Default constructor
+            Cmp_Material_Paths_PBR() = default;
+
+            // Parameterized constructor
             Cmp_Material_Paths_PBR(std::string a, std::string m, std::string r, std::string n)
-             : albedo_texture(a), metallic_texture(m), roughness_texture(r), normal_texture(n)
-            {}
+            : albedo_texture(std::move(a)), metallic_texture(std::move(m)), 
+            roughness_texture(std::move(r)), normal_texture(std::move(n)) {}
+
+            // Copy constructor
+            Cmp_Material_Paths_PBR(const Cmp_Material_Paths_PBR& other) = default;
+
+            // Move constructor
+            Cmp_Material_Paths_PBR(Cmp_Material_Paths_PBR&& other) noexcept = default;
+
+            // Copy assignment
+            Cmp_Material_Paths_PBR& operator=(const Cmp_Material_Paths_PBR& other) = default;
+
+            // Move assignment
+            Cmp_Material_Paths_PBR& operator=(Cmp_Material_Paths_PBR&& other) noexcept = default;
         };
+
 
         
         struct Material_PBR

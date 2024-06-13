@@ -85,20 +85,8 @@ int main(){
 	Axiom::Resource::load_directory(assets_folder + "Animations");
 	Axiom::Resource::load_materials(assets_folder + "Materials.xml");
 
-	Axiom::Render::Resources::initialize();
 
-	auto suzanne = g_world.entity("Suzanne");
-	auto sponza = g_world.entity("Sponza");
-	auto teapot = g_world.entity("Teapot");
-	Cmp_Resource suzanne_res = {.file_path = assets_folder + "Models/GLTF/Suzanne/glTF", .file_name = "Suzanne.gltf", .material_type = "PBR"};
-	Cmp_Resource sponza_res = {.file_path = assets_folder + "Models/GLTF/Sponza/glTF", .file_name = "Sponza.gltf", .material_type = "PBR"};
-	Cmp_Resource teapot_res = {.file_path = assets_folder + "Models/OBJ/teapot", .file_name = "teapot.obj", .material_type = "Phong"};
-	suzanne.set(suzanne_res);
-	suzanne.set(Cmp_AssimpModel());
-	sponza.set(sponza_res);
-	sponza.set(Cmp_AssimpModel());
-	teapot.set(teapot_res);
-	teapot.set(Cmp_AssimpModel());
+
 
 	auto* twindow = g_world.get<Cmp_Window>()->window;
 	Axiom::Transform::initialize();

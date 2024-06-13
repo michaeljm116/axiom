@@ -44,7 +44,7 @@ namespace Axiom{
             // Retrieve a resource by name
             Resource& get_resource(const std::string& name) {
                 auto it = resourceMap.find(name);
-                if (it [[unlikely]] == resourceMap.end()) {
+                if (it == resourceMap.end()) {
                     throw std::runtime_error("Resource not found.");
                 }
                 return resources[it->second];
@@ -61,9 +61,9 @@ namespace Axiom{
             // Remove a resource
             void remove_resource(const std::string& name) {
                 auto it = resourceMap.find(name);
-                if (it [[likely]] != resourceMap.end()) {
+                if (it != resourceMap.end() [[likely]]) {
                     size_t index = it->second;
-                    resourceMap.erase(it);
+                    resourceMap.erase(it); 
                     freeIndices.push(index); // Mark index as free
                 }
             }
