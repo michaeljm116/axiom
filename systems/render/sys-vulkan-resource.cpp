@@ -47,11 +47,12 @@ namespace Axiom{
                 .each([](flecs::entity e, Cmp_AssimpModel& m, Cmp_Assmbled& a){
                     auto* vulkan = g_world.get_mut<Cmp_Vulkan>();
                     auto index = g_model_manager.add_resource(Geometry::Model(&m), m.name);
-                    auto& model = g_model_manager.get_last_added_resource();
+                    auto* model = g_model_manager.ref_last_added_resource();
 
-                    for(auto& mesh : model.meshes){
-                        mesh.vertex_buffer.InitStorageBufferCustomSize(vulkan->device, mesh.verts, mesh.verts.size(), mesh.verts.size());
-                        mesh.index_buffer.InitStorageBufferCustomSize(vulkan->device, mesh.indices, mesh.indices.size(), mesh.indices.size());
+                    for(auto& mesh : model->meshes){
+                        mesh.vertex_buffer.InitStorageBufferCustomSize(&vulkan->device, mesh.verts, mesh.verts.size(), mesh.verts.size());
+                        mesh.index_buffer.InitStorageBufferCustomSize(&vulkan->device, mesh.indices, mesh.indices.size(), mesh.indices.size());
+                        mesh.center = glm::vec3(8, 73, 11.346);
                     }
                     e.set(Geometry::Cmp_Model_PBR(m.name, index));
                     e.set(Cmp_Renderable());

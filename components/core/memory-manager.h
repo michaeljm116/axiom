@@ -53,9 +53,16 @@ namespace Axiom{
             inline Resource& get_resource(uint32_t index){
                 return resources[index];
             }
+            inline Resource* ref_resource(uint32_t index){
+                return &resources[index];
+            }
 
             inline Resource& get_last_added_resource(){
                 return resources[last_added];
+            }
+
+            inline Resource* ref_last_added_resource(){
+                return &resources[last_added];
             }
 
             // Remove a resource

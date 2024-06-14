@@ -263,6 +263,31 @@ namespace Axiom {
 				bufferInfo.range = bufferSize;// sizeof(T);
 			}
 
+			void InitStorageBufferCustomSize(Device* vkDevice, std::vector<T> objects, size_t mul, size_t max,
+				VkBufferUsageFlags usage = VK_BUFFER_USAGE_VERTEX_BUFFER_BIT | VK_BUFFER_USAGE_INDEX_BUFFER_BIT | VK_BUFFER_USAGE_STORAGE_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT,
+				VkMemoryPropertyFlags properties = VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT) {
+
+				VkDeviceSize bufferSize = sizeof(Data) * mul;
+				VkDeviceSize maxBufferSize = sizeof(Data) * max;
+				vkDevice->createBuffer(maxBufferSize, usage, properties, buffer, bufferMemory);
+
+				void* data;
+				//vkMapMemory(vkDevice->logical, bufferMemory, 0, bufferSize, 0, &data);
+
+				if(vkMapMemory(vkDevice->logical, bufferMemory, 0, bufferSize, 0, &data) != VK_SUCCESS)
+					throw std::runtime_error("Failed to map Vulkan memory");
+
+
+				memcpy(data, objects.data(), (size_t)bufferSize);
+				vkUnmapMemory(vkDevice->logical, bufferMemory);
+
+				mInitialized = true;
+
+				bufferInfo.buffer = buffer;
+				bufferInfo.offset = 0;
+				bufferInfo.range = bufferSize;// sizeof(T);
+			}
+
 			void InitStorageBufferWithStaging(Device& vkDevice, std::vector<T> objects, size_t mul,
 				VkBufferUsageFlags usage = VK_BUFFER_USAGE_VERTEX_BUFFER_BIT | VK_BUFFER_USAGE_INDEX_BUFFER_BIT | VK_BUFFER_USAGE_STORAGE_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT) {
 				VkBuffer stagingBuffer;
