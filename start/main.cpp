@@ -119,6 +119,7 @@ int main(){
 	g_world.progress();
 
 	while(!glfwWindowShouldClose(twindow)){
+		OPTICK_FRAME("Main Thread")
 		if(render_type == Axiom::Render::RendererType::kComputeRaytracer){
 			Axiom::Bvh::Build();
 			auto bvh = Axiom::Bvh::bvh_comp;

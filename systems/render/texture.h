@@ -35,6 +35,8 @@ namespace Axiom
 
 			void destroy(VkDevice& device);
 			VkResult CreateTexture(Vulkan::Device& device);
+			VkResult CreateTextureMips(Vulkan::Device& device);
+			void generateMipmaps(Vulkan::Device& device, VkImage image, int32_t texWidth, int32_t texHeight, uint32_t mipLevels);
 			void updateDescriptor();
 		};
 

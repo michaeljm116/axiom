@@ -22,6 +22,7 @@ namespace Hardware{
     void initialize_raster(){
         g_world.system("Update Renderer")
         .iter([](flecs::iter& it){
+            OPTICK_EVENT();
             g_raster.draw_frame();
         });
         g_world.observer<Cmp_Material_PBR, Cmp_Renderable>()
@@ -494,15 +495,6 @@ namespace Hardware{
 
             VkRect2D scissor = vks::initializers::rect2D(c_vulkan->swapchain.extent.width, c_vulkan->swapchain.extent.height, 0, 0);
             vkCmdSetScissor(command_buffer, 0, 1, &scissor);
-
-            
-            /*VkBuffer vertexBuffers[] = {vertex_buffer.buffer};
-            VkDeviceSize offsets[] = {0};
-            vkCmdBindVertexBuffers(command_buffer, 0, 1, vertexBuffers, offsets);
-            vkCmdBindIndexBuffer(command_buffer, index_buffer.buffer, 0, VK_INDEX_TYPE_UINT32);
-            vkCmdBindDescriptorSets(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphics_pipeline->pipeline_layout, 0, 1, &graphics_pipeline->descriptor_sets[current_frame], 0, nullptr);
-            vkCmdDrawIndexed(command_buffer, static_cast<uint32_t>(s_indices.size()), 1, 0, 0, 0);
-            */
             
             auto sponza_cmp = g_world.entity("Sponza").get<Geometry::Cmp_Model_PBR>();
             auto* sponza = Resources::g_model_manager.ref_resource(sponza_cmp->index);
