@@ -155,7 +155,7 @@ namespace Axiom {
 			samplerInfo.mipmapMode = VK_SAMPLER_MIPMAP_MODE_LINEAR;
 			samplerInfo.mipLodBias = 0.0f;
 			samplerInfo.minLod = 0.0f;
-			samplerInfo.maxLod = 0.0f;
+			samplerInfo.maxLod = static_cast<float>(mipLevels/2);
 
 			
 			//VK_CHECKRESULT(vkCreateSampler(device.logical, &samplerInfo, nullptr, &sampler), "create texture sampler!");

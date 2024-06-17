@@ -26,7 +26,7 @@ namespace Axiom{
                     index = g_texture_manager.add_resource(Texture(file), name);
                     auto& texture = g_texture_manager.get_last_added_resource();
                     auto* vk = *vulkan;
-                    texture.CreateTexture(vk->device);
+                    texture.CreateTextureMips(vk->device);
                 }
                 return Cmp_Texture(name, index);
             };

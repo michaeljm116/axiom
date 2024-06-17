@@ -22,7 +22,7 @@ namespace Hardware{
     void initialize_raster(){
         g_world.system("Update Renderer")
         .iter([](flecs::iter& it){
-            OPTICK_EVENT();
+            OPTICK_EVENT();`
             g_raster.draw_frame();
         });
         g_world.observer<Cmp_Material_PBR, Cmp_Renderable>()
