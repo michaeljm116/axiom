@@ -22,7 +22,7 @@ namespace Hardware{
     void initialize_raster(){
         g_world.system("Update Renderer")
         .iter([](flecs::iter& it){
-            OPTICK_EVENT();`
+            OPTICK_EVENT("Draw Frame");
             g_raster.draw_frame();
         });
         g_world.observer<Cmp_Material_PBR, Cmp_Renderable>()
@@ -31,24 +31,16 @@ namespace Hardware{
             g_raster.create_material_descriptor_sets(e, m);
         });
 
-
         g_raster.c_vulkan = g_world.get_ref<Axiom::Render::Cmp_Vulkan>().get();
         g_raster.graphics_pipeline = g_world.get_ref<Axiom::Render::Cmp_GraphicsPipeline>().get();
         g_raster.start_up();
-        
-        
-
-
-
         g_raster.initialize();
 
-        
         /*g_world.observer<Cmp_Resource, Cmp_AssimpModel, Cmp_Render>()
         .event(flecs::OnSet)
         .each([](flecs::entity e, Cmp_Resource& res, Cmp_AssimpModel& mod, Cmp_Model render_mod){
             
         });*/
-
         
     }
     void Raster::start_up()

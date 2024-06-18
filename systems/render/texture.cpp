@@ -154,8 +154,8 @@ namespace Axiom {
 
 			samplerInfo.mipmapMode = VK_SAMPLER_MIPMAP_MODE_LINEAR;
 			samplerInfo.mipLodBias = 0.0f;
-			samplerInfo.minLod = 0.0f;
-			samplerInfo.maxLod = static_cast<float>(mipLevels/2);
+			samplerInfo.minLod = static_cast<float>(mipLevels/2);
+			samplerInfo.maxLod = static_cast<float>(mipLevels);
 
 			
 			//VK_CHECKRESULT(vkCreateSampler(device.logical, &samplerInfo, nullptr, &sampler), "create texture sampler!");
@@ -169,6 +169,12 @@ namespace Axiom {
 
         void Texture::generateMipmaps(Vulkan::Device &device, VkImage image, int32_t texWidth, int32_t texHeight, uint32_t mipLevels)
         {
+			VkFormatProperties formatProperties;
+			vkGetPhysicalDeviceFormatProperties(device.physical, VK_FORMAT_R8G8B8A8_SRGB, &formatProperties);
+			if (!(formatProperties.optimalTilingFeatures & VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT)) {
+				throw std::runtime_error("texture image format does not support linear blitting!");
+			}
+
 			VkCommandBuffer commandBuffer = device.beginSingleTimeCommands();
 			VkImageMemoryBarrier barrier{
 				.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER,
@@ -220,7 +226,7 @@ namespace Axiom {
 				);
 
 				barrier.oldLayout = VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL;
-				barrier.newLayout = VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL;
+				barrier.newLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
 				barrier.srcAccessMask = VK_ACCESS_TRANSFER_READ_BIT;
 				barrier.dstAccessMask = VK_ACCESS_SHADER_READ_BIT;
 
