@@ -154,7 +154,7 @@ namespace Axiom {
 
 			samplerInfo.mipmapMode = VK_SAMPLER_MIPMAP_MODE_LINEAR;
 			samplerInfo.mipLodBias = 0.0f;
-			samplerInfo.minLod = static_cast<float>(mipLevels/2);
+			samplerInfo.minLod = 0;
 			samplerInfo.maxLod = static_cast<float>(mipLevels);
 
 			
@@ -178,13 +178,15 @@ namespace Axiom {
 			VkCommandBuffer commandBuffer = device.beginSingleTimeCommands();
 			VkImageMemoryBarrier barrier{
 				.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER,
-				.image = image,
 				.srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED,
 				.dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED,
-				.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT,
-				.subresourceRange.baseArrayLayer = 0,
-				.subresourceRange.layerCount = 1,
-				.subresourceRange.levelCount = 1
+				.image = image,
+				.subresourceRange = {
+					.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT,
+					.levelCount = 1,
+					.baseArrayLayer = 0,
+					.layerCount = 1
+				}
 			};
 
 			int32_t mip_width = texWidth;
@@ -206,18 +208,20 @@ namespace Axiom {
 				);
 				 
 				VkImageBlit blit{
-					.srcOffsets[0] = {0,0,0},
-					.srcOffsets[1] = {mip_width, mip_height, 1},
-					.srcSubresource.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT,
-					.srcSubresource.mipLevel = i - 1,
-					.srcSubresource.baseArrayLayer = 0,
-					.srcSubresource.layerCount = 1,
-					.dstOffsets[0] = {0,0,0},
-					.dstOffsets[1] = {mip_width > 1 ? mip_width / 2 : 1, mip_height > 1 ? mip_height / 2 : 1, 1},
-					.dstSubresource.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT,
-					.dstSubresource.mipLevel = i,
-					.dstSubresource.baseArrayLayer = 0,
-					.dstSubresource.layerCount = 1
+					.srcSubresource = {
+						.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT,
+						.mipLevel = i - 1,
+						.baseArrayLayer = 0,
+						.layerCount = 1
+					},
+					.srcOffsets = {{0,0,0}, {mip_width, mip_height, 1}},
+					.dstSubresource = {
+						.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT,
+						.mipLevel = i,
+						.baseArrayLayer = 0, 
+						.layerCount = 1
+					},
+					.dstOffsets = {{0,0,0},{mip_width > 1 ? mip_width / 2 : 1, mip_height > 1 ? mip_height / 2 : 1, 1}}
 				};
 				vkCmdBlitImage(commandBuffer,
 					image, VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL,
