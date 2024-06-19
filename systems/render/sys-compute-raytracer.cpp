@@ -618,7 +618,7 @@ namespace Axiom{
 
                 VkPipelineMultisampleStateCreateInfo multisampleState =
                     vks::initializers::pipelineMultisampleStateCreateInfo(
-                        VK_SAMPLE_COUNT_1_BIT,
+                        c_vulkan->sample.max_sample,
                         0);
 
                 std::vector<VkDynamicState> dynamicStateEnables = {
@@ -694,7 +694,7 @@ namespace Axiom{
                 pipelineCreateInfo.pDynamicState = &dynamicState;
                 pipelineCreateInfo.stageCount = shaderStages.size();
                 pipelineCreateInfo.pStages = shaderStages.data();
-                pipelineCreateInfo.renderPass = c_vulkan->pipeline.render_pass;
+                pipelineCreateInfo.renderPass = c_vulkan->pipeline.render_pass; 
 
                 Log::check(VK_SUCCESS == vkCreateGraphicsPipelines(c_vulkan->device.logical, c_vulkan->pipeline.cache, 1, &pipelineCreateInfo, nullptr, &rt_data->graphics.pipeline), "CREATE GRAPHICS PIPELINE");
 

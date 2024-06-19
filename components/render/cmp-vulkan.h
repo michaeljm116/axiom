@@ -25,6 +25,14 @@ namespace Axiom
                 VkFormat format = VK_FORMAT_UNDEFINED;
             };
 
+            struct Sample{
+                VkImage image = VK_NULL_HANDLE;
+                VkDeviceMemory image_memory = VK_NULL_HANDLE;
+                VkImageView image_view = VK_NULL_HANDLE;
+                VkFormat format = VK_FORMAT_UNDEFINED; 
+				VkSampleCountFlagBits max_sample = VK_SAMPLE_COUNT_1_BIT;               
+            };
+
              /** @brief Swapchain*/
             struct SwapChain{
                 /*struct SupportDetails
@@ -83,6 +91,7 @@ namespace Axiom
             Vulkan::Command command = Vulkan::Command();
             Vulkan::SwapChain swapchain = Vulkan::SwapChain();
             Vulkan::Depth depth = Vulkan::Depth();
+            Vulkan::Sample sample = Vulkan::Sample();
             Vulkan::Queues queues = Vulkan::Queues();
             Vulkan::Pipeline pipeline = Vulkan::Pipeline();
             VkSubmitInfo submit_info = VkSubmitInfo();

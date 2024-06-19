@@ -352,7 +352,7 @@ namespace Axiom {
 
 				void createImage(uint32_t width, uint32_t height, VkFormat format,
 					VkImageTiling tiling, VkImageUsageFlags usage, VkMemoryPropertyFlags properties, 
-					VkImage& image, VkDeviceMemory& imageMemory, uint32_t mip_levels = 1) {
+					VkImage& image, VkDeviceMemory& imageMemory, uint32_t mip_levels = 1, VkSampleCountFlagBits samples = VK_SAMPLE_COUNT_1_BIT) {
 					VkImageCreateInfo imageInfo = {};
 					imageInfo.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
 					imageInfo.imageType = VK_IMAGE_TYPE_2D;
@@ -365,7 +365,7 @@ namespace Axiom {
 					imageInfo.tiling = tiling;
 					imageInfo.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
 					imageInfo.usage = usage;
-					imageInfo.samples = VK_SAMPLE_COUNT_1_BIT;
+					imageInfo.samples = samples;
 					imageInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
 
 					if (vkCreateImage(logical, &imageInfo, nullptr, &image) != VK_SUCCESS) {
