@@ -55,6 +55,11 @@ namespace Base
         c_vulkan->device.Destroy();
     }
     void RenderBase::clean_up_swapchain() {
+
+        vkDestroyImageView(c_vulkan->device.logical, c_vulkan->sample.image_view, nullptr);
+        vkDestroyImage(c_vulkan->device.logical, c_vulkan->sample.image, nullptr);
+        vkFreeMemory(c_vulkan->device.logical, c_vulkan->sample.image_memory, nullptr);
+
         vkDestroyImageView(c_vulkan->device.logical, c_vulkan->depth.image_view, nullptr);
         vkDestroyImage(c_vulkan->device.logical, c_vulkan->depth.image, nullptr);
         vkFreeMemory(c_vulkan->device.logical, c_vulkan->depth.image_memory, nullptr);
@@ -286,7 +291,7 @@ namespace Base
         depthAttachmentRef.attachment = 1;
         depthAttachmentRef.layout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
 
-        VkAttachmentDescription sample_attachment = {
+        VkAttachmentDescription color_resolve = {
             .format = c_vulkan->swapchain.image_format,
             .samples = VK_SAMPLE_COUNT_1_BIT,
             .loadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE,
@@ -297,7 +302,7 @@ namespace Base
             .finalLayout = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR
         };
 
-        VkAttachmentReference sample_ref{
+        VkAttachmentReference resolve_ref{
             .attachment = 2,
             .layout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL
         };
@@ -307,7 +312,7 @@ namespace Base
         subpass.colorAttachmentCount = 1;
         subpass.pColorAttachments = &colorAttachmentRef;
         subpass.pDepthStencilAttachment = &depthAttachmentRef;
-        subpass.pResolveAttachments = &sample_ref;
+        subpass.pResolveAttachments = &resolve_ref;
 
         VkSubpassDependency dependency = {};
         dependency.srcSubpass = VK_SUBPASS_EXTERNAL;
@@ -317,7 +322,7 @@ namespace Base
         dependency.dstStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
         dependency.dstAccessMask = VK_ACCESS_COLOR_ATTACHMENT_READ_BIT | VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
 
-        std::array<VkAttachmentDescription, 3> attachments = { colorAttachment, depthAttachment, sample_attachment };
+        std::array<VkAttachmentDescription, 3> attachments = { colorAttachment, depthAttachment, color_resolve };
         VkRenderPassCreateInfo renderPassInfo = {};
         renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;
         renderPassInfo.attachmentCount = static_cast<uint32_t>(attachments.size());
@@ -356,14 +361,15 @@ namespace Base
             c_vulkan->sample.image_memory,
             1,
             c_vulkan->sample.max_sample);
+        c_vulkan->sample.image_view = c_vulkan->device.createImageView(c_vulkan->sample.image, c_vulkan->sample.format, VK_IMAGE_ASPECT_COLOR_BIT);
     }
     void RenderBase::createFrameBuffers() {
         c_vulkan->swapchain.frame_buffers.resize(c_vulkan->swapchain.image_views.size());
         for (size_t i = 0; i < c_vulkan->swapchain.image_views.size(); i++) {
             std::array<VkImageView, 3> attachments = {
-                c_vulkan->swapchain.image_views[i],
+                c_vulkan->sample.image_view,
                 c_vulkan->depth.image_view,
-                c_vulkan->sample.image_view
+                c_vulkan->swapchain.image_views[i]
             };
 
             VkFramebufferCreateInfo framebufferInfo = {};
