@@ -15,9 +15,11 @@ layout(location = 5) in float inPad;
 
 layout(location = 0) out vec3 fragColor;
 layout(location = 1) out vec2 fragTexCoord;
+layout(location = 2) out vec3 fragNormal;
 
 void main() {
     gl_Position = ubo.proj * ubo.view * ubo.model *  vec4(inPosition, 1.0);
     fragColor = vec3(1.0);
     fragTexCoord = vec2(inU, inV);
+    fragNormal = vec3(normalize(ubo.proj * ubo.view * ubo.model * vec4(inNormal, 0.0)));
 }
