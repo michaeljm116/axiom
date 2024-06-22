@@ -7,7 +7,6 @@ layout(location = 2) in vec3 fragNormal;
 layout(location = 0) out vec4 outColor;
 
 layout(binding = 1) uniform sampler2D albedoSampler;
-
 const vec4 sun_color = vec4(1.0);
 const vec3 sun_direction = normalize(vec3(1.0, 1.0, 1.0));
 

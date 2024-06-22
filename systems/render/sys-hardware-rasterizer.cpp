@@ -245,7 +245,7 @@ namespace Hardware{
 
         Shader::init();
         const auto vert_shader_code = Shader::compile_glsl(assets_folder + "Shaders/glsl/basic.vert", Shader::Type::eVertex);
-        const auto frag_shader_code = Shader::compile_glsl(assets_folder + "Shaders/glsl/basic.frag", Shader::Type::eFragment);
+        const auto frag_shader_code = Shader::compile_glsl(assets_folder + "Shaders/glsl/pbr.frag", Shader::Type::eFragment);
         const auto pbr_shader_code  = Shader::compile_glsl(assets_folder + "Shaders/glsl/pbr.frag",   Shader::Type::eFragment);
         Shader::finalize();    
 

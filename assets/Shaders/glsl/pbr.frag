@@ -22,11 +22,11 @@ layout(binding=5) uniform Material{
 }material_data;
 
 const vec4 sun_color = vec4(1.0);
-const vec3 sun_direction = normalize(vec3(1.0, 1.0, 1.0));
+const vec3 sun_direction = normalize(vec3(0.1, 0.1, 0.1));
 
 void main() {
-    if(material_data.has_normal) 
-        outColor = sun_color * max(0.0, dot(texture(normalSampler, fragTexCoord), vec4(-sun_direction.xyz, 0.0))) * vec4(fragColor, 1.0) * texture(albedoSampler, fragTexCoord);        
+    if(!material_data.has_normal) 
+        outColor = sun_color * max(0.0, dot(texture(normalSampler, fragTexCoord).xyz * fragNormal, -sun_direction)) * vec4(fragColor, 1.0) * texture(albedoSampler, fragTexCoord);        
     else
         outColor = sun_color * max(0.0, dot(fragNormal, -sun_direction)) * vec4(fragColor, 1.0) * texture(albedoSampler, fragTexCoord);    
 }
