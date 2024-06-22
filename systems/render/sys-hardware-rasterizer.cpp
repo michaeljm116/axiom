@@ -615,12 +615,12 @@ namespace Hardware{
         static glm::vec3 velocity = glm::vec3(0.f);
         float speed = 1.0101f;
 
-        if(key_is_down(kb->keys[GLFW_KEY_A])) velocity.x -= speed;
-        if(key_is_down(kb->keys[GLFW_KEY_D])) velocity.x += speed;
-        if(key_is_down(kb->keys[GLFW_KEY_S])) velocity.y -= speed;
-        if(key_is_down(kb->keys[GLFW_KEY_W])) velocity.y += speed;
-        if(key_is_down(kb->keys[GLFW_KEY_LEFT_ALT])) velocity.z -= speed;
-        if(key_is_down(kb->keys[GLFW_KEY_SPACE])) velocity.z += speed;
+        if(key_is_down(kb->keys[GLFW_KEY_S])) velocity.x -= speed;
+        if(key_is_down(kb->keys[GLFW_KEY_W])) velocity.x += speed;
+        if(key_is_down(kb->keys[GLFW_KEY_SPACE])) velocity.y -= speed;
+        if(key_is_down(kb->keys[GLFW_KEY_LEFT_ALT])) velocity.y += speed;
+        if(key_is_down(kb->keys[GLFW_KEY_A])) velocity.z -= speed;
+        if(key_is_down(kb->keys[GLFW_KEY_D])) velocity.z += speed;
         
 
         //ubo.model = glm::rotate(glm::mat4(1.f), time * glm::radians(90.f), glm::vec3(0.f, 0.f, 1.f));
