@@ -357,9 +357,9 @@ namespace Hardware{
     
     void Raster::create_material_descriptor_sets(flecs::entity e, Cmp_Material_PBR_Ref &m)
     {
-        auto& material = Resources::g_material_manager.get_resource(m.index);
-        if(material.name == "") return;
-        if(material.texture_albedo.exists == false) return;
+        auto* material = Resources::g_material_manager.ref_resource(m.index);
+        if(material->name == "") return;
+        if(material->texture_albedo.exists == false) return;
 
         // descriptor set layout
         VkDescriptorSetLayoutBinding ubo_layout_binding = {
@@ -390,14 +390,14 @@ namespace Hardware{
             .sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO,
             .pNext = nullptr, .bindingCount = bindings.size(), .pBindings = bindings.data()
         };
-        if(!Log::check_error(vkCreateDescriptorSetLayout(c_vulkan->device.logical, &ds_info, nullptr, &material.descriptor_set_layout) == VK_SUCCESS, "Create descriptor set layout! for: " + material.name))
-            throw std::runtime_error("failed to create descriptor set layout! for: " + material.name);
+        if(!Log::check_error(vkCreateDescriptorSetLayout(c_vulkan->device.logical, &ds_info, nullptr, &material->descriptor_set_layout) == VK_SUCCESS, "Create descriptor set layout! for: " + material->name))
+            throw std::runtime_error("failed to create descriptor set layout! for: " + material->name);
 
         // descriptor set
-        std::vector<VkDescriptorSetLayout> layouts(MAX_FRAMES_IN_FLIGHT, material.descriptor_set_layout);
-        material.descriptor_sets.resize(MAX_FRAMES_IN_FLIGHT);
+        std::vector<VkDescriptorSetLayout> layouts(MAX_FRAMES_IN_FLIGHT, material->descriptor_set_layout);
+        material->descriptor_sets.resize(MAX_FRAMES_IN_FLIGHT);
         auto alloc_info = vks::initializers::descriptorSetAllocateInfo(graphics_pipeline->descriptor_pool, layouts.data(), MAX_FRAMES_IN_FLIGHT);// MAX_FRAMES_IN_FLIGHT);
-        if(!Log::check_error(vkAllocateDescriptorSets(c_vulkan->device.logical, &alloc_info, material.descriptor_sets.data()) == VK_SUCCESS, "ALLOCATING descriptor sets"))
+        if(!Log::check_error(vkAllocateDescriptorSets(c_vulkan->device.logical, &alloc_info, material->descriptor_sets.data()) == VK_SUCCESS, "ALLOCATING descriptor sets"))
             throw std::runtime_error("Error allocating descriptorset");
         
         for(int i = 0; i < MAX_FRAMES_IN_FLIGHT; ++i){
@@ -411,43 +411,43 @@ namespace Hardware{
             };
 
             write_ds[0] = vks::initializers::writeDescriptorSet(
-                material.descriptor_sets[i], 
+                material->descriptor_sets[i], 
                 VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
                 0, &ds_info, 1
             );
 
-            auto& albedo_texture = Resources::g_texture_manager.get_resource(material.texture_albedo.index);
+            auto& albedo_texture = Resources::g_texture_manager.get_resource(material->texture_albedo.index);
             write_ds[1] = vks::initializers::writeDescriptorSet(
-                material.descriptor_sets[i],
+                material->descriptor_sets[i],
                 VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
                 1, &albedo_texture.descriptor, 1
             );
-            auto& metallic_texture = Resources::g_texture_manager.get_resource(material.texture_metallic.index);
+            auto& metallic_texture = Resources::g_texture_manager.get_resource(material->texture_metallic.index);
             write_ds[2] = vks::initializers::writeDescriptorSet(
-                material.descriptor_sets[i],
+                material->descriptor_sets[i],
                 VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
                 2, &metallic_texture.descriptor, 1
             );
-            auto& roughness_texture = Resources::g_texture_manager.get_resource(material.texture_roughness.index);
+            auto& roughness_texture = Resources::g_texture_manager.get_resource(material->texture_roughness.index);
             write_ds[3] = vks::initializers::writeDescriptorSet(
-                material.descriptor_sets[i],
+                material->descriptor_sets[i],
                 VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
                 3, &roughness_texture.descriptor, 1
             );
-            auto& normal_texture = Resources::g_texture_manager.get_resource(material.texture_normal.index);
+            auto& normal_texture = Resources::g_texture_manager.get_resource(material->texture_normal.index);
             write_ds[4] = vks::initializers::writeDescriptorSet(
-                material.descriptor_sets[i],
+                material->descriptor_sets[i],
                 VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
                 4, &normal_texture.descriptor, 1
             ); 
-            material.uniform_buffer.InitUniformBuffer(c_vulkan->device, material.uniform);           
+            material->uniform_buffer.InitUniformBuffer(c_vulkan->device, material->uniform);           
             auto mds_info = VkDescriptorBufferInfo{
-                .buffer = material.uniform_buffer.buffer,
+                .buffer = material->uniform_buffer.buffer,
                 .offset = 0,
                 .range = sizeof(Material_PBR::Uniform)
             };
             write_ds[5] = vks::initializers::writeDescriptorSet(
-                material.descriptor_sets[i],
+                material->descriptor_sets[i],
                 VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
                 5, &mds_info, 1
             );
@@ -546,7 +546,11 @@ namespace Hardware{
                 vkCmdBindVertexBuffers(command_buffer, 0, 1, vb, offsets);
                 vkCmdBindIndexBuffer(command_buffer, mesh.index_buffer.buffer, 0, VK_INDEX_TYPE_UINT32);
                 //vkCmdBindDescriptorSets(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphics_pipeline->pipeline_layout, 0, 1, &graphics_pipeline->descriptor_sets[current_frame], 0, nullptr);
-                vkCmdBindDescriptorSets(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphics_pipeline->pipeline_layout, 0, 1, &material.descriptor_sets[current_frame], 0, nullptr);
+                if(material.descriptor_sets.size() > 0)
+                    vkCmdBindDescriptorSets(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphics_pipeline->pipeline_layout, 0, 1, &material.descriptor_sets[current_frame], 0, nullptr);
+                else{
+                    Log::send(Log::Level::ERROR, material.name + " has no descriptor set");
+                }
                 vkCmdDrawIndexed(command_buffer, static_cast<uint32_t>(mesh.indices.size()), 1, 0, 0, 0);    
             }
         }

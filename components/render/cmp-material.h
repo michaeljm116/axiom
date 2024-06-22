@@ -70,7 +70,7 @@ namespace Axiom
         struct Material_PBR
         {
             std::string name = "";
-            struct Uniform{
+            struct Uniform {
                 glm::vec4 albedo = glm::vec4(1.f, 1.f, 1.f, 1.f);
                 float metallic = 0.f;
                 float roughness = 0.f;
@@ -80,44 +80,52 @@ namespace Axiom
                 bool has_roughness = false;
                 bool has_normal = false;
 
-                Uniform(){};
+                Uniform() = default;
                 Uniform(Cmp_Material_PBR_Data d) : albedo(d.albedo), metallic(d.metallic), roughness(d.roughness),
-                has_albedo(d.has_albedo), has_metallic(d.has_metallic), has_roughness(d.has_roughness), has_normal(d.has_normal){};
-            }uniform;
-            Vulkan::VBuffer<Uniform> uniform_buffer;// = {};
+                    has_albedo(d.has_albedo), has_metallic(d.has_metallic), has_roughness(d.has_roughness), has_normal(d.has_normal) {}
+            } uniform;
             
+            Vulkan::VBuffer<Uniform> uniform_buffer;
+
             Cmp_Texture texture_albedo = Cmp_Texture("", 0);
             Cmp_Texture texture_metallic = Cmp_Texture("", 0);
             Cmp_Texture texture_roughness = Cmp_Texture("", 0);
             Cmp_Texture texture_normal = Cmp_Texture("", 0);
             std::vector<VkDescriptorSet> descriptor_sets = {};
             VkDescriptorSetLayout descriptor_set_layout = {};
+
             Material_PBR() = default;
-            Material_PBR(const Material_PBR& other){
+            
+            Material_PBR(const Material_PBR& other) {
                 name = other.name;
-                uniform.albedo = other.uniform.albedo;
-                uniform.metallic = other.uniform.metallic;
-                uniform.roughness = other.uniform.roughness;
-                uniform.has_albedo = other.uniform.has_albedo;
-                uniform.has_metallic = other.uniform.has_metallic;
-                uniform.has_roughness = other.uniform.has_roughness;
-                uniform.has_normal = other.uniform.has_normal;
+                uniform = other.uniform;
+                //uniform_buffer = other.uniform_buffer;
+                texture_albedo = other.texture_albedo;
+                texture_metallic = other.texture_metallic;
+                texture_roughness = other.texture_roughness;
+                texture_normal = other.texture_normal;
+                descriptor_sets = other.descriptor_sets;
+                descriptor_set_layout = other.descriptor_set_layout;
             }
-            Material_PBR& operator=(const Material_PBR& other){
-                if(this != &other){
+            
+            Material_PBR& operator=(const Material_PBR& other) {
+                if (this != &other) {
                     name = other.name;
-                    uniform.albedo = other.uniform.albedo;
-                    uniform.metallic = other.uniform.metallic;
-                    uniform.roughness = other.uniform.roughness;
-                    uniform.has_albedo = other.uniform.has_albedo;
-                    uniform.has_metallic = other.uniform.has_metallic;
-                    uniform.has_roughness = other.uniform.has_roughness;
-                    uniform.has_normal = other.uniform.has_normal;
+                    uniform = other.uniform;
+                    //uniform_buffer = other.uniform_buffer;
+                    texture_albedo = other.texture_albedo;
+                    texture_metallic = other.texture_metallic;
+                    texture_roughness = other.texture_roughness;
+                    texture_normal = other.texture_normal;
+                    descriptor_sets = other.descriptor_sets;
+                    descriptor_set_layout = other.descriptor_set_layout;
                 }
                 return *this;
             }
-            Material_PBR(std::string n, Cmp_Material_PBR_Data d) : name(std::move(n)), uniform(d){};
+            
+            Material_PBR(std::string n, Cmp_Material_PBR_Data d) : name(std::move(n)), uniform(d) {}
         };
+
         
     }
     
