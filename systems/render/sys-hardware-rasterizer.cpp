@@ -25,9 +25,9 @@ namespace Hardware{
             OPTICK_EVENT("Draw Frame");
             g_raster.draw_frame();
         });
-        g_world.observer<Cmp_Material_PBR, Cmp_Renderable>()
+        g_world.observer<Cmp_Material_PBR_Ref, Cmp_Renderable>()
         .event(flecs::OnSet)
-        .each([](flecs::entity e, Cmp_Material_PBR& m, Cmp_Renderable& r){
+        .each([](flecs::entity e, Cmp_Material_PBR_Ref& m, Cmp_Renderable& r){
             g_raster.create_material_descriptor_sets(e, m);
         });
 
@@ -355,7 +355,7 @@ namespace Hardware{
         }
     }
     
-    void Raster::create_material_descriptor_sets(flecs::entity e, Cmp_Material_PBR &m)
+    void Raster::create_material_descriptor_sets(flecs::entity e, Cmp_Material_PBR_Ref &m)
     {
         auto& material = Resources::g_material_manager.get_resource(m.index);
         if(material.name == "") return;
@@ -366,11 +366,26 @@ namespace Hardware{
             .binding = 0, .descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, .descriptorCount = 1,
             .stageFlags = VK_SHADER_STAGE_VERTEX_BIT, .pImmutableSamplers = nullptr
         };
-        VkDescriptorSetLayoutBinding sampler_layout_binding = {
-            .binding = 1, .descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, .descriptorCount = 1,
-            .stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT, .pImmutableSamplers = nullptr  
+
+        std::array<VkDescriptorSetLayoutBinding,4> texture_bindings;
+        for(uint32_t i = 1; i < 5; ++i){
+            texture_bindings[i - 1] = {
+                .binding = i,
+                .descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
+                .descriptorCount = 1,
+                .stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT,
+                .pImmutableSamplers = nullptr
+            };
+        }
+        VkDescriptorSetLayoutBinding material_binding = {
+            .binding = 5,
+            .descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
+            .descriptorCount = 1,
+            .stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT,
+            .pImmutableSamplers = nullptr
         };
-        std::array<VkDescriptorSetLayoutBinding, 2> bindings = {ubo_layout_binding, sampler_layout_binding};
+
+        std::array<VkDescriptorSetLayoutBinding, 6> bindings = {ubo_layout_binding, texture_bindings[0], texture_bindings[1], texture_bindings[2], texture_bindings[3], material_binding};
         VkDescriptorSetLayoutCreateInfo ds_info = {
             .sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO,
             .pNext = nullptr, .bindingCount = bindings.size(), .pBindings = bindings.data()
@@ -386,27 +401,59 @@ namespace Hardware{
             throw std::runtime_error("Error allocating descriptorset");
         
         for(int i = 0; i < MAX_FRAMES_IN_FLIGHT; ++i){
+            
+            std::array<VkWriteDescriptorSet,6> write_ds ;
+
             auto ds_info = VkDescriptorBufferInfo{
                 .buffer = uniform_buffers[i].buffer,
                 .offset = 0,
                 .range = sizeof(ubo)
             };
 
-            auto u_write_ds = vks::initializers::writeDescriptorSet(
+            write_ds[0] = vks::initializers::writeDescriptorSet(
                 material.descriptor_sets[i], 
                 VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
                 0, &ds_info, 1
             );
 
             auto& albedo_texture = Resources::g_texture_manager.get_resource(material.texture_albedo.index);
-            auto i_write_ds = vks::initializers::writeDescriptorSet(
+            write_ds[1] = vks::initializers::writeDescriptorSet(
                 material.descriptor_sets[i],
                 VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
                 1, &albedo_texture.descriptor, 1
             );
-
-            std::array<VkWriteDescriptorSet,2> write_ds = {u_write_ds, i_write_ds};
-            vkUpdateDescriptorSets(c_vulkan->device.logical, 2, write_ds.data(), 0, nullptr);
+            auto& metallic_texture = Resources::g_texture_manager.get_resource(material.texture_metallic.index);
+            write_ds[2] = vks::initializers::writeDescriptorSet(
+                material.descriptor_sets[i],
+                VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
+                2, &metallic_texture.descriptor, 1
+            );
+            auto& roughness_texture = Resources::g_texture_manager.get_resource(material.texture_roughness.index);
+            write_ds[3] = vks::initializers::writeDescriptorSet(
+                material.descriptor_sets[i],
+                VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
+                3, &roughness_texture.descriptor, 1
+            );
+            auto& normal_texture = Resources::g_texture_manager.get_resource(material.texture_normal.index);
+            write_ds[4] = vks::initializers::writeDescriptorSet(
+                material.descriptor_sets[i],
+                VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
+                4, &normal_texture.descriptor, 1
+            ); 
+            material.uniform_buffer.InitUniformBuffer(c_vulkan->device, material.uniform);           
+            auto mds_info = VkDescriptorBufferInfo{
+                .buffer = material.uniform_buffer.buffer,
+                .offset = 0,
+                .range = sizeof(Material_PBR::Uniform)
+            };
+            write_ds[5] = vks::initializers::writeDescriptorSet(
+                material.descriptor_sets[i],
+                VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
+                5, &mds_info, 1
+            );
+            vkUpdateDescriptorSets(c_vulkan->device.logical, 6, write_ds.data(), 0, nullptr);
+            //if(!Log::check_error(vkUpdateDescriptorSets(c_vulkan->device.logical, 6, write_ds.data(), 0, nullptr) == VK_SUCCESS, "Updating Descriptor Sets for: " + material.name))
+            //    throw std::runtime_error("Error writing descriptorset");
         }
     }
     void Raster::create_descriptor_set_layout()
@@ -526,7 +573,7 @@ namespace Hardware{
         }
 
         static glm::vec3 velocity = glm::vec3(0.f);
-        float speed = .001f;
+        float speed = 1.0101f;
 
         if(key_is_down(kb->keys[GLFW_KEY_A])) velocity.x -= speed;
         if(key_is_down(kb->keys[GLFW_KEY_D])) velocity.x += speed;

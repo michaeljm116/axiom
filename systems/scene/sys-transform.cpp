@@ -199,12 +199,12 @@ namespace Axiom
             //build position and scale matrix.
             glm::mat4 pos_m = glm::translate(glm::vec3(t.local.pos));
             glm::mat4 sca_m = glm::scale(glm::vec3(t.local.sca));
+            //glm::mat4 local = rot_m * pos_m ;
             glm::mat4 local = pos_m * rot_m;
 
             t.global.sca = t.local.sca; 
             t.trm = local;
-            local *= sca_m;
-            t.world = local;
+            t.world = t.trm * sca_m;
             
         }
     }

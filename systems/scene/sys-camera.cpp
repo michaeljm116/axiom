@@ -34,9 +34,6 @@ namespace Axiom
                     mouse->prev_x = mouse->x;
                     mouse->prev_y = mouse->y;
 
-                    //t.local.rot.x += diff_x * c.rotate_speed;
-                    //t.local.rot.y += diff_y * c.rotate_speed;
-
                     t.euler_rot.x += diff_y * c.rotate_speed;
                     t.euler_rot.y += diff_x * c.rotate_speed;
                 }  
@@ -46,9 +43,7 @@ namespace Axiom
 
                     t.local.pos.z += diff_z * c.move_speed;
                 }     
-                //Cmp_Static s = *e.get_mut<Cmp_Static>();
                 Transform::force_transform(t);
-                //e.set(t);     
             }
         }
     }

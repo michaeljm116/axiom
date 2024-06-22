@@ -30,6 +30,7 @@ namespace Axiom{
                 }
                 return Cmp_Texture(name, index);
             };
+            bool has_texture = [](const std::string& file){return !file.empty();};
 #pragma endregion helper lambdas
 
             void initialize()
@@ -62,14 +63,13 @@ namespace Axiom{
                 .event(flecs::OnSet)
                 .each([](flecs::entity e, Resource::AxMaterial::PBR& m)
                 {
-                    
-                    e.set(Cmp_Material_PBR(m.index, m.name, m.albedo.val, m.metalness.val, m.roughness.val));
-                    e.set(Cmp_Material_Paths_PBR(m.albedo.file, m.metalness.file, m.roughness.file, m.normal.file));
+                    e.set(Cmp_Material_PBR_Ref(m.index, m.name));
+                    e.set(Cmp_Material_PBR_Data(m.albedo.val, m.metalness.val, m.roughness.val, m.albedo.file, m.metalness.file, m.roughness.file, m.normal.file));
                 });
 
-                g_world.observer<Cmp_Material_PBR,Cmp_Material_Paths_PBR>()
+                g_world.observer<Cmp_Material_PBR_Ref,Cmp_Material_PBR_Data>()
                 .event(flecs::OnSet)
-                .each([](flecs::entity e, Cmp_Material_PBR& m, Cmp_Material_Paths_PBR& mp){
+                .each([](flecs::entity e, Cmp_Material_PBR_Ref& mr, Cmp_Material_PBR_Data& md){
                     // Make sure the material doesn't already exist
                     // if(g_world.lookup(material.name.c_str()) == false;
                     
@@ -77,15 +77,14 @@ namespace Axiom{
                     auto* vulkan = g_world.get_mut<Cmp_Vulkan>();
                     
                     // Make the Material
-                    m.index = g_material_manager.add_resource(Material_PBR(m.albedo, m.metallic, m.roughness), m.name);
+                    mr.index = g_material_manager.add_resource(Material_PBR(mr.name, md), mr.name);
                     auto& material = g_material_manager.get_last_added_resource();
-                    material.name = m.name;
-
+                    
                     // If the material has textures, create the textures
-                    material.texture_albedo = create_texture(mp.albedo_texture, &vulkan);
-                    material.texture_normal = create_texture(mp.normal_texture, &vulkan);
-                    material.texture_metallic = create_texture(mp.metallic_texture, &vulkan);
-                    material.texture_roughness = create_texture(mp.roughness_texture, &vulkan);
+                    material.texture_albedo = create_texture(md.albedo_texture, &vulkan);
+                    material.texture_normal = create_texture(md.normal_texture, &vulkan);
+                    material.texture_metallic = create_texture(md.metallic_texture, &vulkan);
+                    material.texture_roughness = create_texture(md.roughness_texture, &vulkan);
                     
                     // Once textures are created, create the descriptor set of material
                     e.set(Cmp_Renderable());                    
