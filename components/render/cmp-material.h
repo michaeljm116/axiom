@@ -92,7 +92,7 @@ namespace Axiom
             Cmp_Texture texture_roughness = Cmp_Texture("", 0);
             Cmp_Texture texture_normal = Cmp_Texture("", 0);
             std::vector<VkDescriptorSet> descriptor_sets = {};
-            VkDescriptorSetLayout descriptor_set_layout = {};
+            //VkDescriptorSetLayout descriptor_set_layout = {};
 
             Material_PBR() = default;
             
@@ -105,7 +105,7 @@ namespace Axiom
                 texture_roughness = other.texture_roughness;
                 texture_normal = other.texture_normal;
                 descriptor_sets = other.descriptor_sets;
-                descriptor_set_layout = other.descriptor_set_layout;
+                //descriptor_set_layout = other.descriptor_set_layout;
             }
             
             Material_PBR& operator=(const Material_PBR& other) {
@@ -118,7 +118,7 @@ namespace Axiom
                     texture_roughness = other.texture_roughness;
                     texture_normal = other.texture_normal;
                     descriptor_sets = other.descriptor_sets;
-                    descriptor_set_layout = other.descriptor_set_layout;
+                    //descriptor_set_layout = other.descriptor_set_layout;
                 }
                 return *this;
             }

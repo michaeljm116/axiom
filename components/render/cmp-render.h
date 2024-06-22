@@ -11,6 +11,8 @@
 #pragma once
 #include <glm/glm.hpp>
 #include <vector>
+#include <map>
+#include <string>
 
 
 #if defined(_WIN32)
@@ -171,13 +173,16 @@ namespace Axiom
 			Cmp_GUINumber(glm::vec2 m, glm::vec2 e, int n) : number(n) { min = m; extents = e; align_min = glm::vec2(0.0f, 0.0f); align_ext = glm::vec2(0.1f, 1.f); layer = 0; id = 0; };
 			Cmp_GUINumber(glm::vec2 m, glm::vec2 e, int n, float a) : number(n) { min = m; extents = e; align_min = glm::vec2(0.0f, 0.0f); align_ext = glm::vec2(0.1f, 1.f); layer = 0; id = 0; alpha = a; };
 		};
+		struct Pipeline{
+			VkPipelineLayout layout;
+			VkPipeline get;
+			VkDescriptorSetLayout descriptor_set_layout;
+		};
 		struct Cmp_GraphicsPipeline{
 			VkDescriptorPool descriptor_pool = VK_NULL_HANDLE;
-			VkDescriptorSetLayout descriptor_set_layout = VK_NULL_HANDLE;
 			//VkDescriptorSet descriptor_set = VK_NULL_HANDLE;
 			std::vector<VkDescriptorSet> descriptor_sets = {};
-			VkPipelineLayout pipeline_layout = VK_NULL_HANDLE;
-			VkPipeline pipeline = VK_NULL_HANDLE;
+			std::map<std::string, Render::Pipeline> pipelines = {};
 		};
 
 	};

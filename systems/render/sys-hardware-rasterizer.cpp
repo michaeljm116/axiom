@@ -201,11 +201,15 @@ namespace Hardware{
         VkPipelineMultisampleStateCreateInfo multisample_state = vks::initializers::pipelineMultisampleStateCreateInfo(c_vulkan->sample.max_sample,0);
         std::vector<VkDynamicState> dynamic_state_enables = {VK_DYNAMIC_STATE_VIEWPORT,VK_DYNAMIC_STATE_SCISSOR};
         VkPipelineDynamicStateCreateInfo dynamic_state = vks::initializers::pipelineDynamicStateCreateInfo( dynamic_state_enables.data(), dynamic_state_enables.size(), 0);
-        VkPipelineLayoutCreateInfo pipeline_layout = vks::initializers::pipelineLayoutCreateInfo(&graphics_pipeline->descriptor_set_layout, 1);
-        if(!Log::check(vkCreatePipelineLayout(c_vulkan->device.logical, &pipeline_layout, nullptr, &graphics_pipeline->pipeline_layout) == VK_SUCCESS, "Creating pipeline layout")){
+                
+        VkPipelineLayoutCreateInfo pipeline_layout = vks::initializers::pipelineLayoutCreateInfo(&graphics_pipeline->pipelines["basic"].descriptor_set_layout, 1);
+        if(!Log::check(vkCreatePipelineLayout(c_vulkan->device.logical, &pipeline_layout, nullptr, &graphics_pipeline->pipelines["basic"].layout) == VK_SUCCESS, "Creating pipeline layout")){
             throw std::runtime_error("Failed creating pipeline layout");
         }
-
+        pipeline_layout = vks::initializers::pipelineLayoutCreateInfo(&graphics_pipeline->pipelines["pbr"].descriptor_set_layout, 1);
+        if(!Log::check(vkCreatePipelineLayout(c_vulkan->device.logical, &pipeline_layout, nullptr, &graphics_pipeline->pipelines["pbr"].layout) == VK_SUCCESS, "Creating pipeline layout")){
+            throw std::runtime_error("Failed creating pipeline layout");
+        }
         auto assets_folder = g_world.get<Resource::Cmp_Directory>()->assets;
         
         /*Shader::init();
@@ -242,11 +246,12 @@ namespace Hardware{
         Shader::init();
         const auto vert_shader_code = Shader::compile_glsl(assets_folder + "Shaders/glsl/basic.vert", Shader::Type::eVertex);
         const auto frag_shader_code = Shader::compile_glsl(assets_folder + "Shaders/glsl/basic.frag", Shader::Type::eFragment);
+        const auto pbr_shader_code  = Shader::compile_glsl(assets_folder + "Shaders/glsl/pbr.frag",   Shader::Type::eFragment);
         Shader::finalize();    
 
         const auto vert_shader_module = c_vulkan->device.createShaderModule(vert_shader_code.value());
         const auto frag_shader_module = c_vulkan->device.createShaderModule(frag_shader_code.value());
-
+        const auto pbr_shader_module = c_vulkan->device.createShaderModule(pbr_shader_code.value());
         
         VkPipelineShaderStageCreateInfo vert_shader_stage_info = {
             .sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO,
@@ -261,8 +266,16 @@ namespace Hardware{
             .module = frag_shader_module,
             .pName = "main"
         };
+
+        VkPipelineShaderStageCreateInfo pbr_shader_stage_info = {
+            .sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO,
+            .stage = VK_SHADER_STAGE_FRAGMENT_BIT,
+            .module = pbr_shader_module,
+            .pName = "main"
+        };
         
-        std::array<VkPipelineShaderStageCreateInfo, 2> shader_stages = { vert_shader_stage_info, frag_shader_stage_info };
+        std::array<VkPipelineShaderStageCreateInfo, 2> shader_stages     = { vert_shader_stage_info, frag_shader_stage_info };
+        std::array<VkPipelineShaderStageCreateInfo, 2> shader_stages_pbr = { vert_shader_stage_info, pbr_shader_stage_info };
 
         auto binding = Geometry::Vertex48::get_binding();
         auto attribute = Geometry::Vertex48::get_attribute();
@@ -287,28 +300,52 @@ namespace Hardware{
             .pDepthStencilState = &depth_stencil_state,
             .pColorBlendState = &color_blend_state,
             .pDynamicState = &dynamic_state,
-            .layout = graphics_pipeline->pipeline_layout,
+            .layout = graphics_pipeline->pipelines["basic"].layout,
             .renderPass = c_vulkan->pipeline.render_pass,
             .subpass = 0,
             .basePipelineHandle = VK_NULL_HANDLE,
             .basePipelineIndex = -1
         };
+        VkGraphicsPipelineCreateInfo pbrpipelineCreateInfo = {
+            .sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO,
+            .stageCount = static_cast<uint32_t>(shader_stages.size()), // Cast size to uint32_t
+            .pStages = shader_stages.data(),
+            .pVertexInputState = &empty_input_state,
+            .pInputAssemblyState = &input_assembly_state,
+            .pViewportState = &viewport_state,
+            .pRasterizationState = &rasterization_state,
+            .pMultisampleState = &multisample_state,
+            .pDepthStencilState = &depth_stencil_state,
+            .pColorBlendState = &color_blend_state,
+            .pDynamicState = &dynamic_state,
+            .layout = graphics_pipeline->pipelines["pbr"].layout,
+            .renderPass = c_vulkan->pipeline.render_pass,
+            .subpass = 0,
+            .basePipelineHandle = VK_NULL_HANDLE,
+            .basePipelineIndex = -1
+        };
+        std::array<VkGraphicsPipelineCreateInfo,2> pipeline_createinfos = {pipelineCreateInfo, pbrpipelineCreateInfo};
+        std::array<VkPipeline, 2> pipelines = {graphics_pipeline->pipelines["basic"].get, graphics_pipeline->pipelines["pbr"].get};
         
         VkResult result = vkCreateGraphicsPipelines(
             c_vulkan->device.logical,
             c_vulkan->pipeline.cache,
-            1,
-            &pipelineCreateInfo,
+            2,
+            pipeline_createinfos.data(),
             nullptr,
-            &graphics_pipeline->pipeline
+            pipelines.data()
         );
+
+        graphics_pipeline->pipelines["basic"].get = pipelines[0];
+        graphics_pipeline->pipelines["pbr"].get = pipelines[1];
 
         if(!Log::check(result == VK_SUCCESS, "CREATE GRAPHICS PIPELINE")){
             throw std::runtime_error("Failed to create Graphics piepline");
         }
-
+        
         vkDestroyShaderModule(c_vulkan->device.logical, frag_shader_module, nullptr);
         vkDestroyShaderModule(c_vulkan->device.logical, vert_shader_module, nullptr);
+        vkDestroyShaderModule(c_vulkan->device.logical, pbr_shader_module, nullptr);
     }
 
     void Raster::create_descriptor_pool()
@@ -324,7 +361,7 @@ namespace Hardware{
 
     void Raster::create_descriptor_sets()
     {
-        std::vector<VkDescriptorSetLayout> layouts(MAX_FRAMES_IN_FLIGHT, graphics_pipeline->descriptor_set_layout);
+        std::vector<VkDescriptorSetLayout> layouts(MAX_FRAMES_IN_FLIGHT, graphics_pipeline->pipelines["basic"].descriptor_set_layout);
         graphics_pipeline->descriptor_sets.resize(MAX_FRAMES_IN_FLIGHT);
         auto alloc_info = vks::initializers::descriptorSetAllocateInfo(graphics_pipeline->descriptor_pool, layouts.data(), MAX_FRAMES_IN_FLIGHT);// MAX_FRAMES_IN_FLIGHT);
         
@@ -361,40 +398,8 @@ namespace Hardware{
         if(material->name == "") return;
         if(material->texture_albedo.exists == false) return;
 
-        // descriptor set layout
-        VkDescriptorSetLayoutBinding ubo_layout_binding = {
-            .binding = 0, .descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, .descriptorCount = 1,
-            .stageFlags = VK_SHADER_STAGE_VERTEX_BIT, .pImmutableSamplers = nullptr
-        };
-
-        std::array<VkDescriptorSetLayoutBinding,4> texture_bindings;
-        for(uint32_t i = 1; i < 5; ++i){
-            texture_bindings[i - 1] = {
-                .binding = i,
-                .descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
-                .descriptorCount = 1,
-                .stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT,
-                .pImmutableSamplers = nullptr
-            };
-        }
-        VkDescriptorSetLayoutBinding material_binding = {
-            .binding = 5,
-            .descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
-            .descriptorCount = 1,
-            .stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT,
-            .pImmutableSamplers = nullptr
-        };
-
-        std::array<VkDescriptorSetLayoutBinding, 6> bindings = {ubo_layout_binding, texture_bindings[0], texture_bindings[1], texture_bindings[2], texture_bindings[3], material_binding};
-        VkDescriptorSetLayoutCreateInfo ds_info = {
-            .sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO,
-            .pNext = nullptr, .bindingCount = bindings.size(), .pBindings = bindings.data()
-        };
-        if(!Log::check_error(vkCreateDescriptorSetLayout(c_vulkan->device.logical, &ds_info, nullptr, &material->descriptor_set_layout) == VK_SUCCESS, "Create descriptor set layout! for: " + material->name))
-            throw std::runtime_error("failed to create descriptor set layout! for: " + material->name);
-
         // descriptor set
-        std::vector<VkDescriptorSetLayout> layouts(MAX_FRAMES_IN_FLIGHT, material->descriptor_set_layout);
+        std::vector<VkDescriptorSetLayout> layouts(MAX_FRAMES_IN_FLIGHT, graphics_pipeline->pipelines["pbr"].descriptor_set_layout);
         material->descriptor_sets.resize(MAX_FRAMES_IN_FLIGHT);
         auto alloc_info = vks::initializers::descriptorSetAllocateInfo(graphics_pipeline->descriptor_pool, layouts.data(), MAX_FRAMES_IN_FLIGHT);// MAX_FRAMES_IN_FLIGHT);
         if(!Log::check_error(vkAllocateDescriptorSets(c_vulkan->device.logical, &alloc_info, material->descriptor_sets.data()) == VK_SUCCESS, "ALLOCATING descriptor sets"))
@@ -458,6 +463,9 @@ namespace Hardware{
     }
     void Raster::create_descriptor_set_layout()
     {
+        graphics_pipeline->pipelines.insert(std::make_pair("basic", Render::Pipeline()));
+        graphics_pipeline->pipelines.insert(std::make_pair("pbr",   Render::Pipeline()));
+
         VkDescriptorSetLayoutBinding ubo_layout_binding = {
             .binding = 0, .descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, .descriptorCount = 1,
             .stageFlags = VK_SHADER_STAGE_VERTEX_BIT, .pImmutableSamplers = nullptr
@@ -474,8 +482,36 @@ namespace Hardware{
             .sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO,
             .pNext = nullptr, .bindingCount = bindings.size(), .pBindings = bindings.data()
         };
-        if(!Log::check_error(vkCreateDescriptorSetLayout(c_vulkan->device.logical, &ds_info, nullptr, &graphics_pipeline->descriptor_set_layout) == VK_SUCCESS, "Create descriptor set layout!"))
+        if(!Log::check_error(vkCreateDescriptorSetLayout(c_vulkan->device.logical, &ds_info, nullptr, &graphics_pipeline->pipelines["basic"].descriptor_set_layout) == VK_SUCCESS, "Create descriptor set layout!"))
             throw std::runtime_error("failed to create descriptor set layout!");
+        
+        //////////////////// PBR //////////////////
+        std::array<VkDescriptorSetLayoutBinding,4> texture_bindings;
+        for(uint32_t i = 1; i < 5; ++i){
+            texture_bindings[i - 1] = {
+                .binding = i,
+                .descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
+                .descriptorCount = 1,
+                .stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT,
+                .pImmutableSamplers = nullptr
+            };
+        }
+        VkDescriptorSetLayoutBinding material_binding = {
+            .binding = 5,
+            .descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
+            .descriptorCount = 1,
+            .stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT,
+            .pImmutableSamplers = nullptr
+        };
+
+        std::array<VkDescriptorSetLayoutBinding, 6> pbr_bindings = {ubo_layout_binding, texture_bindings[0], texture_bindings[1], texture_bindings[2], texture_bindings[3], material_binding};
+        ds_info = {
+            .sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO,
+            .pNext = nullptr, .bindingCount = pbr_bindings.size(), .pBindings = pbr_bindings.data()
+        };
+        if(!Log::check_error(vkCreateDescriptorSetLayout(c_vulkan->device.logical, &ds_info, nullptr, &graphics_pipeline->pipelines["pbr"].descriptor_set_layout) == VK_SUCCESS, "Create descriptor set layout! for: PBR"))
+            throw std::runtime_error("failed to create descriptor set layout! for: pbr");
+        //////////////////// PBR //////////////////
     }
 
     void Raster::create_command_buffers(float swap_ratio, int32_t offset_width, int32_t offset_height)
@@ -528,7 +564,7 @@ namespace Hardware{
 
         vkCmdBeginRenderPass(command_buffer, &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
         {
-            vkCmdBindPipeline(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphics_pipeline->pipeline);
+            vkCmdBindPipeline(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphics_pipeline->pipelines["pbr"].get);
             VkViewport viewport = vks::initializers::viewport(c_vulkan->swapchain.extent.width, c_vulkan->swapchain.extent.height, 0.0f, 1.0f);
             vkCmdSetViewport(command_buffer, 0, 1, &viewport);
 
@@ -547,7 +583,7 @@ namespace Hardware{
                 vkCmdBindIndexBuffer(command_buffer, mesh.index_buffer.buffer, 0, VK_INDEX_TYPE_UINT32);
                 //vkCmdBindDescriptorSets(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphics_pipeline->pipeline_layout, 0, 1, &graphics_pipeline->descriptor_sets[current_frame], 0, nullptr);
                 if(material.descriptor_sets.size() > 0)
-                    vkCmdBindDescriptorSets(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphics_pipeline->pipeline_layout, 0, 1, &material.descriptor_sets[current_frame], 0, nullptr);
+                    vkCmdBindDescriptorSets(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphics_pipeline->pipelines["pbr"].layout, 0, 1, &material.descriptor_sets[current_frame], 0, nullptr);
                 else{
                     Log::send(Log::Level::ERROR, material.name + " has no descriptor set");
                 }
@@ -669,7 +705,8 @@ namespace Hardware{
 
     void Raster::clean_up()
     {
-        vkDestroyPipelineLayout(c_vulkan->device.logical, graphics_pipeline->pipeline_layout, nullptr);
+        vkDestroyPipelineLayout(c_vulkan->device.logical, graphics_pipeline->pipelines["basic"].layout, nullptr);
+        vkDestroyPipelineLayout(c_vulkan->device.logical, graphics_pipeline->pipelines["pbr"].layout, nullptr);
         vkDestroyRenderPass(c_vulkan->device.logical, c_vulkan->pipeline.render_pass, nullptr);
     }
 
@@ -680,9 +717,11 @@ namespace Hardware{
         for(int i = 0; i < MAX_FRAMES_IN_FLIGHT; ++i)
             uniform_buffers[i].Destroy(c_vulkan->device);
         
+        vkDestroyPipeline(c_vulkan->device.logical, graphics_pipeline->pipelines["basic"].get, nullptr);
+        vkDestroyPipeline(c_vulkan->device.logical, graphics_pipeline->pipelines["pbr"].get, nullptr);
+        vkDestroyDescriptorSetLayout(c_vulkan->device.logical, graphics_pipeline->pipelines["basic"].descriptor_set_layout, nullptr);
+        vkDestroyDescriptorSetLayout(c_vulkan->device.logical, graphics_pipeline->pipelines["pbr"].descriptor_set_layout, nullptr);
 
-        vkDestroyPipeline(c_vulkan->device.logical, graphics_pipeline->pipeline, nullptr);
-        vkDestroyDescriptorSetLayout(c_vulkan->device.logical, graphics_pipeline->descriptor_set_layout, nullptr);
         RenderBase::clean_up_swapchain();
 
     }
