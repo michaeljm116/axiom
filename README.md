@@ -12,15 +12,17 @@ Update: Yay sponza loads!!
 ![Alt text](/doc/screenshots/Axiom%20Engine%206_14_2024%206_31_15%20AM.png)
 
 
+Progress:
 
-TODO: Got sponza loading but its not loading in an ecs way cause of needing to properly copy the vulkan buffers
-* Next would be to get it textured
-* Next would be to implement pbr shaders
-* Next... actually probably first would be a proper camera system...
+![Alt text](/doc/screenshots/Progress.png)
 
 
-TODO: got camera working but its not working in an ecs way cause i just wanted to see sponza
-* Note: can now see sponza
-* Next: lets get it textured
-
-TODO: get out of this descriptor/material mess ASAP
+TODO:
+1. Implement a decent 3D camera
+2. Integrate ImGUI
+3. Fix Issues with descriptorsets etc
+4. DELETE a lot of code
+5. Refactor a lot of code
+6. Implement Point Lights
+7. Implement Area Lights
+8. Implement Shadow Mapping
