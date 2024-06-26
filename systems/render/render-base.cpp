@@ -139,6 +139,10 @@ namespace Base
 
         // 0.0 -> 1.0 priority for scheduling of command buffer execution
         float queuePriority[] = { 1.0f, 0.0f };
+        std::vector<float> queuePriorities;
+        for(int i = uniqueQueueFamilies.size() - 1; i >= 0; --i){
+            queuePriorities.push_back(static_cast<float>(i));
+        }
 
         for (int queueFamily : uniqueQueueFamilies) {
             //Make sure we get a queue with assigned capabilities
@@ -148,23 +152,23 @@ namespace Base
             //if (queueFamily == qFams.computeFamily)
             //	queueCreateInfo.queueCount = 1;
             //else
-            queueCreateInfo.queueCount = 2;
-            queueCreateInfo.pQueuePriorities = queuePriority;
+            queueCreateInfo.queueCount = uniqueQueueFamilies.size();
+            queueCreateInfo.pQueuePriorities = queuePriorities.data();
 
             //push it into a the set yo
             queueCreateInfos.push_back(queueCreateInfo);
         }
 
         //The set of device features we'll be using
-        VkPhysicalDeviceFeatures deviceFeatures = {};
-        deviceFeatures.samplerAnisotropy = VK_TRUE;
+        //VkPhysicalDeviceFeatures deviceFeatures = {};
+        //deviceFeatures.samplerAnisotropy = VK_TRUE;
 
         //Creating the logical device now yo
         VkDeviceCreateInfo createInfo = {};
         createInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
         createInfo.pQueueCreateInfos = queueCreateInfos.data();
         createInfo.queueCreateInfoCount = static_cast<uint32_t>(queueCreateInfos.size());
-        createInfo.pEnabledFeatures = &deviceFeatures;
+        createInfo.pEnabledFeatures = &c_vulkan->device.features;
 
         //enable extensions
         createInfo.enabledExtensionCount = static_cast<uint32_t>(c_vulkan->device.deviceExtensions.size());
@@ -187,7 +191,8 @@ namespace Base
 
         vkGetDeviceQueue(c_vulkan->device.logical, c_vulkan->device.qFams.graphicsFamily, 0, &c_vulkan->queues.graphics);
         vkGetDeviceQueue(c_vulkan->device.logical, c_vulkan->device.qFams.presentFamily, 0, &c_vulkan->queues.present);
-        vkGetDeviceQueue(c_vulkan->device.logical, c_vulkan->device.qFams.computeFamily, 1, &c_vulkan->queues.compute); //might be a 0 or a 2? idk???
+        vkGetDeviceQueue(c_vulkan->device.logical, c_vulkan->device.qFams.computeFamily, c_vulkan->device.qFams.computeFamily, &c_vulkan->queues.compute); //might be a 0 or a 2? idk??? // Whatever the highest compute family is hopefully
+        
 
         //set vkdevice queue tyighnny
         c_vulkan->device.queue = &c_vulkan->queues.graphics;
@@ -528,8 +533,8 @@ namespace Base
         c_vulkan->sample.max_sample = find_msaa_support(deviceProperties);
 
         //Details about device features
-        VkPhysicalDeviceFeatures deviceFeatures;
-        vkGetPhysicalDeviceFeatures(device, &deviceFeatures);
+        //VkPhysicalDeviceFeatures deviceFeatures;
+        vkGetPhysicalDeviceFeatures(device, &c_vulkan->device.features);
 
 
         Vulkan::QueueFamilyIndices indices = findQueueFamilies(device);
@@ -540,10 +545,10 @@ namespace Base
             SwapChainSupportDetails swapChainSupport = querySwapChainSupport(device);
             swapChainAdequate = !swapChainSupport.formats.empty() && !swapChainSupport.presentModes.empty();
         }
-        VkPhysicalDeviceFeatures supportedFeatures;
-        vkGetPhysicalDeviceFeatures(device, &supportedFeatures);
+        //VkPhysicalDeviceFeatures supportedFeatures;
+        //vkGetPhysicalDeviceFeatures(device, &supportedFeatures);
 
-        return indices.isComplete() && extensionsSupported && swapChainAdequate && supportedFeatures.samplerAnisotropy;
+        return indices.isComplete() && extensionsSupported && swapChainAdequate && c_vulkan->device.features.samplerAnisotropy;
     }
     Vulkan::QueueFamilyIndices RenderBase::findQueueFamilies(VkPhysicalDevice device) {
         Vulkan::QueueFamilyIndices indices;
@@ -560,6 +565,9 @@ namespace Base
         for (const auto& queueFamily : queueFamilies) {
             if (queueFamily.queueCount > 0 && queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT) {
                 indices.graphicsFamily = i;
+            }
+            if(queueFamilies[i].queueCount > 0 && queueFamilies[i].queueFlags & VK_QUEUE_COMPUTE_BIT){
+                indices.computeFamily = i;
             }
             //check support for presentation
             VkBool32 presentSupport = false;

@@ -245,13 +245,15 @@ namespace Hardware{
 
         Shader::init();
         const auto vert_shader_code = Shader::compile_glsl(assets_folder + "Shaders/glsl/basic.vert", Shader::Type::eVertex);
-        const auto frag_shader_code = Shader::compile_glsl(assets_folder + "Shaders/glsl/pbr.frag", Shader::Type::eFragment);
-        const auto pbr_shader_code  = Shader::compile_glsl(assets_folder + "Shaders/glsl/pbr.frag",   Shader::Type::eFragment);
+        const auto frag_shader_code = Shader::compile_glsl(assets_folder + "Shaders/glsl/basic.frag", Shader::Type::eFragment);
+        const auto pbr_vshader_code  = Shader::compile_glsl(assets_folder + "Shaders/glsl/pbr.vert",   Shader::Type::eVertex);
+        const auto pbr_fshader_code  = Shader::compile_glsl(assets_folder + "Shaders/glsl/pbr.frag",   Shader::Type::eFragment);
         Shader::finalize();    
 
         const auto vert_shader_module = c_vulkan->device.createShaderModule(vert_shader_code.value());
         const auto frag_shader_module = c_vulkan->device.createShaderModule(frag_shader_code.value());
-        const auto pbr_shader_module = c_vulkan->device.createShaderModule(pbr_shader_code.value());
+        const auto pbr_vshader_module = c_vulkan->device.createShaderModule(pbr_vshader_code.value());
+        const auto pbr_fshader_module = c_vulkan->device.createShaderModule(pbr_fshader_code.value());
         
         VkPipelineShaderStageCreateInfo vert_shader_stage_info = {
             .sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO,
@@ -267,15 +269,22 @@ namespace Hardware{
             .pName = "main"
         };
 
-        VkPipelineShaderStageCreateInfo pbr_shader_stage_info = {
+        VkPipelineShaderStageCreateInfo pbr_vshader_stage_info = {
+            .sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO,
+            .stage = VK_SHADER_STAGE_VERTEX_BIT,
+            .module = pbr_vshader_module,
+            .pName = "main"
+        };
+
+        VkPipelineShaderStageCreateInfo pbr_fshader_stage_info = {
             .sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO,
             .stage = VK_SHADER_STAGE_FRAGMENT_BIT,
-            .module = pbr_shader_module,
+            .module = pbr_fshader_module,
             .pName = "main"
         };
         
         std::array<VkPipelineShaderStageCreateInfo, 2> shader_stages     = { vert_shader_stage_info, frag_shader_stage_info };
-        std::array<VkPipelineShaderStageCreateInfo, 2> shader_stages_pbr = { vert_shader_stage_info, pbr_shader_stage_info };
+        std::array<VkPipelineShaderStageCreateInfo, 2> shader_stages_pbr = { pbr_vshader_stage_info, pbr_fshader_stage_info };
 
         auto binding = Geometry::Vertex48::get_binding();
         auto attribute = Geometry::Vertex48::get_attribute();
@@ -308,8 +317,8 @@ namespace Hardware{
         };
         VkGraphicsPipelineCreateInfo pbrpipelineCreateInfo = {
             .sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO,
-            .stageCount = static_cast<uint32_t>(shader_stages.size()), // Cast size to uint32_t
-            .pStages = shader_stages.data(),
+            .stageCount = static_cast<uint32_t>(shader_stages_pbr.size()), // Cast size to uint32_t
+            .pStages = shader_stages_pbr.data(),
             .pVertexInputState = &empty_input_state,
             .pInputAssemblyState = &input_assembly_state,
             .pViewportState = &viewport_state,
@@ -345,16 +354,19 @@ namespace Hardware{
         
         vkDestroyShaderModule(c_vulkan->device.logical, frag_shader_module, nullptr);
         vkDestroyShaderModule(c_vulkan->device.logical, vert_shader_module, nullptr);
-        vkDestroyShaderModule(c_vulkan->device.logical, pbr_shader_module, nullptr);
+        vkDestroyShaderModule(c_vulkan->device.logical, pbr_vshader_module, nullptr);
+        vkDestroyShaderModule(c_vulkan->device.logical, pbr_fshader_module, nullptr);
     }
 
     void Raster::create_descriptor_pool()
     {
-        std::array<VkDescriptorPoolSize, 2> pool_sizes = {
+        std::array<VkDescriptorPoolSize, 4> pool_sizes = {
             vks::initializers::descriptorPoolSize(VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, MAX_FRAMES_IN_FLIGHT),
-            vks::initializers::descriptorPoolSize(VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, MAX_FRAMES_IN_FLIGHT)
+            vks::initializers::descriptorPoolSize(VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, MAX_FRAMES_IN_FLIGHT),
+            vks::initializers::descriptorPoolSize(VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 4),
+            vks::initializers::descriptorPoolSize(VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 1),
         };
-        auto create_info = vks::initializers::descriptorPoolCreateInfo(pool_sizes.size(), pool_sizes.data(), 100);
+        auto create_info = vks::initializers::descriptorPoolCreateInfo(pool_sizes.size(), pool_sizes.data(), 600);
         if(!Log::check_error(vkCreateDescriptorPool(c_vulkan->device.logical, & create_info, nullptr, &graphics_pipeline->descriptor_pool) == VK_SUCCESS, "creating descriptor pool"))
             throw std::runtime_error("Error creating descriptor pool");
     }
@@ -505,11 +517,11 @@ namespace Hardware{
         };
 
         std::array<VkDescriptorSetLayoutBinding, 6> pbr_bindings = {ubo_layout_binding, texture_bindings[0], texture_bindings[1], texture_bindings[2], texture_bindings[3], material_binding};
-        ds_info = {
+        VkDescriptorSetLayoutCreateInfo ds_info_pbr = {
             .sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO,
             .pNext = nullptr, .bindingCount = pbr_bindings.size(), .pBindings = pbr_bindings.data()
         };
-        if(!Log::check_error(vkCreateDescriptorSetLayout(c_vulkan->device.logical, &ds_info, nullptr, &graphics_pipeline->pipelines["pbr"].descriptor_set_layout) == VK_SUCCESS, "Create descriptor set layout! for: PBR"))
+        if(!Log::check_error(vkCreateDescriptorSetLayout(c_vulkan->device.logical, &ds_info_pbr, nullptr, &graphics_pipeline->pipelines["pbr"].descriptor_set_layout) == VK_SUCCESS, "Create descriptor set layout! for: PBR"))
             throw std::runtime_error("failed to create descriptor set layout! for: pbr");
         //////////////////// PBR //////////////////
     }
@@ -518,8 +530,8 @@ namespace Hardware{
     {
         c_vulkan->command.buffers.resize(MAX_FRAMES_IN_FLIGHT);
         
-        c_vulkan->swapchain.scaled.height = c_vulkan->swapchain.extent.height * swap_ratio;
-        c_vulkan->swapchain.scaled.width = c_vulkan->swapchain.extent.width * swap_ratio;
+        c_vulkan->swapchain.scaled.height = static_cast<uint32_t>(static_cast<float>(c_vulkan->swapchain.extent.height) * swap_ratio);
+        c_vulkan->swapchain.scaled.width = static_cast<uint32_t>(static_cast<float>(c_vulkan->swapchain.extent.width) * swap_ratio);
         
         VkCommandBufferAllocateInfo allocInfo = {
             .sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO,
@@ -565,10 +577,10 @@ namespace Hardware{
         vkCmdBeginRenderPass(command_buffer, &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
         {
             vkCmdBindPipeline(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphics_pipeline->pipelines["pbr"].get);
-            VkViewport viewport = vks::initializers::viewport(c_vulkan->swapchain.extent.width, c_vulkan->swapchain.extent.height, 0.0f, 1.0f);
+            VkViewport viewport = vks::initializers::viewport(static_cast<float>(c_vulkan->swapchain.extent.width), static_cast<float>(c_vulkan->swapchain.extent.height), 0.0f, 1.0f);
             vkCmdSetViewport(command_buffer, 0, 1, &viewport);
 
-            VkRect2D scissor = vks::initializers::rect2D(c_vulkan->swapchain.extent.width, c_vulkan->swapchain.extent.height, 0, 0);
+            VkRect2D scissor = vks::initializers::rect2D(static_cast<float>(c_vulkan->swapchain.extent.width), static_cast<float>(c_vulkan->swapchain.extent.height), 0, 0);
             vkCmdSetScissor(command_buffer, 0, 1, &scissor);
             
             auto sponza_cmp = g_world.entity("Sponza").get<Geometry::Cmp_Model_PBR>();
@@ -577,9 +589,9 @@ namespace Hardware{
             for(auto& mesh : sponza->meshes){
                 auto& material = Resources::g_material_manager.get_resource(mesh.mat_name);
 
-                VkBuffer vb[] = {mesh.vertex_buffer.buffer};
-                VkDeviceSize offsets[] = {0};
-                vkCmdBindVertexBuffers(command_buffer, 0, 1, vb, offsets);
+                std::array<VkBuffer, 1> vb = {mesh.vertex_buffer.buffer};
+                std::array<VkDeviceSize, 1> offsets = {0};
+                vkCmdBindVertexBuffers(command_buffer, 0, 1, vb.data(), offsets.data());
                 vkCmdBindIndexBuffer(command_buffer, mesh.index_buffer.buffer, 0, VK_INDEX_TYPE_UINT32);
                 //vkCmdBindDescriptorSets(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphics_pipeline->pipeline_layout, 0, 1, &graphics_pipeline->descriptor_sets[current_frame], 0, nullptr);
                 if(material.descriptor_sets.size() > 0)

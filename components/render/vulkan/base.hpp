@@ -99,7 +99,7 @@ namespace Axiom {
 				VkDevice logical;
 				VkPhysicalDevice physical = VK_NULL_HANDLE;
 				VkDebugReportCallbackEXT callback;
-
+				VkPhysicalDeviceFeatures features = {};
 				QueueFamilyIndices qFams;
 				VkQueue* queue;
 				VkCommandPool* commandPool;

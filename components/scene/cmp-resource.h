@@ -80,7 +80,6 @@ namespace Axiom{
             struct MaterialType{
                 T val;
                 std::string file = "";
-                bool has_texture(){return file.size() > 0};
             };
 
             struct Diffuse : MaterialType<glm::vec3> {Diffuse(){val = glm::vec3();}};

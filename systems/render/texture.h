@@ -20,6 +20,11 @@ namespace Axiom
 			Texture(std::string p);
 			~Texture();
 
+			Texture(const Texture& other) = default;
+			Texture& operator=(const Texture& other) = default;
+			Texture(Texture&& other) noexcept = default;
+			Texture& operator=(Texture&& other) noexcept = default;
+
 			VkImage image;
 			VkImageView view;
 			VkImageLayout imageLayout;
@@ -41,7 +46,7 @@ namespace Axiom
 		};
 
 		struct PrPixel {
-			unsigned char r, g, b, a = 1;
+			unsigned char r = 0, g = 0, b = 0, a = 1;
 			unsigned char& operator[](int i) {
 				assert(i > -1 && i < 4);
 				return *(&r + i);
