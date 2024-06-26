@@ -612,7 +612,8 @@ namespace Hardware{
             
         }
 
-        static glm::vec3 velocity = glm::vec3(0.f);
+        static glm::vec3 position = glm::vec3(0.f);
+        glm::vec3 velocity = glm::vec3(0.f);
         float speed = 1.0101f;
 
         if(key_is_down(kb->keys[GLFW_KEY_S])) velocity.x -= speed;
@@ -626,9 +627,17 @@ namespace Hardware{
         //ubo.model = glm::rotate(glm::mat4(1.f), time * glm::radians(90.f), glm::vec3(0.f, 0.f, 1.f));
         //ubo.model = glm::mat4(1.f);
         ubo.model = glm::mat4(1.f);
-        ubo.model = glm::translate(ubo.model, velocity);
-
+        //ubo.model = glm::translate(ubo.model, position);
         ubo.view = g_world.entity("Camera").get<Cmp_Transform>()->world;
+        auto view = glm::mat3(ubo.view);
+        position += view * velocity;
+        //rotMapper.get(e)->rot = glm::vec4(glm::sin(tc->eulerRotation.z), 0.f, glm::cos(tc->eulerRotation.z), tc->eulerRotation.z);
+
+        auto rot = glm::eulerAngles( glm::quat(ubo.view));
+        glm::vec3 move_dir = glm::vec3(glm::sin(rot.z), 0.f, glm::cos(rot.z));
+        //position *= move_dir;
+
+        ubo.view = glm::translate(ubo.view, position);
 
         //ubo.view = glm::lookAt(glm::vec3(2.f, 2.f, 2.f), glm::vec3(0.f), glm::vec3(0.f, 0.f, 1.f));
         ubo.proj = glm::perspective(glm::radians(45.f), c_vulkan->swapchain.extent.width / (float) c_vulkan->swapchain.extent.height, 0.1f, 10000.0f);
