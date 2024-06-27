@@ -94,7 +94,7 @@ vec3 specularContribution(vec3 L, vec3 V, vec3 N, vec3 F0, vec3 albedo, float me
 ///////////////////////////////////pbr/////////////////////////////////////
 
 void main() {
-    vec3 albedo = vec3(texture(albedoSampler, fragTexCoord));
+    vec3 albedo = material_data.albedo.xyz * vec3(texture(albedoSampler, fragTexCoord));
     vec3 metallic = vec3(texture(metallicSampler, fragTexCoord));
     vec3 roughness = vec3(texture(roughnessSampler, fragTexCoord));
     vec3 normal = vec3(texture(normalSampler, fragTexCoord));
@@ -104,8 +104,8 @@ void main() {
     vec3 reflective = 2*(dot(normal, new_sun_direction)) * normal - new_sun_direction;
     vec3 f0 = vec3(0.04);
     f0 = mix(f0, diffuse, reflective);
-    float metal = metallic.y;
-    float rough = roughness.z;
+    float metal = material_data.metalic * metallic.y;
+    float rough = material_data.roughness * roughness.z;
     vec3 specular =  specularContribution(new_sun_direction, fragView, normal, f0, albedo, metal, rough);
     outColor = sun_color * vec4(diffuse + specular, 1.0);
 

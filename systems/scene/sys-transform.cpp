@@ -193,19 +193,13 @@ namespace Axiom
             glm::mat4 rot_m = glm::rotate(glm::radians(t.euler_rot.x), glm::vec3(1.f, 0.f, 0.f));
             rot_m = glm::rotate(rot_m, glm::radians(t.euler_rot.y), glm::vec3(0.f, 1.f, 0.f));
             rot_m = glm::rotate(rot_m, glm::radians(t.euler_rot.z), glm::vec3(0.f, 0.f, 1.f));
+            
             t.local.rot = rot_m;
             t.global.rot *= t.local.rot;
-
-            //build position and scale matrix.
-            glm::mat4 pos_m = glm::translate(glm::vec3(t.local.pos));
-            glm::mat4 sca_m = glm::scale(glm::vec3(t.local.sca));
-            //glm::mat4 local = rot_m * pos_m ;
-            glm::mat4 local = pos_m * rot_m;
-
             t.global.sca = t.local.sca; 
-            t.trm = local;
-            t.world = t.trm * sca_m;
-            
+
+            t.trm = glm::translate(rot_m, glm::vec3(t.local.pos));
+            t.world = glm::scale(t.trm, glm::vec3(t.local.sca));
         }
     }
 }

@@ -18,11 +18,12 @@ Progress:
 
 
 TODO:
-1. Implement a decent 3D camera
+1. Fix shaders
 2. Integrate ImGUI
-3. Fix Issues with descriptorsets etc
 4. DELETE a lot of code
 5. Refactor a lot of code
 6. Implement Point Lights
 7. Implement Area Lights
 8. Implement Shadow Mapping
+9. Perfect Resizing
+
