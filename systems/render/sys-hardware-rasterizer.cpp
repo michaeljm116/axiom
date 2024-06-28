@@ -360,14 +360,22 @@ namespace Hardware{
 
     void Raster::create_descriptor_pool()
     {
-        std::array<VkDescriptorPoolSize, 4> pool_sizes = {
+        std::array<VkDescriptorPoolSize, 2> pool_sizes = {
             vks::initializers::descriptorPoolSize(VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, MAX_FRAMES_IN_FLIGHT),
             vks::initializers::descriptorPoolSize(VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, MAX_FRAMES_IN_FLIGHT),
-            vks::initializers::descriptorPoolSize(VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 4),
-            vks::initializers::descriptorPoolSize(VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 1),
         };
-        auto create_info = vks::initializers::descriptorPoolCreateInfo(pool_sizes.size(), pool_sizes.data(), 600);
+        auto create_info = vks::initializers::descriptorPoolCreateInfo(pool_sizes.size(), pool_sizes.data(), 1);
         if(!Log::check_error(vkCreateDescriptorPool(c_vulkan->device.logical, & create_info, nullptr, &graphics_pipeline->descriptor_pool) == VK_SUCCESS, "creating descriptor pool"))
+            throw std::runtime_error("Error creating descriptor pool");
+
+        const auto num_descriptors = 60;
+        std::array<VkDescriptorPoolSize, 3> pool_sizes_pbr = {
+            vks::initializers::descriptorPoolSize(VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 1 * MAX_FRAMES_IN_FLIGHT * num_descriptors),
+            vks::initializers::descriptorPoolSize(VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 4 * MAX_FRAMES_IN_FLIGHT * num_descriptors),
+            vks::initializers::descriptorPoolSize(VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 1 * MAX_FRAMES_IN_FLIGHT * num_descriptors)
+        };
+        auto create_info_pbr = vks::initializers::descriptorPoolCreateInfo(pool_sizes_pbr.size(), pool_sizes_pbr.data(), 576);
+        if (!Log::check_error(vkCreateDescriptorPool(c_vulkan->device.logical, &create_info_pbr, nullptr, &graphics_pipeline->descriptor_pool_pbr) == VK_SUCCESS, "creating descriptor pool"))
             throw std::runtime_error("Error creating descriptor pool");
     }
 
@@ -413,8 +421,10 @@ namespace Hardware{
         // descriptor set
         std::vector<VkDescriptorSetLayout> layouts(MAX_FRAMES_IN_FLIGHT, graphics_pipeline->pipelines["pbr"].descriptor_set_layout);
         material->descriptor_sets.resize(MAX_FRAMES_IN_FLIGHT);
-        auto alloc_info = vks::initializers::descriptorSetAllocateInfo(graphics_pipeline->descriptor_pool, layouts.data(), MAX_FRAMES_IN_FLIGHT);// MAX_FRAMES_IN_FLIGHT);
-        if(!Log::check_error(vkAllocateDescriptorSets(c_vulkan->device.logical, &alloc_info, material->descriptor_sets.data()) == VK_SUCCESS, "ALLOCATING descriptor sets"))
+        auto alloc_info = vks::initializers::descriptorSetAllocateInfo(graphics_pipeline->descriptor_pool_pbr, layouts.data(), MAX_FRAMES_IN_FLIGHT);
+        auto result = vkAllocateDescriptorSets(c_vulkan->device.logical, &alloc_info, material->descriptor_sets.data());
+
+        if(!Log::check_error(result == VK_SUCCESS, "ALLOCATING descriptor sets"))
             throw std::runtime_error("Error allocating descriptorset");
         
         for(int i = 0; i < MAX_FRAMES_IN_FLIGHT; ++i){
@@ -473,6 +483,7 @@ namespace Hardware{
             //    throw std::runtime_error("Error writing descriptorset");
         }
     }
+    
     void Raster::create_descriptor_set_layout()
     {
         graphics_pipeline->pipelines.insert(std::make_pair("basic", Render::Pipeline()));
@@ -607,8 +618,6 @@ namespace Hardware{
         Log::check_error(VK_SUCCESS == vkEndCommandBuffer(command_buffer), "END COMMAND BUFFER");                
     }
 
-    
-
     void Raster::update_uniform_buffer(uint32_t current_frame)
     {
         static auto start_time = std::chrono::high_resolution_clock::now();
@@ -631,7 +640,7 @@ namespace Hardware{
         
         Axiom::Render::Resources::initialize();
         auto& assets_folder = g_world.get_ref<Axiom::Resource::Cmp_Directory>().get()->assets;
-        assets_folder = "../../assets/";
+       // assets_folder = "../../assets/";
         auto suzanne = g_world.entity("Suzanne");
         auto sponza = g_world.entity("Sponza");
         auto teapot = g_world.entity("Teapot");
@@ -645,7 +654,7 @@ namespace Hardware{
         //teapot.set(teapot_res);
         //teapot.set(Cmp_AssimpModel());
 
-        texture.path = g_world.get<Resource::Cmp_Directory>()->assets + "Textures/circuit.jpg";
+        texture.path = assets_folder + "Textures/circuit.jpg";
         texture.CreateTexture(c_vulkan->device);
 
         /*

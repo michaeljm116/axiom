@@ -180,6 +180,7 @@ namespace Axiom
 		};
 		struct Cmp_GraphicsPipeline{
 			VkDescriptorPool descriptor_pool = VK_NULL_HANDLE;
+			VkDescriptorPool descriptor_pool_pbr = VK_NULL_HANDLE;
 			//VkDescriptorSet descriptor_set = VK_NULL_HANDLE;
 			std::vector<VkDescriptorSet> descriptor_sets = {};
 			std::map<std::string, Render::Pipeline> pipelines = {};

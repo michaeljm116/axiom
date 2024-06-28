@@ -516,6 +516,10 @@ namespace Base
                     << VK_VERSION_MAJOR(driverVersion) << "."
                     << VK_VERSION_MINOR(driverVersion) << "."
                     << VK_VERSION_PATCH(driverVersion) << std::endl;
+
+            std::cout << "Max uniform buffer descriptors in a pool: " << deviceProperties.limits.maxDescriptorSetUniformBuffers << std::endl;
+            std::cout << "Max sampler descriptors in a pool: " << deviceProperties.limits.maxDescriptorSetSamplers << std::endl;
+  
         };
         printPhysicalDeviceProperties(deviceProperties);
 

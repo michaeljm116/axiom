@@ -3,6 +3,7 @@
 #include <optick.h>
 #include <taskflow/taskflow.hpp>
 #include <sstream>
+#include <filesystem>
 
 #include "sys-transform.h"
 #include "sys-log.h"
@@ -79,13 +80,27 @@ int main(){
 	//const std::string assets_folder = "../../assets/";
 	g_world.add<Axiom::Resource::Cmp_Directory>();
 	auto& assets_folder = g_world.get_ref<Axiom::Resource::Cmp_Directory>().get()->assets;
+    const auto find_assets_folder = [](std::string dir) {
+        while (true) {
+            if (std::filesystem::exists(dir + "/assets")) 
+                return dir + "/assets/";
+            if (std::filesystem::exists(dir + "/axiom")) 
+                return dir + "/axiom/assets/";
+            std::filesystem::path parent_dir = std::filesystem::path(dir).parent_path();
+            if (parent_dir == dir)
+                break;
+            dir = parent_dir.string();
+        }
+        return std::string{};
+    };
 	assets_folder = "../../assets/";
+	if(!std::filesystem::exists(assets_folder))
+		assets_folder = find_assets_folder("..");
+
 
 	Axiom::Resource::load_directory(assets_folder + "Models/PrincipiaModels");
 	Axiom::Resource::load_directory(assets_folder + "Animations");
 	Axiom::Resource::load_materials(assets_folder + "Materials.xml");
-
-
 
 
 	auto* twindow = g_world.get<Cmp_Window>()->window;
