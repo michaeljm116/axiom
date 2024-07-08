@@ -66,7 +66,7 @@ namespace Axiom{
 
 			Material() {};
 			Material(std::string n, glm::vec3 d, float rfl, float rgh, float trns, float rfr, int ti) :
-				name(n), diffuse(d), reflective(rfl), roughness(rgh), transparency(trns), refractiveIndex(rfr), textureID(ti) {
+				diffuse(d), reflective(rfl), roughness(rgh), transparency(trns), refractiveIndex(rfr), textureID(ti), name(n){
 				uniqueID = name[0];
 				for (size_t i = 1; i < name.size(); ++i) {
 					uniqueID *= name[i] + name[i - 1];
@@ -138,7 +138,7 @@ namespace Axiom{
 			glm::vec2 uv = {};
 
 			private: 
-			int _pad;
+			int _pad = {};
 			public:
 			Vertex64(){}
 			Vertex64(const glm::vec3 &p, const glm::vec3& n, const glm::vec3 &t, const glm::vec2& coord):

@@ -178,7 +178,7 @@ namespace Axiom {
 			{
 			}
 
-			T Data;
+			T Data = {};
 
 			VkBuffer Buffer()const
 			{
@@ -323,7 +323,7 @@ namespace Axiom {
 
 			void UpdateBuffers(Device& device, std::vector<T> object) {
 				if (mInitialized) {
-					void* data;
+					void* data = {};
 					vkMapMemory(device.logical, bufferMemory, 0, (size_t)bufferInfo.range, 0, &data);
 					memcpy(data, object.data(), (size_t)bufferInfo.range);
 					vkUnmapMemory(device.logical, bufferMemory);
@@ -332,7 +332,7 @@ namespace Axiom {
 			void UpdateAndExpandBuffers(Device& device, std::vector<T> object, size_t size) {
 				bufferInfo.range = sizeof(Data) * size;
 				if (mInitialized) {
-					void* data;
+					void* data = {};
 					vkMapMemory(device.logical, bufferMemory, 0, (size_t)bufferInfo.range, 0, &data);
 					memcpy(data, object.data(), (size_t)bufferInfo.range);
 					vkUnmapMemory(device.logical, bufferMemory);
@@ -341,7 +341,7 @@ namespace Axiom {
 			void ApplyChanges(Device& vkDevice)
 			{
 				if (mInitialized) {
-					void* data;
+					void* data = {};
 					vkMapMemory(vkDevice.logical, bufferMemory, 0, sizeof(Data), 0, &data);
 					memcpy(data, &Data, sizeof(T));
 					vkUnmapMemory(vkDevice.logical, bufferMemory);
@@ -349,7 +349,7 @@ namespace Axiom {
 			}
 			void ApplyChanges(Device& vkDevice, T dat) {
 				if (mInitialized) {
-					void* data;
+					void* data = {};;
 					vkMapMemory(vkDevice.logical, bufferMemory, 0, sizeof(dat), 0, &data);
 					memcpy(data, &dat, sizeof(dat));
 					vkUnmapMemory(vkDevice.logical, bufferMemory);
@@ -361,7 +361,7 @@ namespace Axiom {
 			VBuffer<T>& operator=(const VBuffer<T>& rhs);
 
 		public:
-			bool mInitialized;
+			bool mInitialized = false;
 
 			VkBuffer buffer;
 			VkDeviceMemory bufferMemory;

@@ -96,17 +96,15 @@ namespace Axiom
 
             Material_PBR() = default;
             
-            Material_PBR(const Material_PBR& other) {
-                name = other.name;
-                uniform = other.uniform;
-                //uniform_buffer = other.uniform_buffer;
-                texture_albedo = other.texture_albedo;
-                texture_metallic = other.texture_metallic;
-                texture_roughness = other.texture_roughness;
-                texture_normal = other.texture_normal;
-                descriptor_sets = other.descriptor_sets;
-                //descriptor_set_layout = other.descriptor_set_layout;
-            }
+            Material_PBR(const Material_PBR& other) : 
+                name(other.name), 
+                uniform(other.uniform),
+                texture_albedo(other.texture_albedo), 
+                texture_metallic(other.texture_metallic),
+                texture_roughness(other.texture_roughness), 
+                texture_normal(other.texture_normal),
+                descriptor_sets(other.descriptor_sets)
+                {}
             
             Material_PBR& operator=(const Material_PBR& other) {
                 if (this != &other) {

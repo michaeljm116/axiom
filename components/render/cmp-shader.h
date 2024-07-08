@@ -72,7 +72,7 @@ namespace Axiom
 				glm::vec3 norm = glm::vec3();
 				float v = 0.f;
 				Vert() {};
-				Vert(const glm::vec3 &p, const glm::vec3 &n, const float &u, const float &v) : pos(p), norm(n), u(u), v(v) { };
+				Vert(const glm::vec3 &p, const glm::vec3 &n, const float &u, const float &v) : pos(p), u(u), norm(n),  v(v) { };
 			};
 
 			struct V32{
@@ -176,7 +176,7 @@ namespace Axiom
 				int numChildren = 0;
 
 				BVHNode(){};
-				BVHNode(glm::vec3 u, glm::vec3 l, int o, int n) : upper(u), lower(l), offset(o), numChildren(n){};
+				BVHNode(glm::vec3 u, glm::vec3 l, int o, int n) : upper(u), offset(o), lower(l),  numChildren(n){};
 			};
 
 			/*

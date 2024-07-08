@@ -22,6 +22,7 @@ elseif (CMAKE_BUILD_TYPE STREQUAL "Release")
   message("Building in Release mode")
 endif()
 
+
 # Add the submodules' directories
 add_subdirectory(lib/glfw EXCLUDE_FROM_ALL)
 #add_subdirectory(lib/etc2comp EXCLUDE_FROM_ALL)
@@ -57,7 +58,6 @@ include_directories(
 include_directories(
     lib/glm 
     lib/glfw/include
-    lib/imgui
     lib/volk
     lib/stb
     lib/taskflow
@@ -65,6 +65,8 @@ include_directories(
     lib/xxHash
     lib/glslang
     lib/assimp/include
+    lib/imgui
+    lib/imgui/backends
 )
 
 # Add source files and header files
@@ -90,9 +92,22 @@ file(GLOB COMPONENTS
     components/core/*.h
     components/scene/*.h
 )
+file(GLOB EDITOR_SOURCES
+    editor/*.cpp
+    lib/imgui/*.cpp
+    lib/imgui/backends/imgui_impl_vulkan.cpp
+    lib/imgui/backends/imgui_impl_glfw.cpp
+)
+
+file (GLOB_RECURSE EDITOR_HEADERS
+    editor/*.h
+    lib/imgui/*.h
+    lib/imgui/backends/imgui_impl_vulkan.h
+)
 
 # Create the library
 add_library(AxiomEngineLib STATIC ${COMPONENTS} ${SYSTEMS_SOURCE} ${SYSTEMS_HEADERS})
+#add_library(AxiomEditorLib STATIC ${EDITOR_SOURCES} ${EDITOR_HEADERS})
 
 # Link the submodules' libraries to the library
 target_link_libraries(AxiomEngineLib glfw ${GLFW_LIBRARIES})
@@ -106,12 +121,14 @@ target_link_libraries(AxiomEngineLib xxhash)
 target_link_libraries(AxiomEngineLib glslang SPIRV)
 target_link_libraries(AxiomEngineLib assimp)
 
+
 # Link the include libs
 target_include_directories(AxiomEngineLib PRIVATE lib/taskflow)
 target_include_directories(AxiomEngineLib PRIVATE lib/volk)
+#target_include_directories(AxiomEngineLib PRIVATE ${VULKAN_INCLUDE_DIR})
 
 
-target_compile_options(flecs PRIVATE -w)  # -w suppresses all warnings in GCC/Clang
+target_compile_options(flecs PUBLIC -w)  # -w suppresses all warnings in GCC/Clang
 
 
 # Define DEBUG_MODE for debug configuration
@@ -121,3 +138,6 @@ target_compile_definitions(AxiomEngineLib PRIVATE $<$<CONFIG:Debug>:DEBUG_MODE>)
 add_executable(AxiomEngine start/main.cpp)
 target_precompile_headers(AxiomEngine PRIVATE start/pch.h)
 target_link_libraries(AxiomEngine AxiomEngineLib)
+
+#add_executable(AxiomEditor editor/editor-main.cpp ${EDITOR_SOURCES} ${EDITOR_HEADERS})
+#target_link_libraries(AxiomEditor PUBLIC AxiomEngineLib)
