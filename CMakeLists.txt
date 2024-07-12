@@ -66,7 +66,6 @@ include_directories(
     lib/glslang
     lib/assimp/include
     lib/imgui
-    lib/imgui/backends
 )
 
 # Add source files and header files
@@ -77,6 +76,9 @@ file(GLOB SYSTEMS_SOURCE
     systems/core/*.cpp
     systems/render/*.cpp
     systems/scene/*.cpp
+    lib/imgui/*.cpp
+    lib/imgui/backends/imgui_impl_vulkan.cpp
+    lib/imgui/backends/imgui_impl_glfw.cpp
 )
 file(GLOB SYSTEMS_HEADERS
     start/flecs-world.h
@@ -85,24 +87,15 @@ file(GLOB SYSTEMS_HEADERS
     systems/core/*.h 
     systems/render/*.h
     systems/scene/*.h
+    lib/imgui/*.h
+    lib/imgui/backends/imgui_impl_vulkan.h
+    lib/imgui/backends/imgui_impl_glfw.h
 )
 file(GLOB COMPONENTS 
     components/*.h 
     components/render/*.h
     components/core/*.h
     components/scene/*.h
-)
-file(GLOB EDITOR_SOURCES
-    editor/*.cpp
-    lib/imgui/*.cpp
-    lib/imgui/backends/imgui_impl_vulkan.cpp
-    lib/imgui/backends/imgui_impl_glfw.cpp
-)
-
-file (GLOB_RECURSE EDITOR_HEADERS
-    editor/*.h
-    lib/imgui/*.h
-    lib/imgui/backends/imgui_impl_vulkan.h
 )
 
 # Create the library

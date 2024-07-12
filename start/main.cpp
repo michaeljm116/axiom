@@ -33,6 +33,7 @@
 #include "sys-hardware-rasterizer.h"
 #include "sys-camera.h"
 #include "sys-vulkan-resource.h"
+#include "sys-imgui-renderer.h"
 
 using namespace Axiom;
 
@@ -130,8 +131,13 @@ int main(){
 	default:
 		break;
 	}
+
+
 	
 	g_world.progress();
+
+	Axiom::Render::initialize_imgui(g_world.get_mut<Axiom::Render::Cmp_Vulkan>());
+	
 
 	while(!glfwWindowShouldClose(twindow)){
 		OPTICK_FRAME("Main Thread")

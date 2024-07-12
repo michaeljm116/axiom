@@ -212,18 +212,6 @@ namespace Hardware{
         }
         auto assets_folder = g_world.get<Resource::Cmp_Directory>()->assets;
         
-        /*Shader::init();
-        const auto vert_shader_code = Shader::compile_glsl(assets_folder + "Shaders/glsl/triangle.vert", Shader::Type::eVertex);
-        const auto frag_shader_code = Shader::compile_glsl(assets_folder + "Shaders/glsl/triangle.frag", Shader::Type::eFragment);
-        Shader::finalize();    
-
-        if(!Log::check(vert_shader_code.has_value(), "Compiling Vertex Shader")) throw std::runtime_error("failed to compile vertex shader");
-        if(!Log::check(frag_shader_code.has_value(), "Compiling Fragment Shader")) throw std::runtime_error("Failed to compile fragment shader");
-        
-        auto vert_shader_module = c_vulkan->device.createShaderModule(vert_shader_code.value());
-        auto frag_shader_module = c_vulkan->device.createShaderModule(frag_shader_code.value());
-        
-        */
         auto read_file = [](std::string filename){
             std::ifstream file(filename, std::ios::ate | std::ios::binary);
             if (!file.is_open()) {
@@ -647,55 +635,13 @@ namespace Hardware{
         Cmp_Resource suzanne_res = {.file_path = assets_folder + "Models/GLTF/Suzanne/glTF", .file_name = "Suzanne.gltf", .material_type = "PBR"};
         Cmp_Resource sponza_res = {.file_path = assets_folder + "Models/GLTF/Sponza/glTF", .file_name = "Sponza.gltf", .material_type = "PBR"};
         Cmp_Resource teapot_res = {.file_path = assets_folder + "Models/OBJ/teapot", .file_name = "teapot.obj", .material_type = "Phong"};
-        //suzanne.set(suzanne_res);
-        //suzanne.set(Cmp_AssimpModel());
+     
         sponza.set(sponza_res);
         sponza.set(Cmp_AssimpModel());
-        //teapot.set(teapot_res);
-        //teapot.set(Cmp_AssimpModel());
 
         texture.path = assets_folder + "Textures/circuit.jpg";
         texture.CreateTexture(c_vulkan->device);
 
-        /*
-        auto sponza = g_world.entity("Sponza");
-        auto sponza_res = sponza.get<Cmp_AssimpModel>();
-        
-        sponza_mod = Geometry::Cmp_Model(sponza_res);
-
-        for(auto& m : sponza_mod.meshes){
-            auto num_verts = m.verts.size();
-            auto num_indxs = m.indices.size();
-            m.vertex_buffer.InitStorageBufferCustomSize(c_vulkan->device, m.verts, num_verts, num_verts);
-            m.index_buffer.InitStorageBufferCustomSize(c_vulkan->device, m.indices, num_indxs, num_indxs);
-        }
-        
-        create_mesh_descriptor_sets(sponza_mod);
-
-        sponza.set(sponza_mod);
-        
-
-        auto s = g_world.entity("Suzanne");
-        auto m = s.get<Cmp_AssimpModel>();
-
-        //std::vector<Shader::V32> s_verts;
-        s_verts.reserve(m->subsets[0].verts.size());
-        for(auto v : m->subsets[0].verts){
-            s_verts.emplace_back(Geometry::Vertex48(v.pos, v.uv.x, v.norm, v.uv.y, v.tang));
-        }
-        //std::vector<uint32_t> s_indices;
-        s_indices.reserve(m->subsets[0].tris.size() * 3);
-        for(auto t : m->subsets[0].tris){
-            s_indices.emplace_back(t.x);
-            s_indices.emplace_back(t.y);
-            s_indices.emplace_back(t.z);
-        }
-        vertex_buffer.InitStorageBufferCustomSize(c_vulkan->device, s_verts, s_verts.size(), s_verts.size());
-        index_buffer.InitStorageBufferCustomSize(c_vulkan->device, s_indices, s_indices.size(), s_indices.size());*/
-
-        //vertex_buffer.InitStorageBufferCustomSize(c_vulkan->device, vertices, vertices.size(), vertices.size());
-        //index_buffer.InitStorageBufferCustomSize(c_vulkan->device, indices, indices.size(), indices.size());
-        
     }
 
     void Raster::clean_up()

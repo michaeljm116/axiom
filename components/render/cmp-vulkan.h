@@ -95,6 +95,7 @@ namespace Axiom
             Vulkan::Queues queues = Vulkan::Queues();
             Vulkan::Pipeline pipeline = Vulkan::Pipeline();
             VkSubmitInfo submit_info = VkSubmitInfo();
+            //VmaAllocator allocator = VmaAllocator();
         };
     }
 }
