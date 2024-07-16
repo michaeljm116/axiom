@@ -1,6 +1,7 @@
 #pragma once
 #include "../components/render/cmp-vulkan.h"
 #include "../components/render/cmp-imgui.h"
+#include "vulkan/vulkan_core.h"
 
 static void check_vk_result(VkResult err)
 	{
@@ -23,14 +24,14 @@ namespace Render{
     void draw_imgui(VkSubmitInfo* submit_info, int image_index);
     class ImGui_Renderer
     {
-        public: 
+        public:
             ImGui_Renderer();
             ~ImGui_Renderer();
 
             void init(Cmp_Vulkan* c_v);
             void destroy();
             void draw(VkSubmitInfo* submit_info, int image_index);
-        
+            void start_draw(VkSubmitInfo* submit_info, int image_index);
         private:
             Cmp_ImGui* c_imgui;
             Cmp_Vulkan* c_vulkan;

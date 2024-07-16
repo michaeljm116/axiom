@@ -1,6 +1,7 @@
 #include "sys-imgui-renderer.h"
 #include "flecs-world.h"
 #include "cmp-window.h"
+#include "vulkan/vulkan_core.h"
 
 namespace Axiom{
 namespace Render{
@@ -105,6 +106,46 @@ namespace Render{
 		VK_CHECKRESULT(vkQueueSubmit(c_vulkan->queues.copy, 1, submitInfo, VK_NULL_HANDLE), "UI QUEUE SUBMIT");
     }
 
+    void ImGui_Renderer::start_draw(VkSubmitInfo *submit_info, int image_index)
+    {
+        VkPipelineStageFlags flags = 0x00000200;
+		const VkPipelineStageFlags* cf = &flags;
+
+		submit_info->waitSemaphoreCount = 1;
+		submit_info->pWaitSemaphores = submit_info->pSignalSemaphores;
+		submit_info->signalSemaphoreCount = 1;
+		submit_info->pSignalSemaphores = &c_imgui->ui_semaphore;
+		submit_info->commandBufferCount = 1;
+		submit_info->pCommandBuffers = &c_imgui->command_buffers[image_index];
+		submit_info->pWaitDstStageMask = cf;
+
+		VkCommandBufferBeginInfo cmdBufInfo = vks::initializers::commandBufferBeginInfo();
+		VkRenderPassBeginInfo renderPassBeginInfo = vks::initializers::renderPassBeginInfo();
+
+		renderPassBeginInfo.renderPass = c_imgui->render_pass;
+		renderPassBeginInfo.renderArea.extent.width = c_vulkan->swapchain.extent.width;
+		renderPassBeginInfo.renderArea.extent.height = c_vulkan->swapchain.extent.height;
+		renderPassBeginInfo.clearValueCount = static_cast<uint32_t>(c_imgui->clear_values.size());
+		renderPassBeginInfo.pClearValues = c_imgui->clear_values.data();
+		renderPassBeginInfo.framebuffer = c_vulkan->swapchain.frame_buffers[image_index];
+
+		VK_CHECKRESULT(vkBeginCommandBuffer(c_imgui->command_buffers[image_index], &cmdBufInfo), "BEGIN UI COMMAND BUFFER");
+		vkCmdBeginRenderPass(c_imgui->command_buffers[image_index], &renderPassBeginInfo, VK_SUBPASS_CONTENTS_INLINE);
+
+		ImGui_ImplVulkan_NewFrame();
+		ImGui_ImplGlfw_NewFrame();
+		ImGui::NewFrame();
+		static bool show = true;
+		ImGui::ShowDemoWindow(&show); // Show demo window! :)
+		// (Your code clears your framebuffer, renders your other stuff etc.)
+		VkViewport viewport = vks::initializers::viewport(ImGui::GetIO().DisplaySize.x, ImGui::GetIO().DisplaySize.y, 0.0f, 1.0f);
+		vkCmdSetViewport(c_imgui->command_buffers[image_index], 0, 1, &viewport);
+
+		VkRect2D scissor = vks::initializers::rect2D((int32_t)ImGui::GetIO().DisplaySize.x, (int32_t)ImGui::GetIO().DisplaySize.y, 0, 0);
+		vkCmdSetScissor(c_imgui->command_buffers[image_index], 0, 1, &scissor);
+
+    }
+
     void ImGui_Renderer::create_descriptor_pool()
     {
         		//create the imgui descriptor pool
@@ -127,7 +168,7 @@ namespace Render{
 		pool_info.poolSizeCount = (uint32_t)std::size(pool_sizes);
 		pool_info.pPoolSizes = pool_sizes;
 
-		
+
 		VK_CHECKRESULT(vkCreateDescriptorPool(c_vulkan->device.logical, &pool_info, nullptr, &c_imgui->descriptor_pool), "CREATING IMGUI DESCRIPTOR POOL");
     }
 
@@ -145,7 +186,7 @@ namespace Render{
 		attachments[0].initialLayout = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
 		attachments[0].finalLayout = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
 
-		// Depth attachment
+		// Depth attachment;
 		attachments[1].format = c_vulkan->depth.format;
 		attachments[1].samples = VK_SAMPLE_COUNT_1_BIT;
 		attachments[1].loadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
@@ -259,7 +300,7 @@ namespace Render{
 			vkCmdEndRenderPass(c_imgui->command_buffers[i]);
 			VK_CHECKRESULT(vkEndCommandBuffer(c_imgui->command_buffers[i]), "END UI COMMAND BUFFER");
 		}
-		
+
     }
 
     void ImGui_Renderer::update_command_buffers(int ii)
