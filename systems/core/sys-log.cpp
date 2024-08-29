@@ -3,7 +3,7 @@
 #include "sys-timer.h"
 namespace Axiom{
     namespace Log{
-        void initialize() 
+        void initialize()
         {
             // Open/Start Log File System
             g_world.observer<Cmp_LogFile>("StartLogFileSystem")
@@ -49,7 +49,7 @@ namespace Axiom{
         }
 
         void send(Axiom::Log::Level level, std::string message){
-            std::stringstream ss; 
+            std::stringstream ss;
             ss << Timer::get_current_time() << " - ";
             switch (level) {
                 case Log::Level::DEBUG:
@@ -72,7 +72,7 @@ namespace Axiom{
             std::cout << log_line;
             save(log_line);
         }
-        
+
         bool check(bool b, std::string message){
             if(!b) send(Log::Level::ERROR ,"Failed When " + message);
             else send(Log::Level::INFO , message + " was a success!");

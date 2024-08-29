@@ -9,6 +9,7 @@
 #include "cmp-transform.h"
 #include "cmp-material.h"
 #include "sys-vulkan-resource.h"
+#include "sys-imgui-renderer.h"
 
 namespace Axiom{
 namespace Render{
@@ -16,7 +17,9 @@ namespace Hardware{
     Raster::Raster(){
 
     }
-    Raster::~Raster(){}
+    Raster::~Raster(){
+        clean_up_swapchain();
+    }
 
     Raster g_raster = Raster();
     void initialize_raster(){
@@ -31,17 +34,19 @@ namespace Hardware{
             g_raster.create_material_descriptor_sets(e, m);
         });
 
-        g_raster.c_vulkan = g_world.get_ref<Axiom::Render::Cmp_Vulkan>().get();
+        auto* v_ref = g_world.get_ref<Axiom::Render::Cmp_Vulkan>().get();
+        g_raster.c_vulkan = v_ref;
         g_raster.graphics_pipeline = g_world.get_ref<Axiom::Render::Cmp_GraphicsPipeline>().get();
         g_raster.start_up();
         g_raster.initialize();
+	    Axiom::Render::initialize_imgui(v_ref);
 
         /*g_world.observer<Cmp_Resource, Cmp_AssimpModel, Cmp_Render>()
         .event(flecs::OnSet)
         .each([](flecs::entity e, Cmp_Resource& res, Cmp_AssimpModel& mod, Cmp_Model render_mod){
-            
+
         });*/
-        
+
     }
     void Raster::start_up()
     {
@@ -52,7 +57,7 @@ namespace Hardware{
     {
         create_descriptor_set_layout();
         create_graphics_pipeline();
-        
+
         create_descriptor_pool();
         //create_descriptor_sets();
 
@@ -61,62 +66,52 @@ namespace Hardware{
         create_command_buffers(1.f, 0, 0);
 
     }
-    
+
     auto handle_aquire = [](VkResult result){
         if(!Log::check_error(result == VK_SUCCESS, "creating swapchain image")){
-            if(result == VK_ERROR_OUT_OF_DATE_KHR) 
+            if(result == VK_ERROR_OUT_OF_DATE_KHR)
                 g_raster.recreate_swapchain();
             else if (Log::check_error(result != VK_SUBOPTIMAL_KHR, "suboptimal!")){
                 throw std::runtime_error("failed to aquire swapchain image!");
             }
         }
-        /*if (result == VK_ERROR_OUT_OF_DATE_KHR || result == VK_SUBOPTIMAL_KHR || framebufferResized) {
-            framebufferResized = false;
-            recreateSwapChain();
-        } else if (result != VK_SUCCESS) {
-            throw std::runtime_error("failed to present swap chain image!");
-        }*/
     };
+
     void Raster::draw_frame() {
         vkWaitForFences(c_vulkan->device.logical, 1, &c_vulkan->semaphores.presentation_fence[current_frame], VK_TRUE, UINT64_MAX);
 
         uint32_t imageIndex;
-        VkResult result = vkAcquireNextImageKHR(c_vulkan->device.logical, c_vulkan->swapchain.get, UINT64_MAX, c_vulkan->semaphores.render_ready[current_frame], VK_NULL_HANDLE, &imageIndex);
+        VkResult result = vkAcquireNextImageKHR(c_vulkan->device.logical, c_vulkan->swapchain.get, UINT64_MAX,
+                                                c_vulkan->semaphores.render_ready[current_frame], VK_NULL_HANDLE, &imageIndex);
         handle_aquire(result);
-        
-        update_uniform_buffer(current_frame);
 
+        update_uniform_buffer(current_frame);
         vkResetFences(c_vulkan->device.logical, 1, & c_vulkan->semaphores.presentation_fence[current_frame]);
         vkResetCommandBuffer(c_vulkan->command.buffers[current_frame], 0 );
-        
-        
         update_command_buffer(c_vulkan->command.buffers[current_frame], imageIndex);
 
-        VkSubmitInfo submitInfo{};
-        submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
-
-        VkSemaphore waitSemaphores[] = {c_vulkan->semaphores.render_ready[current_frame]};
         VkPipelineStageFlags waitStages[] = {VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT};
+        VkSubmitInfo submitInfo{};
+
+        submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
         submitInfo.waitSemaphoreCount = 1;
-        submitInfo.pWaitSemaphores = waitSemaphores;
+        submitInfo.pWaitSemaphores = &c_vulkan->semaphores.render_ready.at(current_frame);
         submitInfo.pWaitDstStageMask = waitStages;
-
         submitInfo.commandBufferCount = 1;
-        submitInfo.pCommandBuffers = &c_vulkan->command.buffers[current_frame];
-
-        VkSemaphore signalSemaphores[] = {c_vulkan->semaphores.frame_presented[current_frame]};
+        submitInfo.pCommandBuffers = &c_vulkan->command.buffers.at(current_frame);
         submitInfo.signalSemaphoreCount = 1;
-        submitInfo.pSignalSemaphores = signalSemaphores;
+        submitInfo.pSignalSemaphores = &c_vulkan->semaphores.frame_presented.at(current_frame);
 
-        if (vkQueueSubmit(c_vulkan->queues.graphics, 1, &submitInfo, c_vulkan->semaphores.presentation_fence[current_frame]) != VK_SUCCESS) {
+        if (vkQueueSubmit(c_vulkan->queues.graphics, 1, &submitInfo, c_vulkan->semaphores.presentation_fence.at(current_frame)) != VK_SUCCESS) {
             throw std::runtime_error("failed to submit draw command buffer!");
         }
 
+        draw_imgui(&submitInfo, imageIndex, current_frame);
+
         VkPresentInfoKHR presentInfo{};
         presentInfo.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
-
-        presentInfo.waitSemaphoreCount = 1;
-        presentInfo.pWaitSemaphores = signalSemaphores;
+        presentInfo.waitSemaphoreCount = submitInfo.signalSemaphoreCount;
+        presentInfo.pWaitSemaphores = submitInfo.pSignalSemaphores;
 
         VkSwapchainKHR swapChains[] = {c_vulkan->swapchain.get};
         presentInfo.swapchainCount = 1;
@@ -126,7 +121,6 @@ namespace Hardware{
 
         result = vkQueuePresentKHR(c_vulkan->queues.present, &presentInfo);
         handle_aquire(result);
-
         current_frame = (current_frame + 1) % MAX_FRAMES_IN_FLIGHT;
     }
     void Raster::start_frame(uint32_t &image_index)
@@ -134,7 +128,7 @@ namespace Hardware{
         //update_uniform_buffer();
 
         auto result = vkAcquireNextImageKHR(c_vulkan->device.logical, c_vulkan->swapchain.get,
-                                            std::numeric_limits<uint64_t>::max(), 
+                                            std::numeric_limits<uint64_t>::max(),
                                             c_vulkan->semaphores.image_available, VK_NULL_HANDLE, &image_index);
         handle_aquire(result);
 
@@ -174,7 +168,7 @@ namespace Hardware{
 
     void Raster::add_entity(flecs::entity &e)
     {
-        
+
     }
 
     void Raster::remove_entity(flecs::entity &e)
@@ -201,7 +195,7 @@ namespace Hardware{
         VkPipelineMultisampleStateCreateInfo multisample_state = vks::initializers::pipelineMultisampleStateCreateInfo(c_vulkan->sample.max_sample,0);
         std::vector<VkDynamicState> dynamic_state_enables = {VK_DYNAMIC_STATE_VIEWPORT,VK_DYNAMIC_STATE_SCISSOR};
         VkPipelineDynamicStateCreateInfo dynamic_state = vks::initializers::pipelineDynamicStateCreateInfo( dynamic_state_enables.data(), dynamic_state_enables.size(), 0);
-                
+
         VkPipelineLayoutCreateInfo pipeline_layout = vks::initializers::pipelineLayoutCreateInfo(&graphics_pipeline->pipelines["basic"].descriptor_set_layout, 1);
         if(!Log::check(vkCreatePipelineLayout(c_vulkan->device.logical, &pipeline_layout, nullptr, &graphics_pipeline->pipelines["basic"].layout) == VK_SUCCESS, "Creating pipeline layout")){
             throw std::runtime_error("Failed creating pipeline layout");
@@ -211,7 +205,33 @@ namespace Hardware{
             throw std::runtime_error("Failed creating pipeline layout");
         }
         auto assets_folder = g_world.get<Resource::Cmp_Directory>()->assets;
-        
+
+
+        /*Shader::init();
+        const auto vert_shader_code = Shader::compile_glsl(assets_folder + "Shaders/glsl/triangle.vert", Shader::Type::eVertex);
+        const auto frag_shader_code = Shader::compile_glsl(assets_folder + "Shaders/glsl/triangle.frag", Shader::Type::eFragment);
+        Shader::finalize();
+
+        if(!Log::check(vert_shader_code.has_value(), "Compiling Vertex Shader")) throw std::runtime_error("failed to compile vertex shader");
+        if(!Log::check(frag_shader_code.has_value(), "Compiling Fragment Shader")) throw std::runtime_error("Failed to compile fragment shader");
+
+        auto vert_shader_module = c_vulkan->device.createShaderModule(vert_shader_code.value());
+        auto frag_shader_module = c_vulkan->device.createShaderModule(frag_shader_code.value());
+
+        */
+
+        /*Shader::init();
+        const auto vert_shader_code = Shader::compile_glsl(assets_folder + "Shaders/glsl/triangle.vert", Shader::Type::eVertex);
+        const auto frag_shader_code = Shader::compile_glsl(assets_folder + "Shaders/glsl/triangle.frag", Shader::Type::eFragment);
+        Shader::finalize();
+
+        if(!Log::check(vert_shader_code.has_value(), "Compiling Vertex Shader")) throw std::runtime_error("failed to compile vertex shader");
+        if(!Log::check(frag_shader_code.has_value(), "Compiling Fragment Shader")) throw std::runtime_error("Failed to compile fragment shader");
+
+        auto vert_shader_module = c_vulkan->device.createShaderModule(vert_shader_code.value());
+        auto frag_shader_module = c_vulkan->device.createShaderModule(frag_shader_code.value());
+
+        */
         auto read_file = [](std::string filename){
             std::ifstream file(filename, std::ios::ate | std::ios::binary);
             if (!file.is_open()) {
@@ -236,13 +256,13 @@ namespace Hardware{
         const auto frag_shader_code = Shader::compile_glsl(assets_folder + "Shaders/glsl/basic.frag", Shader::Type::eFragment);
         const auto pbr_vshader_code  = Shader::compile_glsl(assets_folder + "Shaders/glsl/pbr.vert",   Shader::Type::eVertex);
         const auto pbr_fshader_code  = Shader::compile_glsl(assets_folder + "Shaders/glsl/pbr.frag",   Shader::Type::eFragment);
-        Shader::finalize();    
+        Shader::finalize();
 
         const auto vert_shader_module = c_vulkan->device.createShaderModule(vert_shader_code.value());
         const auto frag_shader_module = c_vulkan->device.createShaderModule(frag_shader_code.value());
         const auto pbr_vshader_module = c_vulkan->device.createShaderModule(pbr_vshader_code.value());
         const auto pbr_fshader_module = c_vulkan->device.createShaderModule(pbr_fshader_code.value());
-        
+
         VkPipelineShaderStageCreateInfo vert_shader_stage_info = {
             .sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO,
             .stage = VK_SHADER_STAGE_VERTEX_BIT,
@@ -270,7 +290,7 @@ namespace Hardware{
             .module = pbr_fshader_module,
             .pName = "main"
         };
-        
+
         std::array<VkPipelineShaderStageCreateInfo, 2> shader_stages     = { vert_shader_stage_info, frag_shader_stage_info };
         std::array<VkPipelineShaderStageCreateInfo, 2> shader_stages_pbr = { pbr_vshader_stage_info, pbr_fshader_stage_info };
 
@@ -284,7 +304,7 @@ namespace Hardware{
             .vertexAttributeDescriptionCount = static_cast<uint32_t>(attribute.size()),
             .pVertexAttributeDescriptions = attribute.data()
         };
-        
+
         VkGraphicsPipelineCreateInfo pipelineCreateInfo = {
             .sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO,
             .stageCount = static_cast<uint32_t>(shader_stages.size()), // Cast size to uint32_t
@@ -323,7 +343,7 @@ namespace Hardware{
         };
         std::array<VkGraphicsPipelineCreateInfo,2> pipeline_createinfos = {pipelineCreateInfo, pbrpipelineCreateInfo};
         std::array<VkPipeline, 2> pipelines = {graphics_pipeline->pipelines["basic"].get, graphics_pipeline->pipelines["pbr"].get};
-        
+
         VkResult result = vkCreateGraphicsPipelines(
             c_vulkan->device.logical,
             c_vulkan->pipeline.cache,
@@ -339,7 +359,7 @@ namespace Hardware{
         if(!Log::check(result == VK_SUCCESS, "CREATE GRAPHICS PIPELINE")){
             throw std::runtime_error("Failed to create Graphics piepline");
         }
-        
+
         vkDestroyShaderModule(c_vulkan->device.logical, frag_shader_module, nullptr);
         vkDestroyShaderModule(c_vulkan->device.logical, vert_shader_module, nullptr);
         vkDestroyShaderModule(c_vulkan->device.logical, pbr_vshader_module, nullptr);
@@ -372,10 +392,10 @@ namespace Hardware{
         std::vector<VkDescriptorSetLayout> layouts(MAX_FRAMES_IN_FLIGHT, graphics_pipeline->pipelines["basic"].descriptor_set_layout);
         graphics_pipeline->descriptor_sets.resize(MAX_FRAMES_IN_FLIGHT);
         auto alloc_info = vks::initializers::descriptorSetAllocateInfo(graphics_pipeline->descriptor_pool, layouts.data(), MAX_FRAMES_IN_FLIGHT);// MAX_FRAMES_IN_FLIGHT);
-        
+
         if(!Log::check_error(vkAllocateDescriptorSets(c_vulkan->device.logical, &alloc_info, graphics_pipeline->descriptor_sets.data()) == VK_SUCCESS, "ALLOCATING descriptor sets"))
             throw std::runtime_error("Error allocating descriptorset");
-        
+
         for(int i = 0; i < MAX_FRAMES_IN_FLIGHT; ++i){
             auto ds_info = VkDescriptorBufferInfo{
                 .buffer = uniform_buffers[i].buffer,
@@ -384,7 +404,7 @@ namespace Hardware{
             };
 
             auto u_write_ds = vks::initializers::writeDescriptorSet(
-                graphics_pipeline->descriptor_sets[i], 
+                graphics_pipeline->descriptor_sets[i],
                 VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
                 0, &ds_info, 1
             );
@@ -399,7 +419,7 @@ namespace Hardware{
             vkUpdateDescriptorSets(c_vulkan->device.logical, 2, write_ds.data(), 0, nullptr);
         }
     }
-    
+
     void Raster::create_material_descriptor_sets(flecs::entity e, Cmp_Material_PBR_Ref &m)
     {
         auto* material = Resources::g_material_manager.ref_resource(m.index);
@@ -414,9 +434,9 @@ namespace Hardware{
 
         if(!Log::check_error(result == VK_SUCCESS, "ALLOCATING descriptor sets"))
             throw std::runtime_error("Error allocating descriptorset");
-        
+
         for(int i = 0; i < MAX_FRAMES_IN_FLIGHT; ++i){
-            
+
             std::array<VkWriteDescriptorSet,6> write_ds ;
 
             auto ds_info = VkDescriptorBufferInfo{
@@ -426,7 +446,7 @@ namespace Hardware{
             };
 
             write_ds[0] = vks::initializers::writeDescriptorSet(
-                material->descriptor_sets[i], 
+                material->descriptor_sets[i],
                 VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
                 0, &ds_info, 1
             );
@@ -454,8 +474,8 @@ namespace Hardware{
                 material->descriptor_sets[i],
                 VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
                 4, &normal_texture.descriptor, 1
-            ); 
-            material->uniform_buffer.InitUniformBuffer(c_vulkan->device, material->uniform);           
+            );
+            material->uniform_buffer.InitUniformBuffer(c_vulkan->device, material->uniform);
             auto mds_info = VkDescriptorBufferInfo{
                 .buffer = material->uniform_buffer.buffer,
                 .offset = 0,
@@ -471,7 +491,7 @@ namespace Hardware{
             //    throw std::runtime_error("Error writing descriptorset");
         }
     }
-    
+
     void Raster::create_descriptor_set_layout()
     {
         graphics_pipeline->pipelines.insert(std::make_pair("basic", Render::Pipeline()));
@@ -483,7 +503,7 @@ namespace Hardware{
         };
         VkDescriptorSetLayoutBinding sampler_layout_binding = {
             .binding = 1, .descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, .descriptorCount = 1,
-            .stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT, .pImmutableSamplers = nullptr  
+            .stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT, .pImmutableSamplers = nullptr
         };
 
         std::array<VkDescriptorSetLayoutBinding, 2> bindings = {ubo_layout_binding, sampler_layout_binding};
@@ -495,7 +515,7 @@ namespace Hardware{
         };
         if(!Log::check_error(vkCreateDescriptorSetLayout(c_vulkan->device.logical, &ds_info, nullptr, &graphics_pipeline->pipelines["basic"].descriptor_set_layout) == VK_SUCCESS, "Create descriptor set layout!"))
             throw std::runtime_error("failed to create descriptor set layout!");
-        
+
         //////////////////// PBR //////////////////
         std::array<VkDescriptorSetLayoutBinding,4> texture_bindings;
         for(uint32_t i = 1; i < 5; ++i){
@@ -528,10 +548,10 @@ namespace Hardware{
     void Raster::create_command_buffers(float swap_ratio, int32_t offset_width, int32_t offset_height)
     {
         c_vulkan->command.buffers.resize(MAX_FRAMES_IN_FLIGHT);
-        
+
         c_vulkan->swapchain.scaled.height = static_cast<uint32_t>(static_cast<float>(c_vulkan->swapchain.extent.height) * swap_ratio);
         c_vulkan->swapchain.scaled.width = static_cast<uint32_t>(static_cast<float>(c_vulkan->swapchain.extent.width) * swap_ratio);
-        
+
         VkCommandBufferAllocateInfo allocInfo = {
             .sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO,
             .commandPool = c_vulkan->command.pool,
@@ -555,7 +575,7 @@ namespace Hardware{
 
         vkBeginCommandBuffer(command_buffer, &beginInfo);
         VkRect2D render_area = {
-                .offset = { 0, 0 }, 
+                .offset = { 0, 0 },
                 .extent = c_vulkan->swapchain.scaled
         };
 
@@ -563,9 +583,9 @@ namespace Hardware{
             .sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO,
             .renderPass = c_vulkan->pipeline.render_pass,
             .framebuffer = c_vulkan->swapchain.frame_buffers[image_index],
-            .renderArea = render_area                        
+            .renderArea = render_area
         };
-        
+
         std::array<VkClearValue, 2> clearValues = {};
         clearValues[0].color = { 0.0f, 0.0f, 0.0f, 1.0f }; //derp
         clearValues[1].depthStencil = { 1.0f, 0 }; //1.0 = farplane, 0.0 = nearplane HELP
@@ -581,7 +601,7 @@ namespace Hardware{
 
             VkRect2D scissor = vks::initializers::rect2D(static_cast<float>(c_vulkan->swapchain.extent.width), static_cast<float>(c_vulkan->swapchain.extent.height), 0, 0);
             vkCmdSetScissor(command_buffer, 0, 1, &scissor);
-            
+
             auto sponza_cmp = g_world.entity("Sponza").get<Geometry::Cmp_Model_PBR>();
             auto* sponza = Resources::g_model_manager.ref_resource(sponza_cmp->index);
 
@@ -598,12 +618,12 @@ namespace Hardware{
                 else{
                     Log::send(Log::Level::ERROR, material.name + " has no descriptor set");
                 }
-                vkCmdDrawIndexed(command_buffer, static_cast<uint32_t>(mesh.indices.size()), 1, 0, 0, 0);    
+                vkCmdDrawIndexed(command_buffer, static_cast<uint32_t>(mesh.indices.size()), 1, 0, 0, 0);
             }
         }
         vkCmdEndRenderPass(command_buffer);
 
-        Log::check_error(VK_SUCCESS == vkEndCommandBuffer(command_buffer), "END COMMAND BUFFER");                
+        Log::check_error(VK_SUCCESS == vkEndCommandBuffer(command_buffer), "END COMMAND BUFFER");
     }
 
     void Raster::update_uniform_buffer(uint32_t current_frame)
@@ -611,7 +631,7 @@ namespace Hardware{
         static auto start_time = std::chrono::high_resolution_clock::now();
         auto curr_time = std::chrono::high_resolution_clock::now();
         float time = std::chrono::duration<float, std::chrono::seconds::period>(curr_time - start_time).count();
-        
+
         ubo.model = glm::mat4(1.f);
         ubo.view = g_world.entity("Camera").get<Cmp_Transform>()->world;
         ubo.proj = glm::perspective(glm::radians(70.f), c_vulkan->swapchain.extent.width / (float) c_vulkan->swapchain.extent.height, 0.1f, 10000.0f);
@@ -625,7 +645,7 @@ namespace Hardware{
     {
         for(int i = 0; i < MAX_FRAMES_IN_FLIGHT; ++i)
         uniform_buffers[i].InitUniformBuffer(c_vulkan->device, ubo);
-        
+
         Axiom::Render::Resources::initialize();
         auto& assets_folder = g_world.get_ref<Axiom::Resource::Cmp_Directory>().get()->assets;
        // assets_folder = "../../assets/";
@@ -635,7 +655,7 @@ namespace Hardware{
         Cmp_Resource suzanne_res = {.file_path = assets_folder + "Models/GLTF/Suzanne/glTF", .file_name = "Suzanne.gltf", .material_type = "PBR"};
         Cmp_Resource sponza_res = {.file_path = assets_folder + "Models/GLTF/Sponza/glTF", .file_name = "Sponza.gltf", .material_type = "PBR"};
         Cmp_Resource teapot_res = {.file_path = assets_folder + "Models/OBJ/teapot", .file_name = "teapot.obj", .material_type = "Phong"};
-     
+
         sponza.set(sponza_res);
         sponza.set(Cmp_AssimpModel());
 
@@ -657,7 +677,7 @@ namespace Hardware{
         index_buffer.Destroy(c_vulkan->device);
         for(int i = 0; i < MAX_FRAMES_IN_FLIGHT; ++i)
             uniform_buffers[i].Destroy(c_vulkan->device);
-        
+
         vkDestroyPipeline(c_vulkan->device.logical, graphics_pipeline->pipelines["basic"].get, nullptr);
         vkDestroyPipeline(c_vulkan->device.logical, graphics_pipeline->pipelines["pbr"].get, nullptr);
         vkDestroyDescriptorSetLayout(c_vulkan->device.logical, graphics_pipeline->pipelines["basic"].descriptor_set_layout, nullptr);
@@ -668,10 +688,11 @@ namespace Hardware{
     }
     void Raster::recreate_swapchain()
     {
-        RenderBase::recreate_swapchain();    
+        RenderBase::recreate_swapchain();
         create_descriptor_set_layout();
         create_graphics_pipeline();
-        create_command_buffers(1.f, 0, 0);  
+        create_command_buffers(1.f, 0, 0);
+        recreate_imgui();
     }
     void Raster::toggle_playmode(bool b)
     {

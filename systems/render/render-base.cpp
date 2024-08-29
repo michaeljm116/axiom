@@ -192,7 +192,7 @@ namespace Base
         vkGetDeviceQueue(c_vulkan->device.logical, c_vulkan->device.qFams.graphicsFamily, 0, &c_vulkan->queues.graphics);
         vkGetDeviceQueue(c_vulkan->device.logical, c_vulkan->device.qFams.presentFamily, 0, &c_vulkan->queues.present);
         vkGetDeviceQueue(c_vulkan->device.logical, c_vulkan->device.qFams.computeFamily, c_vulkan->device.qFams.computeFamily, &c_vulkan->queues.compute); //might be a 0 or a 2? idk??? // Whatever the highest compute family is hopefully
-        
+
 
         //set vkdevice queue tyighnny
         c_vulkan->device.queue = &c_vulkan->queues.graphics;
@@ -228,7 +228,7 @@ namespace Base
         uint32_t queueFamilyIndices[] = { (uint32_t)indices.graphicsFamily, (uint32_t)indices.presentFamily };
 
         if (indices.graphicsFamily != indices.presentFamily) {
-            createInfo.imageSharingMode = VK_SHARING_MODE_CONCURRENT; //multiple queues can be @COMPUTEHERE, need to share 
+            createInfo.imageSharingMode = VK_SHARING_MODE_CONCURRENT; //multiple queues can be @COMPUTEHERE, need to share
             createInfo.queueFamilyIndexCount = 2;
             createInfo.pQueueFamilyIndices = queueFamilyIndices;
         }
@@ -357,12 +357,12 @@ namespace Base
         // also create resources for multi sample purposes
         c_vulkan->sample.format = c_vulkan->swapchain.image_format;
         c_vulkan->device.createImage(
-            c_vulkan->swapchain.extent.width, 
+            c_vulkan->swapchain.extent.width,
             c_vulkan->swapchain.extent.height,
             c_vulkan->sample.format, VK_IMAGE_TILING_OPTIMAL,
-            VK_IMAGE_USAGE_TRANSIENT_ATTACHMENT_BIT | VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT, 
-            VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, 
-            c_vulkan->sample.image, 
+            VK_IMAGE_USAGE_TRANSIENT_ATTACHMENT_BIT | VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT,
+            VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT,
+            c_vulkan->sample.image,
             c_vulkan->sample.image_memory,
             1,
             c_vulkan->sample.max_sample);
@@ -413,7 +413,7 @@ namespace Base
     void RenderBase::createSemaphores() {
         VkSemaphoreCreateInfo semaphoreInfo = {.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO};
         VkFenceCreateInfo fence_info{.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO, .flags = VK_FENCE_CREATE_SIGNALED_BIT};
-        
+
         Vulkan::VK_CHECKRESULT(vkCreateSemaphore(c_vulkan->device.logical, &semaphoreInfo, nullptr, &c_vulkan->semaphores.image_available), " FAILED TO CREATE SEMAPHORE");
         Vulkan::VK_CHECKRESULT(vkCreateSemaphore(c_vulkan->device.logical, &semaphoreInfo, nullptr, &c_vulkan->semaphores.render_finished), " FAILED TO CREATE SEMAPHORE");
         Vulkan::VK_CHECKRESULT(vkCreateFence(c_vulkan->device.logical, &fence_info, nullptr, &c_vulkan->semaphores.in_flight_fence), "FAILED TO CREATE FENCE");
@@ -423,7 +423,7 @@ namespace Base
             Vulkan::VK_CHECKRESULT(vkCreateSemaphore(c_vulkan->device.logical, &semaphoreInfo, nullptr, &c_vulkan->semaphores.frame_presented[i]), " FAILED TO CREATE SEMAPHORE");
             Vulkan::VK_CHECKRESULT(vkCreateFence(c_vulkan->device.logical, &fence_info, nullptr, &c_vulkan->semaphores.presentation_fence[i]), "FAILED TO CREATE FENCE");
         }
-        
+
     }
 
     void RenderBase::recreate_swapchain() {
@@ -492,11 +492,11 @@ namespace Base
 
     //Make sure you pick a suitable device
     bool RenderBase::isDeviceSuitable(VkPhysicalDevice device) {
-        
+
         //Details about basic device properties
         VkPhysicalDeviceProperties deviceProperties;
         vkGetPhysicalDeviceProperties(device, &deviceProperties);
-        
+
         //Thanks ChatGPT for this VV
         auto printPhysicalDeviceProperties = [](VkPhysicalDeviceProperties deviceProperties) {
             std::cout << "Device Name: " << deviceProperties.deviceName << std::endl;
@@ -519,7 +519,7 @@ namespace Base
 
             std::cout << "Max uniform buffer descriptors in a pool: " << deviceProperties.limits.maxDescriptorSetUniformBuffers << std::endl;
             std::cout << "Max sampler descriptors in a pool: " << deviceProperties.limits.maxDescriptorSetSamplers << std::endl;
-  
+
         };
         printPhysicalDeviceProperties(deviceProperties);
 

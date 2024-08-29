@@ -37,7 +37,7 @@
 
 using namespace Axiom;
 
-int main(){	
+int main(){
 	Axiom::Log::initialize();
 
 	Axiom::Timer::initialize();
@@ -56,8 +56,8 @@ int main(){
 	VkResult r;
 	uint32_t version;
 	void* ptr;
-	
-	ptr = 
+
+	ptr =
 #if defined(_WIN32)
     &vkCreateWin32SurfaceKHR;
 #elif defined(__linux__) || defined(__unix__)
@@ -83,9 +83,9 @@ int main(){
 	auto& assets_folder = g_world.get_ref<Axiom::Resource::Cmp_Directory>().get()->assets;
     const auto find_assets_folder = [](std::string dir) {
         while (true) {
-            if (std::filesystem::exists(dir + "/assets")) 
+            if (std::filesystem::exists(dir + "/assets"))
                 return dir + "/assets/";
-            if (std::filesystem::exists(dir + "/axiom")) 
+            if (std::filesystem::exists(dir + "/axiom"))
                 return dir + "/axiom/assets/";
             std::filesystem::path parent_dir = std::filesystem::path(dir).parent_path();
             if (parent_dir == dir)
@@ -109,7 +109,7 @@ int main(){
 	Axiom::Scene::Camera::initialize();
 
 	g_world.add<Axiom::Cmp_Serialize>();
-	scene::initialize();	
+	scene::initialize();
 	g_world.set<Axiom::Cmp_Scene>({assets_folder + "Scenes/", "TestEntrance.xml", 0});
 	g_world.add<Axiom::Render::Cmp_Vulkan>();
 
@@ -132,12 +132,7 @@ int main(){
 		break;
 	}
 
-
-	
 	g_world.progress();
-
-	Axiom::Render::initialize_imgui(g_world.get_mut<Axiom::Render::Cmp_Vulkan>());
-	
 
 	while(!glfwWindowShouldClose(twindow)){
 		OPTICK_FRAME("Main Thread")
@@ -148,7 +143,7 @@ int main(){
 			Axiom::Render::Compute::g_raytracer.update_bvh(bvh->prims, bvh->root, bvh->num_nodes);
 			uint32_t ii;
 			Render::Compute::g_raytracer.start_frame(ii);
-			g_world.lookup("Update Renderer");		
+			g_world.lookup("Update Renderer");
 			Render::Compute::g_raytracer.end_frame(ii);
 		}
 		else{
